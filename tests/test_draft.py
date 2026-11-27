@@ -50,6 +50,9 @@ def test_snake_draft_lists_every_pick_in_order_with_owner_and_player(archive, ow
         "roundPick": 1,
         "owner": owner("jory"),
         "player": {"name": "Fixture Player 001", "position": "RB", "nflTeam": "ATL"},
+        "points": 397.0,
+        "positionalFinish": 1,
+        "valueOverSlot": 0,
     }
     # Snake: round 2 starts with the last pick of round 1
     assert (picks[12]["round"], picks[12]["roundPick"], picks[12]["owner"]) == (2, 1, owner("quinn"))

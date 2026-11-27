@@ -2215,7 +2215,10 @@
           "name": "Bram Foxhallow",
           "position": "WR",
           "nflTeam": "BAL"
-        }
+        },
+        "points": 247.3,
+        "positionalFinish": 10,
+        "valueOverSlot": -28
       },
       {
         "overall": 2,
@@ -2229,7 +2232,10 @@
           "name": "Cael Kettleby",
           "position": "RB",
           "nflTeam": "LAC"
-        }
+        },
+        "points": 395.3,
+        "positionalFinish": 2,
+        "valueOverSlot": 0
       },
       {
         "overall": 3,
@@ -2243,7 +2249,10 @@
           "name": "Dax Pemberly",
           "position": "WR",
           "nflTeam": "HOU"
-        }
+        },
+        "points": 278.4,
+        "positionalFinish": 8,
+        "valueOverSlot": -16
       },
       {
         "overall": 4,
@@ -2257,7 +2266,10 @@
           "name": "Ezra Underhill",
           "position": "RB",
           "nflTeam": "PHI"
-        }
+        },
+        "points": 343.3,
+        "positionalFinish": 4,
+        "valueOverSlot": -5
       },
       {
         "overall": 5,
@@ -2271,7 +2283,10 @@
           "name": "Fenn Barrowell",
           "position": "WR",
           "nflTeam": "MIN"
-        }
+        },
+        "points": 350.1,
+        "positionalFinish": 4,
+        "valueOverSlot": -2
       },
       {
         "overall": 6,
@@ -2285,7 +2300,10 @@
           "name": "Gus Grimsby",
           "position": "RB",
           "nflTeam": "ATL"
-        }
+        },
+        "points": 261.0,
+        "positionalFinish": 10,
+        "valueOverSlot": -17
       },
       {
         "overall": 7,
@@ -2299,7 +2317,10 @@
           "name": "Hale Larkspur",
           "position": "WR",
           "nflTeam": "BUF"
-        }
+        },
+        "points": 369.3,
+        "positionalFinish": 1,
+        "valueOverSlot": 4
       },
       {
         "overall": 8,
@@ -2313,7 +2334,10 @@
           "name": "Ivo Quarrington",
           "position": "RB",
           "nflTeam": "DET"
-        }
+        },
+        "points": 232.0,
+        "positionalFinish": 14,
+        "valueOverSlot": -25
       },
       {
         "overall": 9,
@@ -2327,7 +2351,10 @@
           "name": "Jett Varnell",
           "position": "WR",
           "nflTeam": "JAX"
-        }
+        },
+        "points": 293.0,
+        "positionalFinish": 7,
+        "valueOverSlot": -7
       },
       {
         "overall": 10,
@@ -2341,7 +2368,10 @@
           "name": "Kip Cindergate",
           "position": "RB",
           "nflTeam": "DEN"
-        }
+        },
+        "points": 252.6,
+        "positionalFinish": 12,
+        "valueOverSlot": -17
       },
       {
         "overall": 11,
@@ -2355,7 +2385,10 @@
           "name": "Lark Hollowell",
           "position": "WR",
           "nflTeam": "MIA"
-        }
+        },
+        "points": 326.2,
+        "positionalFinish": 6,
+        "valueOverSlot": -1
       },
       {
         "overall": 12,
@@ -2369,7 +2402,10 @@
           "name": "Moss Merriweather",
           "position": "RB",
           "nflTeam": "SEA"
-        }
+        },
+        "points": 213.1,
+        "positionalFinish": 15,
+        "valueOverSlot": -25
       },
       {
         "overall": 13,
@@ -2383,7 +2419,10 @@
           "name": "Nico Rookwood",
           "position": "WR",
           "nflTeam": "NYJ"
-        }
+        },
+        "points": 186.1,
+        "positionalFinish": 17,
+        "valueOverSlot": -32
       },
       {
         "overall": 14,
@@ -2397,7 +2436,10 @@
           "name": "Otto Whitlock",
           "position": "RB",
           "nflTeam": "SF"
-        }
+        },
+        "points": 346.7,
+        "positionalFinish": 3,
+        "valueOverSlot": 6
       },
       {
         "overall": 15,
@@ -2411,7 +2453,10 @@
           "name": "Pax Dunmore",
           "position": "WR",
           "nflTeam": "GB"
-        }
+        },
+        "points": 194.1,
+        "positionalFinish": 16,
+        "valueOverSlot": -27
       },
       {
         "overall": 16,
@@ -2425,7 +2470,10 @@
           "name": "Rook Ironwood",
           "position": "RB",
           "nflTeam": "PIT"
-        }
+        },
+        "points": 399.0,
+        "positionalFinish": 1,
+        "valueOverSlot": 15
       },
       {
         "overall": 17,
@@ -2439,7 +2487,10 @@
           "name": "Sully Northcott",
           "position": "WR",
           "nflTeam": "IND"
-        }
+        },
+        "points": 212.0,
+        "positionalFinish": 13,
+        "valueOverSlot": -21
       },
       {
         "overall": 18,
@@ -2453,7 +2504,10 @@
           "name": "Tobin Stonebrook",
           "position": "RB",
           "nflTeam": "CIN"
-        }
+        },
+        "points": 239.4,
+        "positionalFinish": 13,
+        "valueOverSlot": -12
       },
       {
         "overall": 19,
@@ -2467,7 +2521,10 @@
           "name": "Upton Yarrowby",
           "position": "WR",
           "nflTeam": "NO"
-        }
+        },
+        "points": 236.8,
+        "positionalFinish": 11,
+        "valueOverSlot": -13
       },
       {
         "overall": 20,
@@ -2481,7 +2538,10 @@
           "name": "Vale Elderby",
           "position": "RB",
           "nflTeam": "CLE"
-        }
+        },
+        "points": 283.8,
+        "positionalFinish": 8,
+        "valueOverSlot": 3
       },
       {
         "overall": 21,
@@ -2495,7 +2555,10 @@
           "name": "Wade Juniper",
           "position": "RB",
           "nflTeam": "DAL"
-        }
+        },
+        "points": 255.2,
+        "positionalFinish": 11,
+        "valueOverSlot": -4
       },
       {
         "overall": 22,
@@ -2509,7 +2572,10 @@
           "name": "Yates Oakhurst",
           "position": "WR",
           "nflTeam": "LAR"
-        }
+        },
+        "points": 357.5,
+        "positionalFinish": 3,
+        "valueOverSlot": 16
       },
       {
         "overall": 23,
@@ -2523,7 +2589,10 @@
           "name": "Zane Thistlewood",
           "position": "TE",
           "nflTeam": "TB"
-        }
+        },
+        "points": 213.6,
+        "positionalFinish": 5,
+        "valueOverSlot": -13
       },
       {
         "overall": 24,
@@ -2537,7 +2606,10 @@
           "name": "Arlo Barrowell",
           "position": "RB",
           "nflTeam": "KC"
-        }
+        },
+        "points": 334.3,
+        "positionalFinish": 5,
+        "valueOverSlot": 14
       },
       {
         "overall": 25,
@@ -2551,7 +2623,10 @@
           "name": "Bram Grimsby",
           "position": "WR",
           "nflTeam": "BAL"
-        }
+        },
+        "points": 167.7,
+        "positionalFinish": 20,
+        "valueOverSlot": -27
       },
       {
         "overall": 26,
@@ -2565,7 +2640,10 @@
           "name": "Cael Larkspur",
           "position": "TE",
           "nflTeam": "LAC"
-        }
+        },
+        "points": 222.2,
+        "positionalFinish": 4,
+        "valueOverSlot": -9
       },
       {
         "overall": 27,
@@ -2579,7 +2657,10 @@
           "name": "Dax Quarrington",
           "position": "RB",
           "nflTeam": "HOU"
-        }
+        },
+        "points": 272.0,
+        "positionalFinish": 9,
+        "valueOverSlot": 7
       },
       {
         "overall": 28,
@@ -2593,7 +2674,10 @@
           "name": "Ezra Varnell",
           "position": "WR",
           "nflTeam": "PHI"
-        }
+        },
+        "points": 368.7,
+        "positionalFinish": 2,
+        "valueOverSlot": 24
       },
       {
         "overall": 29,
@@ -2607,7 +2691,10 @@
           "name": "Fenn Cindergate",
           "position": "TE",
           "nflTeam": "MIN"
-        }
+        },
+        "points": 254.2,
+        "positionalFinish": 3,
+        "valueOverSlot": 3
       },
       {
         "overall": 30,
@@ -2621,7 +2708,10 @@
           "name": "Gus Hollowell",
           "position": "RB",
           "nflTeam": "ATL"
-        }
+        },
+        "points": 165.4,
+        "positionalFinish": 17,
+        "valueOverSlot": -25
       },
       {
         "overall": 31,
@@ -2635,7 +2725,10 @@
           "name": "Hale Merriweather",
           "position": "WR",
           "nflTeam": "BUF"
-        }
+        },
+        "points": 208.5,
+        "positionalFinish": 14,
+        "valueOverSlot": -8
       },
       {
         "overall": 32,
@@ -2649,7 +2742,10 @@
           "name": "Ivo Rookwood",
           "position": "RB",
           "nflTeam": "DET"
-        }
+        },
+        "points": 311.8,
+        "positionalFinish": 7,
+        "valueOverSlot": 17
       },
       {
         "overall": 33,
@@ -2663,7 +2759,10 @@
           "name": "Jett Whitlock",
           "position": "QB",
           "nflTeam": "JAX"
-        }
+        },
+        "points": 322.2,
+        "positionalFinish": 2,
+        "valueOverSlot": 20
       },
       {
         "overall": 34,
@@ -2677,7 +2776,10 @@
           "name": "Kip Dunmore",
           "position": "WR",
           "nflTeam": "DEN"
-        }
+        },
+        "points": 224.0,
+        "positionalFinish": 12,
+        "valueOverSlot": 0
       },
       {
         "overall": 35,
@@ -2691,7 +2793,10 @@
           "name": "Lark Ironwood",
           "position": "RB",
           "nflTeam": "MIA"
-        }
+        },
+        "points": 314.9,
+        "positionalFinish": 6,
+        "valueOverSlot": 21
       },
       {
         "overall": 36,
@@ -2705,7 +2810,10 @@
           "name": "Moss Northcott",
           "position": "QB",
           "nflTeam": "SEA"
-        }
+        },
+        "points": 361.1,
+        "positionalFinish": 1,
+        "valueOverSlot": 31
       },
       {
         "overall": 37,
@@ -2719,7 +2827,10 @@
           "name": "Nico Stonebrook",
           "position": "WR",
           "nflTeam": "NYJ"
-        }
+        },
+        "points": 248.7,
+        "positionalFinish": 9,
+        "valueOverSlot": 9
       },
       {
         "overall": 38,
@@ -2733,7 +2844,10 @@
           "name": "Otto Yarrowby",
           "position": "RB",
           "nflTeam": "SF"
-        }
+        },
+        "points": 190.9,
+        "positionalFinish": 16,
+        "valueOverSlot": -6
       },
       {
         "overall": 39,
@@ -2747,7 +2861,10 @@
           "name": "Pax Elderby",
           "position": "QB",
           "nflTeam": "GB"
-        }
+        },
+        "points": 266.3,
+        "positionalFinish": 4,
+        "valueOverSlot": 17
       },
       {
         "overall": 40,
@@ -2761,7 +2878,10 @@
           "name": "Rook Juniper",
           "position": "WR",
           "nflTeam": "PIT"
-        }
+        },
+        "points": 121.8,
+        "positionalFinish": 22,
+        "valueOverSlot": -30
       },
       {
         "overall": 41,
@@ -2775,7 +2895,10 @@
           "name": "Sully Oakhurst",
           "position": "WR",
           "nflTeam": "IND"
-        }
+        },
+        "points": 327.8,
+        "positionalFinish": 5,
+        "valueOverSlot": 30
       },
       {
         "overall": 42,
@@ -2789,7 +2912,10 @@
           "name": "Tobin Thistlewood",
           "position": "TE",
           "nflTeam": "CIN"
-        }
+        },
+        "points": 282.7,
+        "positionalFinish": 1,
+        "valueOverSlot": 24
       },
       {
         "overall": 43,
@@ -2803,7 +2929,10 @@
           "name": "Upton Ashwick",
           "position": "QB",
           "nflTeam": "NO"
-        }
+        },
+        "points": 236.9,
+        "positionalFinish": 5,
+        "valueOverSlot": 12
       },
       {
         "overall": 44,
@@ -2817,7 +2946,10 @@
           "name": "Vale Foxhallow",
           "position": "WR",
           "nflTeam": "CLE"
-        }
+        },
+        "points": 173.1,
+        "positionalFinish": 19,
+        "valueOverSlot": -7
       },
       {
         "overall": 45,
@@ -2831,7 +2963,10 @@
           "name": "Wade Kettleby",
           "position": "TE",
           "nflTeam": "DAL"
-        }
+        },
+        "points": 256.7,
+        "positionalFinish": 2,
+        "valueOverSlot": 21
       },
       {
         "overall": 46,
@@ -2845,7 +2980,10 @@
           "name": "Yates Pemberly",
           "position": "QB",
           "nflTeam": "LAR"
-        }
+        },
+        "points": 268.8,
+        "positionalFinish": 3,
+        "valueOverSlot": 25
       },
       {
         "overall": 47,
@@ -2859,7 +2997,10 @@
           "name": "Zane Underhill",
           "position": "WR",
           "nflTeam": "TB"
-        }
+        },
+        "points": 206.3,
+        "positionalFinish": 15,
+        "valueOverSlot": 7
       },
       {
         "overall": 48,
@@ -2873,7 +3014,10 @@
           "name": "Arlo Cindergate",
           "position": "TE",
           "nflTeam": "KC"
-        }
+        },
+        "points": 94.9,
+        "positionalFinish": 6,
+        "valueOverSlot": -27
       },
       {
         "overall": 49,
@@ -2887,7 +3031,10 @@
           "name": "Bram Hollowell",
           "position": "QB",
           "nflTeam": "BAL"
-        }
+        },
+        "points": 132.4,
+        "positionalFinish": 9,
+        "valueOverSlot": -17
       },
       {
         "overall": 50,
@@ -2901,7 +3048,10 @@
           "name": "Cael Merriweather",
           "position": "WR",
           "nflTeam": "LAC"
-        }
+        },
+        "points": 100.6,
+        "positionalFinish": 23,
+        "valueOverSlot": -24
       },
       {
         "overall": 51,
@@ -2915,7 +3065,10 @@
           "name": "Dax Rookwood",
           "position": "RB",
           "nflTeam": "HOU"
-        }
+        },
+        "points": 135.8,
+        "positionalFinish": 19,
+        "valueOverSlot": -14
       },
       {
         "overall": 52,
@@ -2929,7 +3082,10 @@
           "name": "Ezra Whitlock",
           "position": "WR",
           "nflTeam": "PHI"
-        }
+        },
+        "points": 154.9,
+        "positionalFinish": 21,
+        "valueOverSlot": -5
       },
       {
         "overall": 53,
@@ -2943,7 +3099,10 @@
           "name": "Fenn Dunmore",
           "position": "QB",
           "nflTeam": "MIN"
-        }
+        },
+        "points": 192.5,
+        "positionalFinish": 7,
+        "valueOverSlot": 10
       },
       {
         "overall": 54,
@@ -2957,7 +3116,10 @@
           "name": "Gus Ironwood",
           "position": "RB",
           "nflTeam": "ATL"
-        }
+        },
+        "points": 144.3,
+        "positionalFinish": 18,
+        "valueOverSlot": -9
       },
       {
         "overall": 55,
@@ -2971,7 +3133,10 @@
           "name": "Hale Northcott",
           "position": "WR",
           "nflTeam": "BUF"
-        }
+        },
+        "points": 185.2,
+        "positionalFinish": 18,
+        "valueOverSlot": 9
       },
       {
         "overall": 56,
@@ -2985,7 +3150,10 @@
           "name": "Ivo Stonebrook",
           "position": "QB",
           "nflTeam": "DET"
-        }
+        },
+        "points": 179.4,
+        "positionalFinish": 8,
+        "valueOverSlot": 8
       },
       {
         "overall": 57,
@@ -2999,7 +3167,10 @@
           "name": "Jett Yarrowby",
           "position": "RB",
           "nflTeam": "JAX"
-        }
+        },
+        "points": 110.0,
+        "positionalFinish": 20,
+        "valueOverSlot": -14
       },
       {
         "overall": 58,
@@ -3013,7 +3184,10 @@
           "name": "Kip Elderby",
           "position": "WR",
           "nflTeam": "DEN"
-        }
+        },
+        "points": 88.6,
+        "positionalFinish": 24,
+        "valueOverSlot": -19
       },
       {
         "overall": 59,
@@ -3027,7 +3201,10 @@
           "name": "Lark Juniper",
           "position": "QB",
           "nflTeam": "MIA"
-        }
+        },
+        "points": 194.7,
+        "positionalFinish": 6,
+        "valueOverSlot": 18
       },
       {
         "overall": 60,
@@ -3041,7 +3218,10 @@
           "name": "Moss Oakhurst",
           "position": "RB",
           "nflTeam": "SEA"
-        }
+        },
+        "points": 94.6,
+        "positionalFinish": 21,
+        "valueOverSlot": -16
       },
       {
         "overall": 61,
@@ -3055,7 +3235,10 @@
           "name": "Chiefs D/ST",
           "position": "D/ST",
           "nflTeam": "KC"
-        }
+        },
+        "points": 175.2,
+        "positionalFinish": 2,
+        "valueOverSlot": 12
       },
       {
         "overall": 62,
@@ -3069,7 +3252,10 @@
           "name": "Bills D/ST",
           "position": "D/ST",
           "nflTeam": "BUF"
-        }
+        },
+        "points": 151.63,
+        "positionalFinish": 6,
+        "valueOverSlot": 1
       },
       {
         "overall": 63,
@@ -3083,7 +3269,10 @@
           "name": "49ers D/ST",
           "position": "D/ST",
           "nflTeam": "SF"
-        }
+        },
+        "points": 107.5,
+        "positionalFinish": 10,
+        "valueOverSlot": -9
       },
       {
         "overall": 64,
@@ -3097,7 +3286,10 @@
           "name": "Cowboys D/ST",
           "position": "D/ST",
           "nflTeam": "DAL"
-        }
+        },
+        "points": 179.57,
+        "positionalFinish": 1,
+        "valueOverSlot": 17
       },
       {
         "overall": 65,
@@ -3111,7 +3303,10 @@
           "name": "Eagles D/ST",
           "position": "D/ST",
           "nflTeam": "PHI"
-        }
+        },
+        "points": 158.43,
+        "positionalFinish": 3,
+        "valueOverSlot": 9
       },
       {
         "overall": 66,
@@ -3125,7 +3320,10 @@
           "name": "Dolphins D/ST",
           "position": "D/ST",
           "nflTeam": "MIA"
-        }
+        },
+        "points": 125.5,
+        "positionalFinish": 9,
+        "valueOverSlot": -3
       },
       {
         "overall": 67,
@@ -3139,7 +3337,10 @@
           "name": "Bengals D/ST",
           "position": "D/ST",
           "nflTeam": "CIN"
-        }
+        },
+        "points": 150.93,
+        "positionalFinish": 7,
+        "valueOverSlot": 5
       },
       {
         "overall": 68,
@@ -3153,7 +3354,10 @@
           "name": "Ravens D/ST",
           "position": "D/ST",
           "nflTeam": "BAL"
-        }
+        },
+        "points": 152.73,
+        "positionalFinish": 5,
+        "valueOverSlot": 8
       },
       {
         "overall": 69,
@@ -3167,7 +3371,10 @@
           "name": "Lions D/ST",
           "position": "D/ST",
           "nflTeam": "DET"
-        }
+        },
+        "points": 128.33,
+        "positionalFinish": 8,
+        "valueOverSlot": 1
       },
       {
         "overall": 70,
@@ -3181,7 +3388,10 @@
           "name": "Packers D/ST",
           "position": "D/ST",
           "nflTeam": "GB"
-        }
+        },
+        "points": 154.17,
+        "positionalFinish": 4,
+        "valueOverSlot": 12
       },
       {
         "overall": 71,
@@ -3195,7 +3405,10 @@
           "name": "Zane Varnell",
           "position": "K",
           "nflTeam": "TB"
-        }
+        },
+        "points": 165.8,
+        "positionalFinish": 2,
+        "valueOverSlot": 18
       },
       {
         "overall": 72,
@@ -3209,7 +3422,10 @@
           "name": "Arlo Dunmore",
           "position": "K",
           "nflTeam": "KC"
-        }
+        },
+        "points": 136.27,
+        "positionalFinish": 5,
+        "valueOverSlot": 8
       },
       {
         "overall": 73,
@@ -3223,7 +3439,10 @@
           "name": "Bram Ironwood",
           "position": "K",
           "nflTeam": "BAL"
-        }
+        },
+        "points": 129.23,
+        "positionalFinish": 6,
+        "valueOverSlot": 6
       },
       {
         "overall": 74,
@@ -3237,7 +3456,10 @@
           "name": "Cael Northcott",
           "position": "K",
           "nflTeam": "LAC"
-        }
+        },
+        "points": 152.77,
+        "positionalFinish": 4,
+        "valueOverSlot": 15
       },
       {
         "overall": 75,
@@ -3251,7 +3473,10 @@
           "name": "Dax Stonebrook",
           "position": "K",
           "nflTeam": "HOU"
-        }
+        },
+        "points": 173.63,
+        "positionalFinish": 1,
+        "valueOverSlot": 25
       },
       {
         "overall": 76,
@@ -3265,7 +3490,10 @@
           "name": "Ezra Yarrowby",
           "position": "K",
           "nflTeam": "PHI"
-        }
+        },
+        "points": 165.6,
+        "positionalFinish": 3,
+        "valueOverSlot": 22
       },
       {
         "overall": 77,
@@ -3279,7 +3507,10 @@
           "name": "Fenn Elderby",
           "position": "K",
           "nflTeam": "MIN"
-        }
+        },
+        "points": 100.87,
+        "positionalFinish": 7,
+        "valueOverSlot": 4
       },
       {
         "overall": 78,
@@ -3289,7 +3520,10 @@
           "slug": "odie-brask",
           "name": "Odie Brask"
         },
-        "player": null
+        "player": null,
+        "points": null,
+        "positionalFinish": null,
+        "valueOverSlot": null
       },
       {
         "overall": 79,
@@ -3299,7 +3533,10 @@
           "slug": "abel-trice",
           "name": "Abel Trice"
         },
-        "player": null
+        "player": null,
+        "points": null,
+        "positionalFinish": null,
+        "valueOverSlot": null
       },
       {
         "overall": 80,
@@ -3309,9 +3546,324 @@
           "slug": "ines-dorrow",
           "name": "Ines Dorrow"
         },
-        "player": null
+        "player": null,
+        "points": null,
+        "positionalFinish": null,
+        "valueOverSlot": null
       }
     ],
-    "note": "Drafted offline and entered by hand. 3 picks weren't recorded."
+    "note": "Drafted offline and entered by hand. 3 picks weren't recorded.",
+    "grades": [
+      {
+        "rank": 1,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "teamName": "Quist Quakes",
+        "total": 77,
+        "best": {
+          "overall": 36,
+          "round": 4,
+          "roundPick": 6,
+          "player": {
+            "name": "Moss Northcott",
+            "position": "QB",
+            "nflTeam": "SEA"
+          },
+          "valueOverSlot": 31
+        },
+        "worst": {
+          "overall": 25,
+          "round": 3,
+          "roundPick": 5,
+          "player": {
+            "name": "Bram Grimsby",
+            "position": "WR",
+            "nflTeam": "BAL"
+          },
+          "valueOverSlot": -27
+        }
+      },
+      {
+        "rank": 2,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "teamName": "Trice Tritons",
+        "total": 63,
+        "best": {
+          "overall": 42,
+          "round": 5,
+          "roundPick": 2,
+          "player": {
+            "name": "Tobin Thistlewood",
+            "position": "TE",
+            "nflTeam": "CIN"
+          },
+          "valueOverSlot": 24
+        },
+        "worst": {
+          "overall": 19,
+          "round": 2,
+          "roundPick": 9,
+          "player": {
+            "name": "Upton Yarrowby",
+            "position": "WR",
+            "nflTeam": "NO"
+          },
+          "valueOverSlot": -13
+        }
+      },
+      {
+        "rank": 3,
+        "owner": {
+          "slug": "wren-solano",
+          "name": "Wren Solano"
+        },
+        "teamName": "Solano Sparks",
+        "total": 35,
+        "best": {
+          "overall": 74,
+          "round": 8,
+          "roundPick": 4,
+          "player": {
+            "name": "Cael Northcott",
+            "position": "K",
+            "nflTeam": "LAC"
+          },
+          "valueOverSlot": 15
+        },
+        "worst": {
+          "overall": 54,
+          "round": 6,
+          "roundPick": 4,
+          "player": {
+            "name": "Gus Ironwood",
+            "position": "RB",
+            "nflTeam": "ATL"
+          },
+          "valueOverSlot": -9
+        }
+      },
+      {
+        "rank": 4,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "teamName": "Fenwick Foxes",
+        "total": 24,
+        "best": {
+          "overall": 46,
+          "round": 5,
+          "roundPick": 6,
+          "player": {
+            "name": "Yates Pemberly",
+            "position": "QB",
+            "nflTeam": "LAR"
+          },
+          "valueOverSlot": 25
+        },
+        "worst": {
+          "overall": 15,
+          "round": 2,
+          "roundPick": 5,
+          "player": {
+            "name": "Pax Dunmore",
+            "position": "WR",
+            "nflTeam": "GB"
+          },
+          "valueOverSlot": -27
+        }
+      },
+      {
+        "rank": 5,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles",
+        "total": -3,
+        "best": {
+          "overall": 64,
+          "round": 7,
+          "roundPick": 4,
+          "player": {
+            "name": "Cowboys D/ST",
+            "position": "D/ST",
+            "nflTeam": "DAL"
+          },
+          "valueOverSlot": 17
+        },
+        "worst": {
+          "overall": 17,
+          "round": 2,
+          "roundPick": 7,
+          "player": {
+            "name": "Sully Northcott",
+            "position": "WR",
+            "nflTeam": "IND"
+          },
+          "valueOverSlot": -21
+        }
+      },
+      {
+        "rank": 6,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets",
+        "total": -16,
+        "best": {
+          "overall": 28,
+          "round": 3,
+          "roundPick": 8,
+          "player": {
+            "name": "Ezra Varnell",
+            "position": "WR",
+            "nflTeam": "PHI"
+          },
+          "valueOverSlot": 24
+        },
+        "worst": {
+          "overall": 13,
+          "round": 2,
+          "roundPick": 3,
+          "player": {
+            "name": "Nico Rookwood",
+            "position": "WR",
+            "nflTeam": "NYJ"
+          },
+          "valueOverSlot": -32
+        }
+      },
+      {
+        "rank": 7,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "teamName": "Vantor Vipers",
+        "total": -25,
+        "best": {
+          "overall": 32,
+          "round": 4,
+          "roundPick": 2,
+          "player": {
+            "name": "Ivo Rookwood",
+            "position": "RB",
+            "nflTeam": "DET"
+          },
+          "valueOverSlot": 17
+        },
+        "worst": {
+          "overall": 12,
+          "round": 2,
+          "roundPick": 2,
+          "player": {
+            "name": "Moss Merriweather",
+            "position": "RB",
+            "nflTeam": "SEA"
+          },
+          "valueOverSlot": -25
+        }
+      },
+      {
+        "rank": 8,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "total": -33,
+        "best": {
+          "overall": 41,
+          "round": 5,
+          "roundPick": 1,
+          "player": {
+            "name": "Sully Oakhurst",
+            "position": "WR",
+            "nflTeam": "IND"
+          },
+          "valueOverSlot": 30
+        },
+        "worst": {
+          "overall": 40,
+          "round": 4,
+          "roundPick": 10,
+          "player": {
+            "name": "Rook Juniper",
+            "position": "WR",
+            "nflTeam": "PIT"
+          },
+          "valueOverSlot": -30
+        }
+      },
+      {
+        "rank": 9,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "total": -59,
+        "best": {
+          "overall": 71,
+          "round": 8,
+          "roundPick": 1,
+          "player": {
+            "name": "Zane Varnell",
+            "position": "K",
+            "nflTeam": "TB"
+          },
+          "valueOverSlot": 18
+        },
+        "worst": {
+          "overall": 30,
+          "round": 3,
+          "roundPick": 10,
+          "player": {
+            "name": "Gus Hollowell",
+            "position": "RB",
+            "nflTeam": "ATL"
+          },
+          "valueOverSlot": -25
+        }
+      },
+      {
+        "rank": 10,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "teamName": "Brask Bruisers",
+        "total": -63,
+        "best": {
+          "overall": 43,
+          "round": 5,
+          "roundPick": 3,
+          "player": {
+            "name": "Upton Ashwick",
+            "position": "QB",
+            "nflTeam": "NO"
+          },
+          "valueOverSlot": 12
+        },
+        "worst": {
+          "overall": 58,
+          "round": 6,
+          "roundPick": 8,
+          "player": {
+            "name": "Kip Elderby",
+            "position": "WR",
+            "nflTeam": "DEN"
+          },
+          "valueOverSlot": -19
+        }
+      }
+    ]
   }
 }

@@ -397,7 +397,8 @@
             "rounds",
             "order",
             "picks",
-            "note"
+            "note",
+            "grades"
           ],
           "properties": {
             "type": {
@@ -447,6 +448,50 @@
               "minItems": 1,
               "items": {
                 "$ref": "#/$defs/draftPick"
+              }
+            },
+            "grades": {
+              "description": "Draft grades: one entry per Franchise, ordered by rank, then Owner name. A Draft grade is the sum of the Franchise's Value over slot, ranked within the Season; ties share the better rank.",
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "rank",
+                  "owner",
+                  "teamName",
+                  "total",
+                  "best",
+                  "worst"
+                ],
+                "properties": {
+                  "rank": {
+                    "description": "Rank within the Season, 1 = best Draft.",
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "owner": {
+                    "description": "The Franchise's Owner.",
+                    "$ref": "#/$defs/ownerRef"
+                  },
+                  "teamName": {
+                    "description": "The Franchise's team name that Season.",
+                    "$ref": "#/$defs/teamName"
+                  },
+                  "total": {
+                    "description": "The sum of the Franchise's Value over slot.",
+                    "type": "integer"
+                  },
+                  "best": {
+                    "description": "The Franchise's Pick with the highest Value over slot (the earliest Pick on a tie).",
+                    "$ref": "#/$defs/gradedPick"
+                  },
+                  "worst": {
+                    "description": "The Franchise's Pick with the lowest Value over slot (the earliest Pick on a tie).",
+                    "$ref": "#/$defs/gradedPick"
+                  }
+                }
               }
             },
             "note": {
@@ -579,7 +624,10 @@
         "round",
         "roundPick",
         "owner",
-        "player"
+        "player",
+        "points",
+        "positionalFinish",
+        "valueOverSlot"
       ],
       "properties": {
         "overall": {
@@ -611,6 +659,65 @@
               "$ref": "#/$defs/draftPlayer"
             }
           ]
+        },
+        "points": {
+          "description": "The Player's Season points: the platform's season total under that Season's scoring, covering the whole NFL regular season (from 2021 that includes week 18). Null when no Player was recorded.",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "positionalFinish": {
+          "description": "Positional finish: the Player's rank by Season points among every Player at their position that Season, drafted or not (shown as e.g. RB3). Ties share the better rank. Null when no Player was recorded.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "valueOverSlot": {
+          "description": "Value over slot: overall pick number minus the Pick's rank by Season points among that Season's drafted Picks (ties share the better rank). Positive is a steal, negative a bust. Null when no Player was recorded; such Picks are left out of the ranking.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        }
+      }
+    },
+    "gradedPick": {
+      "description": "A recorded Pick with its Value over slot, as named in a Draft grade.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overall",
+        "round",
+        "roundPick",
+        "player",
+        "valueOverSlot"
+      ],
+      "properties": {
+        "overall": {
+          "description": "Overall pick number.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "round": {
+          "description": "Round.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "roundPick": {
+          "description": "Pick within the round.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "player": {
+          "description": "The Player taken.",
+          "$ref": "#/$defs/draftPlayer"
+        },
+        "valueOverSlot": {
+          "description": "The Pick's Value over slot.",
+          "type": "integer"
         }
       }
     },

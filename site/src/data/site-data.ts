@@ -72,13 +72,25 @@ export type Season = {
   draft: Draft;
 };
 export type DraftPlayer = { name: string; position: string; nflTeam: string | null };
-export type DraftPick = { overall: number; round: number; roundPick: number; owner: OwnerRef; player: DraftPlayer | null };
+export type DraftPick = {
+  overall: number;
+  round: number;
+  roundPick: number;
+  owner: OwnerRef;
+  player: DraftPlayer | null;
+  points: number | null;
+  positionalFinish: number | null;
+  valueOverSlot: number | null;
+};
+export type GradedPick = { overall: number; round: number; roundPick: number; player: DraftPlayer; valueOverSlot: number };
+export type DraftGrade = { rank: number; owner: OwnerRef; teamName: string; total: number; best: GradedPick; worst: GradedPick };
 export type Draft = {
   type: "snake" | "offline";
   rounds: number;
   order: { slot: number; owner: OwnerRef; teamName: string }[];
   picks: DraftPick[];
   note: string | null;
+  grades: DraftGrade[];
 };
 
 /** A Pick as round.pick: "3.07". */

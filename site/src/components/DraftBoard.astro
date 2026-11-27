@@ -1,16 +1,22 @@
 ---
-// A Season's draft board (#25). Desktop: the classic grid, one column per Franchise in Draft slot
-// order and one row per round; it scrolls sideways inside its own box when it's wider than the page.
-// Phone: a list grouped by round, Picks in order. Cells are tinted by position (muted, non-metallic
-// tokens in global.css); the position is always written out too, so the tint is never the only signal.
+// A Season's draft board (#25, values #28). Desktop: the classic grid, one column per Franchise in
+// Draft slot order and one row per round; it scrolls sideways inside its own box when it's wider than
+// the page. Phone: a list grouped by round, Picks in order. Each Pick shows its Season points,
+// Positional finish and signed Value over slot. A "Color by" toggle switches the tint between position
+// and the Value over slot scale (default: value); the text always carries the same information. On
+// tinted cells the value is white for contrast; the tint already shows steal or bust.
+// Below the board: the Draft grades table.
+import DraftGrades from "./DraftGrades.astro";
 import OwnerLink from "./OwnerLink.astro";
-import { POSITION_TINTS, pickStyle } from "../data/positions";
+import { POSITION_TINTS, formatValue, pickColorVars, valueClamp } from "../data/positions";
 import { formatPick, type Draft, type DraftPick } from "../data/site-data";
 
 interface Props { draft: Draft }
 const { draft } = Astro.props;
 
 const LEGEND = Object.keys(POSITION_TINTS);
+const clamp = valueClamp(draft.picks.map((p) => p.valueOverSlot));
+const hasValues = draft.picks.some((p) => p.valueOverSlot !== null);
 
 const rounds = Array.from({ length: draft.rounds }, (_, i) => i + 1);
 const slotOf = new Map(draft.order.map((o) => [o.owner.slug, o.slot]));
@@ -20,19 +26,45 @@ const grid = rounds.map((r) => {
   for (const p of draft.picks.filter((p) => p.round === r)) row[slotOf.get(p.owner.slug)! - 1] = p;
   return row;
 });
+const points = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const finish = (p: DraftPick) => (p.player && p.positionalFinish ? `${p.player.position}${p.positionalFinish}` : "");
 ---
-<section aria-labelledby="draft-heading" data-testid="draft-board">
-  <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+<div class="space-y-10">
+<section aria-labelledby="draft-heading" data-testid="draft-board" data-draft-board data-color-by={hasValues ? "value" : "position"}>
+  <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
     <h2 id="draft-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
       Draft board <span class="normal-case tracking-normal">· {draft.rounds} rounds · {draft.type === "snake" ? "snake" : "offline"}</span>
     </h2>
-    <ul aria-label="Position colors" class="flex flex-wrap gap-2 text-xs text-muted">
-      {LEGEND.map((pos) => (
-        <li class="flex items-center gap-1.5">
-          <span aria-hidden="true" class="inline-block size-3 rounded-sm" style={`background:${POSITION_TINTS[pos]}`}></span>{pos}
-        </li>
-      ))}
-    </ul>
+    <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+      {hasValues && (
+        <div role="group" aria-label="Color by" class="flex items-center gap-1 rounded-full border border-line p-0.5 text-xs">
+          <span class="px-2 text-muted">Color by</span>
+          {["value", "position"].map((mode) => (
+            <button
+              type="button"
+              data-color-mode={mode}
+              aria-pressed={mode === "value" ? "true" : "false"}
+              class="rounded-full px-3 py-1 font-semibold text-muted transition-colors aria-pressed:bg-brand aria-pressed:text-paper"
+            >{mode === "value" ? "Value" : "Position"}</button>
+          ))}
+        </div>
+      )}
+      <ul data-legend="position" aria-label="Position colors" class="flex flex-wrap gap-2 text-xs text-muted">
+        {LEGEND.map((pos) => (
+          <li class="flex items-center gap-1.5">
+            <span aria-hidden="true" class="inline-block size-3 rounded-sm" style={`background:${POSITION_TINTS[pos]}`}></span>{pos}
+          </li>
+        ))}
+      </ul>
+      {hasValues && (
+        <p data-legend="value" class="flex items-center gap-2 text-xs text-muted">
+          <span>Bust</span>
+          <span aria-hidden="true" class="inline-block h-2.5 w-24 rounded-full" style="background:linear-gradient(90deg, var(--color-value-bust), var(--color-panel), var(--color-value-steal))"></span>
+          <span>Steal</span>
+          <span class="sr-only">Colors show Value over slot: overall pick minus rank by Season points among this Draft's picks.</span>
+        </p>
+      )}
+    </div>
   </div>
   {draft.note && (
     <p data-testid="draft-note" class="mt-3 rounded-xl border border-line bg-panel px-4 py-3 text-sm text-muted">{draft.note}</p>
@@ -40,12 +72,12 @@ const grid = rounds.map((r) => {
 
   <!-- Desktop: the grid -->
   <div data-testid="draft-grid" class="mt-4 hidden overflow-x-auto rounded-2xl border border-line md:block">
-    <table aria-label="Draft board" class="border-collapse text-sm" style={`min-width:${3 + draft.order.length * 8.5}rem`}>
+    <table aria-label="Draft board" class="border-collapse text-sm" style={`min-width:${3 + draft.order.length * 9}rem`}>
       <thead class="bg-panel text-left text-xs">
         <tr>
           <th scope="col" class="sticky left-0 z-10 w-12 bg-panel px-2 py-3 text-center uppercase tracking-wider text-muted">Rd</th>
           {draft.order.map((o) => (
-            <th scope="col" class="min-w-[8.5rem] px-2 py-3 align-bottom font-semibold">
+            <th scope="col" class="min-w-[9rem] px-2 py-3 align-bottom font-semibold">
               <span class="block text-[0.65rem] uppercase tracking-wider text-muted">Slot {o.slot}</span>
               <OwnerLink owner={o.owner} class="block truncate text-paper" />
               <span class="block truncate font-normal text-muted">{o.teamName}</span>
@@ -62,8 +94,9 @@ const grid = rounds.map((r) => {
                 <div
                   data-testid="draft-cell"
                   data-overall={p.overall}
-                  class:list={["h-full rounded-lg border-l-4 px-2 py-1.5", p.player ? "" : "border-line bg-panel/40"]}
-                  style={pickStyle(p.player)}
+                  data-value={p.valueOverSlot ?? ""}
+                  class:list={["h-full rounded-lg border-l-4 px-2 py-1.5", p.player ? "draft-pick" : "border-line bg-panel/40"]}
+                  style={pickColorVars(p.player, p.valueOverSlot, clamp)}
                 >
                   <div class="flex items-baseline justify-between gap-1 text-[0.7rem] tabular-nums text-muted">
                     <span>{formatPick(p)}</span><span>#{p.overall}</span>
@@ -72,6 +105,12 @@ const grid = rounds.map((r) => {
                     <>
                       <div class="truncate font-semibold leading-tight text-paper">{p.player.name}</div>
                       <div class="text-xs text-paper/80">{p.player.position}{p.player.nflTeam && <span class="text-muted"> · {p.player.nflTeam}</span>}</div>
+                      {p.points !== null && (
+                        <div class="mt-0.5 flex items-baseline justify-between gap-1 text-[0.7rem] tabular-nums">
+                          <span class="text-paper/80">{points(p.points)} pts{finish(p) && <span class="text-muted"> · {finish(p)}</span>}</span>
+                          {p.valueOverSlot !== null && <span data-testid="pick-value" class="font-bold text-paper">{formatValue(p.valueOverSlot)}</span>}
+                        </div>
+                      )}
                     </>
                   ) : (
                     <div class="py-1 text-xs italic text-muted">Not recorded</div>
@@ -95,21 +134,27 @@ const grid = rounds.map((r) => {
             <li
               data-testid="draft-row"
               data-overall={p.overall}
-              class:list={["flex items-center gap-3 rounded-lg border-l-4 px-3 py-2", p.player ? "" : "border-line bg-panel/40"]}
-              style={pickStyle(p.player)}
+              class:list={["flex items-center gap-3 rounded-lg border-l-4 px-3 py-2", p.player ? "draft-pick" : "border-line bg-panel/40"]}
+              style={pickColorVars(p.player, p.valueOverSlot, clamp)}
             >
               <span class="w-10 shrink-0 text-xs tabular-nums text-muted">{formatPick(p)}</span>
               <span class="min-w-0 flex-1">
                 {p.player ? (
                   <>
                     <span class="block truncate font-semibold">{p.player.name}</span>
-                    <span class="block text-xs text-paper/80">{p.player.position}{p.player.nflTeam && <span class="text-muted"> · {p.player.nflTeam}</span>}</span>
+                    <span class="block text-xs text-paper/80">
+                      {p.player.position}{p.player.nflTeam && <span class="text-muted"> · {p.player.nflTeam}</span>}
+                      {p.points !== null && <span class="text-muted"> · {points(p.points)} pts{finish(p) && ` · ${finish(p)}`}</span>}
+                    </span>
                   </>
                 ) : (
                   <span class="block text-sm italic text-muted">Not recorded</span>
                 )}
+                <OwnerLink owner={p.owner} class="block truncate text-xs text-muted" />
               </span>
-              <OwnerLink owner={p.owner} class="shrink-0 truncate text-right text-xs text-muted max-w-[7rem]" />
+              {p.valueOverSlot !== null && (
+                <span data-testid="pick-value" class="shrink-0 text-sm font-bold tabular-nums text-paper">{formatValue(p.valueOverSlot)}</span>
+              )}
             </li>
           ))}
         </ol>
@@ -117,3 +162,17 @@ const grid = rounds.map((r) => {
     ))}
   </div>
 </section>
+{draft.grades.length > 0 && hasValues && <DraftGrades grades={draft.grades} />}
+</div>
+
+<script is:inline>
+  // "Color by" toggle: sets data-color-by on the board; global.css picks the matching colors
+  document.querySelectorAll("[data-draft-board]").forEach((board) => {
+    board.querySelectorAll("[data-color-mode]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        board.dataset.colorBy = btn.dataset.colorMode;
+        board.querySelectorAll("[data-color-mode]").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+      });
+    });
+  });
+</script>

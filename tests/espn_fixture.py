@@ -66,6 +66,12 @@ def fixture_player_pro_team(pid: int) -> int:
     return 0 if overall is None else PRO_TEAMS[(overall - 1) % len(PRO_TEAMS)]
 
 
+def fixture_player_points(pid: int) -> float:
+    """Default Season points fall with the overall pick, so every Pick's Value over slot is 0."""
+    overall = _overall_of(pid)
+    return 50.0 if overall is None else 400.0 - 3 * overall
+
+
 def fixture_player_name(pid: int) -> str:
     overall = _overall_of(pid)
     if overall is None:
@@ -108,6 +114,12 @@ class FixtureSeason:
     missing_picks: set[int] = field(default_factory=set)
     # playerIds to leave out of players.json
     unlisted_players: set[int] = field(default_factory=set)
+    # Season points (player_pool.json season total) by playerId; default fixture_player_points()
+    player_points: dict[int, float] = field(default_factory=dict)
+    # playerIds whose season-total row is left out of player_pool.json
+    pool_without_points: set[int] = field(default_factory=set)
+    # Extra undrafted pool Players: playerId -> (defaultPositionId, points)
+    undrafted: dict[int, tuple[int, float]] = field(default_factory=dict)
 
     TEAMS = 0
     REGULAR_PERIODS = 0
@@ -318,10 +330,60 @@ class FixtureSeason:
             if pid not in self.unlisted_players
         ]
 
+    def player_pool(self) -> dict:
+        """player_pool.json (kona_player_info): every drafted Player plus undrafted ones, each with a
+        season-total actual row (scoringPeriodId 0, statSourceId 0, statSplitTypeId 0) whose appliedTotal
+        is the Player's Season points (espn-api.md §5; GLOSSARY: Season points)."""
+        entries = []
+        listed = {p["id"]: p for p in self.players()}
+        extra = {UNDRAFTED_PLAYER_ID: (3, 50.0), **self.undrafted}
+        for pid in [p["playerId"] for p in self._picks() if p["playerId"] != -1] + list(extra):
+            if pid in extra:
+                position, points = extra[pid]
+                name, pro_team = f"Undrafted Fixture {pid}", 0
+            else:
+                position, name, pro_team = (fixture_player_position(pid), fixture_player_name(pid),
+                                            fixture_player_pro_team(pid))  # fmt: skip
+                name = listed.get(pid, {}).get("fullName", self.player_names.get(pid, name))
+                points = self.player_points.get(pid, fixture_player_points(pid))
+            stats = [
+                # A projected row and a weekly row, which the loader must ignore
+                {"seasonId": self.year, "scoringPeriodId": 0, "statSourceId": 1, "statSplitTypeId": 0,
+                 "appliedTotal": 999.0},
+                {"seasonId": self.year, "scoringPeriodId": 1, "statSourceId": 0, "statSplitTypeId": 1,
+                 "appliedTotal": 12.5},
+            ]  # fmt: skip
+            if pid not in self.pool_without_points:
+                stats.append(
+                    {
+                        "seasonId": self.year,
+                        "scoringPeriodId": 0,
+                        "statSourceId": 0,
+                        "statSplitTypeId": 0,
+                        "appliedTotal": points,
+                    }  # fmt: skip
+                )
+            entries.append(
+                {
+                    "id": pid,
+                    "onTeamId": 0,
+                    "status": "FREEAGENT",
+                    "player": {
+                        "id": pid,
+                        "fullName": name,
+                        "defaultPositionId": position,
+                        "proTeamId": pro_team,
+                        "stats": stats,
+                    },
+                }
+            )
+        return {"players": entries, "positionAgainstOpponent": {}}
+
     def write(self, archive: Path) -> None:
         d = archive / str(self.year)
         d.mkdir(parents=True, exist_ok=True)
         (d / "players.json").write_text(json.dumps(self.players(), indent=1), encoding="utf-8")
+        (d / "player_pool.json").write_text(json.dumps(self.player_pool(), indent=1), encoding="utf-8")
         for name, doc in (
             ("league_mSettings", self.settings()),
             ("league_mTeam", self.teams()),

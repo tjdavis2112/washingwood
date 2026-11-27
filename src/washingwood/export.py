@@ -252,33 +252,75 @@ def season_document(conn: Connection, year: int) -> dict:
 
 
 def _draft(conn: Connection, year: int) -> dict:
-    """The Season's Draft: round-1 order by Draft slot and every Pick in order (stats.draft_board)."""
+    """The Season's Draft: round-1 order by Draft slot, every Pick in order with its Season points,
+    Positional finish and Value over slot, and the Draft grades (stats.draft_board, stats.draft_grades)."""
     draft_type = conn.execute("SELECT draft_type FROM core.seasons WHERE year = %s", (year,)).fetchone()[0]
     rows = conn.execute(
-        """SELECT overall_pick, round, round_pick, owner, team_name, draft_slot, player_name, position, nfl_team
+        """SELECT overall_pick, round, round_pick, franchise_id, owner, team_name, draft_slot, player_name,
+                  position, nfl_team, points, positional_finish, value_over_slot
            FROM stats.draft_board WHERE year = %s ORDER BY overall_pick""",
         (year,),
     ).fetchall()
     if not rows:
         raise ExportError(f"Season {year}: no Draft picks loaded")
-    order = sorted({(slot, owner, team) for _, rnd, _, owner, team, slot, *_ in rows if rnd == 1})
-    picks = [
-        {
+    order = sorted({(slot, owner, team) for _, rnd, _, _, owner, team, slot, *_ in rows if rnd == 1})
+    picks, by_franchise = [], {}
+    for overall, rnd, round_pick, fid, owner, _, _, name, position, nfl_team, points, finish, vos in rows:
+        pick = {
             "overall": overall,
             "round": rnd,
             "roundPick": round_pick,
             "owner": _owner_ref(owner),
             "player": None if name is None else {"name": name, "position": position, "nflTeam": nfl_team},
+            "points": None if points is None else float(points),
+            "positionalFinish": finish,
+            "valueOverSlot": vos,
         }
-        for overall, rnd, round_pick, owner, _, _, name, position, nfl_team in rows
-    ]
+        picks.append(pick)
+        by_franchise.setdefault(fid, []).append(pick)
     return {
         "type": draft_type,
         "rounds": max(p["round"] for p in picks),
         "order": [{"slot": slot, "owner": _owner_ref(owner), "teamName": team} for slot, owner, team in order],
         "picks": picks,
         "note": _draft_note(draft_type, sum(p["player"] is None for p in picks)),
+        "grades": _draft_grades(conn, year, by_franchise),
     }
+
+
+def _draft_grades(conn: Connection, year: int, by_franchise: dict[int, list[dict]]) -> list[dict]:
+    """One Draft grade per Franchise, by rank then Owner name, naming its best and worst Pick
+    (highest / lowest Value over slot; the earliest Pick on a tie)."""
+    grades = []
+    for fid, rank, total, owner, team in conn.execute(
+        """SELECT g.franchise_id, g.grade_rank, g.total_value_over_slot, fo.display_name, f.team_name
+           FROM stats.draft_grades g
+           JOIN core.seasons s           ON s.season_id = g.season_id
+           JOIN core.franchises f        ON f.franchise_id = g.franchise_id
+           JOIN stats.franchise_owner fo ON fo.franchise_id = g.franchise_id
+           WHERE s.year = %s""",
+        (year,),
+    ).fetchall():
+        graded = [p for p in by_franchise[fid] if p["valueOverSlot"] is not None]
+        if not graded:
+            raise ExportError(f"Season {year}: {owner} has no Pick with a recorded Player to grade")
+
+        def named(p):
+            return {k: p[k] for k in ("overall", "round", "roundPick", "player", "valueOverSlot")}
+
+        best = max(graded, key=lambda p: (p["valueOverSlot"], -p["overall"]))
+        worst = min(graded, key=lambda p: (p["valueOverSlot"], p["overall"]))
+        grades.append(
+            {
+                "rank": rank,
+                "owner": _owner_ref(owner),
+                "teamName": team,
+                "total": total,
+                "best": named(best),
+                "worst": named(worst),
+            }
+        )
+    return sorted(grades, key=lambda g: (g["rank"], g["owner"]["name"]))
 
 
 def draft_history(conn: Connection) -> dict:
