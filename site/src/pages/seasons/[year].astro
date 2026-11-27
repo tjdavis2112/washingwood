@@ -28,8 +28,8 @@ const season = getSeason(Astro.props.year);
       <Podium spots={season.podium} />
       <LastPlace season={season} />
       <Standings rows={season.standings} />
-      <Bracket bracket={season.bracket} />
-      <WeeklyResults periods={season.weeklyResults} />
+      <Bracket bracket={season.bracket} year={season.year} />
+      <WeeklyResults periods={season.weeklyResults} year={season.year} />
     </div>
     <ScoringFormat slot="scoring" format={season.scoringFormat} />
     <ComingSoon slot="rosters" level={2} title="Rosters" blurb="Every Franchise's roster, week by week." />

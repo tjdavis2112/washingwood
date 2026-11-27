@@ -180,6 +180,9 @@ CREATE TABLE core.matchups (
     away_points         numeric(7,2),
     home_projected      numeric(7,2),
     away_projected      numeric(7,2),
+    -- Manual score adjustments (espn-api.md §3): count toward points for, not the Matchup score
+    home_adjustment     numeric(7,2) NOT NULL DEFAULT 0,
+    away_adjustment     numeric(7,2),
     winner_franchise_id int  REFERENCES core.franchises,   -- NULL = tie or unplayed
     is_playoff          boolean NOT NULL DEFAULT false,
     bracket             text CHECK (bracket IN ('winners', 'consolation', 'toilet')),
@@ -196,8 +199,9 @@ CREATE TABLE core.lineup_entries (
     player_id         int  NOT NULL REFERENCES core.players,
     slot              text NOT NULL,       -- QB RB WR TE FLEX DST K BE IR
     is_starter        boolean GENERATED ALWAYS AS (slot NOT IN ('BE', 'IR')) STORED,
-    points            numeric(6,2),
+    points            numeric(6,2),        -- NULL = no actual stat row (didn't play)
     projected_points  numeric(6,2),
+    nfl_team          text,                -- that game's NFL team (actual stat row proTeamId)
     PRIMARY KEY (season_id, week, franchise_id, player_id)
 );
 CREATE INDEX lineup_entries_player ON core.lineup_entries (player_id, season_id, week);
@@ -420,6 +424,15 @@ JOIN core.seasons s ON s.season_id = m.season_id
 WHERE m.away_franchise_id IS NOT NULL
   AND m.first_week = m.last_week
   AND (NOT m.is_playoff OR m.bracket = 'winners');
+
+-- Box score rows: every Lineup entry with the Player's name and that Season's position.
+CREATE VIEW stats.box_score_entries AS
+SELECT s.year, le.week, le.franchise_id, le.slot, le.is_starter, p.full_name AS player_name,
+       coalesce(ps.position, p.position) AS position, le.nfl_team, le.points, le.projected_points
+FROM core.lineup_entries le
+JOIN core.seasons s             ON s.season_id = le.season_id
+JOIN core.players p             ON p.player_id = le.player_id
+LEFT JOIN core.player_seasons ps ON ps.season_id = le.season_id AND ps.player_id = le.player_id;
 
 -- Every played Matchup between two Owners (byes have no opponent), for Rivalry pages. kind: regular,
 -- playoff (championship bracket), thirdPlace or consolation. in_record follows the head-to-head rules

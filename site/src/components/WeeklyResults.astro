@@ -5,10 +5,11 @@
 // The box is `relative` so the screen-reader-only "Winner" labels (absolutely positioned) are
 // anchored and clipped inside it; without that they sit thousands of pixels right and widen the page.
 import OwnerLink from "./OwnerLink.astro";
-import { formatPoints, formatWeeks, type WeeklyPeriod, type WeeklySide } from "../data/site-data";
+import { boxScorePath, formatPoints, formatWeeks, hasBoxScores, type WeeklyPeriod, type WeeklySide } from "../data/site-data";
 
-interface Props { periods: WeeklyPeriod[] }
-const { periods } = Astro.props;
+interface Props { periods: WeeklyPeriod[]; year: number }
+const { periods, year } = Astro.props;
+const boxed = hasBoxScores(year);
 ---
 <section aria-labelledby="weekly-heading">
   <div class="flex items-baseline justify-between gap-4">
@@ -46,6 +47,9 @@ const { periods } = Astro.props;
                     <div class="border-t border-dashed border-line px-3 py-1 text-[0.7rem] font-semibold uppercase tracking-widest text-muted">
                       {g.isTie ? "Tie" : "Bye"}
                     </div>
+                  )}
+                  {boxed && g.away && (
+                    <a href={boxScorePath(year, p.weeks[0], g.home.owner.slug, g.away.owner.slug)} data-testid="box-score-link" class="block border-t border-line px-3 py-1 text-right text-[0.65rem] font-semibold uppercase tracking-widest text-muted transition-colors hover:text-brand">Box score →</a>
                   )}
                 </li>
               );

@@ -15,7 +15,7 @@ export type League = {
   champion: { owner: OwnerRef; teamName: string; year: number };
 };
 
-type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups" | "rivalry";
+type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups" | "rivalry" | "boxScores";
 
 let ajv: Ajv2020 | undefined;
 let schemaId = "";
@@ -331,4 +331,32 @@ const rivalries = new Map<string, Rivalry>();
 export function getRivalry(pair: string): Rivalry {
   if (!rivalries.has(pair)) rivalries.set(pair, load<Rivalry>(`rivalries/${pair}.json`, "rivalry"));
   return rivalries.get(pair)!;
+}
+
+export type BoxScoreEntry = { slot: string; name: string; position: string; nflTeam: string | null; points: number | null; projected: number | null };
+export type BoxScoreWeek = { week: number; starters: BoxScoreEntry[]; bench: BoxScoreEntry[]; emptySlots: string[] };
+export type BoxScoreSide = { owner: OwnerRef; teamName: string; score: number; projected: number; adjustment: number; weeks: BoxScoreWeek[] };
+export type BoxScore = {
+  matchupPeriod: number;
+  weeks: number[];
+  kind: "regular" | "playoff" | "thirdPlace" | "consolation";
+  home: BoxScoreSide;
+  away: BoxScoreSide;
+  winner: "home" | "away" | null;
+  isTie: boolean;
+};
+
+/** A Box score page: /matchups/<year>/<first week>/<a>-vs-<b>/, slugs in alphabetical order. */
+export const boxScorePath = (year: number, week: number, a: string, b: string) =>
+  `/matchups/${year}/${week}/${[a, b].sort().join("-vs-")}/`;
+
+/** Seasons with lineups have Box scores (a Season without lineups has no box-scores file). */
+export function hasBoxScores(year: number): boolean {
+  return fs.existsSync(path.join(dataDir(), "box-scores", `${year}.json`));
+}
+
+const boxScores = new Map<number, BoxScore[]>();
+export function getBoxScores(year: number): BoxScore[] {
+  if (!boxScores.has(year)) boxScores.set(year, load<{ year: number; matchups: BoxScore[] }>(`box-scores/${year}.json`, "boxScores").matchups);
+  return boxScores.get(year)!;
 }
