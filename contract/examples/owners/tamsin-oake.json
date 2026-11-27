@@ -272,9 +272,9 @@
       "teamName": "Oake Oracles",
       "slot": 3,
       "grade": {
-        "rank": 6,
+        "rank": 7,
         "of": 12,
-        "total": 7
+        "total": -8
       },
       "picks": [
         {
@@ -288,7 +288,7 @@
           },
           "points": 300.4,
           "positionalFinish": 12,
-          "valueOverSlot": -20
+          "valueOverSlot": -10
         },
         {
           "overall": 22,
@@ -301,7 +301,7 @@
           },
           "points": 229.7,
           "positionalFinish": 16,
-          "valueOverSlot": -19
+          "valueOverSlot": -5
         },
         {
           "overall": 27,
@@ -314,7 +314,7 @@
           },
           "points": 360.4,
           "positionalFinish": 1,
-          "valueOverSlot": 22
+          "valueOverSlot": 0
         },
         {
           "overall": 46,
@@ -327,7 +327,7 @@
           },
           "points": 295.2,
           "positionalFinish": 13,
-          "valueOverSlot": 22
+          "valueOverSlot": 7
         },
         {
           "overall": 51,
@@ -340,7 +340,7 @@
           },
           "points": 172.3,
           "positionalFinish": 9,
-          "valueOverSlot": -14
+          "valueOverSlot": -4
         },
         {
           "overall": 70,
@@ -353,7 +353,7 @@
           },
           "points": 155.2,
           "positionalFinish": 23,
-          "valueOverSlot": -4
+          "valueOverSlot": 1
         },
         {
           "overall": 75,
@@ -366,7 +366,7 @@
           },
           "points": 138.53,
           "positionalFinish": 8,
-          "valueOverSlot": -7
+          "valueOverSlot": -5
         },
         {
           "overall": 94,
@@ -379,7 +379,7 @@
           },
           "points": 169.37,
           "positionalFinish": 2,
-          "valueOverSlot": 27
+          "valueOverSlot": 8
         }
       ]
     },
@@ -388,9 +388,9 @@
       "teamName": "Oake Oracles",
       "slot": 4,
       "grade": {
-        "rank": 5,
+        "rank": 2,
         "of": 10,
-        "total": -3
+        "total": 11
       },
       "picks": [
         {
@@ -404,7 +404,7 @@
           },
           "points": 343.3,
           "positionalFinish": 4,
-          "valueOverSlot": -5
+          "valueOverSlot": -2
         },
         {
           "overall": 17,
@@ -417,7 +417,7 @@
           },
           "points": 212.0,
           "positionalFinish": 13,
-          "valueOverSlot": -21
+          "valueOverSlot": -4
         },
         {
           "overall": 24,
@@ -430,7 +430,7 @@
           },
           "points": 334.3,
           "positionalFinish": 5,
-          "valueOverSlot": 14
+          "valueOverSlot": 7
         },
         {
           "overall": 37,
@@ -443,7 +443,7 @@
           },
           "points": 248.7,
           "positionalFinish": 9,
-          "valueOverSlot": 9
+          "valueOverSlot": 7
         },
         {
           "overall": 44,
@@ -456,7 +456,7 @@
           },
           "points": 173.1,
           "positionalFinish": 19,
-          "valueOverSlot": -7
+          "valueOverSlot": 0
         },
         {
           "overall": 57,
@@ -469,7 +469,7 @@
           },
           "points": 110.0,
           "positionalFinish": 20,
-          "valueOverSlot": -14
+          "valueOverSlot": 0
         },
         {
           "overall": 64,
@@ -482,7 +482,7 @@
           },
           "points": 179.57,
           "positionalFinish": 1,
-          "valueOverSlot": 17
+          "valueOverSlot": 3
         },
         {
           "overall": 77,
@@ -495,7 +495,7 @@
           },
           "points": 100.87,
           "positionalFinish": 7,
-          "valueOverSlot": 4
+          "valueOverSlot": 0
         }
       ]
     }

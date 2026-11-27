@@ -274,7 +274,7 @@
       "grade": {
         "rank": 1,
         "of": 12,
-        "total": 82
+        "total": 26
       },
       "picks": [
         {
@@ -288,7 +288,7 @@
           },
           "points": 385.3,
           "positionalFinish": 3,
-          "valueOverSlot": 2
+          "valueOverSlot": 0
         },
         {
           "overall": 20,
@@ -301,7 +301,7 @@
           },
           "points": 303.2,
           "positionalFinish": 8,
-          "valueOverSlot": -1
+          "valueOverSlot": 2
         },
         {
           "overall": 29,
@@ -314,7 +314,7 @@
           },
           "points": 257.2,
           "positionalFinish": 14,
-          "valueOverSlot": -2
+          "valueOverSlot": 0
         },
         {
           "overall": 44,
@@ -327,7 +327,7 @@
           },
           "points": 339.1,
           "positionalFinish": 3,
-          "valueOverSlot": 33
+          "valueOverSlot": 16
         },
         {
           "overall": 53,
@@ -340,7 +340,7 @@
           },
           "points": 233.2,
           "positionalFinish": 5,
-          "valueOverSlot": 14
+          "valueOverSlot": 1
         },
         {
           "overall": 68,
@@ -353,7 +353,7 @@
           },
           "points": 241.1,
           "positionalFinish": 17,
-          "valueOverSlot": 33
+          "valueOverSlot": 10
         },
         {
           "overall": 77,
@@ -366,7 +366,7 @@
           },
           "points": 102.57,
           "positionalFinish": 12,
-          "valueOverSlot": -17
+          "valueOverSlot": -7
         },
         {
           "overall": 92,
@@ -379,7 +379,7 @@
           },
           "points": 162.3,
           "positionalFinish": 4,
-          "valueOverSlot": 20
+          "valueOverSlot": 4
         }
       ]
     },
@@ -388,9 +388,9 @@
       "teamName": "Trice Tritons",
       "slot": 2,
       "grade": {
-        "rank": 2,
+        "rank": 3,
         "of": 10,
-        "total": 63
+        "total": 7
       },
       "picks": [
         {
@@ -404,7 +404,7 @@
           },
           "points": 395.3,
           "positionalFinish": 2,
-          "valueOverSlot": 0
+          "valueOverSlot": -1
         },
         {
           "overall": 19,
@@ -417,7 +417,7 @@
           },
           "points": 236.8,
           "positionalFinish": 11,
-          "valueOverSlot": -13
+          "valueOverSlot": -1
         },
         {
           "overall": 22,
@@ -430,7 +430,7 @@
           },
           "points": 357.5,
           "positionalFinish": 3,
-          "valueOverSlot": 16
+          "valueOverSlot": 8
         },
         {
           "overall": 39,
@@ -443,7 +443,7 @@
           },
           "points": 266.3,
           "positionalFinish": 4,
-          "valueOverSlot": 17
+          "valueOverSlot": -1
         },
         {
           "overall": 42,
@@ -456,7 +456,7 @@
           },
           "points": 282.7,
           "positionalFinish": 1,
-          "valueOverSlot": 24
+          "valueOverSlot": 3
         },
         {
           "overall": 59,
@@ -469,7 +469,7 @@
           },
           "points": 194.7,
           "positionalFinish": 6,
-          "valueOverSlot": 18
+          "valueOverSlot": 3
         },
         {
           "overall": 62,
@@ -482,7 +482,7 @@
           },
           "points": 151.63,
           "positionalFinish": 6,
-          "valueOverSlot": 1
+          "valueOverSlot": -4
         },
         {
           "overall": 79,

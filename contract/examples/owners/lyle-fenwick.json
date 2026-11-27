@@ -274,9 +274,9 @@
       "teamName": "Fenwick Fog",
       "slot": 9,
       "grade": {
-        "rank": 3,
+        "rank": 2,
         "of": 12,
-        "total": 51
+        "total": 24
       },
       "picks": [
         {
@@ -290,7 +290,7 @@
           },
           "points": 390.3,
           "positionalFinish": 2,
-          "valueOverSlot": 7
+          "valueOverSlot": 3
         },
         {
           "overall": 16,
@@ -316,7 +316,7 @@
           },
           "points": 235.6,
           "positionalFinish": 3,
-          "valueOverSlot": -4
+          "valueOverSlot": 0
         },
         {
           "overall": 40,
@@ -329,7 +329,7 @@
           },
           "points": 343.5,
           "positionalFinish": 6,
-          "valueOverSlot": 32
+          "valueOverSlot": 12
         },
         {
           "overall": 57,
@@ -342,7 +342,7 @@
           },
           "points": 188.4,
           "positionalFinish": 8,
-          "valueOverSlot": 0
+          "valueOverSlot": -1
         },
         {
           "overall": 64,
@@ -355,7 +355,7 @@
           },
           "points": 105.2,
           "positionalFinish": 24,
-          "valueOverSlot": -24
+          "valueOverSlot": -2
         },
         {
           "overall": 81,
@@ -368,7 +368,7 @@
           },
           "points": 167.53,
           "positionalFinish": 3,
-          "valueOverSlot": 12
+          "valueOverSlot": 6
         },
         {
           "overall": 88,
@@ -381,7 +381,7 @@
           },
           "points": 175.07,
           "positionalFinish": 1,
-          "valueOverSlot": 25
+          "valueOverSlot": 3
         }
       ]
     },
@@ -390,9 +390,9 @@
       "teamName": "Fenwick Foxes",
       "slot": 6,
       "grade": {
-        "rank": 4,
+        "rank": 5,
         "of": 10,
-        "total": 24
+        "total": 1
       },
       "picks": [
         {
@@ -406,7 +406,7 @@
           },
           "points": 261.0,
           "positionalFinish": 10,
-          "valueOverSlot": -17
+          "valueOverSlot": -7
         },
         {
           "overall": 15,
@@ -419,7 +419,7 @@
           },
           "points": 194.1,
           "positionalFinish": 16,
-          "valueOverSlot": -27
+          "valueOverSlot": -8
         },
         {
           "overall": 26,
@@ -432,7 +432,7 @@
           },
           "points": 222.2,
           "positionalFinish": 4,
-          "valueOverSlot": -9
+          "valueOverSlot": -2
         },
         {
           "overall": 35,
@@ -445,7 +445,7 @@
           },
           "points": 314.9,
           "positionalFinish": 6,
-          "valueOverSlot": 21
+          "valueOverSlot": 10
         },
         {
           "overall": 46,
@@ -458,7 +458,7 @@
           },
           "points": 268.8,
           "positionalFinish": 3,
-          "valueOverSlot": 25
+          "valueOverSlot": 2
         },
         {
           "overall": 55,
@@ -471,7 +471,7 @@
           },
           "points": 185.2,
           "positionalFinish": 18,
-          "valueOverSlot": 9
+          "valueOverSlot": 5
         },
         {
           "overall": 66,
@@ -497,7 +497,7 @@
           },
           "points": 173.63,
           "positionalFinish": 1,
-          "valueOverSlot": 25
+          "valueOverSlot": 4
         }
       ]
     }

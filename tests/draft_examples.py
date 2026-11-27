@@ -65,12 +65,19 @@ def points_rank(value: float, values: list[float]) -> int:
 
 
 def value_over_slot(picks: list[dict]) -> dict[int, int | None]:
-    """overall -> Value over slot: overall minus the rank by Season points among the drafted Picks.
-    Picks with no Player recorded get None and are left out of the ranking."""
-    recorded = [p["points"] for p in picks if p["player"] is not None]
-    return {
-        p["overall"]: None if p["player"] is None else p["overall"] - points_rank(p["points"], recorded) for p in picks
-    }
+    """overall -> Value over slot: the Pick's order among the recorded Picks at its position, minus its
+    finish by Season points among them (ties share the better finish). Picks with no Player recorded
+    get None and are left out."""
+    by_position: dict[str, list[dict]] = {}
+    for p in sorted(picks, key=lambda p: p["overall"]):
+        if p["player"] is not None:
+            by_position.setdefault(p["player"]["position"], []).append(p)
+    out: dict[int, int | None] = {p["overall"]: None for p in picks}
+    for same in by_position.values():
+        points = [p["points"] for p in same]
+        for order, p in enumerate(same, start=1):
+            out[p["overall"]] = order - points_rank(p["points"], points)
+    return out
 
 
 def grades(draft: dict) -> list[dict]:

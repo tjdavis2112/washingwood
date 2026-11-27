@@ -16,7 +16,7 @@ const pickText = (p: GradedPick) => `${formatPick(p)} ${p.player.name}`;
     <h2 id="draft-grades-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Draft grades</h2>
     <p aria-hidden="true" class="text-xs text-muted md:hidden">Swipe for more →</p>
   </div>
-  <p class="mt-2 text-xs text-muted">Total Value over slot: each pick's overall number minus its rank by Season points among this Draft's picks.</p>
+  <p class="mt-2 text-xs text-muted">Total Value over slot: for each pick, where it was taken among its position minus where it finished among the drafted players at that position.</p>
   <div data-testid="draft-grades-scroll" class="mt-4 overflow-x-auto rounded-2xl border border-line">
     <table aria-labelledby="draft-grades-heading" class="w-full min-w-[44rem] border-collapse text-sm">
       <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">

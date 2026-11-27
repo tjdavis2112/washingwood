@@ -1,0 +1,48 @@
+---
+// "How the grades work": a short, collapsible explanation shown on every Draft view (Season Draft tab,
+// Owner Draft tab, /draft). Wording follows GLOSSARY.md (Season points, Positional finish, Value over
+// slot, Draft grade). `bestDrafters` adds the line for the /draft page's Best drafters table.
+interface Props { bestDrafters?: boolean }
+const { bestDrafters = false } = Astro.props;
+---
+<details data-testid="draft-explainer" class="group rounded-xl border border-line bg-panel/40 px-4 py-3 text-sm">
+  <summary class="cursor-pointer list-none font-semibold text-paper marker:hidden">
+    <span class="mr-1 inline-block text-muted transition-transform group-open:rotate-90" aria-hidden="true">›</span>
+    How the grades work
+  </summary>
+  <dl class="mt-3 space-y-2.5 text-muted">
+    <div>
+      <dt class="font-semibold text-paper">Season points</dt>
+      <dd>A player's fantasy points for the whole NFL regular season under that Season's scoring, as ESPN totals them. From 2021 that includes NFL week 18, after our fantasy season ends.</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-paper">Positional finish (e.g. RB3)</dt>
+      <dd>Where the player ranked by Season points among everyone at that position that Season, drafted or not.</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-paper">Value over slot</dt>
+      <dd>
+        Compares a pick only with picks at the same position: where the player was taken among them, minus
+        where they finished among the drafted players at that position. The 8th QB taken who finishes as the 2nd-best
+        drafted QB is <span class="font-semibold text-paper">+6</span>; the 1st RB taken who finishes 10th among
+        drafted RBs is <span class="font-semibold text-paper">−9</span>. Positive is a steal, negative a bust.
+        Staying within a position keeps QBs, kickers and defenses (one starter each, often taken late) from
+        looking like steals by default. Picks that weren't recorded aren't graded.
+      </dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-paper">Draft grade</dt>
+      <dd>The sum of a team's Value over slot for the Season, ranked against the rest of the league that Season. Ties share a rank.</dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-paper">Colors</dt>
+      <dd>Green is a steal, magenta a bust; the stronger the color, the bigger the value. The scale tops out at that Season's 90th percentile, so one huge steal doesn't wash out the rest.</dd>
+    </div>
+    {bestDrafters && (
+      <div>
+        <dt class="font-semibold text-paper">Best drafters</dt>
+        <dd>Each Owner's average Draft grade rank across every Season they drafted in. Lower is better.</dd>
+      </div>
+    )}
+  </dl>
+</details>
