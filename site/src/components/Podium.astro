@@ -2,6 +2,7 @@
 // The Podium as a lit trophy case (docs/GAMEPLAN.md "Design direction"): the Champion raised in
 // the center, runner-up and Third-place game winner lower on each side. Not cards.
 // Gold, silver and bronze appear here because these are trophies.
+import OwnerLink from "./OwnerLink.astro";
 import { formatRecord, type PodiumSpot } from "../data/site-data";
 import Trophy from "./Trophy.astro";
 
@@ -27,7 +28,7 @@ const STYLE = {
           <div class:list={[s.trophy, "transition-transform duration-300 hover:-translate-y-1"]} style={`filter: drop-shadow(0 0 18px color-mix(in srgb, ${s.glow} 40%, transparent))`}>
             <Trophy metal={s.metal} class="size-full" />
           </div>
-          <p class="mt-3 w-full break-words text-sm font-black leading-tight md:text-xl">{spot.owner.name}</p>
+          <p class="mt-3 w-full break-words text-sm font-black leading-tight md:text-xl"><OwnerLink owner={spot.owner} /></p>
           <p class="w-full break-words text-xs text-muted md:text-sm">{spot.teamName}</p>
           <p class="mt-1 text-xs tabular-nums text-muted md:text-sm">{formatRecord(spot.record)}</p>
           <div

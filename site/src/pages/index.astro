@@ -11,7 +11,7 @@ const { champion } = league;
 ---
 <Base title="Home">
   <h1 class="sr-only">{league.leagueName}</h1>
-  <ChampionBanner client:visible ownerName={champion.owner.name} teamName={champion.teamName} year={champion.year}>
+  <ChampionBanner client:visible ownerName={champion.owner.name} ownerSlug={champion.owner.slug} teamName={champion.teamName} year={champion.year}>
     <Trophy metal="gold" class="size-full" />
   </ChampionBanner>
 

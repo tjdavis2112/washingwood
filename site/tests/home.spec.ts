@@ -11,6 +11,6 @@ test("Home shows the current Champion: Owner, team name and year", async ({ page
 
 test("the Champion banner opens that Season's page", async ({ page }) => {
   await page.goto("/");
-  await page.getByRole("region", { name: "Champion" }).getByRole("link").click();
+  await page.getByRole("region", { name: "Champion" }).getByRole("link", { name: "See the 2020 Season" }).click();
   await expect(page).toHaveURL(/\/seasons\/2020\/$/);
 });

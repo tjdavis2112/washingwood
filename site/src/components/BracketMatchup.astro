@@ -1,6 +1,7 @@
 ---
 // One playoff Matchup: the better seed on top. The winner is highlighted (and announced as
 // "Winner" to screen readers); a bye shows the team advancing without a game.
+import OwnerLink from "./OwnerLink.astro";
 import { type BracketMatchup, type BracketSide, formatPoints } from "../data/site-data";
 
 interface Props { game: BracketMatchup }
@@ -19,7 +20,7 @@ if (game.away) sides.push({ side: game.away, won: game.winner === "away" });
     >
       <span class="w-5 shrink-0 text-right text-xs tabular-nums text-muted">{side.seed}</span>
       <span class="min-w-0 flex-1">
-        <span class:list={["block truncate text-sm", won ? "font-bold text-paper" : "font-medium text-muted"]}>{side.owner.name}</span>
+        <OwnerLink owner={side.owner} class:list={["block truncate text-sm", won ? "font-bold text-paper" : "font-medium text-muted"]} />
         <span class="block truncate text-xs text-muted">{side.teamName}</span>
       </span>
       {won && <span class="sr-only">Winner</span>}

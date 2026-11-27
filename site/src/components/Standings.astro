@@ -1,6 +1,7 @@
 ---
 // Final standings, ordered by final finish. On phones the table scrolls sideways inside its own
 // box (the page never does), with the Owner column pinned so rows stay readable.
+import OwnerLink from "./OwnerLink.astro";
 import { formatPoints, type StandingsRow } from "../data/site-data";
 
 interface Props { rows: StandingsRow[] }
@@ -30,7 +31,7 @@ const record = (r: StandingsRow["record"]) => `${r.wins}-${r.losses}-${r.ties}`;
         {rows.map((r) => (
           <tr class="border-t border-line odd:bg-ink even:bg-panel/40">
             <td class="px-3 py-2.5 text-right font-bold tabular-nums">{r.rank}</td>
-            <td class="sticky left-0 bg-inherit px-3 py-2.5 font-semibold whitespace-nowrap">{r.owner.name}</td>
+            <td class="sticky left-0 bg-inherit px-3 py-2.5 font-semibold whitespace-nowrap"><OwnerLink owner={r.owner} /></td>
             <td class="px-3 py-2.5 whitespace-nowrap text-muted">{r.teamName}</td>
             <td class="px-3 py-2.5 text-right tabular-nums">{record(r.record)}</td>
             <td class="px-3 py-2.5 text-right tabular-nums">{formatPoints(r.pointsFor)}</td>

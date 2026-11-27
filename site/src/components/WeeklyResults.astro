@@ -4,6 +4,7 @@
 // width up they wrap into a grid that uses the full width. The page itself never scrolls sideways.
 // The box is `relative` so the screen-reader-only "Winner" labels (absolutely positioned) are
 // anchored and clipped inside it; without that they sit thousands of pixels right and widen the page.
+import OwnerLink from "./OwnerLink.astro";
 import { formatPoints, formatWeeks, type WeeklyPeriod, type WeeklySide } from "../data/site-data";
 
 interface Props { periods: WeeklyPeriod[] }
@@ -32,7 +33,7 @@ const { periods } = Astro.props;
                   {sides.map(({ side, won }, i) => (
                     <div data-testid="weekly-side" class:list={["flex items-center gap-2 px-3 py-1.5", { "border-t border-line": i > 0, "bg-brand/10": won }]}>
                       <span class="min-w-0 flex-1">
-                        <span class:list={["block truncate text-sm", won ? "font-bold text-paper" : "font-medium text-muted"]}>{side.owner.name}</span>
+                        <OwnerLink owner={side.owner} class:list={["block truncate text-sm", won ? "font-bold text-paper" : "font-medium text-muted"]} />
                         <span class="block truncate text-[0.7rem] text-muted">{side.teamName}</span>
                       </span>
                       {won && <span class="sr-only">Winner</span>}

@@ -1,0 +1,9 @@
+---
+// An Owner's name as a link to their Owner page. It keeps the surrounding text style (no default
+// blue or underline) and turns brand red on hover; keyboard focus gets the site-wide red outline.
+import type { OwnerRef } from "../data/site-data";
+
+interface Props { owner: OwnerRef; class?: string }
+const { owner, class: cls = "" } = Astro.props;
+---
+<a href={`/owners/${owner.slug}/`} data-owner-link class:list={[cls, "transition-colors hover:text-brand"]}>{owner.name}</a>
