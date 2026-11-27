@@ -1,4 +1,4 @@
--- faintasy league history schema (PostgreSQL 14+)
+-- Washingwood league history schema (PostgreSQL 16)
 --
 -- Three layers:
 --   raw.*   : untouched platform responses. Source of truth; never edited.

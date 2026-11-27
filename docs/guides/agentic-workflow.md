@@ -12,7 +12,7 @@ A plain-language guide to the Matt Pocock skills set up here. Type `/ask-matt` a
 | Rules every agent follows | `AGENTS.md` (`CLAUDE.md` just imports it) | you, `/retro` |
 | How skills find the above | `docs/agents/*.md` | `/setup-matt-pocock-skills` |
 
-An ADR gets written only when a decision is **hard to reverse**, **surprising without context**, and **a real trade-off**. ADRs 0001–0005 record what GAMEPLAN already decided.
+An ADR gets written only when a decision is **hard to reverse**, **surprising without context**, and **a real trade-off**. ADRs 0001–0007 record what has been decided so far (0004 is partly superseded by 0006).
 
 ## The main flow, for a new feature
 

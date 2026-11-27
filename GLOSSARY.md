@@ -1,60 +1,77 @@
-# League History
+# Washingwood
 
-The permanent record of one fantasy football league across every season and platform it has used.
+Washingwood is our fantasy football league. This glossary covers the language of its permanent history, from the 2018 **Season** onward.
 
 ## Identity
 
 **League**:
-The ongoing competition among a group of **Owners**, across all **Seasons** and platforms.
+Washingwood: the ongoing competition among its **Owners**, across all **Seasons**. Its recorded history starts in 2018. Ten teams through 2019, twelve from 2020.
 _Avoid_: Group
 
 **Owner**:
-A real person who runs a **Franchise** in one or more **Seasons**. Survives team renames and platform switches.
+A real person who runs a **Franchise** in one or more **Seasons**. Survives team renames, account changes and gaps. An owner who has left still has their history.
 _Avoid_: Manager, user, member, team
 
+**Current team name**:
+The team name of an **Owner**'s most recent **Franchise**. Used to label the Owner across all Seasons.
+
 **Franchise**:
-One team in one **Season**, linked to its **Owners** through `franchise_owners`. A new Franchise exists every Season, even for the same Owner.
+One team in one **Season**, run by one or more **Owners**. Each Season has a new Franchise, even for the same Owner.
 _Avoid_: Team (when you mean the cross-season entity), roster
 
 **Player**:
-An NFL player, identified across platforms by `player_external_ids`.
+An NFL player. The same person whichever platform reports them.
 
 ## Seasons and data
 
 **Season**:
-One year of the **League**, with its own rules, **Scoring format** and **Data tier**.
+One year of the **League**, with its own rules, **Scoring format** and **Data tier**. A Season enters the history only after it ends.
 _Avoid_: Year (in code), league year
 
 **Data tier**:
-How much detail the platform still returns for a **Season**: `full` (2019+), `partial` (2018), or `archival` (≤2017: standings, matchup scores, draft, settings only).
+How much detail survives for a **Season**: **full** (lineups, player stats, transactions) or **partial** (league-level results, some detail missing).
 
 **Scoring format**:
 A **Season**'s headline scoring rule set (PPR, Half PPR, Standard, plus TE premium). Records are only comparable within one format.
 
 **Raw response**:
-One untouched platform API response, saved to the **Archive** and never edited.
+One untouched platform API response, kept exactly as received.
 
 **Archive**:
-The on-disk store of **Raw responses** (`archive/<league>/<year>/`) and its `manifest.jsonl`. Every other layer is rebuilt from it.
+The full set of **Raw responses**. Everything else in the history is rebuilt from it.
 
 ## Games
 
 **Week**:
-One NFL week. ESPN calls it `scoringPeriodId`.
-_Avoid_: Scoring period (outside ESPN-specific code)
+One NFL week.
+_Avoid_: Scoring period
 
 **Matchup period**:
-The unit a **Matchup** is scored over. Usually one **Week**; playoff periods can span two.
+The unit a **Matchup** is scored over. Usually one **Week**. Playoff periods can span two.
 
 **Matchup**:
 Two **Franchises** facing off over one **Matchup period**, or one Franchise on a bye.
 _Avoid_: Game, box score (a box score is the detailed view of a Matchup)
 
 **Lineup entry**:
-One **Player** on one **Franchise** in one **Week**, in a slot. Starter if the slot is not `BE` or `IR`.
+One **Player** on one **Franchise** in one **Week**, in a lineup slot. A starter unless the slot is bench or IR.
+
+**Champion**:
+The **Franchise** that wins a **Season**'s championship **Matchup**. Its **Owner** earns a title.
+_Avoid_: Winner (ambiguous with a weekly Matchup winner)
+
+**Third-place game**:
+The playoff **Matchup** between the two semifinal losers. Its winner takes 3rd.
 
 **Podium**:
-A **Season**'s 1st, 2nd and 3rd place **Franchises**. Shown for every Season, archival included.
+A **Season**'s **Champion**, runner-up and **Third-place game** winner.
+
+**Last place**:
+The **Franchise** with the worst regular-season standing in a **Season**. Playoff and consolation results don't change it. Its **Owner** serves that Season's **Punishment**.
+_Avoid_: Loser, toilet bowl winner
+
+**Punishment**:
+The penalty the **Last place** **Owner** serves for a **Season**. Chosen fresh each Season, with its own title, description and picture.
 
 ## Analysis
 

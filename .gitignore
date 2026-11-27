@@ -21,3 +21,10 @@ owners.yaml
 
 # Local Claude settings
 .claude/settings.local.json
+
+# Frontend build output and exported site data (ADR-0007: never commit league data)
+node_modules/
+dist/
+.astro/
+.wrangler/
+export/

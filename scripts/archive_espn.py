@@ -5,7 +5,7 @@ Writes untouched JSON to disk (and optionally to Postgres raw.responses) so the
 league's history no longer depends on ESPN. Normalizing into core.* is a
 separate step that reads from this archive.
 
-    python scripts/archive_espn.py --league-id 123456 --years 2012-2025 \
+    python scripts/archive_espn.py --league-id 123456 --years 2018-2025 \
         --espn-s2 "$ESPN_S2" --swid "$ESPN_SWID" --out archive/
 
     # Weekly refresh: past seasons come from disk, the live season is refetched
@@ -226,12 +226,12 @@ def parse_years(spec):
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--league-id", required=True)
-    p.add_argument("--years", required=True, help="e.g. 2012-2025 or 2019,2021")
+    p.add_argument("--years", required=True, help="e.g. 2018-2025 or 2019,2021")
     p.add_argument("--espn-s2", default=os.environ.get("ESPN_S2"))
     p.add_argument("--swid", default=os.environ.get("ESPN_SWID"))
     p.add_argument("--out", default="archive")
     p.add_argument("--delay", type=float, default=1.0, help="seconds between requests")
-    p.add_argument("--pg", default=os.environ.get("FAINTASY_PG"), help="Postgres DSN for raw.responses")
+    p.add_argument("--pg", default=os.environ.get("WASHINGWOOD_PG"), help="Postgres DSN for raw.responses")
     p.add_argument("--force", action="store_true", help="refetch files that already exist")
     args = p.parse_args()
 

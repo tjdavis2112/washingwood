@@ -8,7 +8,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# Only needed when writing to Postgres (--pg / FAINTASY_PG)
+# Only needed when writing to Postgres (--pg / WASHINGWOOD_PG)
 pg = ["psycopg[binary]>=3.1"]
 
 [dependency-groups]
