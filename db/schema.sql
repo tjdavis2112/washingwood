@@ -523,20 +523,65 @@ JOIN core.player_seasons ps ON ps.season_id = dp.season_id AND ps.player_id = dp
 -- finish among the drafted Players at that position. Comparing within a position keeps one-per-team
 -- positions (QB, K, D/ST), which score a lot or go late, from looking like steals. Picks with no
 -- Player recorded get NULL and are left out.
+-- Replacement level (GLOSSARY), per Season and position: the replacement finish is team count x that
+-- position's starting slots, with each FLEX counted as half an RB and half a WR, rounded up. A position
+-- with no starting slot counts one per team. Replacement points are the Season points of the Player at
+-- that finish; on a tie that skips it, the nearest finish above; with fewer Players, the last one.
+CREATE VIEW stats.replacement_level AS
+WITH positions AS (
+    SELECT s.season_id, pos.position,
+           ceil(s.team_count * (coalesce((s.roster_slots ->> pos.position)::numeric, 1)
+                                + CASE WHEN pos.position IN ('RB', 'WR')
+                                       THEN coalesce((s.roster_slots ->> 'FLEX')::numeric, 0) / 2
+                                       ELSE 0 END))::int AS replacement_finish
+    FROM core.seasons s
+    JOIN (SELECT DISTINCT season_id, position FROM core.player_seasons) pos ON pos.season_id = s.season_id
+)
+SELECT p.season_id, p.position, p.replacement_finish,
+       (SELECT f.season_points FROM stats.player_season_finish f
+        WHERE f.season_id = p.season_id AND f.position = p.position AND f.positional_finish <= p.replacement_finish
+        ORDER BY f.positional_finish DESC, f.season_points
+        LIMIT 1) AS replacement_points
+FROM positions p;
+
+-- Points above replacement (GLOSSARY) for each recorded Pick: Season points minus its position's
+-- Replacement points that Season, floored at 0 (anyone below replacement is a waiver-wire Player).
+CREATE VIEW stats.draft_points_above_replacement AS
+SELECT dp.season_id, dp.overall_pick, dp.round,
+       greatest(ps.season_points - rl.replacement_points, 0) AS points_above_replacement
+FROM core.draft_picks dp
+JOIN core.player_seasons ps     ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id
+JOIN stats.replacement_level rl ON rl.season_id = dp.season_id AND rl.position = ps.position;
+
+-- What a Round usually returns: the mean Points above replacement of every recorded Pick in that
+-- Round, across every Season.
+CREATE VIEW stats.round_expectation AS
+SELECT round, avg(points_above_replacement) AS expected_points
+FROM stats.draft_points_above_replacement
+GROUP BY round;
+
+-- Draft value per Pick. Value over slot (GLOSSARY): the Pick's order among that Season's Picks at its
+-- position, minus its finish among the drafted Players at that position (rank-based; the Steals list).
+-- Points over expected (GLOSSARY): Points above replacement minus the Round's expectation, rounded to
+-- whole points (the Hits and Busts lists and the Draft grade). Picks with no Player recorded get NULL
+-- for both and are left out.
 CREATE VIEW stats.draft_value AS
 SELECT dp.season_id, dp.overall_pick, dp.round, dp.round_pick, dp.franchise_id, dp.player_id,
        ps.season_points AS points, psf.positional_finish,
-       (dpr.position_pick - dpr.drafted_finish)::int AS value_over_slot
+       (dpr.position_pick - dpr.drafted_finish)::int AS value_over_slot,
+       round(par.points_above_replacement - re.expected_points)::int AS points_over_expected
 FROM core.draft_picks dp
-LEFT JOIN core.player_seasons ps         ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id
-LEFT JOIN stats.player_season_finish psf ON psf.season_id = dp.season_id AND psf.player_id = dp.player_id
-LEFT JOIN stats.draft_position_rank dpr  ON dpr.season_id = dp.season_id AND dpr.overall_pick = dp.overall_pick;
+LEFT JOIN core.player_seasons ps                 ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id
+LEFT JOIN stats.player_season_finish psf         ON psf.season_id = dp.season_id AND psf.player_id = dp.player_id
+LEFT JOIN stats.draft_position_rank dpr          ON dpr.season_id = dp.season_id AND dpr.overall_pick = dp.overall_pick
+LEFT JOIN stats.draft_points_above_replacement par ON par.season_id = dp.season_id AND par.overall_pick = dp.overall_pick
+LEFT JOIN stats.round_expectation re             ON re.round = dp.round;
 
--- Draft grade (GLOSSARY): the sum of a Franchise's Value over slot, ranked within the Season
+-- Draft grade (GLOSSARY): the sum of a Franchise's Points over expected, ranked within the Season
 CREATE VIEW stats.draft_grades AS
 SELECT dv.season_id, dv.franchise_id,
-       sum(dv.value_over_slot)::int AS total_value_over_slot,
-       rank() OVER (PARTITION BY dv.season_id ORDER BY sum(dv.value_over_slot) DESC) AS grade_rank
+       sum(dv.points_over_expected)::int AS total_points_over_expected,
+       rank() OVER (PARTITION BY dv.season_id ORDER BY sum(dv.points_over_expected) DESC) AS grade_rank
 FROM stats.draft_value dv
 GROUP BY dv.season_id, dv.franchise_id;
 
@@ -548,7 +593,7 @@ SELECT s.year, dp.overall_pick, dp.round, dp.round_pick, dp.franchise_id, f.team
        fo.owner_id, fo.display_name AS owner,
        slot.round_pick AS draft_slot,
        p.full_name AS player_name, ps.position, ps.nfl_team,
-       dv.points, dv.positional_finish, dv.value_over_slot
+       dv.points, dv.positional_finish, dv.value_over_slot, dv.points_over_expected
 FROM core.draft_picks dp
 JOIN core.seasons s             ON s.season_id = dp.season_id
 JOIN core.franchises f          ON f.franchise_id = dp.franchise_id

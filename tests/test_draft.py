@@ -53,6 +53,9 @@ def test_snake_draft_lists_every_pick_in_order_with_owner_and_player(archive, ow
         "points": 397.0,
         "positionalFinish": 1,
         "valueOverSlot": 0,
+        # RB replacement is the last of the 6 RBs (307): 90 above. Round 1 averages 123.33 (ten Picks at
+        # 90 or 72 above their position, the two WRs 344 and 326 above the undrafted 50-point WR).
+        "pointsOverExpected": -33,
     }
     # Snake: round 2 starts with the last pick of round 1
     assert (picks[12]["round"], picks[12]["roundPick"], picks[12]["owner"]) == (2, 1, owner("quinn"))

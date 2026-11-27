@@ -274,7 +274,7 @@
       "grade": {
         "rank": 10,
         "of": 12,
-        "total": -11
+        "total": -138
       },
       "picks": [
         {
@@ -288,7 +288,8 @@
           },
           "points": 279.5,
           "positionalFinish": 12,
-          "valueOverSlot": -9
+          "valueOverSlot": -9,
+          "pointsOverExpected": -46
         },
         {
           "overall": 19,
@@ -301,7 +302,8 @@
           },
           "points": 253.2,
           "positionalFinish": 15,
-          "valueOverSlot": -5
+          "valueOverSlot": -5,
+          "pointsOverExpected": -5
         },
         {
           "overall": 30,
@@ -314,7 +316,8 @@
           },
           "points": 264.7,
           "positionalFinish": 2,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -91
         },
         {
           "overall": 43,
@@ -327,7 +330,8 @@
           },
           "points": 184.3,
           "positionalFinish": 23,
-          "valueOverSlot": -4
+          "valueOverSlot": -4,
+          "pointsOverExpected": -45
         },
         {
           "overall": 54,
@@ -340,7 +344,8 @@
           },
           "points": 202.3,
           "positionalFinish": 5,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": 6
         },
         {
           "overall": 67,
@@ -353,7 +358,8 @@
           },
           "points": 185.0,
           "positionalFinish": 20,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 18
         },
         {
           "overall": 78,
@@ -366,7 +372,8 @@
           },
           "points": 164.97,
           "positionalFinish": 4,
-          "valueOverSlot": 2
+          "valueOverSlot": 2,
+          "pointsOverExpected": 21
         },
         {
           "overall": 91,
@@ -379,7 +386,8 @@
           },
           "points": 148.67,
           "positionalFinish": 6,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": 4
         }
       ]
     },
@@ -390,7 +398,7 @@
       "grade": {
         "rank": 10,
         "of": 10,
-        "total": -21
+        "total": -245
       },
       "picks": [
         {
@@ -404,7 +412,8 @@
           },
           "points": 278.4,
           "positionalFinish": 8,
-          "valueOverSlot": -6
+          "valueOverSlot": -6,
+          "pointsOverExpected": -30
         },
         {
           "overall": 18,
@@ -417,7 +426,8 @@
           },
           "points": 239.4,
           "positionalFinish": 13,
-          "valueOverSlot": -4
+          "valueOverSlot": -4,
+          "pointsOverExpected": -36
         },
         {
           "overall": 23,
@@ -430,7 +440,8 @@
           },
           "points": 213.6,
           "positionalFinish": 5,
-          "valueOverSlot": -4
+          "valueOverSlot": -4,
+          "pointsOverExpected": -32
         },
         {
           "overall": 38,
@@ -443,7 +454,8 @@
           },
           "points": 190.9,
           "positionalFinish": 16,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": -56
         },
         {
           "overall": 43,
@@ -456,7 +468,8 @@
           },
           "points": 236.9,
           "positionalFinish": 5,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": 12
         },
         {
           "overall": 58,
@@ -469,7 +482,8 @@
           },
           "points": 88.6,
           "positionalFinish": 24,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -62
         },
         {
           "overall": 63,
@@ -482,7 +496,8 @@
           },
           "points": 107.5,
           "positionalFinish": 10,
-          "valueOverSlot": -7
+          "valueOverSlot": -7,
+          "pointsOverExpected": -41
         },
         {
           "overall": 78,
@@ -491,7 +506,8 @@
           "player": null,
           "points": null,
           "positionalFinish": null,
-          "valueOverSlot": null
+          "valueOverSlot": null,
+          "pointsOverExpected": null
         }
       ]
     }

@@ -8,7 +8,7 @@ import json
 
 import pytest
 from draft_examples import grades as draft_grades
-from draft_examples import value_over_slot
+from draft_examples import points_over_expected, round_expectations, value_over_slot
 
 from washingwood import contract as site_contract
 
@@ -230,8 +230,12 @@ def draft():
         "order": [{"slot": i + 1, "owner": o, "teamName": TEAM[o["slug"]]} for i, o in enumerate(order)],
         "picks": picks,
         "note": "Drafted offline and entered by hand. 1 pick wasn't recorded.",
+        "replacement": [{"position": "RB", "finish": 10, "points": 140.0}],
     }
-    doc["grades"] = draft_grades(doc)
+    poe = points_over_expected(doc, round_expectations([doc]))
+    for p in picks:
+        p["pointsOverExpected"] = poe[p["overall"]]
+    doc["grades"] = draft_grades(doc, poe)
     return doc
 
 
@@ -597,14 +601,20 @@ def test_draft_history_rejects_unknown_fields_on_a_pick():
 # --- Season points, Value over slot and Draft grades (#28) ---
 
 
-def test_example_value_over_slot_and_grades_follow_the_glossary_rules():
+def test_example_draft_values_and_grades_follow_the_glossary_rules():
     from draft_examples import grades, value_over_slot
 
-    for year, doc in example_seasons().items():
+    seasons = example_seasons()
+    expectations = round_expectations([doc["draft"] for doc in seasons.values()])
+    for year, doc in seasons.items():
         d = doc["draft"]
         vos = value_over_slot(d["picks"])
         assert {p["overall"]: p["valueOverSlot"] for p in d["picks"]} == vos, year
-        assert d["grades"] == grades(d), year
+        poe = points_over_expected(d, expectations)
+        assert {p["overall"]: p["pointsOverExpected"] for p in d["picks"]} == poe, year
+        assert d["grades"] == grades(d, poe), year
+        drafted = {p["player"]["position"] for p in d["picks"] if p["player"]}
+        assert [r["position"] for r in d["replacement"]] == sorted(drafted), year
         for p in d["picks"]:
             assert (p["points"] is None) == (p["player"] is None), (year, p["overall"])
 
@@ -629,7 +639,7 @@ def test_a_graded_pick_needs_a_player_and_value():
 
 
 def test_value_fields_are_required_on_every_pick():
-    for key in ("points", "positionalFinish", "valueOverSlot"):
+    for key in ("points", "positionalFinish", "valueOverSlot", "pointsOverExpected"):
         doc = season()
         del doc["draft"]["picks"][0][key]
         with pytest.raises(ContractError, match=key):

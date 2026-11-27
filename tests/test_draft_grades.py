@@ -7,8 +7,10 @@ overrides some points. All data is invented.
 
 GLOSSARY: Value over slot = the Pick's order among that Season's Picks at its position, minus its
 finish by Season points among the drafted Players at that position (ties share the better finish).
-Draft grade = sum of a Franchise's Value over slot, ranked in the Season. Positional finish (shown on
-each Pick) = rank by Season points among every pool Player at that position, drafted or not.
+Points over expected = Points above replacement (floored at 0) minus the Round's mean across every
+Season. Draft grade = sum of a Franchise's Points over expected, ranked in the Season. Positional
+finish (shown on each Pick) = rank by Season points among every pool Player at that position.
+tests/draft_examples.py is the plain-Python reference the SQL is checked against.
 
 Round-1 order is worst seed first: slot 1 Jory, 2 Cass, 3 Wren, 4 Abel, 5 Ines, 6 Marlo, 7 Lyle,
 8 Tamsin, 9 Rue, 10 Odie, 11 Pell, 12 Quinn.
@@ -16,6 +18,7 @@ Round-1 order is worst seed first: slot 1 Jory, 2 Cass, 3 Wren, 4 Abel, 5 Ines, 
 
 import json
 
+import draft_examples
 import pytest
 from espn_fixture import PEOPLE, Season2018Style, team
 from test_build import SEED_ORDER, season
@@ -62,41 +65,58 @@ def test_the_undrafted_player_counts_for_positional_finish_but_not_for_value(gra
     assert picks[36]["valueOverSlot"] == 5
 
 
-def test_draft_grades_sum_value_over_slot_and_rank_within_the_season(graded):
+def test_replacement_level_is_team_count_times_starters_or_the_last_player(graded):
+    # Fixture lineup: 1 QB, 2 RB, 2 WR, 1 TE, 1 FLEX, 1 D/ST, 1 K; 12 teams. RB and WR get half the FLEX:
+    # 12 x 2.5 = 30. Every position has fewer Players than its finish, so the last one sets the level:
+    # the 6th drafted RB (307), the undrafted 50-point WR, and the 5th K (310; pick 36 now scores 500).
+    assert graded["replacement"] == [
+        {"position": "D/ST", "finish": 12, "points": 295.0},
+        {"position": "K", "finish": 12, "points": 310.0},
+        {"position": "QB", "finish": 12, "points": 301.0},
+        {"position": "RB", "finish": 30, "points": 307.0},
+        {"position": "TE", "finish": 12, "points": 298.0},
+        {"position": "WR", "finish": 30, "points": 50.0},
+    ]
+
+
+def test_points_over_expected_floors_below_replacement_and_compares_with_the_round(archive, owners, tmp_path, pg_dsn):
+    # 25 undrafted RBs on 200 tie at RB6 (filling RB6..RB30), so finish 30 scores 200. Pick 31 (the 6th RB,
+    # round 3) scores 150: below replacement, so 0 above it rather than -50.
+    undrafted = {8100 + i: (2, 200.0) for i in range(25)}
+    season(2021, player_points={5031: 150.0}, undrafted=undrafted).write(archive)
+    draft = export_season(archive, owners, tmp_path, pg_dsn, 2021)
+    assert {"position": "RB", "finish": 30, "points": 200.0} in draft["replacement"]
+    picks = {p["overall"]: p for p in draft["picks"]}
+    round3 = [p for p in draft["picks"] if p["round"] == 3]
+    expected = draft_examples.round_expectations([draft])[3]
+    assert draft_examples.points_above_replacement(picks[31], draft["replacement"]) == 0
+    assert picks[31]["pointsOverExpected"] == round(-expected)
+    # The Round's expectation is the mean over its 12 Picks, so its values sum to about 0
+    assert abs(sum(p["pointsOverExpected"] for p in round3)) <= len(round3) / 2
+
+
+def test_points_over_expected_and_grades_match_the_reference(graded):
+    poe = draft_examples.points_over_expected(graded, draft_examples.round_expectations([graded]))
+    assert {p["overall"]: p["pointsOverExpected"] for p in graded["picks"]} == poe
+    assert graded["grades"] == draft_examples.grades(graded, poe)
+
+
+def test_draft_grades_sum_points_over_expected_and_rank_within_the_season(graded):
     grades = graded["grades"]
     assert len(grades) == 12
-    # Quinn: 12 (K, -1) + 13 (RB, 0) + 36 (K, +5) = +4. Tamsin: 8 (WR, +1) + 17 + 32 = +1.
-    assert grades[0] == {
-        "rank": 1,
-        "owner": owner("quinn"),
-        "teamName": PEOPLE["quinn"][1],
-        "total": 4,
-        "best": {
-            "overall": 36,
-            "round": 3,
-            "roundPick": 12,
-            "player": {"name": "Fixture Player 036", "position": "K", "nflTeam": "CIN"},
-            "valueOverSlot": 5,
-        },
-        "worst": {
-            "overall": 12,
-            "round": 1,
-            "roundPick": 12,
-            "player": {"name": "Fixture Player 012", "position": "K", "nflTeam": "KC"},
-            "valueOverSlot": -1,
-        },
-    }
-    assert (grades[1]["rank"], grades[1]["owner"], grades[1]["total"]) == (2, owner("tamsin"), 1)
-    # Seven Franchises without a K that moved: 0, tied 3rd, listed by name
-    tied = grades[2:9]
-    assert {(g["rank"], g["total"]) for g in tied} == {(3, 0)}
-    assert [g["owner"]["name"] for g in tied] == sorted(g["owner"]["name"] for g in tied)
-    # Jory (24) and Lyle (18) each lost one K place; Marlo (6 and 30) lost two
-    assert [(g["rank"], g["owner"]["slug"], g["total"]) for g in grades[9:]] == [
-        (10, owner("jory")["slug"], -1),
-        (10, owner("lyle")["slug"], -1),
-        (12, owner("marlo")["slug"], -2),
-    ]
+    by_slug = {g["owner"]["slug"]: g for g in grades}
+    for slug, g in by_slug.items():
+        mine = [p for p in graded["picks"] if p["owner"]["slug"] == slug]
+        assert g["total"] == sum(p["pointsOverExpected"] for p in mine)
+        assert g["best"]["pointsOverExpected"] == max(p["pointsOverExpected"] for p in mine)
+        assert g["worst"]["pointsOverExpected"] == min(p["pointsOverExpected"] for p in mine)
+    assert [g["rank"] for g in grades] == sorted(g["rank"] for g in grades)
+    assert [g["total"] for g in grades] == sorted((g["total"] for g in grades), reverse=True)
+    # Quinn's pick 36 (K, 500 points, 190 above the K replacement) is the Season's biggest return in round 3
+    quinn = by_slug[owner("quinn")["slug"]]
+    assert quinn["best"]["overall"] == 36
+    assert quinn["best"]["player"] == {"name": "Fixture Player 036", "position": "K", "nflTeam": "CIN"}
+    assert quinn["teamName"] == PEOPLE["quinn"][1]
 
 
 def test_an_unrecorded_pick_has_no_points_and_is_left_out_of_its_positions_order(archive, owners, tmp_path, pg_dsn):

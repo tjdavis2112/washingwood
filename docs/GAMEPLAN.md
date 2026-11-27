@@ -21,7 +21,7 @@ Layout whiteboard: https://claude.ai/artifact/UviRRz54BkANGtVgwRpZ68
 | Export (stats → JSON) | Done: `src/washingwood/export.py`, validated against `contract/` |
 | Frontend (v1) | Done: `site/` (Home, Season pages, Coming soon sections) |
 | Owners section | Done: Owners index and Owner pages (trophy case, career, every Season, head-to-head), Owner names linked site-wide (#12) |
-| Draft section | Done: Season draft boards with Value over slot and Draft grades, Owner Draft tabs, `/draft` first rounds, best/worst Picks and Best drafters (#24) |
+| Draft section | Done: Season draft boards with Points over expected and Draft grades, Owner Draft tabs, `/draft` first rounds, Hits, Steals and Busts, and Best drafters (#24; ADR-0008) |
 | Passphrase gate + deploy | Gate done; deploy command done (`washingwood.deploy`); first deploy **next** |
 
 ---
@@ -83,7 +83,7 @@ ESPN API ──(archiver, needs cookies)──▶ archive/ (private repo)
 - Dark and sleek. Brand colors are **red, black and white**: black background, white text, red for highlights and buttons.
 - **Gold, silver and bronze appear only on trophies and medals.**
 - The **Podium** is a lit trophy case: 1st raised in the center, 2nd and 3rd lower on each side. It is not built from cards.
-- **Draft boards** use muted, non-metallic position tints, and a diverging red-to-green scale for **Value over slot** (its red is a different hue from the brand red). Every cell also shows its number, so the colors are never the only signal.
+- **Draft boards** use muted, non-metallic position tints, and a diverging red-to-green scale for **Points over expected** (its red is a different hue from the brand red). Every cell also shows its number, so the colors are never the only signal.
 - **Interactive cards** (tilt, shine, flip) are for players, trades and similar items later. Not in v1.
 - **Phone and desktop are both designed for.** Every page is checked at both widths, and nothing should look stretched or empty on desktop.
 - Subtle motion: hover lifts, smooth page transitions.
@@ -113,7 +113,7 @@ Kept from the original plan; build in roughly this order.
 - **Owners hub**: first slice done (#12): trophy case, career W-L, playoff appearances, season-by-season, H2H vs every owner. Still to come: roster per season, draft grades, trades, badges (they need lineups, draft and transactions loaded)
 - **Matchups**: specced in #36: championship cards, leaderboards (blowouts, closest, highest/lowest, playoff and projection upsets), rivalry grid and pages, box-score pages (loads weekly lineups); no separate bracket history
 - **Record Book**: single week / season / all-time leaderboards, stat picker, team records, streaks, luck index, bench points, last-place history. Always show or filter by Scoring format.
-- **Draft**: done (#24): board per Season (position or Value over slot coloring), draft grades, first-round history, best/worst picks, Best drafters
+- **Draft**: done (#24): board per Season (position or Points over expected coloring), draft grades, first-round history, Hits, Steals and Busts, Best drafters (ADR-0008)
 - **Transactions**: trade cards with points each side scored after the trade; best waiver pickups
 - **Hall of Fame**: legendary player seasons, curated in `core.hall_of_fame`
 - **League Rules**: scoring and roster template by year, hand-written changelog (`core.rule_changes`), the league-wide Punishment explainer
@@ -154,7 +154,7 @@ The activity feed (`/communication/`) returns 404 for every season. Transactions
 - Games: `core.matchups` (playoff/bracket/championship flags, multi-week periods), `core.lineup_entries`, `core.player_week_stats`, `core.stat_definitions`
 - Draft/txns: `core.draft_picks`, `core.transactions`, `core.transaction_items`
 - Curated: `core.achievements`, `core.owner_achievements`, `core.hall_of_fame`
-- Views: `stats.franchise_owner`, `team_games`, `podium`, `owner_career`, `head_to_head`, `player_franchise_season`, `player_season`, `draft_value`, `draft_grades`, `acquisition_impact`, `trade_scorecard`, `team_week_scores`, `all_play`
+- Views: `stats.franchise_owner`, `team_games`, `podium`, `owner_career`, `head_to_head`, `player_franchise_season`, `player_season`, `replacement_level`, `round_expectation`, `draft_value`, `draft_grades`, `acquisition_impact`, `trade_scorecard`, `team_week_scores`, `all_play`
 
 Not yet in the schema: Punishment (per-season title, description, image) and a way to mark the 3rd-place game. Add these when the loader is built.
 

@@ -1,7 +1,8 @@
 ---
 // An Owner's Draft tab (#26; grades #29). A "First-round picks" strip (their round-1 Player every
 // Season), then their Picks Season by Season, newest first, each Season linking to its draft board and
-// showing the Owner's Draft grade; each Pick shows Season points, Positional finish and Value over slot.
+// showing the Owner's Draft grade; each Pick shows Season points, Positional finish and Points over
+// expected.
 // Both wrap into a grid, so phones never scroll sideways and desktop doesn't stretch one long list.
 import DraftExplainer from "./DraftExplainer.astro";
 import { formatValue, pickStyle } from "../data/positions";
@@ -69,7 +70,7 @@ const outcome = (p: OwnerDraftSeason["picks"][number]) =>
                   )}
                 </span>
                 <span class="shrink-0 text-right tabular-nums">
-                  {p.valueOverSlot !== null && <span data-testid="pick-value" class="block text-sm font-bold text-paper">{formatValue(p.valueOverSlot)}</span>}
+                  {p.pointsOverExpected !== null && <span data-testid="pick-value" class="block text-sm font-bold text-paper">{formatValue(p.pointsOverExpected)}</span>}
                   <span class="block text-[0.7rem] text-muted">#{p.overall}</span>
                 </span>
               </li>

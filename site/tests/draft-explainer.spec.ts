@@ -13,12 +13,16 @@ for (const v of VIEWS) {
     const scope = v.panel ? page.getByRole("tabpanel", { name: "Draft" }) : page.locator("main");
     const explainer = scope.getByTestId("draft-explainer");
     await expect(explainer).toHaveCount(1);
-    await expect(explainer.getByText("Value over slot", { exact: true })).toBeHidden();
+    await expect(explainer.getByText("Points over expected", { exact: true })).toBeHidden();
     await explainer.getByText("How the grades work").click();
-    for (const term of ["Season points", "Positional finish (e.g. RB3)", "Value over slot", "Draft grade", "Colors"]) {
+    const terms = ["Season points", "Positional finish (e.g. RB3)", "Replacement level", "Points over expected", "Draft grade", "Colors"];
+    for (const term of terms) {
       await expect(explainer.getByText(term, { exact: true })).toBeVisible();
     }
-    await expect(explainer).toContainText("+6");
-    await expect(explainer.getByText("Best drafters", { exact: true })).toHaveCount(v.bestDrafters ? 1 : 0);
+    await expect(explainer).toContainText("+140");
+    // The /draft page also explains its Steals list and Best drafters
+    for (const term of ["Value over slot", "Best drafters"]) {
+      await expect(explainer.getByText(term, { exact: true })).toHaveCount(v.bestDrafters ? 1 : 0);
+    }
   });
 }

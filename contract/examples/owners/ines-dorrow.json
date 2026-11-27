@@ -278,9 +278,9 @@
       "teamName": "Dorrow Drakes",
       "slot": 8,
       "grade": {
-        "rank": 8,
+        "rank": 11,
         "of": 12,
-        "total": -9
+        "total": -162
       },
       "picks": [
         {
@@ -294,7 +294,8 @@
           },
           "points": 292.8,
           "positionalFinish": 10,
-          "valueOverSlot": -6
+          "valueOverSlot": -6,
+          "pointsOverExpected": -32
         },
         {
           "overall": 17,
@@ -307,7 +308,8 @@
           },
           "points": 247.8,
           "positionalFinish": 16,
-          "valueOverSlot": -7
+          "valueOverSlot": -7,
+          "pointsOverExpected": -10
         },
         {
           "overall": 32,
@@ -320,7 +322,8 @@
           },
           "points": 165.4,
           "positionalFinish": 25,
-          "valueOverSlot": -10
+          "valueOverSlot": -10,
+          "pointsOverExpected": -62
         },
         {
           "overall": 41,
@@ -333,7 +336,8 @@
           },
           "points": 293.4,
           "positionalFinish": 9,
-          "valueOverSlot": 9
+          "valueOverSlot": 9,
+          "pointsOverExpected": 35
         },
         {
           "overall": 56,
@@ -346,7 +350,8 @@
           },
           "points": 234.9,
           "positionalFinish": 4,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": -63
         },
         {
           "overall": 65,
@@ -359,7 +364,8 @@
           },
           "points": 77.0,
           "positionalFinish": 28,
-          "valueOverSlot": -2
+          "valueOverSlot": -2,
+          "pointsOverExpected": -62
         },
         {
           "overall": 80,
@@ -372,7 +378,8 @@
           },
           "points": 151.33,
           "positionalFinish": 6,
-          "valueOverSlot": 2
+          "valueOverSlot": 2,
+          "pointsOverExpected": 8
         },
         {
           "overall": 89,
@@ -385,7 +392,8 @@
           },
           "points": 168.6,
           "positionalFinish": 3,
-          "valueOverSlot": 2
+          "valueOverSlot": 2,
+          "pointsOverExpected": 24
         }
       ]
     },
@@ -396,7 +404,7 @@
       "grade": {
         "rank": 6,
         "of": 10,
-        "total": 0
+        "total": -52
       },
       "picks": [
         {
@@ -410,7 +418,8 @@
           },
           "points": 247.3,
           "positionalFinish": 10,
-          "valueOverSlot": -9
+          "valueOverSlot": -9,
+          "pointsOverExpected": -61
         },
         {
           "overall": 20,
@@ -423,7 +432,8 @@
           },
           "points": 283.8,
           "positionalFinish": 8,
-          "valueOverSlot": 2
+          "valueOverSlot": 2,
+          "pointsOverExpected": 8
         },
         {
           "overall": 21,
@@ -436,7 +446,8 @@
           },
           "points": 255.2,
           "positionalFinish": 11,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 10
         },
         {
           "overall": 40,
@@ -449,7 +460,8 @@
           },
           "points": 121.8,
           "positionalFinish": 22,
-          "valueOverSlot": -5
+          "valueOverSlot": -5,
+          "pointsOverExpected": -120
         },
         {
           "overall": 41,
@@ -462,7 +474,8 @@
           },
           "points": 327.8,
           "positionalFinish": 5,
-          "valueOverSlot": 13
+          "valueOverSlot": 13,
+          "pointsOverExpected": 146
         },
         {
           "overall": 60,
@@ -475,7 +488,8 @@
           },
           "points": 94.6,
           "positionalFinish": 21,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -62
         },
         {
           "overall": 61,
@@ -488,7 +502,8 @@
           },
           "points": 175.2,
           "positionalFinish": 2,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": 27
         },
         {
           "overall": 80,
@@ -497,7 +512,8 @@
           "player": null,
           "points": null,
           "positionalFinish": null,
-          "valueOverSlot": null
+          "valueOverSlot": null,
+          "pointsOverExpected": null
         }
       ]
     }
