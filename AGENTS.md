@@ -8,6 +8,7 @@ Read `docs/GAMEPLAN.md` for scope, v1 definition, design direction and roadmap b
 
 - `scripts/archive_espn.py`: pulls raw ESPN JSON to `archive/<league>/<year>/`
 - `src/washingwood/`: pipeline package. `build` (archive → Postgres → site data), `loader`, `owners`, `export`, `contract`
+- `site/`: Astro static site, rendered only from site-data JSON (`SITE_DATA_DIR`); Playwright tests in `site/tests/`
 - `db/schema.sql`: Postgres schema, three layers `raw` → `core` → `stats`
 - `contract/`: site-data contract (JSON Schema + invented example fixtures) between pipeline and site; `washingwood.contract` validates against it
 - `docs/GAMEPLAN.md`: scope, v1, design direction, ESPN API notes, gotchas
@@ -22,6 +23,7 @@ Read `docs/GAMEPLAN.md` for scope, v1 definition, design direction and roadmap b
 - `uv run pytest`: run tests
 - `uv run ruff check .` / `uv run ruff format .`: lint and format
 - `uv run python scripts/archive_espn.py --help`: archiver usage
+- In `site/`: `npm test` (build from `contract/examples` + Playwright at phone and desktop widths; screenshots in `site/test-results/screenshots/`), `npx astro check` (typecheck)
 - `uv run python -m washingwood.build --help`: build site data (see `docs/guides/build-site-data.md`). Postgres-backed tests need Docker Desktop running.
 
 ## Rules

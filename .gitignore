@@ -28,3 +28,7 @@ dist/
 .astro/
 .wrangler/
 export/
+
+# Playwright output: screenshots and traces for review, never committed
+site/test-results/
+site/playwright-report/

@@ -1,0 +1,19 @@
+---
+import { getLeague } from "../../data/site-data";
+import Base from "../../layouts/Base.astro";
+
+const seasons = [...getLeague().seasons].reverse(); // newest first
+---
+<Base title="Seasons">
+  <h1 class="text-3xl font-black md:text-5xl">Seasons</h1>
+  <ul class="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+    {seasons.map((s) => (
+      <li>
+        <a href={`/seasons/${s.year}/`} class="block rounded-2xl border border-line bg-panel p-5 transition hover:-translate-y-1 hover:border-brand">
+          <span class="block text-3xl font-black">{s.year}</span>
+          <span class="mt-1 block text-sm text-muted">{s.teamCount} teams</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>

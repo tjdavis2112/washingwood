@@ -1,0 +1,32 @@
+---
+// Full site navigation. On phones it scrolls sideways inside its own strip, so the page never does.
+import { SECTIONS } from "../sections";
+
+const here = Astro.url.pathname.replace(/\/?$/, "/");
+const isActive = (href: string) => (href === "/" ? here === "/" : here.startsWith(href));
+---
+<nav
+  aria-label="Main"
+  data-main-nav
+  class="-mx-4 overflow-x-auto px-4 [mask-image:linear-gradient(to_right,black_85%,transparent)] md:mx-0 md:px-0 md:[mask-image:none]"
+>
+  <ul class="flex w-max gap-1 md:w-auto md:flex-wrap md:justify-end">
+    {SECTIONS.map((s) => (
+      <li>
+        <a
+          href={s.href}
+          aria-current={isActive(s.href) ? "page" : undefined}
+          class:list={[
+            "block whitespace-nowrap rounded-full px-3 py-1.5 text-sm transition-colors",
+            isActive(s.href) ? "bg-brand text-paper" : "text-muted hover:bg-panel hover:text-paper",
+          ]}
+        >{s.label}</a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<script>
+  // Phones: bring the current section into view inside the scrolling nav strip
+  document.querySelector("[data-main-nav] [aria-current=page]")?.scrollIntoView({ block: "nearest", inline: "center" });
+</script>

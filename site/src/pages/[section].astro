@@ -1,0 +1,14 @@
+---
+// One "Coming soon" page per unbuilt nav section (src/sections.ts).
+import ComingSoon from "../components/ComingSoon.astro";
+import Base from "../layouts/Base.astro";
+import { SECTIONS } from "../sections";
+
+export function getStaticPaths() {
+  return SECTIONS.filter((s) => !s.built).map((s) => ({ params: { section: s.href.slice(1, -1) }, props: { section: s } }));
+}
+const { section } = Astro.props;
+---
+<Base title={section.label}>
+  <ComingSoon title={section.label} blurb={section.blurb} />
+</Base>

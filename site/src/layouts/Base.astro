@@ -1,0 +1,30 @@
+---
+// Shell for every page: head, site header with full navigation, main content.
+import "../styles/global.css";
+import Nav from "../components/Nav.astro";
+
+interface Props { title: string }
+const { title } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{title} · Washingwood</title>
+  </head>
+  <body class="min-h-dvh bg-ink">
+    <header class="sticky top-0 z-10 border-b border-line bg-ink/90 backdrop-blur">
+      <div class="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-3 md:flex-row md:items-center md:justify-between md:gap-6">
+        <a href="/" class="text-lg font-black uppercase tracking-[0.2em] text-paper">
+          Washing<span class="text-brand">wood</span>
+        </a>
+        <Nav />
+      </div>
+    </header>
+    <main class="mx-auto max-w-6xl px-4 py-8 md:py-12">
+      <slot />
+    </main>
+  </body>
+</html>

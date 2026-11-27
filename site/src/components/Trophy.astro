@@ -1,0 +1,9 @@
+---
+// A trophy glyph. Metal colours (gold/silver/bronze) are reserved for trophies and medals.
+interface Props { metal?: "gold" | "silver" | "bronze"; class?: string }
+const { metal = "gold", class: cls = "" } = Astro.props;
+const fill = { gold: "var(--color-gold)", silver: "var(--color-silver)", bronze: "var(--color-bronze)" }[metal];
+---
+<svg viewBox="0 0 64 64" aria-hidden="true" class={cls} fill={fill}>
+  <path d="M18 6h28v6h10v6c0 8-6 14-13 15-2 5-5 8-9 9v8h8v6H22v-6h8v-8c-4-1-7-4-9-9C14 32 8 26 8 18v-6h10V6zm-4 12c0 4 3 8 6 9-1-3-2-6-2-9v-1h-4v1zm32 0c0 3-1 6-2 9 3-1 6-5 6-9v-1h-4v1z" />
+</svg>
