@@ -204,6 +204,26 @@ def season():
                 ],
             }
         ],
+        "draft": draft(),
+    }
+
+
+def draft():
+    """A 2-round snake Draft for the tiny Season; the last Pick has no Player recorded."""
+    order = [D, C, B, A]
+    picks = []
+    for rnd in (1, 2):
+        for i, o in enumerate(order if rnd == 1 else list(reversed(order))):
+            overall = (rnd - 1) * 4 + i + 1
+            player = {"name": f"Example Player {overall}", "position": "RB", "nflTeam": "KC"}
+            picks.append({"overall": overall, "round": rnd, "roundPick": i + 1, "owner": o, "player": player})
+    picks[-1]["player"] = None
+    return {
+        "type": "offline",
+        "rounds": 2,
+        "order": [{"slot": i + 1, "owner": o, "teamName": TEAM[o["slug"]]} for i, o in enumerate(order)],
+        "picks": picks,
+        "note": "Drafted offline and entered by hand. 1 pick wasn't recorded.",
     }
 
 
@@ -405,6 +425,7 @@ def test_season_requires_every_section():
         "standings",
         "bracket",
         "weeklyResults",
+        "draft",
     )
     for key in keys:
         doc = season()
@@ -478,3 +499,58 @@ def test_owner_index_entry_needs_a_regular_season_record():
     del doc["owners"][0]["regularSeason"]
     with pytest.raises(ContractError, match="regularSeason"):
         validate(doc, "ownerIndex")
+
+
+# --- Draft (#25) ---
+
+
+def test_draft_type_must_be_snake_or_offline():
+    doc = season()
+    doc["draft"]["type"] = "auction"
+    with pytest.raises(ContractError, match="/draft/type"):
+        validate(doc, "season")
+
+
+def test_a_pick_player_needs_name_position_and_nfl_team_or_is_null():
+    doc = season()
+    del doc["draft"]["picks"][0]["player"]["nflTeam"]
+    with pytest.raises(ContractError, match="/draft/picks/0/player"):
+        validate(doc, "season")
+    doc = season()
+    doc["draft"]["picks"][0]["player"]["nflTeam"] = None  # a free agent
+    validate(doc, "season")
+
+
+def test_picks_never_carry_platform_ids():
+    doc = season()
+    doc["draft"]["picks"][0]["memberId"] = "{X}"
+    with pytest.raises(ContractError, match="memberId"):
+        validate(doc, "season")
+
+
+def test_example_drafts_are_full_snake_boards_of_that_seasons_owners():
+    for year, doc in example_seasons().items():
+        d = doc["draft"]
+        n = doc["teamCount"]
+        assert [o["slot"] for o in d["order"]] == list(range(1, n + 1)), year
+        assert {o["owner"]["slug"] for o in d["order"]} == {r["owner"]["slug"] for r in doc["standings"]}, year
+        teams = {r["owner"]["slug"]: r["teamName"] for r in doc["standings"]}
+        assert all(o["teamName"] == teams[o["owner"]["slug"]] for o in d["order"]), year
+        assert [p["overall"] for p in d["picks"]] == list(range(1, n * d["rounds"] + 1)), year
+        slot = {o["owner"]["slug"]: o["slot"] for o in d["order"]}
+        for p in d["picks"]:
+            assert p["overall"] == (p["round"] - 1) * n + p["roundPick"], (year, p)
+            expected = p["roundPick"] if p["round"] % 2 else n + 1 - p["roundPick"]
+            assert slot[p["owner"]["slug"]] == expected, (year, p)
+
+
+def test_example_2018_draft_is_offline_with_an_unrecorded_pick_and_2020_has_a_dst():
+    seasons = example_seasons()
+    d2018, d2020 = seasons[2018]["draft"], seasons[2020]["draft"]
+    assert d2018["type"] == "offline"
+    assert d2018["note"]
+    assert any(p["player"] is None for p in d2018["picks"])
+    assert d2020["type"] == "snake"
+    assert d2020["note"] is None
+    assert all(p["player"] is not None for p in d2020["picks"])
+    assert {"D/ST", "K"} <= {p["player"]["position"] for p in d2020["picks"]}

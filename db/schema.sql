@@ -114,6 +114,8 @@ CREATE TABLE core.seasons (
     scoring_rules         jsonb,
     -- Roster template, e.g. {"QB":1,"RB":2,"WR":2,"TE":1,"FLEX":1,"DST":1,"K":1,"BE":6,"IR":1}
     roster_slots          jsonb,
+    -- How the Draft was run: snake, or offline (picks entered by hand afterwards)
+    draft_type            text CHECK (draft_type IN ('snake', 'offline')),
     notes                 text,
     UNIQUE (league_id, year)
 );
@@ -215,6 +217,15 @@ CREATE TABLE core.player_week_stats (
 -- ---------------------------------------------------------------------------
 -- CORE: draft and transactions
 -- ---------------------------------------------------------------------------
+
+-- A Player's NFL team in one Season, as the platform reports it for that Season (one value per
+-- Season; not provably the team on draft day). NULL = no NFL team (free agent).
+CREATE TABLE core.player_seasons (
+    season_id   int  NOT NULL REFERENCES core.seasons,
+    player_id   int  NOT NULL REFERENCES core.players,
+    nfl_team    text,                    -- 'KC', 'BUF', ... (espn-api.md §5 proTeamId)
+    PRIMARY KEY (season_id, player_id)
+);
 
 CREATE TABLE core.draft_picks (
     season_id       int  NOT NULL REFERENCES core.seasons,
@@ -341,6 +352,22 @@ SELECT s.year, f.final_rank, f.franchise_id, f.team_name, fo.owner_id, fo.displa
 FROM core.franchises f
 JOIN core.seasons s ON s.season_id = f.season_id
 JOIN stats.franchise_owner fo ON fo.franchise_id = f.franchise_id;
+
+-- Every Pick with its Owner (through franchise_owners) and Player; Player columns are NULL for a
+-- Pick with no Player recorded. The Draft slot is the Franchise's round-1 pick number.
+CREATE VIEW stats.draft_board AS
+SELECT s.year, dp.overall_pick, dp.round, dp.round_pick, dp.franchise_id, f.team_name,
+       fo.owner_id, fo.display_name AS owner,
+       slot.round_pick AS draft_slot,
+       p.full_name AS player_name, p.position, ps.nfl_team
+FROM core.draft_picks dp
+JOIN core.seasons s             ON s.season_id = dp.season_id
+JOIN core.franchises f          ON f.franchise_id = dp.franchise_id
+JOIN stats.franchise_owner fo   ON fo.franchise_id = dp.franchise_id
+JOIN core.draft_picks slot      ON slot.season_id = dp.season_id AND slot.franchise_id = dp.franchise_id
+                               AND slot.round = 1
+LEFT JOIN core.players p        ON p.player_id = dp.player_id
+LEFT JOIN core.player_seasons ps ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id;
 
 -- Owner career totals
 CREATE VIEW stats.owner_career AS

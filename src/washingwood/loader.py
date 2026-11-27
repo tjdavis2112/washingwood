@@ -1,8 +1,8 @@
 """Load one Season of the ESPN archive into core.* (field paths: docs/research/espn-api.md).
 
-Idempotent per Season: re-loading a Season replaces its Franchises and Matchups (ADR-0001).
+Idempotent per Season: re-loading a Season replaces its Franchises, Matchups and Picks (ADR-0001).
 ESPN IDs never become core keys: member IDs go to core.owner_external_ids, the league ID to
-core.league_platforms (ADR-0002).
+core.league_platforms, player IDs to core.player_external_ids (ADR-0002).
 """
 
 from __future__ import annotations
@@ -33,6 +33,20 @@ SLOTS = {"0": "QB", "1": "TQB", "2": "RB", "3": "RB/WR", "4": "WR", "5": "WR/TE"
 STAT_PASS_TD, STAT_RECEPTION = 4, 53
 POSITION_WR, POSITION_TE = "3", "4"  # defaultPositionId keys of pointsOverrides
 
+# defaultPositionId -> position (espn-api.md §5 ROSTER_POSITION_MAP; not the lineupSlotId map)
+POSITIONS = {1: "QB", 2: "RB", 3: "WR", 4: "TE", 5: "K", 7: "P", 9: "DT", 10: "DE", 11: "LB", 12: "CB",
+             13: "S", 14: "HC", 15: "TQB", 16: "D/ST"}  # fmt: skip
+
+# proTeamId -> NFL team abbreviation (espn-api.md §5). 0 = free agent: no team.
+NFL_TEAMS = {1: "ATL", 2: "BUF", 3: "CHI", 4: "CIN", 5: "CLE", 6: "DAL", 7: "DEN", 8: "DET", 9: "GB",
+             10: "TEN", 11: "IND", 12: "KC", 13: "LV", 14: "LAR", 15: "MIA", 16: "MIN", 17: "NE", 18: "NO",
+             19: "NYG", 20: "NYJ", 21: "PHI", 22: "ARI", 23: "PIT", 24: "LAC", 25: "SF", 26: "SEA", 27: "TB",
+             28: "WSH", 29: "CAR", 30: "JAX", 33: "BAL", 34: "HOU"}  # fmt: skip
+
+# settings.draftSettings.type -> core.seasons.draft_type (espn-api.md §6, §9)
+DRAFT_TYPES = {"SNAKE": "snake", "OFFLINE": "offline"}
+NO_PLAYER = -1  # playerId of a Pick with no Player recorded (2018 offline draft)
+
 # ESPN statId -> platform-neutral key for core.seasons.scoring_rules (espn-api.md §5; ADR-0002)
 CANONICAL_STATS = {3: "pass_yds", 4: "pass_td", 20: "pass_int", 24: "rush_yds", 25: "rush_td",
                    42: "rec_yds", 43: "rec_td", 53: "rec", 72: "fum_lost"}  # fmt: skip
@@ -48,6 +62,8 @@ class SeasonFiles:
     settings: dict
     teams: dict
     matchups: dict
+    draft: dict
+    players: dict[int, dict]  # players.json by ESPN player id
     has_lineups: bool
 
     @classmethod
@@ -63,6 +79,8 @@ class SeasonFiles:
             settings=load("league_mSettings"),
             teams=load("league_mTeam"),
             matchups=load("league_mMatchupScore"),
+            draft=load("league_mDraftDetail"),
+            players={p["id"]: p for p in load("players")},
             has_lineups=_has_lineups(season_dir / "boxscore_w01.json"),
         )
 
@@ -83,6 +101,7 @@ def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> No
     """Replace one Season's rows in core.* inside the caller's transaction."""
     franchise_owners = _map_owners(files, owner_map)  # fail before touching the database
     _check_seeds(files)
+    picks = _check_picks(files)
     league_id = _upsert_league(conn, files)
     season_id = _upsert_season(conn, league_id, files)
 
@@ -91,6 +110,8 @@ def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> No
         "(SELECT franchise_id FROM core.franchises WHERE season_id = %s)",
         (season_id,),
     )
+    conn.execute("DELETE FROM core.draft_picks WHERE season_id = %s", (season_id,))
+    conn.execute("DELETE FROM core.player_seasons WHERE season_id = %s", (season_id,))
     conn.execute("DELETE FROM core.matchups WHERE season_id = %s", (season_id,))
     conn.execute("DELETE FROM core.franchises WHERE season_id = %s", (season_id,))
 
@@ -111,6 +132,97 @@ def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> No
             )
 
     _matchups(conn, season_id, files, franchise_ids)
+    _draft(conn, season_id, files, picks, franchise_ids)
+
+
+def _check_picks(files: SeasonFiles) -> list[dict]:
+    """draftDetail.picks, checked: teams x rounds Picks numbered 1..N, each Franchise once per round,
+    and every recorded Player listed in players.json (espn-api.md §6). Returns them in pick order."""
+    draft_type = files.settings["settings"].get("draftSettings", {}).get("type")
+    if draft_type not in DRAFT_TYPES:
+        raise LoadError(f"Season {files.year}: unsupported draft type {draft_type!r} (expected SNAKE or OFFLINE)")
+    picks = sorted(files.draft["draftDetail"]["picks"], key=lambda p: p["overallPickNumber"])
+    teams = {t["id"] for t in files.teams["teams"]}
+    rounds = max((p["roundId"] for p in picks), default=0)
+    if len(picks) != len(teams) * rounds:
+        raise LoadError(
+            f"Season {files.year}: the Draft has {len(picks)} picks, expected {len(teams) * rounds} "
+            f"({len(teams)} teams x {rounds} rounds)"
+        )
+    if [p["overallPickNumber"] for p in picks] != list(range(1, len(picks) + 1)):
+        raise LoadError(f"Season {files.year}: Draft pick numbers aren't 1..{len(picks)}")
+    for rnd in range(1, rounds + 1):
+        in_round = [p for p in picks if p["roundId"] == rnd]
+        if sorted(p["teamId"] for p in in_round) != sorted(teams):
+            raise LoadError(f"Season {files.year}: Draft round {rnd} doesn't give every team exactly one pick")
+        if sorted(p["roundPickNumber"] for p in in_round) != list(range(1, len(teams) + 1)):
+            raise LoadError(f"Season {files.year}: Draft round {rnd} pick numbers aren't 1..{len(teams)}")
+    for p in picks:
+        if p["playerId"] != NO_PLAYER and p["playerId"] not in files.players:
+            raise LoadError(
+                f"Season {files.year}: pick {p['overallPickNumber']} drafted ESPN player {p['playerId']}, "
+                "who is not in players.json"
+            )
+    return picks
+
+
+def _draft(conn: Connection, season_id: int, files: SeasonFiles, picks: list[dict], franchise_ids) -> None:
+    """Players, their NFL team this Season, and the Picks. memberId (personal) is never stored."""
+    conn.execute(
+        "UPDATE core.seasons SET draft_type = %s WHERE season_id = %s",
+        (DRAFT_TYPES[files.settings["settings"]["draftSettings"]["type"]], season_id),
+    )
+    for p in picks:
+        player_id = None
+        if p["playerId"] != NO_PLAYER:
+            espn_player = files.players[p["playerId"]]
+            player_id = _upsert_player(conn, files, espn_player)
+            conn.execute(
+                """INSERT INTO core.player_seasons (season_id, player_id, nfl_team) VALUES (%s, %s, %s)
+                   ON CONFLICT DO NOTHING""",
+                (season_id, player_id, NFL_TEAMS.get(espn_player["proTeamId"])),
+            )
+        conn.execute(
+            """INSERT INTO core.draft_picks (season_id, overall_pick, round, round_pick, franchise_id, player_id,
+                   is_keeper)
+               VALUES (%s, %s, %s, %s, %s, %s, %s)""",
+            (season_id, p["overallPickNumber"], p["roundId"], p["roundPickNumber"], franchise_ids[p["teamId"]],
+             player_id, bool(p.get("keeper"))),
+        )  # fmt: skip
+
+
+def _upsert_player(conn: Connection, files: SeasonFiles, player: dict) -> int:
+    """One core.players row per ESPN player id. Name and position follow the latest Season that lists
+    the Player, so the load order of Seasons doesn't change the result."""
+    position = POSITIONS.get(player["defaultPositionId"])
+    if position is None:
+        raise LoadError(
+            f"Season {files.year}: ESPN player {player['id']} has unknown position id {player['defaultPositionId']}"
+        )
+    ext_id = str(player["id"])
+    row = conn.execute(
+        "SELECT player_id FROM core.player_external_ids WHERE platform = %s AND external_id = %s", (PLATFORM, ext_id)
+    ).fetchone()
+    if row is None:
+        player_id = conn.execute(
+            "INSERT INTO core.players (full_name, position) VALUES (%s, %s) RETURNING player_id",
+            (player["fullName"], position),
+        ).fetchone()[0]
+        conn.execute(
+            "INSERT INTO core.player_external_ids (player_id, platform, external_id) VALUES (%s, %s, %s)",
+            (player_id, PLATFORM, ext_id),
+        )
+        return player_id
+    player_id = row[0]
+    # Rename only from a Season at least as new as every other Season that lists the Player
+    conn.execute(
+        """UPDATE core.players SET full_name = %s, position = %s
+           WHERE player_id = %s AND NOT EXISTS (
+               SELECT 1 FROM core.player_seasons ps JOIN core.seasons s USING (season_id)
+               WHERE ps.player_id = %s AND s.year > %s)""",
+        (player["fullName"], position, player_id, player_id, files.year),
+    )
+    return player_id
 
 
 def _check_seeds(files: SeasonFiles) -> None:

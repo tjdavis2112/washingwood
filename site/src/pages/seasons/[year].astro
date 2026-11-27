@@ -1,8 +1,9 @@
 ---
 // One page per Season. Results tab: Podium, Last place, final standings, the playoff bracket and
-// weekly results. Scoring format tab. Rosters, Draft, Transactions: Coming soon.
+// weekly results. Scoring format tab. Draft tab: the draft board. Rosters, Transactions: Coming soon.
 import Bracket from "../../components/Bracket.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
+import DraftBoard from "../../components/DraftBoard.astro";
 import LastPlace from "../../components/LastPlace.astro";
 import Podium from "../../components/Podium.astro";
 import ScoringFormat from "../../components/ScoringFormat.astro";
@@ -32,7 +33,7 @@ const season = getSeason(Astro.props.year);
     </div>
     <ScoringFormat slot="scoring" format={season.scoringFormat} />
     <ComingSoon slot="rosters" level={2} title="Rosters" blurb="Every Franchise's roster, week by week." />
-    <ComingSoon slot="draft" level={2} title="Draft" blurb="This Season's draft board." />
+    <DraftBoard slot="draft" draft={season.draft} />
     <ComingSoon slot="transactions" level={2} title="Transactions" blurb="This Season's trades and waiver pickups." />
   </SeasonTabs>
 </Base>

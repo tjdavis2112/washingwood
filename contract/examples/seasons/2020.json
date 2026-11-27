@@ -2818,5 +2818,1454 @@
         }
       ]
     }
-  ]
+  ],
+  "draft": {
+    "type": "snake",
+    "rounds": 8,
+    "order": [
+      {
+        "slot": 1,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers"
+      },
+      {
+        "slot": 2,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "teamName": "Ashgrove Aces"
+      },
+      {
+        "slot": 3,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles"
+      },
+      {
+        "slot": 4,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "teamName": "Paxton Pistons"
+      },
+      {
+        "slot": 5,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "teamName": "Trice Tritons"
+      },
+      {
+        "slot": 6,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "teamName": "Brask Bruisers"
+      },
+      {
+        "slot": 7,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "teamName": "Vantor Vortex"
+      },
+      {
+        "slot": 8,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes"
+      },
+      {
+        "slot": 9,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "teamName": "Fenwick Fog"
+      },
+      {
+        "slot": 10,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "teamName": "Quist Quakes"
+      },
+      {
+        "slot": 11,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets"
+      },
+      {
+        "slot": 12,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "teamName": "Imber Embers"
+      }
+    ],
+    "picks": [
+      {
+        "overall": 1,
+        "round": 1,
+        "roundPick": 1,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "player": {
+          "name": "Ezra Underhill",
+          "position": "WR",
+          "nflTeam": "PHI"
+        }
+      },
+      {
+        "overall": 2,
+        "round": 1,
+        "roundPick": 2,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "player": {
+          "name": "Fenn Barrowell",
+          "position": "RB",
+          "nflTeam": "MIN"
+        }
+      },
+      {
+        "overall": 3,
+        "round": 1,
+        "roundPick": 3,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "player": {
+          "name": "Gus Grimsby",
+          "position": "WR",
+          "nflTeam": "ATL"
+        }
+      },
+      {
+        "overall": 4,
+        "round": 1,
+        "roundPick": 4,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "player": {
+          "name": "Hale Larkspur",
+          "position": "RB",
+          "nflTeam": "BUF"
+        }
+      },
+      {
+        "overall": 5,
+        "round": 1,
+        "roundPick": 5,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "player": {
+          "name": "Ivo Quarrington",
+          "position": "WR",
+          "nflTeam": "DET"
+        }
+      },
+      {
+        "overall": 6,
+        "round": 1,
+        "roundPick": 6,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "player": {
+          "name": "Jett Varnell",
+          "position": "RB",
+          "nflTeam": "JAX"
+        }
+      },
+      {
+        "overall": 7,
+        "round": 1,
+        "roundPick": 7,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "player": {
+          "name": "Kip Cindergate",
+          "position": "WR",
+          "nflTeam": "DEN"
+        }
+      },
+      {
+        "overall": 8,
+        "round": 1,
+        "roundPick": 8,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "player": {
+          "name": "Lark Hollowell",
+          "position": "RB",
+          "nflTeam": "MIA"
+        }
+      },
+      {
+        "overall": 9,
+        "round": 1,
+        "roundPick": 9,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "player": {
+          "name": "Moss Merriweather",
+          "position": "WR",
+          "nflTeam": "SEA"
+        }
+      },
+      {
+        "overall": 10,
+        "round": 1,
+        "roundPick": 10,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "player": {
+          "name": "Nico Rookwood",
+          "position": "RB",
+          "nflTeam": "NYJ"
+        }
+      },
+      {
+        "overall": 11,
+        "round": 1,
+        "roundPick": 11,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "player": {
+          "name": "Otto Whitlock",
+          "position": "WR",
+          "nflTeam": "SF"
+        }
+      },
+      {
+        "overall": 12,
+        "round": 1,
+        "roundPick": 12,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "player": {
+          "name": "Pax Dunmore",
+          "position": "RB",
+          "nflTeam": "GB"
+        }
+      },
+      {
+        "overall": 13,
+        "round": 2,
+        "roundPick": 1,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "player": {
+          "name": "Rook Ironwood",
+          "position": "WR",
+          "nflTeam": "PIT"
+        }
+      },
+      {
+        "overall": 14,
+        "round": 2,
+        "roundPick": 2,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "player": {
+          "name": "Sully Northcott",
+          "position": "RB",
+          "nflTeam": "IND"
+        }
+      },
+      {
+        "overall": 15,
+        "round": 2,
+        "roundPick": 3,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "player": {
+          "name": "Tobin Stonebrook",
+          "position": "WR",
+          "nflTeam": "CIN"
+        }
+      },
+      {
+        "overall": 16,
+        "round": 2,
+        "roundPick": 4,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "player": {
+          "name": "Upton Yarrowby",
+          "position": "RB",
+          "nflTeam": "NO"
+        }
+      },
+      {
+        "overall": 17,
+        "round": 2,
+        "roundPick": 5,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "player": {
+          "name": "Vale Elderby",
+          "position": "WR",
+          "nflTeam": "CLE"
+        }
+      },
+      {
+        "overall": 18,
+        "round": 2,
+        "roundPick": 6,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "player": {
+          "name": "Wade Juniper",
+          "position": "RB",
+          "nflTeam": "DAL"
+        }
+      },
+      {
+        "overall": 19,
+        "round": 2,
+        "roundPick": 7,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "player": {
+          "name": "Yates Oakhurst",
+          "position": "WR",
+          "nflTeam": "LAR"
+        }
+      },
+      {
+        "overall": 20,
+        "round": 2,
+        "roundPick": 8,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "player": {
+          "name": "Zane Thistlewood",
+          "position": "RB",
+          "nflTeam": "TB"
+        }
+      },
+      {
+        "overall": 21,
+        "round": 2,
+        "roundPick": 9,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "player": {
+          "name": "Arlo Barrowell",
+          "position": "WR",
+          "nflTeam": "KC"
+        }
+      },
+      {
+        "overall": 22,
+        "round": 2,
+        "roundPick": 10,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "player": {
+          "name": "Bram Grimsby",
+          "position": "RB",
+          "nflTeam": "BAL"
+        }
+      },
+      {
+        "overall": 23,
+        "round": 2,
+        "roundPick": 11,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "player": {
+          "name": "Cael Larkspur",
+          "position": "WR",
+          "nflTeam": "LAC"
+        }
+      },
+      {
+        "overall": 24,
+        "round": 2,
+        "roundPick": 12,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "player": {
+          "name": "Dax Quarrington",
+          "position": "RB",
+          "nflTeam": "HOU"
+        }
+      },
+      {
+        "overall": 25,
+        "round": 3,
+        "roundPick": 1,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "player": {
+          "name": "Ezra Varnell",
+          "position": "RB",
+          "nflTeam": "PHI"
+        }
+      },
+      {
+        "overall": 26,
+        "round": 3,
+        "roundPick": 2,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "player": {
+          "name": "Fenn Cindergate",
+          "position": "WR",
+          "nflTeam": "MIN"
+        }
+      },
+      {
+        "overall": 27,
+        "round": 3,
+        "roundPick": 3,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "player": {
+          "name": "Gus Hollowell",
+          "position": "TE",
+          "nflTeam": "ATL"
+        }
+      },
+      {
+        "overall": 28,
+        "round": 3,
+        "roundPick": 4,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "player": {
+          "name": "Hale Merriweather",
+          "position": "RB",
+          "nflTeam": "BUF"
+        }
+      },
+      {
+        "overall": 29,
+        "round": 3,
+        "roundPick": 5,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "player": {
+          "name": "Ivo Rookwood",
+          "position": "WR",
+          "nflTeam": "DET"
+        }
+      },
+      {
+        "overall": 30,
+        "round": 3,
+        "roundPick": 6,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "player": {
+          "name": "Jett Whitlock",
+          "position": "TE",
+          "nflTeam": "JAX"
+        }
+      },
+      {
+        "overall": 31,
+        "round": 3,
+        "roundPick": 7,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "player": {
+          "name": "Kip Dunmore",
+          "position": "RB",
+          "nflTeam": "DEN"
+        }
+      },
+      {
+        "overall": 32,
+        "round": 3,
+        "roundPick": 8,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "player": {
+          "name": "Lark Ironwood",
+          "position": "WR",
+          "nflTeam": "MIA"
+        }
+      },
+      {
+        "overall": 33,
+        "round": 3,
+        "roundPick": 9,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "player": {
+          "name": "Moss Northcott",
+          "position": "TE",
+          "nflTeam": "SEA"
+        }
+      },
+      {
+        "overall": 34,
+        "round": 3,
+        "roundPick": 10,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "player": {
+          "name": "Nico Stonebrook",
+          "position": "RB",
+          "nflTeam": "NYJ"
+        }
+      },
+      {
+        "overall": 35,
+        "round": 3,
+        "roundPick": 11,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "player": {
+          "name": "Otto Yarrowby",
+          "position": "WR",
+          "nflTeam": "SF"
+        }
+      },
+      {
+        "overall": 36,
+        "round": 3,
+        "roundPick": 12,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "player": {
+          "name": "Pax Elderby",
+          "position": "TE",
+          "nflTeam": "GB"
+        }
+      },
+      {
+        "overall": 37,
+        "round": 4,
+        "roundPick": 1,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "player": {
+          "name": "Rook Juniper",
+          "position": "WR",
+          "nflTeam": "PIT"
+        }
+      },
+      {
+        "overall": 38,
+        "round": 4,
+        "roundPick": 2,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "player": {
+          "name": "Sully Oakhurst",
+          "position": "RB",
+          "nflTeam": "IND"
+        }
+      },
+      {
+        "overall": 39,
+        "round": 4,
+        "roundPick": 3,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "player": {
+          "name": "Tobin Thistlewood",
+          "position": "QB",
+          "nflTeam": "CIN"
+        }
+      },
+      {
+        "overall": 40,
+        "round": 4,
+        "roundPick": 4,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "player": {
+          "name": "Upton Ashwick",
+          "position": "WR",
+          "nflTeam": "NO"
+        }
+      },
+      {
+        "overall": 41,
+        "round": 4,
+        "roundPick": 5,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "player": {
+          "name": "Vale Foxhallow",
+          "position": "RB",
+          "nflTeam": "CLE"
+        }
+      },
+      {
+        "overall": 42,
+        "round": 4,
+        "roundPick": 6,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "player": {
+          "name": "Wade Kettleby",
+          "position": "QB",
+          "nflTeam": "DAL"
+        }
+      },
+      {
+        "overall": 43,
+        "round": 4,
+        "roundPick": 7,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "player": {
+          "name": "Yates Pemberly",
+          "position": "WR",
+          "nflTeam": "LAR"
+        }
+      },
+      {
+        "overall": 44,
+        "round": 4,
+        "roundPick": 8,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "player": {
+          "name": "Zane Underhill",
+          "position": "RB",
+          "nflTeam": "TB"
+        }
+      },
+      {
+        "overall": 45,
+        "round": 4,
+        "roundPick": 9,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "player": {
+          "name": "Arlo Cindergate",
+          "position": "QB",
+          "nflTeam": "KC"
+        }
+      },
+      {
+        "overall": 46,
+        "round": 4,
+        "roundPick": 10,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "player": {
+          "name": "Bram Hollowell",
+          "position": "WR",
+          "nflTeam": "BAL"
+        }
+      },
+      {
+        "overall": 47,
+        "round": 4,
+        "roundPick": 11,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "player": {
+          "name": "Cael Merriweather",
+          "position": "RB",
+          "nflTeam": "LAC"
+        }
+      },
+      {
+        "overall": 48,
+        "round": 4,
+        "roundPick": 12,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "player": {
+          "name": "Dax Rookwood",
+          "position": "QB",
+          "nflTeam": "HOU"
+        }
+      },
+      {
+        "overall": 49,
+        "round": 5,
+        "roundPick": 1,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "player": {
+          "name": "Ezra Whitlock",
+          "position": "WR",
+          "nflTeam": "PHI"
+        }
+      },
+      {
+        "overall": 50,
+        "round": 5,
+        "roundPick": 2,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "player": {
+          "name": "Fenn Dunmore",
+          "position": "TE",
+          "nflTeam": "MIN"
+        }
+      },
+      {
+        "overall": 51,
+        "round": 5,
+        "roundPick": 3,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "player": {
+          "name": "Gus Ironwood",
+          "position": "QB",
+          "nflTeam": "ATL"
+        }
+      },
+      {
+        "overall": 52,
+        "round": 5,
+        "roundPick": 4,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "player": {
+          "name": "Hale Northcott",
+          "position": "WR",
+          "nflTeam": "BUF"
+        }
+      },
+      {
+        "overall": 53,
+        "round": 5,
+        "roundPick": 5,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "player": {
+          "name": "Ivo Stonebrook",
+          "position": "TE",
+          "nflTeam": "DET"
+        }
+      },
+      {
+        "overall": 54,
+        "round": 5,
+        "roundPick": 6,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "player": {
+          "name": "Jett Yarrowby",
+          "position": "QB",
+          "nflTeam": "JAX"
+        }
+      },
+      {
+        "overall": 55,
+        "round": 5,
+        "roundPick": 7,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "player": {
+          "name": "Kip Elderby",
+          "position": "WR",
+          "nflTeam": "DEN"
+        }
+      },
+      {
+        "overall": 56,
+        "round": 5,
+        "roundPick": 8,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "player": {
+          "name": "Lark Juniper",
+          "position": "TE",
+          "nflTeam": "MIA"
+        }
+      },
+      {
+        "overall": 57,
+        "round": 5,
+        "roundPick": 9,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "player": {
+          "name": "Moss Oakhurst",
+          "position": "QB",
+          "nflTeam": "SEA"
+        }
+      },
+      {
+        "overall": 58,
+        "round": 5,
+        "roundPick": 10,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "player": {
+          "name": "Nico Thistlewood",
+          "position": "WR",
+          "nflTeam": "NYJ"
+        }
+      },
+      {
+        "overall": 59,
+        "round": 5,
+        "roundPick": 11,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "player": {
+          "name": "Otto Ashwick",
+          "position": "TE",
+          "nflTeam": "SF"
+        }
+      },
+      {
+        "overall": 60,
+        "round": 5,
+        "roundPick": 12,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "player": {
+          "name": "Pax Foxhallow",
+          "position": "QB",
+          "nflTeam": "GB"
+        }
+      },
+      {
+        "overall": 61,
+        "round": 6,
+        "roundPick": 1,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "player": {
+          "name": "Rook Kettleby",
+          "position": "RB",
+          "nflTeam": "PIT"
+        }
+      },
+      {
+        "overall": 62,
+        "round": 6,
+        "roundPick": 2,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "player": {
+          "name": "Sully Pemberly",
+          "position": "WR",
+          "nflTeam": "IND"
+        }
+      },
+      {
+        "overall": 63,
+        "round": 6,
+        "roundPick": 3,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "player": {
+          "name": "Tobin Underhill",
+          "position": "QB",
+          "nflTeam": "CIN"
+        }
+      },
+      {
+        "overall": 64,
+        "round": 6,
+        "roundPick": 4,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "player": {
+          "name": "Upton Barrowell",
+          "position": "RB",
+          "nflTeam": "NO"
+        }
+      },
+      {
+        "overall": 65,
+        "round": 6,
+        "roundPick": 5,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "player": {
+          "name": "Vale Grimsby",
+          "position": "WR",
+          "nflTeam": "CLE"
+        }
+      },
+      {
+        "overall": 66,
+        "round": 6,
+        "roundPick": 6,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "player": {
+          "name": "Wade Larkspur",
+          "position": "QB",
+          "nflTeam": "DAL"
+        }
+      },
+      {
+        "overall": 67,
+        "round": 6,
+        "roundPick": 7,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "player": {
+          "name": "Yates Quarrington",
+          "position": "RB",
+          "nflTeam": "LAR"
+        }
+      },
+      {
+        "overall": 68,
+        "round": 6,
+        "roundPick": 8,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "player": {
+          "name": "Zane Varnell",
+          "position": "WR",
+          "nflTeam": "TB"
+        }
+      },
+      {
+        "overall": 69,
+        "round": 6,
+        "roundPick": 9,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "player": {
+          "name": "Arlo Dunmore",
+          "position": "QB",
+          "nflTeam": "KC"
+        }
+      },
+      {
+        "overall": 70,
+        "round": 6,
+        "roundPick": 10,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "player": {
+          "name": "Bram Ironwood",
+          "position": "RB",
+          "nflTeam": "BAL"
+        }
+      },
+      {
+        "overall": 71,
+        "round": 6,
+        "roundPick": 11,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "player": {
+          "name": "Cael Northcott",
+          "position": "WR",
+          "nflTeam": "LAC"
+        }
+      },
+      {
+        "overall": 72,
+        "round": 6,
+        "roundPick": 12,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "player": {
+          "name": "Dax Stonebrook",
+          "position": "QB",
+          "nflTeam": "HOU"
+        }
+      },
+      {
+        "overall": 73,
+        "round": 7,
+        "roundPick": 1,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "player": {
+          "name": "Chiefs D/ST",
+          "position": "D/ST",
+          "nflTeam": "KC"
+        }
+      },
+      {
+        "overall": 74,
+        "round": 7,
+        "roundPick": 2,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "player": {
+          "name": "Bills D/ST",
+          "position": "D/ST",
+          "nflTeam": "BUF"
+        }
+      },
+      {
+        "overall": 75,
+        "round": 7,
+        "roundPick": 3,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "player": {
+          "name": "49ers D/ST",
+          "position": "D/ST",
+          "nflTeam": "SF"
+        }
+      },
+      {
+        "overall": 76,
+        "round": 7,
+        "roundPick": 4,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "player": {
+          "name": "Cowboys D/ST",
+          "position": "D/ST",
+          "nflTeam": "DAL"
+        }
+      },
+      {
+        "overall": 77,
+        "round": 7,
+        "roundPick": 5,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "player": {
+          "name": "Eagles D/ST",
+          "position": "D/ST",
+          "nflTeam": "PHI"
+        }
+      },
+      {
+        "overall": 78,
+        "round": 7,
+        "roundPick": 6,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "player": {
+          "name": "Dolphins D/ST",
+          "position": "D/ST",
+          "nflTeam": "MIA"
+        }
+      },
+      {
+        "overall": 79,
+        "round": 7,
+        "roundPick": 7,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "player": {
+          "name": "Bengals D/ST",
+          "position": "D/ST",
+          "nflTeam": "CIN"
+        }
+      },
+      {
+        "overall": 80,
+        "round": 7,
+        "roundPick": 8,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "player": {
+          "name": "Ravens D/ST",
+          "position": "D/ST",
+          "nflTeam": "BAL"
+        }
+      },
+      {
+        "overall": 81,
+        "round": 7,
+        "roundPick": 9,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "player": {
+          "name": "Lions D/ST",
+          "position": "D/ST",
+          "nflTeam": "DET"
+        }
+      },
+      {
+        "overall": 82,
+        "round": 7,
+        "roundPick": 10,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "player": {
+          "name": "Packers D/ST",
+          "position": "D/ST",
+          "nflTeam": "GB"
+        }
+      },
+      {
+        "overall": 83,
+        "round": 7,
+        "roundPick": 11,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "player": {
+          "name": "Rams D/ST",
+          "position": "D/ST",
+          "nflTeam": "LAR"
+        }
+      },
+      {
+        "overall": 84,
+        "round": 7,
+        "roundPick": 12,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "player": {
+          "name": "Vikings D/ST",
+          "position": "D/ST",
+          "nflTeam": "MIN"
+        }
+      },
+      {
+        "overall": 85,
+        "round": 8,
+        "roundPick": 1,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "player": {
+          "name": "Rook Larkspur",
+          "position": "K",
+          "nflTeam": "PIT"
+        }
+      },
+      {
+        "overall": 86,
+        "round": 8,
+        "roundPick": 2,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "player": {
+          "name": "Sully Quarrington",
+          "position": "K",
+          "nflTeam": "IND"
+        }
+      },
+      {
+        "overall": 87,
+        "round": 8,
+        "roundPick": 3,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "player": {
+          "name": "Tobin Varnell",
+          "position": "K",
+          "nflTeam": "CIN"
+        }
+      },
+      {
+        "overall": 88,
+        "round": 8,
+        "roundPick": 4,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "player": {
+          "name": "Upton Cindergate",
+          "position": "K",
+          "nflTeam": "NO"
+        }
+      },
+      {
+        "overall": 89,
+        "round": 8,
+        "roundPick": 5,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "player": {
+          "name": "Vale Hollowell",
+          "position": "K",
+          "nflTeam": "CLE"
+        }
+      },
+      {
+        "overall": 90,
+        "round": 8,
+        "roundPick": 6,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "player": {
+          "name": "Wade Merriweather",
+          "position": "K",
+          "nflTeam": "DAL"
+        }
+      },
+      {
+        "overall": 91,
+        "round": 8,
+        "roundPick": 7,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "player": {
+          "name": "Yates Rookwood",
+          "position": "K",
+          "nflTeam": "LAR"
+        }
+      },
+      {
+        "overall": 92,
+        "round": 8,
+        "roundPick": 8,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "player": {
+          "name": "Zane Whitlock",
+          "position": "K",
+          "nflTeam": "TB"
+        }
+      },
+      {
+        "overall": 93,
+        "round": 8,
+        "roundPick": 9,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "player": {
+          "name": "Arlo Elderby",
+          "position": "K",
+          "nflTeam": "KC"
+        }
+      },
+      {
+        "overall": 94,
+        "round": 8,
+        "roundPick": 10,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "player": {
+          "name": "Bram Juniper",
+          "position": "K",
+          "nflTeam": "BAL"
+        }
+      },
+      {
+        "overall": 95,
+        "round": 8,
+        "roundPick": 11,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "player": {
+          "name": "Cael Oakhurst",
+          "position": "K",
+          "nflTeam": "LAC"
+        }
+      },
+      {
+        "overall": 96,
+        "round": 8,
+        "roundPick": 12,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "player": {
+          "name": "Dax Thistlewood",
+          "position": "K",
+          "nflTeam": "HOU"
+        }
+      }
+    ],
+    "note": null
+  }
 }

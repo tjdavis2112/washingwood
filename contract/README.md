@@ -10,8 +10,8 @@ The site-data contract is the interface between the **pipeline** (Python: archiv
 | `examples/league.json` | Example league summary |
 | `examples/trophy-shelf.json` | Example trophy shelf |
 | `examples/owners.json`, `examples/owners/<slug>.json` | Example Owner index and Owner documents, derived from the other examples by `tests/owner_examples.py` (re-run it after changing them) |
-| `examples/seasons/2018.json` | Example 10-team Season: 4 playoff teams, two-week playoff rounds, a tie, one manual score adjustment, and a Last place who wins a consolation Matchup |
-| `examples/seasons/2020.json` | Example 12-team Season: 6 playoff teams, first-round byes, the Third-place game and a 5th-place Matchup |
+| `examples/seasons/2018.json` | Example 10-team Season: 4 playoff teams, two-week playoff rounds, a tie, one manual score adjustment, a Last place who wins a consolation Matchup, and an offline Draft with three Picks not recorded |
+| `examples/seasons/2020.json` | Example 12-team Season: 6 playoff teams, first-round byes, the Third-place game, a 5th-place Matchup, and a snake Draft |
 
 Every Owner and team name in `examples/` is invented (ADR-0007). The real exported data goes to the gitignored `export/` folder and is never committed.
 
@@ -37,6 +37,7 @@ The schema has one entry point per document under `$defs`:
 - **Two-week rounds** list both Weeks in `weeks`, and their scores are combined.
 - **Last place** is the highest `playoffSeed`, not the bottom of `standings`.
 - **`punishment`** is always present and is `null` in v1.
+- **Draft** Picks are in overall order and every Pick has an Owner. `player` is `null` when no Player was recorded, and `nflTeam` is `null` for a free agent. Platform IDs (member, player) never appear.
 - **Every Season section is required.** The pipeline exports them all (#7 to #10).
 
 The schema can't express a few rules, and the exporter has to guarantee them:
@@ -44,6 +45,7 @@ The schema can't express a few rules, and the exporter has to guarantee them:
 - every Owner in the index has an Owner document, named by its slug
 - `standings` has one entry per Franchise and is ordered by `rank`
 - the Champion in the league summary matches the latest Season's Podium
+- `draft.picks` holds teamCount x rounds Picks numbered 1..N in snake order, and `draft.order` lists every Franchise once by Draft slot
 
 ## Using it
 

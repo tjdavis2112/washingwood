@@ -13,6 +13,14 @@
   --color-gold: #d4af37;         /* trophies only */
   --color-silver: #c0c4cc;       /* trophies only */
   --color-bronze: #b0743c;       /* trophies only */
+  /* Draft board position tints: muted and non-metallic, never gold, silver or bronze */
+  --color-pos-qb: #3a4f7a;
+  --color-pos-rb: #2e6050;
+  --color-pos-wr: #5b3f7a;
+  --color-pos-te: #2b5f6e;
+  --color-pos-k: #4b5160;
+  --color-pos-dst: #6a3f5e;
+  --color-pos-other: #3a3a40;
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
