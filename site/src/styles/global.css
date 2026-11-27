@@ -21,6 +21,9 @@
   --color-pos-k: #4b5160;
   --color-pos-dst: #6a3f5e;
   --color-pos-other: #3a3a40;
+  /* Draft Value over slot scale: bust (a magenta red, not the brand red) -> neutral -> steal */
+  --color-value-bust: #c2417a;
+  --color-value-steal: #3f9c63;
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
@@ -35,3 +38,11 @@
 @media (prefers-reduced-motion: reduce) {
   @view-transition { navigation: none; }
 }
+
+/* Draft board Picks: colored by position or by Value over slot, chosen by the board's toggle
+   (data-color-by on the board). The variables come from pickColorVars() in src/data/positions.ts.
+   Unlayered on purpose, so they win over Tailwind utilities such as `flex` on the legends. */
+.draft-pick { border-color: var(--pick-pos-edge); background: var(--pick-pos-bg); }
+[data-color-by="value"] .draft-pick { border-color: var(--pick-val-edge, var(--color-line)); background: var(--pick-val-bg, transparent); }
+[data-color-by="value"] [data-legend="position"],
+[data-color-by="position"] [data-legend="value"] { display: none; }

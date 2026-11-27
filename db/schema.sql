@@ -218,12 +218,15 @@ CREATE TABLE core.player_week_stats (
 -- CORE: draft and transactions
 -- ---------------------------------------------------------------------------
 
--- A Player's NFL team in one Season, as the platform reports it for that Season (one value per
--- Season; not provably the team on draft day). NULL = no NFL team (free agent).
+-- A Player in one Season, as the platform reports it for that Season: NFL team (one value per
+-- Season; not provably the team on draft day; NULL = free agent), position, and Season points
+-- (GLOSSARY: the platform's season total under that Season's scoring; NULL = none reported).
 CREATE TABLE core.player_seasons (
-    season_id   int  NOT NULL REFERENCES core.seasons,
-    player_id   int  NOT NULL REFERENCES core.players,
-    nfl_team    text,                    -- 'KC', 'BUF', ... (espn-api.md §5 proTeamId)
+    season_id      int  NOT NULL REFERENCES core.seasons,
+    player_id      int  NOT NULL REFERENCES core.players,
+    nfl_team       text,                    -- 'KC', 'BUF', ... (espn-api.md §5 proTeamId)
+    position       text NOT NULL,           -- that Season's position: QB RB WR TE K D/ST ...
+    season_points  numeric(8,2),
     PRIMARY KEY (season_id, player_id)
 );
 
@@ -353,22 +356,6 @@ FROM core.franchises f
 JOIN core.seasons s ON s.season_id = f.season_id
 JOIN stats.franchise_owner fo ON fo.franchise_id = f.franchise_id;
 
--- Every Pick with its Owner (through franchise_owners) and Player; Player columns are NULL for a
--- Pick with no Player recorded. The Draft slot is the Franchise's round-1 pick number.
-CREATE VIEW stats.draft_board AS
-SELECT s.year, dp.overall_pick, dp.round, dp.round_pick, dp.franchise_id, f.team_name,
-       fo.owner_id, fo.display_name AS owner,
-       slot.round_pick AS draft_slot,
-       p.full_name AS player_name, p.position, ps.nfl_team
-FROM core.draft_picks dp
-JOIN core.seasons s             ON s.season_id = dp.season_id
-JOIN core.franchises f          ON f.franchise_id = dp.franchise_id
-JOIN stats.franchise_owner fo   ON fo.franchise_id = dp.franchise_id
-JOIN core.draft_picks slot      ON slot.season_id = dp.season_id AND slot.franchise_id = dp.franchise_id
-                               AND slot.round = 1
-LEFT JOIN core.players p        ON p.player_id = dp.player_id
-LEFT JOIN core.player_seasons ps ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id;
-
 -- Owner career totals
 CREATE VIEW stats.owner_career AS
 SELECT fo.owner_id, fo.display_name,
@@ -455,28 +442,54 @@ JOIN core.players p ON p.player_id = pws.player_id
 WHERE pws.source = 'actual'
 GROUP BY pws.season_id, pws.player_id, p.full_name, p.position;
 
--- Draft value: points vs. what that overall slot produces on average across all seasons
-CREATE VIEW stats.draft_value AS
-WITH pick_points AS (
-    SELECT dp.season_id, dp.overall_pick, dp.round, dp.franchise_id, dp.player_id,
-           coalesce(ps.points, 0) AS points, ps.position_rank
-    FROM core.draft_picks dp
-    LEFT JOIN stats.player_season ps
-           ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id
-)
-SELECT pp.*,
-       avg(pp.points) OVER (PARTITION BY pp.overall_pick)              AS slot_expected_points,
-       pp.points - avg(pp.points) OVER (PARTITION BY pp.overall_pick)  AS value_over_slot
-FROM pick_points pp;
+-- Positional finish (GLOSSARY): rank by Season points among every Player at that position that
+-- Season, drafted or not. Ties share the better rank.
+CREATE VIEW stats.player_season_finish AS
+SELECT ps.season_id, ps.player_id, ps.position, ps.season_points,
+       rank() OVER (PARTITION BY ps.season_id, ps.position ORDER BY ps.season_points DESC) AS positional_finish
+FROM core.player_seasons ps
+WHERE ps.season_points IS NOT NULL;
 
--- Draft grade per franchise-season
+-- Value over slot (GLOSSARY): overall pick minus the Pick's rank by Season points among that
+-- Season's drafted Picks (ties share the better rank). Picks with no Player recorded get NULL and
+-- are left out of the ranking.
+CREATE VIEW stats.draft_value AS
+SELECT dp.season_id, dp.overall_pick, dp.round, dp.round_pick, dp.franchise_id, dp.player_id,
+       ps.season_points AS points, psf.positional_finish,
+       CASE WHEN dp.player_id IS NOT NULL THEN
+           dp.overall_pick - rank() OVER (PARTITION BY dp.season_id, dp.player_id IS NULL
+                                          ORDER BY ps.season_points DESC)
+       END AS value_over_slot
+FROM core.draft_picks dp
+LEFT JOIN core.player_seasons ps        ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id
+LEFT JOIN stats.player_season_finish psf ON psf.season_id = dp.season_id AND psf.player_id = dp.player_id;
+
+-- Draft grade (GLOSSARY): the sum of a Franchise's Value over slot, ranked within the Season
 CREATE VIEW stats.draft_grades AS
-SELECT dv.season_id, dv.franchise_id, fo.display_name AS owner,
-       sum(dv.value_over_slot) AS total_value_over_slot,
-       rank() OVER (PARTITION BY dv.season_id ORDER BY sum(dv.value_over_slot) DESC) AS season_rank
+SELECT dv.season_id, dv.franchise_id,
+       sum(dv.value_over_slot)::int AS total_value_over_slot,
+       rank() OVER (PARTITION BY dv.season_id ORDER BY sum(dv.value_over_slot) DESC) AS grade_rank
 FROM stats.draft_value dv
-JOIN stats.franchise_owner fo ON fo.franchise_id = dv.franchise_id
-GROUP BY dv.season_id, dv.franchise_id, fo.display_name;
+GROUP BY dv.season_id, dv.franchise_id;
+
+-- Every Pick with its Owner (through franchise_owners), Player and value; Player columns are NULL for
+-- a Pick with no Player recorded. The Draft slot is the Franchise's round-1 pick number. Position is
+-- the Player's position that Season.
+CREATE VIEW stats.draft_board AS
+SELECT s.year, dp.overall_pick, dp.round, dp.round_pick, dp.franchise_id, f.team_name,
+       fo.owner_id, fo.display_name AS owner,
+       slot.round_pick AS draft_slot,
+       p.full_name AS player_name, ps.position, ps.nfl_team,
+       dv.points, dv.positional_finish, dv.value_over_slot
+FROM core.draft_picks dp
+JOIN core.seasons s             ON s.season_id = dp.season_id
+JOIN core.franchises f          ON f.franchise_id = dp.franchise_id
+JOIN stats.franchise_owner fo   ON fo.franchise_id = dp.franchise_id
+JOIN core.draft_picks slot      ON slot.season_id = dp.season_id AND slot.franchise_id = dp.franchise_id
+                               AND slot.round = 1
+JOIN stats.draft_value dv       ON dv.season_id = dp.season_id AND dv.overall_pick = dp.overall_pick
+LEFT JOIN core.players p        ON p.player_id = dp.player_id
+LEFT JOIN core.player_seasons ps ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id;
 
 -- Points each acquired player scored as a starter for the new team, rest of that season
 CREATE VIEW stats.acquisition_impact AS

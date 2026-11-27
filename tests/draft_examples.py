@@ -1,7 +1,8 @@
-"""Derive the Draft history example (contract/examples/draft.json) from the Season examples.
+"""Draft examples: the Draft history example (contract/examples/draft.json), derived from the Season
+examples, and a reference for Value over slot and Draft grades (GLOSSARY).
 
-A reference implementation in plain Python, independent of the pipeline's SQL. test_site_contract.py
-uses it to check the example still agrees with the Season examples.
+Plain Python, independent of the pipeline's SQL. test_site_contract.py uses it to check the examples
+still agree with the Season examples and with the grading rules.
 
     uv run python tests/draft_examples.py   # rewrite the example
 """
@@ -38,6 +39,49 @@ def derive() -> dict:
             }
         )
     return {"seasons": seasons}
+
+
+def points_rank(value: float, values: list[float]) -> int:
+    """Rank by points, ties sharing the better rank (SQL rank())."""
+    return 1 + sum(v > value for v in values)
+
+
+def value_over_slot(picks: list[dict]) -> dict[int, int | None]:
+    """overall -> Value over slot: overall minus the rank by Season points among the drafted Picks.
+    Picks with no Player recorded get None and are left out of the ranking."""
+    recorded = [p["points"] for p in picks if p["player"] is not None]
+    return {
+        p["overall"]: None if p["player"] is None else p["overall"] - points_rank(p["points"], recorded) for p in picks
+    }
+
+
+def grades(draft: dict) -> list[dict]:
+    """Draft grades: per Franchise the sum of Value over slot, ranked within the Season (ties share the
+    better rank), ordered by rank then Owner name, with the best and worst Pick (earliest on a tie)."""
+    vos = value_over_slot(draft["picks"])
+    teams = {o["owner"]["slug"]: o for o in draft["order"]}
+    totals = {
+        slug: sum(vos[p["overall"]] for p in draft["picks"] if p["owner"]["slug"] == slug and p["player"])
+        for slug in teams
+    }
+    out = []
+    for slug, o in teams.items():
+        mine = [p for p in draft["picks"] if p["owner"]["slug"] == slug and p["player"] is not None]
+
+        def named(p):
+            return {k: p[k] for k in ("overall", "round", "roundPick", "player")} | {"valueOverSlot": vos[p["overall"]]}
+
+        out.append(
+            {
+                "rank": 1 + sum(t > totals[slug] for t in totals.values()),
+                "owner": o["owner"],
+                "teamName": o["teamName"],
+                "total": totals[slug],
+                "best": named(max(mine, key=lambda p: (vos[p["overall"]], -p["overall"]))),
+                "worst": named(min(mine, key=lambda p: (vos[p["overall"]], p["overall"]))),
+            }
+        )
+    return sorted(out, key=lambda g: (g["rank"], g["owner"]["name"]))
 
 
 if __name__ == "__main__":

@@ -7,6 +7,8 @@ import copy
 import json
 
 import pytest
+from draft_examples import grades as draft_grades
+from draft_examples import value_over_slot
 
 from washingwood import contract as site_contract
 
@@ -216,15 +218,21 @@ def draft():
         for i, o in enumerate(order if rnd == 1 else list(reversed(order))):
             overall = (rnd - 1) * 4 + i + 1
             player = {"name": f"Example Player {overall}", "position": "RB", "nflTeam": "KC"}
-            picks.append({"overall": overall, "round": rnd, "roundPick": i + 1, "owner": o, "player": player})
-    picks[-1]["player"] = None
-    return {
+            picks.append({"overall": overall, "round": rnd, "roundPick": i + 1, "owner": o, "player": player,
+                          "points": 200.0 - 10 * overall, "positionalFinish": overall})  # fmt: skip
+    picks[-1].update(player=None, points=None, positionalFinish=None)
+    vos = value_over_slot(picks)
+    for p in picks:
+        p["valueOverSlot"] = vos[p["overall"]]
+    doc = {
         "type": "offline",
         "rounds": 2,
         "order": [{"slot": i + 1, "owner": o, "teamName": TEAM[o["slug"]]} for i, o in enumerate(order)],
         "picks": picks,
         "note": "Drafted offline and entered by hand. 1 pick wasn't recorded.",
     }
+    doc["grades"] = draft_grades(doc)
+    return doc
 
 
 def test_valid_season_passes():
@@ -584,3 +592,45 @@ def test_draft_history_rejects_unknown_fields_on_a_pick():
     doc["seasons"][0]["firstRound"][0]["memberId"] = "{X}"
     with pytest.raises(ContractError, match="memberId"):
         validate(doc, "draft")
+
+
+# --- Season points, Value over slot and Draft grades (#28) ---
+
+
+def test_example_value_over_slot_and_grades_follow_the_glossary_rules():
+    from draft_examples import grades, value_over_slot
+
+    for year, doc in example_seasons().items():
+        d = doc["draft"]
+        vos = value_over_slot(d["picks"])
+        assert {p["overall"]: p["valueOverSlot"] for p in d["picks"]} == vos, year
+        assert d["grades"] == grades(d), year
+        for p in d["picks"]:
+            assert (p["points"] is None) == (p["player"] is None), (year, p["overall"])
+
+
+def test_example_positional_finish_follows_points_within_a_position():
+    for year, doc in example_seasons().items():
+        by_pos = {}
+        for p in doc["draft"]["picks"]:
+            if p["player"]:
+                by_pos.setdefault(p["player"]["position"], []).append(p)
+        for pos, picks in by_pos.items():
+            ordered = sorted(picks, key=lambda p: -p["points"])
+            finishes = [p["positionalFinish"] for p in ordered]
+            assert finishes == sorted(finishes), (year, pos)
+
+
+def test_a_graded_pick_needs_a_player_and_value():
+    doc = season()
+    doc["draft"]["grades"][0]["best"]["player"] = None
+    with pytest.raises(ContractError, match="/draft/grades/0/best/player"):
+        validate(doc, "season")
+
+
+def test_value_fields_are_required_on_every_pick():
+    for key in ("points", "positionalFinish", "valueOverSlot"):
+        doc = season()
+        del doc["draft"]["picks"][0][key]
+        with pytest.raises(ContractError, match=key):
+            validate(doc, "season")

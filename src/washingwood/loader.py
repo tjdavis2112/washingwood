@@ -64,6 +64,7 @@ class SeasonFiles:
     matchups: dict
     draft: dict
     players: dict[int, dict]  # players.json by ESPN player id
+    pool: dict[int, dict]  # player_pool.json `player` objects by ESPN player id
     has_lineups: bool
 
     @classmethod
@@ -81,6 +82,7 @@ class SeasonFiles:
             matchups=load("league_mMatchupScore"),
             draft=load("league_mDraftDetail"),
             players={p["id"]: p for p in load("players")},
+            pool={e["player"]["id"]: e["player"] for e in load("player_pool")["players"]},
             has_lineups=_has_lineups(season_dir / "boxscore_w01.json"),
         )
 
@@ -163,25 +165,54 @@ def _check_picks(files: SeasonFiles) -> list[dict]:
                 f"Season {files.year}: pick {p['overallPickNumber']} drafted ESPN player {p['playerId']}, "
                 "who is not in players.json"
             )
+        if p["playerId"] != NO_PLAYER and season_points(files, p["playerId"]) is None:
+            raise LoadError(
+                f"Season {files.year}: pick {p['overallPickNumber']} drafted ESPN player {p['playerId']}, "
+                "who has no Season points (season-total actual row) in player_pool.json"
+            )
     return picks
 
 
+def season_points(files: SeasonFiles, espn_player_id: int) -> float | None:
+    """Season points (GLOSSARY): the pool's season-total actual row for this Season under league
+    scoring (scoringPeriodId 0, statSourceId 0, statSplitTypeId 0, appliedTotal; espn-api.md §5)."""
+    player = files.pool.get(espn_player_id)
+    rows = [
+        r
+        for r in (player or {}).get("stats", [])
+        if r.get("seasonId") == files.year
+        and r.get("scoringPeriodId") == 0
+        and r.get("statSourceId") == 0
+        and r.get("statSplitTypeId") == 0
+    ]
+    if len(rows) > 1:
+        raise LoadError(f"Season {files.year}: ESPN player {espn_player_id} has {len(rows)} season-total rows")
+    return rows[0].get("appliedTotal", 0.0) if rows else None
+
+
 def _draft(conn: Connection, season_id: int, files: SeasonFiles, picks: list[dict], franchise_ids) -> None:
-    """Players, their NFL team this Season, and the Picks. memberId (personal) is never stored."""
+    """Players this Season (every drafted Player plus every pool Player, so Positional finish ranks
+    against undrafted Players too), then the Picks. memberId (personal) is never stored."""
     conn.execute(
         "UPDATE core.seasons SET draft_type = %s WHERE season_id = %s",
         (DRAFT_TYPES[files.settings["settings"]["draftSettings"]["type"]], season_id),
     )
+    # players.json describes drafted Players; the pool describes the rest (same fields)
+    drafted = {p["playerId"] for p in picks if p["playerId"] != NO_PLAYER}
+    season_players = {pid: files.pool[pid] for pid in files.pool}
+    season_players.update({pid: files.players[pid] for pid in drafted})
+    player_ids = {}
+    for espn_id in sorted(season_players):
+        espn_player = season_players[espn_id]
+        player_ids[espn_id] = player_id = _upsert_player(conn, files, espn_player)
+        conn.execute(
+            """INSERT INTO core.player_seasons (season_id, player_id, nfl_team, position, season_points)
+               VALUES (%s, %s, %s, %s, %s)""",
+            (season_id, player_id, NFL_TEAMS.get(espn_player["proTeamId"]),
+             POSITIONS[espn_player["defaultPositionId"]], season_points(files, espn_id)),
+        )  # fmt: skip
     for p in picks:
-        player_id = None
-        if p["playerId"] != NO_PLAYER:
-            espn_player = files.players[p["playerId"]]
-            player_id = _upsert_player(conn, files, espn_player)
-            conn.execute(
-                """INSERT INTO core.player_seasons (season_id, player_id, nfl_team) VALUES (%s, %s, %s)
-                   ON CONFLICT DO NOTHING""",
-                (season_id, player_id, NFL_TEAMS.get(espn_player["proTeamId"])),
-            )
+        player_id = player_ids.get(p["playerId"])
         conn.execute(
             """INSERT INTO core.draft_picks (season_id, overall_pick, round, round_pick, franchise_id, player_id,
                    is_keeper)
