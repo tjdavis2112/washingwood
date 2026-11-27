@@ -456,6 +456,17 @@ JOIN core.franchises af       ON af.franchise_id = m.away_franchise_id
 JOIN stats.franchise_owner ho ON ho.franchise_id = m.home_franchise_id
 JOIN stats.franchise_owner ao ON ao.franchise_id = m.away_franchise_id;
 
+-- Projected score (GLOSSARY) of each side of a Counted Matchup: the sum of its starters' projections
+-- for the Week. Only Seasons with lineups have rows; a missing projection counts as 0.
+CREATE VIEW stats.counted_projections AS
+SELECT c.matchup_id,
+       sum(le.projected_points) FILTER (WHERE le.franchise_id = c.home_franchise_id) AS home_projected,
+       sum(le.projected_points) FILTER (WHERE le.franchise_id = c.away_franchise_id) AS away_projected
+FROM stats.counted_matchups c
+JOIN core.lineup_entries le ON le.season_id = c.season_id AND le.week = c.week AND le.is_starter
+                           AND le.franchise_id IN (c.home_franchise_id, c.away_franchise_id)
+GROUP BY c.matchup_id;
+
 -- Head-to-head between Owners, regular season and playoffs apart (same rules as owner_games).
 -- Only pairs who have met at least once have a row.
 CREATE VIEW stats.head_to_head AS

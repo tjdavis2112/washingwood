@@ -131,6 +131,9 @@ class FixtureSeason:
     # (week, team key) whose 2nd starter has no actual stat row (didn't play) and whose bench Player is
     # one that exists only in this box score (not in players.json or the pool)
     quirks: tuple[int, str] | None = None
+    # (week, team key) -> points added to that side's QB projection, to make a projected favourite.
+    # By default every projection is points + 2, so the winner is always the projected favourite.
+    projection_bonus: dict[tuple[int, str], float] = field(default_factory=dict)
     # Manual score adjustments on a side's period-4 Matchup are set by `adjustments` (above)
 
     TEAMS = 0
@@ -459,8 +462,9 @@ class FixtureSeason:
             played = not (self.quirks == (week, team_key) and i == 1)
             if self.quirks == (week, team_key) and i == len(starters):
                 pid = 99000 + team_id  # only in this box score
+            bonus = self.projection_bonus.get((week, team_key), 0.0) if i == 0 else 0.0
             stats = [{"seasonId": self.year, "scoringPeriodId": week, "statSourceId": 1, "statSplitTypeId": 1,
-                      "appliedTotal": round(pts + 2.0, 2), "proTeamId": 1 + i}]  # fmt: skip
+                      "appliedTotal": round(pts + 2.0 + bonus, 2), "proTeamId": 1 + i}]  # fmt: skip
             if played:
                 actual = {"seasonId": self.year, "scoringPeriodId": week, "statSourceId": 0, "statSplitTypeId": 1}
                 stats.append({**actual, "appliedTotal": pts, "proTeamId": 1 + i, "externalId": f"40{week:02d}{i:02d}"})

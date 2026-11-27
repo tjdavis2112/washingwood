@@ -58,6 +58,7 @@ const BOARDS = [
   { tab: "Highest scores", id: "highest", key: "highestScores", kind: "score" },
   { tab: "Lowest scores", id: "lowest", key: "lowestScores", kind: "score" },
   { tab: "Playoff upsets", id: "upsets", key: "playoffUpsets", kind: "upset" },
+  { tab: "Projection upsets", id: "projection", key: "projectionUpsets", kind: "projection" },
 ] as const;
 
 for (const b of BOARDS) {
@@ -77,7 +78,8 @@ for (const b of BOARDS) {
         await expect(row.getByRole("link", { name: r.team.owner.name, exact: true })).toBeVisible();
       } else {
         await expect(row).toContainText(`${pts(r.winner.score)}–${pts(r.loser.score)}`);
-        await expect(row).toContainText(b.kind === "upset" ? String(r.seedGap) : pts(r.margin));
+        await expect(row).toContainText(b.kind === "upset" ? String(r.seedGap) : b.kind === "projection" ? pts(r.projectedDeficit) : pts(r.margin));
+        if (b.kind === "projection") await expect(row).toContainText(`(${pts(r.winnerProjected)})`);
         await expect(row.getByRole("link", { name: r.winner.owner.name, exact: true })).toBeVisible();
       }
     }

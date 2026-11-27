@@ -1,5 +1,5 @@
 ---
-// Matchup leaderboards (#38): one tab per list, top 10 each, over the Counted Matchups (GLOSSARY:
+// Matchup leaderboards (#38; Projection upsets #41): one tab per list, top 10 each, over the Counted Matchups (GLOSSARY:
 // regular season plus single-Week championship-bracket games played). Every row shows its Scoring
 // format, because scores across formats aren't comparable (GAMEPLAN). Tables scroll inside their own
 // box on phones, with the first column pinned.
@@ -16,6 +16,7 @@ const TABS = [
   { id: "highest", label: "Highest scores" },
   { id: "lowest", label: "Lowest scores" },
   { id: "upsets", label: "Playoff upsets" },
+  { id: "projection", label: "Projection upsets" },
 ];
 const GAME_TABS: { id: string; title: string; rows: LeaderboardGame[]; upsets?: boolean }[] = [
   { id: "blowouts", title: "Biggest blowouts", rows: boards.blowouts },
@@ -116,6 +117,44 @@ const RESULT = { win: "W", loss: "L", tie: "T" } as const;
           </div>
         </div>
       ))}
+      <div slot="projection" data-testid="board-projection">
+        <p class="mb-3 text-xs text-muted">The team ESPN projected to lose won. Projected score is the sum of the starters' projections that Week; ranked by how far behind the winner was projected.</p>
+        {boards.projectionUpsets.length === 0 ? (
+          <p class="text-sm text-muted">None yet.</p>
+        ) : (
+          <div class="overflow-x-auto rounded-2xl border border-line">
+            <table aria-label="Projection upsets" class="w-full min-w-[44rem] border-collapse text-sm">
+              <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+                <tr>
+                  <th scope="col" class="px-3 py-3 text-right">#</th>
+                  <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Season</th>
+                  <th scope="col" class="px-3 py-3">Winner (projected)</th>
+                  <th scope="col" class="px-3 py-3">Loser (projected)</th>
+                  <th scope="col" class="px-3 py-3 text-right">Score</th>
+                  <th scope="col" class="px-3 py-3 text-right">Projected by</th>
+                  <th scope="col" class="px-3 py-3">Format</th>
+                </tr>
+              </thead>
+              <tbody>
+                {boards.projectionUpsets.map((r, i) => (
+                  <tr data-testid="leaderboard-row" class="border-t border-line odd:bg-ink even:bg-panel/40">
+                    <td class="px-3 py-2.5 text-right font-bold tabular-nums">{i + 1}</td>
+                    <td class="sticky left-0 bg-inherit px-3 py-2.5 whitespace-nowrap">
+                      <a href={`/seasons/${r.year}/`} class="font-semibold transition-colors hover:text-brand">{r.year}</a>
+                      <span class="block text-xs text-muted">{when(r)}</span>
+                    </td>
+                    <td class="px-3 py-2.5 whitespace-nowrap"><OwnerLink owner={r.winner.owner} class="font-semibold" /><span class="text-muted"> ({formatPoints(r.winnerProjected)})</span><span class="block text-xs text-muted">{r.winner.teamName}</span></td>
+                    <td class="px-3 py-2.5 whitespace-nowrap"><OwnerLink owner={r.loser.owner} /><span class="text-muted"> ({formatPoints(r.loserProjected)})</span><span class="block text-xs text-muted">{r.loser.teamName}</span></td>
+                    <td class="px-3 py-2.5 text-right whitespace-nowrap tabular-nums"><a href={boxScorePath(r.year, r.weeks[0], r.winner.owner.slug, r.loser.owner.slug)} data-testid="box-score-link" class="underline decoration-line underline-offset-4 hover:text-brand">{formatPoints(r.winner.score)}–{formatPoints(r.loser.score)}</a></td>
+                    <td class="px-3 py-2.5 text-right font-bold tabular-nums">{formatPoints(r.projectedDeficit)}</td>
+                    <td class="px-3 py-2.5"><span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{r.scoringFormat}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </div>
     </Tabs>
   </div>
 </section>

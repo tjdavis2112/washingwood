@@ -289,6 +289,7 @@ export type LeaderboardSide = { owner: OwnerRef; teamName: string; score: number
 type LeaderboardBase = { year: number; matchupPeriod: number; weeks: number[]; kind: "regular" | "playoff"; scoringFormat: string };
 export type LeaderboardGame = LeaderboardBase & { winner: LeaderboardSide; loser: LeaderboardSide; isTie: boolean; margin: number };
 export type LeaderboardUpset = LeaderboardGame & { seedGap: number };
+export type LeaderboardProjectionUpset = LeaderboardGame & { winnerProjected: number; loserProjected: number; projectedDeficit: number };
 export type LeaderboardScore = LeaderboardBase & { team: LeaderboardSide; opponent: LeaderboardSide; result: "win" | "loss" | "tie" };
 export type Leaderboards = {
   blowouts: LeaderboardGame[];
@@ -296,6 +297,7 @@ export type Leaderboards = {
   highestScores: LeaderboardScore[];
   lowestScores: LeaderboardScore[];
   playoffUpsets: LeaderboardUpset[];
+  projectionUpsets: LeaderboardProjectionUpset[];
 };
 export type RivalryGrid = {
   owners: OwnerRef[];

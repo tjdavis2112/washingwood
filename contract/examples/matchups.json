@@ -1294,6 +1294,328 @@
         "scoringFormat": "PPR + TE premium",
         "seedGap": 1
       }
+    ],
+    "projectionUpsets": [
+      {
+        "year": 2020,
+        "matchupPeriod": 7,
+        "weeks": [
+          7
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "teamName": "Ashgrove Aces",
+          "score": 143.93,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          },
+          "teamName": "Paxton Pistons",
+          "score": 137.2,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 6.73,
+        "scoringFormat": "PPR + TE premium",
+        "winnerProjected": 133.63,
+        "loserProjected": 145.61,
+        "projectedDeficit": 11.98
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 12,
+        "weeks": [
+          12
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 151.16,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "teamName": "Trice Tritons",
+          "score": 144.98,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 6.18,
+        "scoringFormat": "PPR + TE premium",
+        "winnerProjected": 146.46,
+        "loserProjected": 155.76,
+        "projectedDeficit": 9.3
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 1,
+        "weeks": [
+          1
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "score": 153.1,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 143.98,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 9.12,
+        "scoringFormat": "PPR + TE premium",
+        "winnerProjected": 144.69,
+        "loserProjected": 153.66,
+        "projectedDeficit": 8.97
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 7,
+        "weeks": [
+          7
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Fog",
+          "score": 85.33,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "score": 84.54,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 0.79,
+        "scoringFormat": "PPR + TE premium",
+        "winnerProjected": 77.54,
+        "loserProjected": 85.27,
+        "projectedDeficit": 7.73
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 86.62,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 84.94,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 1.68,
+        "scoringFormat": "PPR",
+        "winnerProjected": 81.36,
+        "loserProjected": 88.26,
+        "projectedDeficit": 6.9
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 145.67,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Foxes",
+          "score": 144.41,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 1.26,
+        "scoringFormat": "PPR",
+        "winnerProjected": 146.7,
+        "loserProjected": 150.16,
+        "projectedDeficit": 3.46
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "score": 124.23,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Fog",
+          "score": 118.1,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 6.13,
+        "scoringFormat": "PPR + TE premium",
+        "winnerProjected": 119.67,
+        "loserProjected": 122.91,
+        "projectedDeficit": 3.24
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 14,
+        "weeks": [
+          14
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "score": 100.71,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "teamName": "Ashgrove Aces",
+          "score": 96.32,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 4.39,
+        "scoringFormat": "PPR + TE premium",
+        "winnerProjected": 95.14,
+        "loserProjected": 98.31,
+        "projectedDeficit": 3.17
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "score": 74.04,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 73.56,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 0.48,
+        "scoringFormat": "PPR + TE premium",
+        "winnerProjected": 74.41,
+        "loserProjected": 76.73,
+        "projectedDeficit": 2.32
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 10,
+        "weeks": [
+          10
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 148.2,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "score": 145.61,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 2.59,
+        "scoringFormat": "PPR + TE premium",
+        "winnerProjected": 144.88,
+        "loserProjected": 147.12,
+        "projectedDeficit": 2.24
+      }
     ]
   },
   "rivalryGrid": {

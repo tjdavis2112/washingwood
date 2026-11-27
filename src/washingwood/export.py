@@ -550,10 +550,16 @@ def _leaderboards(conn: Connection) -> dict:
             "SELECT franchise_id, owner, team_name, playoff_seed FROM stats.standings"
         ).fetchall()
     }
-    games, sides = [], []
-    for year, label, period, week, is_playoff, home, away, hp, ap, winner in conn.execute(
-        """SELECT year, scoring_label, matchup_period, week, is_playoff, home_franchise_id, away_franchise_id,
-                  home_points, away_points, winner_franchise_id
+    projections = {
+        mid: (hp, ap)
+        for mid, hp, ap in conn.execute(
+            "SELECT matchup_id, home_projected, away_projected FROM stats.counted_projections"
+        ).fetchall()
+    }
+    games, sides, projection_upsets = [], [], []
+    for mid, year, label, period, week, is_playoff, home, away, hp, ap, winner in conn.execute(
+        """SELECT matchup_id, year, scoring_label, matchup_period, week, is_playoff, home_franchise_id,
+                  away_franchise_id, home_points, away_points, winner_franchise_id
            FROM stats.counted_matchups"""
     ).fetchall():
         kind = "playoff" if is_playoff else "regular"
@@ -578,6 +584,15 @@ def _leaderboards(conn: Connection) -> dict:
         for team, opp in ((home_side, away_side), (away_side, home_side)):
             result = "tie" if is_tie else ("win" if team is win else "loss")
             sides.append({**base, "team": team, "opponent": opp, "result": result, "scoringFormat": label})
+        # Projection upset (GLOSSARY): the side with the lower Projected score won
+        if not is_tie and mid in projections and None not in projections[mid]:
+            home_proj, away_proj = (float(x) for x in projections[mid])
+            win_proj, lose_proj = (away_proj, home_proj) if winner == away else (home_proj, away_proj)
+            if win_proj < lose_proj:
+                projection_upsets.append(
+                    {**games[-1], "winnerProjected": round(win_proj, 2), "loserProjected": round(lose_proj, 2),
+                     "projectedDeficit": round(lose_proj - win_proj, 2)}
+                )  # fmt: skip
 
     def when(r, who):
         return (r["year"], r["matchupPeriod"], r[who]["owner"]["name"])
@@ -594,6 +609,7 @@ def _leaderboards(conn: Connection) -> dict:
         "highestScores": sorted(sides, key=lambda r: (-r["team"]["score"], *when(r, "team")))[:n],
         "lowestScores": sorted(sides, key=lambda r: (r["team"]["score"], *when(r, "team")))[:n],
         "playoffUpsets": sorted(upsets, key=lambda g: (-g["seedGap"], -g["margin"], *when(g, "winner")))[:n],
+        "projectionUpsets": sorted(projection_upsets, key=lambda g: (-g["projectedDeficit"], *when(g, "winner")))[:n],
     }
 
 
