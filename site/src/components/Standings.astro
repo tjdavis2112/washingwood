@@ -1,0 +1,44 @@
+---
+// Final standings, ordered by final finish. On phones the table scrolls sideways inside its own
+// box (the page never does), with the Owner column pinned so rows stay readable.
+import { formatPoints, type StandingsRow } from "../data/site-data";
+
+interface Props { rows: StandingsRow[] }
+const { rows } = Astro.props;
+// Always W-L-T here, matching the column header; elsewhere formatRecord drops zero ties
+const record = (r: StandingsRow["record"]) => `${r.wins}-${r.losses}-${r.ties}`;
+---
+<section aria-labelledby="standings-heading">
+  <div class="flex items-baseline justify-between gap-4">
+    <h2 id="standings-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Final standings</h2>
+    <p aria-hidden="true" class="text-xs text-muted md:hidden">Swipe for more →</p>
+  </div>
+  <div data-testid="standings-scroll" class="mt-4 overflow-x-auto rounded-2xl border border-line">
+    <table aria-labelledby="standings-heading" class="w-full min-w-[40rem] border-collapse text-sm">
+      <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+        <tr>
+          <th scope="col" class="px-3 py-3 text-right">#</th>
+          <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Owner</th>
+          <th scope="col" class="px-3 py-3">Team</th>
+          <th scope="col" class="px-3 py-3 text-right">W-L-T</th>
+          <th scope="col" class="px-3 py-3 text-right">PF</th>
+          <th scope="col" class="px-3 py-3 text-right">PA</th>
+          <th scope="col" class="px-3 py-3 text-right">Seed</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => (
+          <tr class="border-t border-line odd:bg-ink even:bg-panel/40">
+            <td class="px-3 py-2.5 text-right font-bold tabular-nums">{r.rank}</td>
+            <td class="sticky left-0 bg-inherit px-3 py-2.5 font-semibold whitespace-nowrap">{r.owner.name}</td>
+            <td class="px-3 py-2.5 whitespace-nowrap text-muted">{r.teamName}</td>
+            <td class="px-3 py-2.5 text-right tabular-nums">{record(r.record)}</td>
+            <td class="px-3 py-2.5 text-right tabular-nums">{formatPoints(r.pointsFor)}</td>
+            <td class="px-3 py-2.5 text-right tabular-nums">{formatPoints(r.pointsAgainst)}</td>
+            <td class="px-3 py-2.5 text-right tabular-nums">{r.playoffSeed}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>

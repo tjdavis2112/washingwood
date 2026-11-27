@@ -65,7 +65,29 @@ export type Season = {
   dataTier: "full" | "partial";
   podium: [PodiumSpot, PodiumSpot, PodiumSpot];
   lastPlace: { owner: OwnerRef; teamName: string; record: WinLossTie; punishment: Punishment | null };
+  scoringFormat: ScoringFormat;
+  standings: StandingsRow[];
 };
+export type ScoringFormat = {
+  label: string;
+  receptionPoints: number;
+  tePremium: number;
+  keyValues: { label: string; points: number }[];
+  rosterSlots: { slot: string; count: number }[];
+};
+export type StandingsRow = {
+  rank: number;
+  owner: OwnerRef;
+  teamName: string;
+  record: WinLossTie;
+  pointsFor: number;
+  pointsAgainst: number;
+  playoffSeed: number;
+};
+
+/** Season points with thousands separators and two decimals: "1,499.50". */
+export const formatPoints = (n: number) =>
+  n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 const seasons = new Map<number, Season>();
 export function getSeason(year: number): Season {

@@ -9,7 +9,7 @@ import subprocess
 import sys
 
 import pytest
-from espn_fixture import Season2020Style, default_owners, team, write_owners
+from espn_fixture import Season2018Style, Season2020Style, default_owners, team, write_owners
 
 from washingwood.build import build
 from washingwood.contract import validate
@@ -260,3 +260,107 @@ def test_a_franchise_without_a_playoff_seed_fails_the_build(archive, owners, tmp
 
     with pytest.raises(LoadError, match="Season 2020.*playoff seeds"):
         run_season(archive, owners, tmp_path, pg_dsn, 2020)
+
+
+# --- Standings and Scoring format (#8) ---
+
+
+def row(rank, slug, name, team_name, seed, *, regular_periods, points_for=None):
+    """One expected standings row, using the fixture's rule: seed s goes (periods - s)-s,
+    points for 1500 - s, points against 1400 + s."""
+    return {
+        "rank": rank,
+        "owner": {"slug": slug, "name": name},
+        "teamName": team_name,
+        "record": {"wins": regular_periods - seed, "losses": seed, "ties": 0},
+        "pointsFor": points_for if points_for is not None else 1500.0 - seed,
+        "pointsAgainst": 1400.0 + seed,
+        "playoffSeed": seed,
+    }
+
+
+def test_standings_list_every_franchise_in_final_order(archive, owners, tmp_path, pg_dsn):
+    # Seed 5 wins the title; seeds 1-4 and 6 settle around it; 7-12 finish in seed order
+    season(2020, upsets={"tamsin"}).write(archive)
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2020)
+
+    r = lambda *a: row(*a, regular_periods=14)  # noqa: E731
+    assert doc["standings"] == [
+        r(1, "tamsin-oake", "Tamsin Oake", "Oake Oracles", 5),
+        r(2, "pell-vantor", "Pell Vantor", "Vantor Vipers", 2),
+        r(3, "quinn-harrow", "Quinn Harrow", "Harrow Hammers", 1),
+        r(4, "odie-brask", "Odie Brask", "Brask Bruisers", 3),
+        r(5, "rue-calloway", "Rue Calloway", "Calloway Comets", 4),
+        r(6, "lyle-fenwick", "Lyle Fenwick", "Fenwick Foxes", 6),
+        r(7, "marlo-quist", "Marlo Quist", "Quist Quakes", 7),
+        r(8, "ines-dorrow", "Ines Dorrow", "Dorrow Drakes", 8),
+        r(9, "abel-trice", "Abel Trice", "Trice Tritons", 9),
+        r(10, "wren-solano", "Wren Solano", "Solano Sparks", 10),
+        r(11, "cass-imber", "Cass Imber", "Imber Embers", 11),
+        r(12, "jory-paxton", "Jory Paxton", "Paxton Pistons", 12),
+    ]
+
+
+def test_10_team_2018_style_season_loads_with_a_manual_adjustment_in_points_for(archive, owners, tmp_path, pg_dsn):
+    # 10 teams, 4 playoff teams, two-week playoff periods; Odie has a +2.5 manual adjustment.
+    # Points for must include it, as ESPN's does. (Matchup scores exclude it; #10 tests that.)
+    teams = [team(k) for k in SEED_ORDER[:10]]
+    Season2018Style(2018, teams, adjustments={"odie": 2.5}).write(archive)
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2018)
+
+    validate(doc, "season")
+    assert doc["teamCount"] == 10
+    assert [p["owner"]["name"] for p in doc["podium"]] == ["Quinn Harrow", "Pell Vantor", "Odie Brask"]
+    assert doc["lastPlace"]["owner"]["name"] == "Wren Solano"
+    assert len(doc["standings"]) == 10
+    odie = next(s for s in doc["standings"] if s["owner"]["slug"] == "odie-brask")
+    assert odie["pointsFor"] == 1499.5  # 1500 - seed 3 + 2.5
+    assert odie["record"] == {"wins": 10, "losses": 3, "ties": 0}
+
+
+KEY_VALUES = [
+    {"label": "Passing yard", "points": 0.04},
+    {"label": "Passing TD", "points": 4.0},
+    {"label": "Interception thrown", "points": -2.0},
+    {"label": "Rushing yard", "points": 0.1},
+    {"label": "Rushing TD", "points": 6.0},
+    {"label": "Reception", "points": 1.0},
+    {"label": "Receiving yard", "points": 0.1},
+    {"label": "Receiving TD", "points": 6.0},
+    {"label": "Fumble lost", "points": -2.0},
+]
+ROSTER_SLOTS = [
+    {"slot": "QB", "count": 1},
+    {"slot": "RB", "count": 2},
+    {"slot": "WR", "count": 2},
+    {"slot": "TE", "count": 1},
+    {"slot": "FLEX", "count": 1},
+    {"slot": "D/ST", "count": 1},
+    {"slot": "K", "count": 1},
+    {"slot": "BE", "count": 7},
+]
+
+
+def test_scoring_format_reads_ppr_plus_te_premium_from_per_position_overrides(archive, owners, tmp_path, pg_dsn):
+    # Reception base 0; overrides give 1.0 to QB/RB/WR and 1.5 to TE
+    season(2020, te_premium=True).write(archive)
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2020)
+
+    assert doc["scoringFormat"] == {
+        "label": "PPR + TE premium",
+        "receptionPoints": 1.0,
+        "tePremium": 0.5,
+        "keyValues": KEY_VALUES,
+        "rosterSlots": ROSTER_SLOTS,  # IR has a count of 0, so it's left out
+    }
+
+
+def test_scoring_format_without_overrides_is_plain_ppr(archive, owners, tmp_path, pg_dsn):
+    season(2020).write(archive)
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2020)
+
+    assert (doc["scoringFormat"]["label"], doc["scoringFormat"]["tePremium"]) == ("PPR", 0)

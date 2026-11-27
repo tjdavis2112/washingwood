@@ -1,0 +1,70 @@
+---
+// Accessible tabs for the Season page (WAI-ARIA tabs pattern). An inline script wires them as
+// soon as the HTML is parsed: click or arrow keys switch tabs, and the URL hash (#scoring) is
+// kept in sync so a tab can be linked. Each panel's content comes from a named slot.
+interface Props { year: number }
+const { year } = Astro.props;
+const TABS = [
+  { id: "results", label: "Results" },
+  { id: "scoring", label: "Scoring format" },
+  { id: "rosters", label: "Rosters" },
+  { id: "draft", label: "Draft" },
+  { id: "transactions", label: "Transactions" },
+];
+---
+<div data-season-tabs>
+  <div class="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
+    <div role="tablist" aria-label={`${year} Season sections`} class="flex w-max gap-1 border-b border-line md:w-auto">
+      {TABS.map((t, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`tab-${t.id}`}
+          aria-controls={`panel-${t.id}`}
+          aria-selected={i === 0 ? "true" : "false"}
+          tabindex={i === 0 ? 0 : -1}
+          data-tab={t.id}
+          class="-mb-px whitespace-nowrap border-b-2 border-transparent px-4 py-2.5 text-sm font-semibold text-muted transition-colors hover:text-paper aria-selected:border-brand aria-selected:text-paper"
+        >{t.label}</button>
+      ))}
+    </div>
+  </div>
+  {TABS.map((t, i) => (
+    <div role="tabpanel" id={`panel-${t.id}`} aria-labelledby={`tab-${t.id}`} tabindex="0" hidden={i !== 0} class="pt-8 focus:outline-none">
+      {t.id === "results" && <slot name="results" />}
+      {t.id === "scoring" && <slot name="scoring" />}
+      {t.id === "rosters" && <slot name="rosters" />}
+      {t.id === "draft" && <slot name="draft" />}
+      {t.id === "transactions" && <slot name="transactions" />}
+    </div>
+  ))}
+</div>
+
+<script is:inline>
+  (() => {
+    const root = document.currentScript.previousElementSibling;
+    const tabs = [...root.querySelectorAll("[role=tab]")];
+    const select = (tab, { focus = false, updateHash = true } = {}) => {
+      for (const t of tabs) {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      }
+      if (focus) tab.focus();
+      if (updateHash) history.replaceState(null, "", `#${tab.dataset.tab}`);
+    };
+    for (const t of tabs) t.addEventListener("click", () => select(t));
+    root.querySelector("[role=tablist]").addEventListener("keydown", (e) => {
+      const i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (next === undefined) return;
+      e.preventDefault();
+      select(tabs[(next + tabs.length) % tabs.length], { focus: true });
+    });
+    // Open the tab named in the URL (e.g. #scoring)
+    const linked = tabs.find((t) => `#${t.dataset.tab}` === location.hash);
+    if (linked) select(linked, { updateHash: false });
+  })();
+</script>

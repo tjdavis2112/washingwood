@@ -1,10 +1,12 @@
 ---
-// The shared styled placeholder for sections that aren't built yet.
-interface Props { title: string; blurb?: string }
-const { title, blurb } = Astro.props;
+// The shared styled placeholder for sections that aren't built yet. On its own page the title
+// is the page's <h1>; inside a tab (level 2) it sits under the page's own heading.
+interface Props { title: string; blurb?: string; level?: 1 | 2 }
+const { title, blurb, level = 1 } = Astro.props;
+const Heading = level === 1 ? "h1" : "h2";
 ---
 <section class="flex min-h-[50dvh] flex-col items-center justify-center rounded-3xl border border-dashed border-line px-6 py-16 text-center">
-  <h1 class="text-4xl font-black md:text-6xl">{title}</h1>
+  <Heading class="text-4xl font-black md:text-6xl">{title}</Heading>
   <p class="mt-4 rounded-full bg-brand px-4 py-1 text-sm font-semibold uppercase tracking-[0.2em]">Coming soon</p>
   {blurb && <p class="mt-6 max-w-md text-muted">{blurb}</p>}
 </section>

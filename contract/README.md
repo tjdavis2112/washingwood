@@ -34,7 +34,7 @@ The schema has one entry point per document under `$defs`:
 - **Two-week rounds** list both Weeks in `weeks`, and their scores are combined.
 - **Last place** is the highest `playoffSeed`, not the bottom of `standings`.
 - **`punishment`** is always present and is `null` in v1.
-- **Season sections join as they're exported.** A Season document must have `year`, `teamCount`, `dataTier`, `podium` and `lastPlace`. `scoringFormat`, `standings`, `bracket` and `weeklyResults` are validated when present, and become required as #8 to #10 export them. The example fixtures already have them all.
+- **Season sections join as they're exported.** A Season document must have `year`, `teamCount`, `dataTier`, `podium`, `lastPlace`, `scoringFormat` and `standings`. `bracket` and `weeklyResults` are validated when present, and become required as #9 and #10 export them. The example fixtures already have them all.
 
 The schema can't express a few rules, and the exporter has to guarantee them:
 - the trophy shelf is ordered by titles, then runner-ups (both descending), then name

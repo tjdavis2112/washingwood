@@ -1,0 +1,43 @@
+---
+// The Scoring format tab: the headline label, key scoring values and roster slots.
+import type { ScoringFormat } from "../data/site-data";
+
+interface Props { format: ScoringFormat }
+const { format } = Astro.props;
+const signed = (n: number) => (n > 0 ? `+${n}` : String(n));
+---
+<div class="grid gap-6 md:grid-cols-2">
+  <div class="rounded-3xl border border-line bg-panel p-6 md:col-span-2">
+    <p class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Format</p>
+    <h2 class="mt-2 text-3xl font-black md:text-4xl">{format.label}</h2>
+    <p class="mt-2 text-muted">
+      {format.receptionPoints} point{format.receptionPoints === 1 ? "" : "s"} per reception{format.tePremium > 0 && `, plus ${format.tePremium} for a TE`}.
+    </p>
+  </div>
+
+  <section aria-labelledby="key-values-heading" class="rounded-3xl border border-line p-6">
+    <h3 id="key-values-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Key values</h3>
+    <table aria-labelledby="key-values-heading" class="mt-4 w-full text-sm">
+      <tbody>
+        {format.keyValues.map((kv) => (
+          <tr class="border-t border-line first:border-t-0">
+            <th scope="row" class="py-2 text-left font-medium">{kv.label}</th>
+            <td class="py-2 text-right font-bold tabular-nums">{signed(kv.points)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </section>
+
+  <section aria-labelledby="slots-heading" class="rounded-3xl border border-line p-6">
+    <h3 id="slots-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Roster slots</h3>
+    <ul class="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-4">
+      {format.rosterSlots.map((s) => (
+        <li class="rounded-xl bg-panel px-3 py-2 text-center">
+          <span class="block text-xs uppercase tracking-wider text-muted">{s.slot}</span>
+          <span class="block text-xl font-black tabular-nums">{s.count}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+</div>

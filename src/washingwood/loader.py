@@ -33,6 +33,10 @@ SLOTS = {"0": "QB", "1": "TQB", "2": "RB", "3": "RB/WR", "4": "WR", "5": "WR/TE"
 STAT_PASS_TD, STAT_RECEPTION = 4, 53
 POSITION_WR, POSITION_TE = "3", "4"  # defaultPositionId keys of pointsOverrides
 
+# ESPN statId -> platform-neutral key for core.seasons.scoring_rules (espn-api.md §5; ADR-0002)
+CANONICAL_STATS = {3: "pass_yds", 4: "pass_td", 20: "pass_int", 24: "rush_yds", 25: "rush_td",
+                   42: "rec_yds", 43: "rec_td", 53: "rec", 72: "fum_lost"}  # fmt: skip
+
 
 class LoadError(ValueError):
     """The archive doesn't have the shape the loader relies on."""
@@ -160,30 +164,35 @@ def _upsert_season(conn: Connection, league_id: int, files: SeasonFiles) -> int:
     regular = sched["matchupPeriodCount"]
     first_playoff = sched["matchupPeriods"].get(str(regular + 1))
     items = {i["statId"]: i for i in s["scoringSettings"]["scoringItems"]}
-    reception = _points_for(items.get(STAT_RECEPTION), POSITION_WR)
-    te = _points_for(items.get(STAT_RECEPTION), POSITION_TE)
+    # No reception item at all means receptions score nothing (Standard)
+    reception = _points_for(items.get(STAT_RECEPTION), POSITION_WR) or 0.0
+    te = _points_for(items.get(STAT_RECEPTION), POSITION_TE) or 0.0
     slots = {
         SLOTS.get(k, k): v
         for k, v in sorted(s["rosterSettings"]["lineupSlotCounts"].items(), key=lambda kv: int(kv[0]))
         if v
     }
     pass_td = items.get(STAT_PASS_TD, {}).get("points")
+    # Offensive points per unit, as a WR would score them (TE premium is stored separately)
+    rules = {key: _points_for(items[stat], POSITION_WR) for stat, key in CANONICAL_STATS.items() if stat in items}
 
     return conn.execute(
         """INSERT INTO core.seasons (league_id, year, platform, data_tier, team_count, regular_season_weeks,
-               playoff_team_count, playoff_start_week, reception_points, te_premium, pass_td_points, roster_slots)
-           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+               playoff_team_count, playoff_start_week, reception_points, te_premium, pass_td_points, roster_slots,
+               scoring_rules)
+           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
            ON CONFLICT (league_id, year) DO UPDATE SET
                platform = EXCLUDED.platform, data_tier = EXCLUDED.data_tier, team_count = EXCLUDED.team_count,
                regular_season_weeks = EXCLUDED.regular_season_weeks, playoff_team_count = EXCLUDED.playoff_team_count,
                playoff_start_week = EXCLUDED.playoff_start_week, reception_points = EXCLUDED.reception_points,
                te_premium = EXCLUDED.te_premium, pass_td_points = EXCLUDED.pass_td_points,
-               roster_slots = EXCLUDED.roster_slots
+               roster_slots = EXCLUDED.roster_slots, scoring_rules = EXCLUDED.scoring_rules
            RETURNING season_id""",
         (league_id, files.year, PLATFORM, "full" if files.has_lineups else "partial", s["size"],
          max(sched["matchupPeriods"][str(regular)]), sched["playoffTeamCount"],
          min(first_playoff) if first_playoff else None, reception,
-         (te - reception) if te is not None and reception is not None else 0, pass_td, Jsonb(slots)),
+         (te - reception) if te is not None and reception is not None else 0, pass_td, Jsonb(slots),
+         Jsonb(rules)),
     ).fetchone()[0]  # fmt: skip
 
 

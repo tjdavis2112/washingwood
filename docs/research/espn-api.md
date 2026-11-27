@@ -70,7 +70,7 @@ files, seasons 2018–2025].
 | `settings.scoringSettings.scoringType` | enum | `H2H_POINTS`. |
 | `settings.scoringSettings.matchupTieRule` / `playoffMatchupTieRule` | enum | Values from ESPN's own list: `NONE, HOME_TEAM_WINS, SLOT_POINTS, STAT_POINTS, HIGHEST_PLAYOFF_SEED` [observed: pro_schedule `settings.typeNames.matchupTieRuleTypes`, 2025]. |
 | `settings.scoringSettings.scoringItems[]` | list | One entry per scored stat (see below). |
-| `settings.rosterSettings.lineupSlotCounts` | `{ "<lineupSlotId>": count }` | Starting/bench slots. Keys are **lineupSlotId** (§5). Non-zero in 2025: 0 QB ×1, 2 RB ×2, 4 WR ×2, 6 TE ×1, 23 FLEX ×2, 16 D/ST ×1, 17 K ×1, 20 BE ×7, 21 IR ×1. 2018–2024 had FLEX ×1 and no IR slot [observed: league_mSettings, 2018–2025]. |
+| `settings.rosterSettings.lineupSlotCounts` | `{ "<lineupSlotId>": count }` | Starting/bench slots. Keys are **lineupSlotId** (§5). Non-zero in 2025: 0 QB ×1, 2 RB ×2, 4 WR ×2, 6 TE ×1, 23 FLEX ×2, 16 D/ST ×1, 17 K ×1, 20 BE ×7, 21 IR ×1. Earlier seasons differ: 2018–2020 FLEX ×1, BE ×7, no IR; 2021–2022 adds IR ×1; 2023–2024 FLEX ×2, BE ×8, IR ×1 [observed: league_mSettings, 2018–2025; corrected after the loader's export disagreed with the earlier note]. |
 | `settings.rosterSettings.positionLimits` | `{ "<defaultPositionId>": max }` | Per-position roster caps. Keys are **defaultPositionId** (§5), not slot IDs. 2025 adds key `15` with `-1`. The library labels these keys with `ROSTER_POSITION_MAP` [source: espn_api/football/settings.py@700e15d#L15-L19]. |
 | `settings.draftSettings.type` | enum | `OFFLINE` (2018), `SNAKE` (2019–2025). ESPN's list: `OFFLINE, SNAKE, AUTOPICK, SNAIL, AUCTION, LINEAR` [observed: pro_schedule `typeNames.draftTypes`]. |
 | `settings.draftSettings.{keeperCount,auctionBudget,pickOrder[]}` | | `keeperCount` 0 every season. `pickOrder` = round-1 team order. |
@@ -526,7 +526,7 @@ What the loader loses without it: **only an easy source of trade legs for 2020�
 | Final fantasy week | 17 | 16 | 17 | 17 |
 | Playoff byes (`away` missing) | 0 | 0 | 2 | 2 |
 | Draft type | `OFFLINE` (snake order) | `SNAKE` | `SNAKE` | `SNAKE` |
-| Lineup slots | FLEX ×1, no IR | FLEX ×1, no IR | FLEX ×1, no IR | FLEX ×2, IR ×1 |
+| Lineup slots | FLEX ×1, no IR | FLEX ×1, no IR | FLEX ×1, no IR (2020); IR ×1 from 2021; FLEX ×2, BE ×8 from 2023 | FLEX ×2, BE ×7, IR ×1 |
 | Offensive `pointsOverrides` (TE premium) | none | none | none | keys 1/2/3/4/15 |
 | FAAB | off | off | off | on |
 | `teams[].valuesByStat` | missing | present | present | present |

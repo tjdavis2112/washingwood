@@ -333,6 +333,15 @@ JOIN core.seasons s ON s.season_id = f.season_id
 JOIN stats.franchise_owner fo ON fo.franchise_id = f.franchise_id
 ORDER BY s.year, f.playoff_seed DESC NULLS LAST;
 
+-- Final standings per season, one row per Franchise. Points for is ESPN's regular-season figure,
+-- which includes manual score adjustments (so it matches ESPN).
+CREATE VIEW stats.standings AS
+SELECT s.year, f.final_rank, f.franchise_id, f.team_name, fo.owner_id, fo.display_name AS owner,
+       f.wins, f.losses, f.ties, f.points_for, f.points_against, f.playoff_seed
+FROM core.franchises f
+JOIN core.seasons s ON s.season_id = f.season_id
+JOIN stats.franchise_owner fo ON fo.franchise_id = f.franchise_id;
+
 -- Owner career totals
 CREATE VIEW stats.owner_career AS
 SELECT fo.owner_id, fo.display_name,

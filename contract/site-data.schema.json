@@ -80,8 +80,8 @@
       "description": "Everything the Season page shows for one Season. Exported as seasons/<year>.json. Sections not yet exported by the pipeline may be absent; the site shows them as Coming soon.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["year", "teamCount", "dataTier", "podium", "lastPlace"],
-      "$comment": "scoringFormat, standings, bracket and weeklyResults join `required` as #8-#10 export them.",
+      "required": ["year", "teamCount", "dataTier", "podium", "lastPlace", "scoringFormat", "standings"],
+      "$comment": "bracket and weeklyResults join `required` as #9 and #10 export them.",
       "properties": {
         "year": { "description": "The Season's year.", "$ref": "#/$defs/year" },
         "teamCount": { "description": "Number of Franchises in the Season.", "$ref": "#/$defs/teamCount" },

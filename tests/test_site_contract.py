@@ -389,16 +389,15 @@ def test_example_last_place_is_highest_seed_even_when_it_finishes_above_another_
 
 
 def test_season_sections_from_later_tickets_are_optional_until_exported():
-    # #8-#10 add standings, Scoring format, bracket and weekly results to the export;
-    # until then a Season document with only the Podium and Last place is valid
+    # #9 and #10 add the bracket and weekly results to the export; until then they're optional
     doc = season()
-    for key in ("scoringFormat", "standings", "bracket", "weeklyResults"):
+    for key in ("bracket", "weeklyResults"):
         del doc[key]
     validate(doc, "season")
 
 
-def test_season_still_requires_podium_and_last_place():
-    for key in ("year", "teamCount", "dataTier", "podium", "lastPlace"):
+def test_season_requires_every_section_exported_so_far():
+    for key in ("year", "teamCount", "dataTier", "podium", "lastPlace", "scoringFormat", "standings"):
         doc = season()
         del doc[key]
         with pytest.raises(ContractError, match=key):

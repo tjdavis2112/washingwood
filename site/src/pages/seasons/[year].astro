@@ -1,8 +1,12 @@
 ---
-// One page per Season: the Podium and Last place. Standings, bracket, weekly results and the
-// Scoring format tab arrive with #8-#10.
+// One page per Season. Results tab: Podium, Last place and final standings (the bracket and
+// weekly results arrive with #9 and #10). Scoring format tab. Rosters, Draft, Transactions: Coming soon.
+import ComingSoon from "../../components/ComingSoon.astro";
 import LastPlace from "../../components/LastPlace.astro";
 import Podium from "../../components/Podium.astro";
+import ScoringFormat from "../../components/ScoringFormat.astro";
+import SeasonTabs from "../../components/SeasonTabs.astro";
+import Standings from "../../components/Standings.astro";
 import { getLeague, getSeason } from "../../data/site-data";
 import Base from "../../layouts/Base.astro";
 
@@ -12,12 +16,19 @@ export function getStaticPaths() {
 const season = getSeason(Astro.props.year);
 ---
 <Base title={`${season.year} Season`}>
-  <header class="mb-8">
+  <header class="mb-6">
     <h1 class="text-4xl font-black md:text-6xl">{season.year} Season</h1>
     <p class="mt-2 text-muted">{season.teamCount} teams</p>
   </header>
-  <div class="space-y-8">
-    <Podium spots={season.podium} />
-    <LastPlace season={season} />
-  </div>
+  <SeasonTabs year={season.year}>
+    <div slot="results" class="space-y-8">
+      <Podium spots={season.podium} />
+      <LastPlace season={season} />
+      <Standings rows={season.standings} />
+    </div>
+    <ScoringFormat slot="scoring" format={season.scoringFormat} />
+    <ComingSoon slot="rosters" level={2} title="Rosters" blurb="Every Franchise's roster, week by week." />
+    <ComingSoon slot="draft" level={2} title="Draft" blurb="This Season's draft board." />
+    <ComingSoon slot="transactions" level={2} title="Transactions" blurb="This Season's trades and waiver pickups." />
+  </SeasonTabs>
 </Base>

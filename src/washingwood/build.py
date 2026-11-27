@@ -65,7 +65,7 @@ def _ensure_schema(conn: psycopg.Connection) -> None:
     if conn.execute("SELECT to_regclass('core.seasons')").fetchone()[0] is None:
         conn.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
         conn.commit()
-    elif conn.execute("SELECT to_regclass('stats.last_place')").fetchone()[0] is None:  # newest view
+    elif conn.execute("SELECT to_regclass('stats.standings')").fetchone()[0] is None:  # newest view
         raise BuildError("the database's schema predates db/schema.sql: drop and recreate the database, then re-run")
 
 
@@ -80,7 +80,7 @@ def main(argv: list[str] | None = None) -> int:
         p.error("no Postgres DSN: pass --pg or set WASHINGWOOD_PG")
     try:
         written = build(args.archive, args.owners, args.out, args.pg)
-    except (BuildError, OwnerMappingError, LoadError, contract.ContractError) as e:
+    except (BuildError, OwnerMappingError, LoadError, export.ExportError, contract.ContractError) as e:
         print(f"build failed: {e}", file=sys.stderr)
         return 1
     except psycopg.OperationalError as e:
