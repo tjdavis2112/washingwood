@@ -1,0 +1,107 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Vantor Vipers",
+            "score": 147.1
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 77.31
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 69.79
+      }
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2018,
+      "matchupPeriod": 15,
+      "weeks": [
+        16,
+        17
+      ],
+      "kind": "thirdPlace",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Vantor Vipers",
+          "score": 238.14
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 221.22
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 16.92
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 5,
+      "weeks": [
+        5
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Vantor Vipers",
+          "score": 147.1
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 77.31
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 69.79
+    }
+  ]
+}

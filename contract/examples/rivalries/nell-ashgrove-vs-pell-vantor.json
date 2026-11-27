@@ -1,0 +1,84 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Ashgrove Aces",
+            "score": 72.71
+          },
+          {
+            "teamName": "Vantor Vortex",
+            "score": 118.01
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 45.3
+      }
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 6,
+      "weeks": [
+        6
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 72.71
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 118.01
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 45.3
+    }
+  ]
+}

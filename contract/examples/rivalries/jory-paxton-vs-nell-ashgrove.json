@@ -1,0 +1,84 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 7,
+        "weeks": [
+          7
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Paxton Pistons",
+            "score": 137.2
+          },
+          {
+            "teamName": "Ashgrove Aces",
+            "score": 143.93
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 6.73
+      }
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 7,
+      "weeks": [
+        7
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Paxton Pistons",
+          "score": 137.2
+        },
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 143.93
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 6.73
+    }
+  ]
+}

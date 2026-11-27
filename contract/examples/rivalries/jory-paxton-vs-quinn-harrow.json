@@ -1,0 +1,127 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 13,
+        "weeks": [
+          13
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Paxton Pistons",
+            "score": 147.24
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 104.23
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 43.01
+      }
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Paxton Pistons",
+            "score": 115.77
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 124.25
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 8.48
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Paxton Pistons",
+          "score": 147.24
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 104.23
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 43.01
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Paxton Pistons",
+          "score": 115.77
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 124.25
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 8.48
+    }
+  ]
+}

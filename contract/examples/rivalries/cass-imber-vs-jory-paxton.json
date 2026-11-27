@@ -1,0 +1,84 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Imber Embers",
+            "score": 137.57
+          },
+          {
+            "teamName": "Paxton Pistons",
+            "score": 89.02
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 48.55
+      }
+    },
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 8,
+      "weeks": [
+        8
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Imber Embers",
+          "score": 137.57
+        },
+        {
+          "teamName": "Paxton Pistons",
+          "score": 89.02
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 48.55
+    }
+  ]
+}

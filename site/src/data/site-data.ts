@@ -15,7 +15,7 @@ export type League = {
   champion: { owner: OwnerRef; teamName: string; year: number };
 };
 
-type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups";
+type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups" | "rivalry";
 
 let ajv: Ajv2020 | undefined;
 let schemaId = "";
@@ -297,11 +297,38 @@ export type Leaderboards = {
   lowestScores: LeaderboardScore[];
   playoffUpsets: LeaderboardUpset[];
 };
-export type MatchupsDoc = { championships: Championship[]; leaderboards: Leaderboards };
+export type RivalryGrid = {
+  owners: OwnerRef[];
+  records: { owner: string; opponent: string; wins: number; losses: number; ties: number }[];
+};
+export type MatchupsDoc = { championships: Championship[]; leaderboards: Leaderboards; rivalryGrid: RivalryGrid };
 
 let matchupsDoc: MatchupsDoc | undefined;
 /** matchups.json: the Matchups section (championship cards, newest first). */
 export function getMatchups(): MatchupsDoc {
   matchupsDoc ??= load<MatchupsDoc>("matchups.json", "matchups");
   return matchupsDoc;
+}
+
+export type RivalryGame = {
+  year: number;
+  matchupPeriod: number;
+  weeks: number[];
+  kind: "regular" | "playoff" | "thirdPlace" | "consolation";
+  inRecord: boolean;
+  teams: [{ teamName: string; score: number }, { teamName: string; score: number }];
+  winner: 0 | 1 | null;
+  isTie: boolean;
+  margin: number;
+};
+export type RivalrySide = { owner: OwnerRef; regularSeason: WinLossTie; playoffs: WinLossTie; biggestWin: RivalryGame | null };
+export type Rivalry = { sides: [RivalrySide, RivalrySide]; meetings: number; games: RivalryGame[] };
+
+/** The Rivalry page path for two Owners: slugs in alphabetical order, so each pair has one URL. */
+export const rivalryPath = (a: string, b: string) => `/matchups/${[a, b].sort().join("-vs-")}/`;
+
+const rivalries = new Map<string, Rivalry>();
+export function getRivalry(pair: string): Rivalry {
+  if (!rivalries.has(pair)) rivalries.set(pair, load<Rivalry>(`rivalries/${pair}.json`, "rivalry"));
+  return rivalries.get(pair)!;
 }

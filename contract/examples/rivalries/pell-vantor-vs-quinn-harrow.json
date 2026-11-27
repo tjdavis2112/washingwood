@@ -1,0 +1,127 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Vantor Vortex",
+            "score": 126.48
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 109.2
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 17.28
+      }
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 9,
+        "weeks": [
+          9
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Vantor Vipers",
+            "score": 86.0
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 90.1
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 4.1
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 11,
+      "weeks": [
+        11
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Vantor Vortex",
+          "score": 126.48
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 109.2
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 17.28
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 9,
+      "weeks": [
+        9
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Vantor Vipers",
+          "score": 86.0
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 90.1
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 4.1
+    }
+  ]
+}

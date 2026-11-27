@@ -1,19 +1,20 @@
 ---
 // The Matchups section (#36): championship cards, one per Season's final, newest first, each linking
-// to that Season's bracket (#37); then the leaderboards (#38). Rivalries (#39) go between the two.
+// to that Season's bracket (#37); the rivalry grid (#39); then the leaderboards (#38).
 // Gold appears only on the trophy glyph (GAMEPLAN: metals only on trophies and medals).
 import MatchupLeaderboards from "../../components/MatchupLeaderboards.astro";
 import OwnerLink from "../../components/OwnerLink.astro";
+import RivalryGrid from "../../components/RivalryGrid.astro";
 import Trophy from "../../components/Trophy.astro";
 import { formatPoints, formatWeeks, getMatchups } from "../../data/site-data";
 import Base from "../../layouts/Base.astro";
 
-const { championships, leaderboards } = getMatchups();
+const { championships, leaderboards, rivalryGrid } = getMatchups();
 ---
 <Base title="Matchups">
   <header class="mb-8">
     <h1 class="text-3xl font-black md:text-5xl">Matchups</h1>
-    <p class="mt-2 text-muted">Every championship game, and the biggest blowouts, closest games and upsets in League history.</p>
+    <p class="mt-2 text-muted">Every championship game, every rivalry, and the biggest blowouts, closest games and upsets in League history.</p>
   </header>
 
   <section aria-labelledby="championships-heading">
@@ -51,6 +52,8 @@ const { championships, leaderboards } = getMatchups();
       ))}
     </ol>
   </section>
+
+  <div class="mt-12"><RivalryGrid grid={rivalryGrid} /></div>
 
   <div class="mt-12"><MatchupLeaderboards boards={leaderboards} /></div>
 </Base>

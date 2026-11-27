@@ -1,0 +1,84 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 9,
+        "weeks": [
+          9
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Brask Bruisers",
+            "score": 115.5
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 87.48
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 28.02
+      }
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2018,
+      "matchupPeriod": 9,
+      "weeks": [
+        9
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 115.5
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 87.48
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 28.02
+    }
+  ]
+}

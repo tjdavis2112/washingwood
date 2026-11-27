@@ -1,0 +1,84 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Imber Embers",
+            "score": 145.73
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 83.6
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 62.13
+      }
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 11,
+      "weeks": [
+        11
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Imber Embers",
+          "score": 145.73
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 83.6
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 62.13
+    }
+  ]
+}

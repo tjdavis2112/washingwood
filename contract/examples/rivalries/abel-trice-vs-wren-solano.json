@@ -1,0 +1,84 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 123.89
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 84.04
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 39.85
+      }
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2018,
+      "matchupPeriod": 6,
+      "weeks": [
+        6
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 123.89
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 84.04
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 39.85
+    }
+  ]
+}

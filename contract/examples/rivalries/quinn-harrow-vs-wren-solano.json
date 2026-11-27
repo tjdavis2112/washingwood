@@ -1,0 +1,151 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 14,
+        "weeks": [
+          14,
+          15
+        ],
+        "kind": "playoff",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Harrow Hammers",
+            "score": 263.21
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 227.81
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 35.4
+      }
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 1,
+        "weeks": [
+          1
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Harrow Hammers",
+            "score": 78.45
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 114.65
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 36.2
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2018,
+      "matchupPeriod": 14,
+      "weeks": [
+        14,
+        15
+      ],
+      "kind": "playoff",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Harrow Hammers",
+          "score": 263.21
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 227.81
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 35.4
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 10,
+      "weeks": [
+        10
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Harrow Hammers",
+          "score": 104.36
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 76.63
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 27.73
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Harrow Hammers",
+          "score": 78.45
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 114.65
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 36.2
+    }
+  ]
+}

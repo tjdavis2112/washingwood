@@ -1,0 +1,171 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 15,
+        "weeks": [
+          15
+        ],
+        "kind": "playoff",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 157.9
+          },
+          {
+            "teamName": "Fenwick Fog",
+            "score": 96.96
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 60.94
+      }
+    },
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 13,
+        "weeks": [
+          13
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 84.02
+          },
+          {
+            "teamName": "Fenwick Foxes",
+            "score": 151.91
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 67.89
+      }
+    }
+  ],
+  "meetings": 4,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 15,
+      "weeks": [
+        15
+      ],
+      "kind": "playoff",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 157.9
+        },
+        {
+          "teamName": "Fenwick Fog",
+          "score": 96.96
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 60.94
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 6,
+      "weeks": [
+        6
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 131.9
+        },
+        {
+          "teamName": "Fenwick Fog",
+          "score": 127.27
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 4.63
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 84.02
+        },
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 151.91
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 67.89
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 4,
+      "weeks": [
+        4
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 136.97
+        },
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 144.94
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 7.97
+    }
+  ]
+}

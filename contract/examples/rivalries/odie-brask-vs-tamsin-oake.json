@@ -1,0 +1,151 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 7,
+        "weeks": [
+          7
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Brask Bruisers",
+            "score": 76.85
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 142.98
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 66.13
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 15,
+      "weeks": [
+        15
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 105.36
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 92.32
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 13.04
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 9,
+      "weeks": [
+        9
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 93.61
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 134.98
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 41.37
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 15,
+      "weeks": [
+        16,
+        17
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 220.8
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 200.38
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 20.42
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 7,
+      "weeks": [
+        7
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 76.85
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 142.98
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 66.13
+    }
+  ]
+}

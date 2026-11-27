@@ -1,0 +1,127 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 4,
+        "weeks": [
+          4
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Imber Embers",
+            "score": 126.6
+          },
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 123.93
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 2.67
+      }
+    },
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 16,
+        "weeks": [
+          16
+        ],
+        "kind": "playoff",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Imber Embers",
+            "score": 110.71
+          },
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 120.86
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 10.15
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 16,
+      "weeks": [
+        16
+      ],
+      "kind": "playoff",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Imber Embers",
+          "score": 110.71
+        },
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 120.86
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 10.15
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 4,
+      "weeks": [
+        4
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Imber Embers",
+          "score": 126.6
+        },
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 123.93
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 2.67
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 12,
+        "weeks": [
+          12
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Paxton Pistons",
+            "score": 128.91
+          },
+          {
+            "teamName": "Vantor Vortex",
+            "score": 80.28
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 48.63
+      }
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Paxton Pistons",
+          "score": 128.91
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 80.28
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 48.63
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Paxton Pistons",
+          "score": 80.4
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 73.28
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 7.12
+    }
+  ]
+}

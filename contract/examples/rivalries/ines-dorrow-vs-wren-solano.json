@@ -1,0 +1,127 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 149.15
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 82.12
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 67.03
+      }
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 79.04
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 126.23
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 47.19
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2018,
+      "matchupPeriod": 11,
+      "weeks": [
+        11
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 149.15
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 82.12
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 67.03
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 79.04
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 126.23
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 47.19
+    }
+  ]
+}

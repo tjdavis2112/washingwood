@@ -1,0 +1,149 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 12,
+        "weeks": [
+          12
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Vantor Vipers",
+            "score": 148.64
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 96.89
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 51.75
+      }
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Vantor Vipers",
+            "score": 78.18
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 83.22
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 5.04
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 4,
+      "weeks": [
+        4
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Vantor Vortex",
+          "score": 116.63
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 85.38
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 31.25
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Vantor Vipers",
+          "score": 148.64
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 96.89
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 51.75
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Vantor Vipers",
+          "score": 78.18
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 83.22
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 5.04
+    }
+  ]
+}

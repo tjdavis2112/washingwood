@@ -1,0 +1,149 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 9,
+        "weeks": [
+          9
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 132.87
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 76.27
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 56.6
+      }
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 12,
+        "weeks": [
+          12
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 105.94
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 131.73
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 25.79
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 105.94
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 131.73
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 25.79
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 145.25
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 123.84
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 21.41
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 9,
+      "weeks": [
+        9
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 132.87
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 76.27
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 56.6
+    }
+  ]
+}

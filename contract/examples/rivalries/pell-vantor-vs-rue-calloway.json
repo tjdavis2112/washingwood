@@ -1,0 +1,151 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Vantor Vipers",
+            "score": 76.81
+          },
+          {
+            "teamName": "Calloway Comets",
+            "score": 72.23
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 4.58
+      }
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 14,
+        "weeks": [
+          14,
+          15
+        ],
+        "kind": "playoff",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Vantor Vipers",
+            "score": 220.49
+          },
+          {
+            "teamName": "Calloway Comets",
+            "score": 234.02
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 13.53
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 10,
+      "weeks": [
+        10
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Vantor Vortex",
+          "score": 120.09
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 132.5
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 12.41
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 14,
+      "weeks": [
+        14,
+        15
+      ],
+      "kind": "playoff",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Vantor Vipers",
+          "score": 220.49
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 234.02
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 13.53
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 8,
+      "weeks": [
+        8
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Vantor Vipers",
+          "score": 76.81
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 72.23
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 4.58
+    }
+  ]
+}

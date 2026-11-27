@@ -1,0 +1,171 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 13,
+        "weeks": [
+          13
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 124.72
+          },
+          {
+            "teamName": "Brask Bruisers",
+            "score": 113.22
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 11.5
+      }
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 87.62
+          },
+          {
+            "teamName": "Brask Bruisers",
+            "score": 144.9
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 57.28
+      }
+    }
+  ],
+  "meetings": 4,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 124.72
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 113.22
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 11.5
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 87.62
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 144.9
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 57.28
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 10,
+      "weeks": [
+        10
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 105.32
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 114.93
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 9.61
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 79.18
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 74.75
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 4.43
+    }
+  ]
+}

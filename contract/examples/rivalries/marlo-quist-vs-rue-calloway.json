@@ -1,0 +1,193 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "regularSeason": {
+        "wins": 3,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Quist Quakes",
+            "score": 138.13
+          },
+          {
+            "teamName": "Calloway Comets",
+            "score": 82.13
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 56.0
+      }
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 3,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 16,
+        "weeks": [
+          16
+        ],
+        "kind": "playoff",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Quist Quakes",
+            "score": 83.32
+          },
+          {
+            "teamName": "Calloway Comets",
+            "score": 152.63
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 69.31
+      }
+    }
+  ],
+  "meetings": 5,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 16,
+      "weeks": [
+        16
+      ],
+      "kind": "playoff",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 83.32
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 152.63
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 69.31
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 139.85
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 103.97
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 35.88
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 138.13
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 82.13
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 56.0
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 10,
+      "weeks": [
+        10
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 144.53
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 109.36
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 35.17
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 100.49
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 114.5
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 14.01
+    }
+  ]
+}

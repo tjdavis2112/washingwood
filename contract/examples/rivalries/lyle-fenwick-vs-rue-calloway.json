@@ -1,0 +1,106 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Fog",
+            "score": 92.92
+          },
+          {
+            "teamName": "Calloway Comets",
+            "score": 122.92
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 30.0
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 8,
+      "weeks": [
+        8
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 92.92
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 122.92
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 30.0
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 6,
+      "weeks": [
+        6
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 95.43
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 111.47
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 16.04
+    }
+  ]
+}

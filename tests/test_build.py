@@ -117,7 +117,9 @@ def test_rerunning_on_the_same_input_gives_byte_identical_output(archive, owners
     run(archive, owners, tmp_path, pg_dsn)  # same database: every Season is reloaded in place
 
     owner_files = [f"owners/{slugify(PEOPLE[k][0])}.json" for k in SEED_ORDER]
-    assert sorted(first) == sorted(
+    rivalry_files = [f for f in first if f.startswith("rivalries/")]
+    assert len(rivalry_files) == 66  # 12 Owners, every pair met
+    assert sorted(f for f in first if not f.startswith("rivalries/")) == sorted(
         [
             "draft.json",
             "league.json",

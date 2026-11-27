@@ -1,0 +1,106 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Harrow Hammers",
+            "score": 132.85
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 91.22
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 41.63
+      }
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 8,
+      "weeks": [
+        8
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Harrow Hammers",
+          "score": 132.85
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 91.22
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 41.63
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 6,
+      "weeks": [
+        6
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Harrow Hammers",
+          "score": 148.95
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 127.88
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 21.07
+    }
+  ]
+}

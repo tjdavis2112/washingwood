@@ -1,0 +1,149 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 12,
+        "weeks": [
+          12
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 123.4
+          },
+          {
+            "teamName": "Quist Quakes",
+            "score": 80.08
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 43.32
+      }
+    },
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 86.07
+          },
+          {
+            "teamName": "Quist Quakes",
+            "score": 111.52
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 25.45
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 5,
+      "weeks": [
+        5
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 86.07
+        },
+        {
+          "teamName": "Quist Quakes",
+          "score": 111.52
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 25.45
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 123.4
+        },
+        {
+          "teamName": "Quist Quakes",
+          "score": 80.08
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 43.32
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 130.06
+        },
+        {
+          "teamName": "Quist Quakes",
+          "score": 154.79
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 24.73
+    }
+  ]
+}

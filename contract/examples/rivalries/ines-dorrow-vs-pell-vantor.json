@@ -1,0 +1,127 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 98.1
+          },
+          {
+            "teamName": "Vantor Vortex",
+            "score": 81.04
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 17.06
+      }
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 89.53
+          },
+          {
+            "teamName": "Vantor Vipers",
+            "score": 91.12
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 1.59
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 8,
+      "weeks": [
+        8
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 98.1
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 81.04
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 17.06
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 6,
+      "weeks": [
+        6
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 89.53
+        },
+        {
+          "teamName": "Vantor Vipers",
+          "score": 91.12
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 1.59
+    }
+  ]
+}

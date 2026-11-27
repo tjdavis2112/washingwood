@@ -1,0 +1,84 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 7,
+        "weeks": [
+          7
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Imber Embers",
+            "score": 73.87
+          },
+          {
+            "teamName": "Vantor Vortex",
+            "score": 120.39
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 46.52
+      }
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 7,
+      "weeks": [
+        7
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Imber Embers",
+          "score": 73.87
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 120.39
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 46.52
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 12,
+        "weeks": [
+          12
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Ashgrove Aces",
+            "score": 95.52
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 94.84
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 0.68
+      }
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 1,
+        "weeks": [
+          1
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Ashgrove Aces",
+            "score": 111.15
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 114.05
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 2.9
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 17,
+      "weeks": [
+        17
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 114.4
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 115.9
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 1.5
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 16,
+      "weeks": [
+        16
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 155.38
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 71.87
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 83.51
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 15,
+      "weeks": [
+        15
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 94.58
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 160.0
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 65.42
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 95.52
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 94.84
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 0.68
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 111.15
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 114.05
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 2.9
+    }
+  ]
+}

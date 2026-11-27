@@ -1,0 +1,149 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 134.39
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 112.1
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 22.29
+      }
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 129.31
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 152.86
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 23.55
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 5,
+      "weeks": [
+        5
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 134.39
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 112.1
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 22.29
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 154.62
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 141.96
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 12.66
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 129.31
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 152.86
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 23.55
+    }
+  ]
+}

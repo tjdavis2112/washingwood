@@ -361,7 +361,76 @@ def matchups_document(conn: Connection) -> dict:
     return {
         "championships": [_championship(conn, year) for year in years],
         "leaderboards": _leaderboards(conn),
+        "rivalryGrid": _rivalry_grid(conn),
     }
+
+
+def rivalry_documents(conn: Connection) -> dict[str, dict]:
+    """One Rivalry document per pair of Owners who have played, keyed "<a>-vs-<b>" (slugs in alphabetical
+    order). Records follow the Owner page's head-to-head rules; every game is listed, newest first."""
+    pairs: dict[tuple[str, str], dict] = {}
+    for row in conn.execute(
+        """SELECT year, matchup_period, first_week, last_week, kind, in_record, home_owner, home_team, home_points,
+                  away_owner, away_team, away_points, winner
+           FROM stats.owner_pair_games ORDER BY year DESC, matchup_period DESC"""
+    ).fetchall():
+        year, period, first, last, kind, in_record, h_owner, h_team, hp, a_owner, a_team, ap, winner = row
+        home, away = _owner_ref(h_owner), _owner_ref(a_owner)
+        ordered = sorted([("home", home, h_team, hp), ("away", away, a_team, ap)], key=lambda x: x[1]["slug"])
+        key = (ordered[0][1]["slug"], ordered[1][1]["slug"])
+        doc = pairs.setdefault(key, {"owners": [ordered[0][1], ordered[1][1]], "games": []})
+        scores = [float(x[3]) for x in ordered]
+        winner_index = None if winner is None else next(i for i, x in enumerate(ordered) if x[0] == winner)
+        doc["games"].append(
+            {
+                "year": year,
+                "matchupPeriod": period,
+                "weeks": list(range(first, last + 1)),
+                "kind": kind,
+                "inRecord": in_record,
+                "teams": [{"teamName": x[2], "score": float(x[3])} for x in ordered],
+                "winner": winner_index,
+                "isTie": winner is None,
+                "margin": round(abs(scores[0] - scores[1]), 2),
+            }
+        )
+    docs = {}
+    for (a, b), doc in sorted(pairs.items()):
+        games, sides = doc["games"], []
+        for i, ref in enumerate(doc["owners"]):
+            regular, playoffs = _record(0, 0, 0), _record(0, 0, 0)
+            for g in games:
+                if not g["inRecord"]:
+                    continue
+                rec = regular if g["kind"] == "regular" else playoffs
+                rec["ties" if g["isTie"] else "wins" if g["winner"] == i else "losses"] += 1
+            wins = [g for g in games if g["inRecord"] and g["winner"] == i]
+            # Largest Margin; the earliest game on a tie
+            best = min(wins, key=lambda g: (-g["margin"], g["year"], g["matchupPeriod"])) if wins else None
+            sides.append({"owner": ref, "regularSeason": regular, "playoffs": playoffs, "biggestWin": best})
+        docs[f"{a}-vs-{b}"] = {"sides": sides, "meetings": sum(g["inRecord"] for g in games), "games": games}
+    return docs
+
+
+def _rivalry_grid(conn: Connection) -> dict:
+    """Owners in Owner-index order, and each Owner's combined record (regular season plus playoffs,
+    head-to-head rules) against every Owner they've played, in both directions."""
+    owners = [e["owner"] for e in owner_index(conn)["owners"]]
+    order = {o["slug"]: i for i, o in enumerate(owners)}
+    records = []
+    for owner, opponent, rw, rl, rt, pw, pl, pt in conn.execute(
+        """SELECT a.display_name, b.display_name, h.regular_wins, h.regular_losses, h.regular_ties,
+                  h.playoff_wins, h.playoff_losses, h.playoff_ties
+           FROM stats.head_to_head h
+           JOIN core.owners a ON a.owner_id = h.owner_id
+           JOIN core.owners b ON b.owner_id = h.opponent_owner_id"""
+    ).fetchall():
+        records.append(
+            {"owner": _owner_ref(owner)["slug"], "opponent": _owner_ref(opponent)["slug"],
+             "wins": rw + pw, "losses": rl + pl, "ties": rt + pt}
+        )  # fmt: skip
+    records.sort(key=lambda r: (order[r["owner"]], order[r["opponent"]]))
+    return {"owners": owners, "records": records}
 
 
 LEADERBOARD_SIZE = 10

@@ -1,0 +1,84 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Ashgrove Aces",
+            "score": 70.26
+          },
+          {
+            "teamName": "Brask Bruisers",
+            "score": 118.91
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 48.65
+      }
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 11,
+      "weeks": [
+        11
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 70.26
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 118.91
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 48.65
+    }
+  ]
+}

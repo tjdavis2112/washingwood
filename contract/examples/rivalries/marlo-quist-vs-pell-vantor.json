@@ -1,0 +1,193 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Quist Quakes",
+            "score": 159.22
+          },
+          {
+            "teamName": "Vantor Vipers",
+            "score": 92.06
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 67.16
+      }
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 14,
+        "weeks": [
+          14
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Quist Quakes",
+            "score": 105.56
+          },
+          {
+            "teamName": "Vantor Vortex",
+            "score": 145.02
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 39.46
+      }
+    }
+  ],
+  "meetings": 5,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 15,
+      "weeks": [
+        15
+      ],
+      "kind": "playoff",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 97.33
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 77.98
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 19.35
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 14,
+      "weeks": [
+        14
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 105.56
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 145.02
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 39.46
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 129.42
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 72.22
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 57.2
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 11,
+      "weeks": [
+        11
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 159.22
+        },
+        {
+          "teamName": "Vantor Vipers",
+          "score": 92.06
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 67.16
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 123.24
+        },
+        {
+          "teamName": "Vantor Vipers",
+          "score": 158.54
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 35.3
+    }
+  ]
+}
