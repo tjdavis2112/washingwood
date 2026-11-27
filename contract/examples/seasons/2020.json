@@ -2936,7 +2936,8 @@
         },
         "points": 404.1,
         "positionalFinish": 1,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": 107
       },
       {
         "overall": 2,
@@ -2953,7 +2954,8 @@
         },
         "points": 206.3,
         "positionalFinish": 18,
-        "valueOverSlot": -17
+        "valueOverSlot": -17,
+        "pointsOverExpected": -119
       },
       {
         "overall": 3,
@@ -2970,7 +2972,8 @@
         },
         "points": 300.4,
         "positionalFinish": 12,
-        "valueOverSlot": -10
+        "valueOverSlot": -10,
+        "pointsOverExpected": 4
       },
       {
         "overall": 4,
@@ -2987,7 +2990,8 @@
         },
         "points": 348.3,
         "positionalFinish": 1,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": 23
       },
       {
         "overall": 5,
@@ -3004,7 +3008,8 @@
         },
         "points": 385.3,
         "positionalFinish": 3,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": 88
       },
       {
         "overall": 6,
@@ -3021,7 +3026,8 @@
         },
         "points": 279.5,
         "positionalFinish": 12,
-        "valueOverSlot": -9
+        "valueOverSlot": -9,
+        "pointsOverExpected": -46
       },
       {
         "overall": 7,
@@ -3038,7 +3044,8 @@
         },
         "points": 346.1,
         "positionalFinish": 5,
-        "valueOverSlot": -1
+        "valueOverSlot": -1,
+        "pointsOverExpected": 49
       },
       {
         "overall": 8,
@@ -3055,7 +3062,8 @@
         },
         "points": 292.8,
         "positionalFinish": 10,
-        "valueOverSlot": -6
+        "valueOverSlot": -6,
+        "pointsOverExpected": -32
       },
       {
         "overall": 9,
@@ -3072,7 +3080,8 @@
         },
         "points": 390.3,
         "positionalFinish": 2,
-        "valueOverSlot": 3
+        "valueOverSlot": 3,
+        "pointsOverExpected": 93
       },
       {
         "overall": 10,
@@ -3089,7 +3098,8 @@
         },
         "points": 338.1,
         "positionalFinish": 4,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": 13
       },
       {
         "overall": 11,
@@ -3106,7 +3116,8 @@
         },
         "points": 214.9,
         "positionalFinish": 21,
-        "valueOverSlot": -15
+        "valueOverSlot": -15,
+        "pointsOverExpected": -82
       },
       {
         "overall": 12,
@@ -3123,7 +3134,8 @@
         },
         "points": 318.2,
         "positionalFinish": 6,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": -7
       },
       {
         "overall": 13,
@@ -3140,7 +3152,8 @@
         },
         "points": 328.0,
         "positionalFinish": 8,
-        "valueOverSlot": -1
+        "valueOverSlot": -1,
+        "pointsOverExpected": 70
       },
       {
         "overall": 14,
@@ -3157,7 +3170,8 @@
         },
         "points": 256.0,
         "positionalFinish": 14,
-        "valueOverSlot": -7
+        "valueOverSlot": -7,
+        "pointsOverExpected": -30
       },
       {
         "overall": 15,
@@ -3174,7 +3188,8 @@
         },
         "points": 374.0,
         "positionalFinish": 4,
-        "valueOverSlot": 4
+        "valueOverSlot": 4,
+        "pointsOverExpected": 116
       },
       {
         "overall": 16,
@@ -3191,7 +3206,8 @@
         },
         "points": 337.3,
         "positionalFinish": 5,
-        "valueOverSlot": 3
+        "valueOverSlot": 3,
+        "pointsOverExpected": 51
       },
       {
         "overall": 17,
@@ -3208,7 +3224,8 @@
         },
         "points": 247.8,
         "positionalFinish": 16,
-        "valueOverSlot": -7
+        "valueOverSlot": -7,
+        "pointsOverExpected": -10
       },
       {
         "overall": 18,
@@ -3225,7 +3242,8 @@
         },
         "points": 313.5,
         "positionalFinish": 7,
-        "valueOverSlot": 2
+        "valueOverSlot": 2,
+        "pointsOverExpected": 28
       },
       {
         "overall": 19,
@@ -3242,7 +3260,8 @@
         },
         "points": 253.2,
         "positionalFinish": 15,
-        "valueOverSlot": -5
+        "valueOverSlot": -5,
+        "pointsOverExpected": -5
       },
       {
         "overall": 20,
@@ -3259,7 +3278,8 @@
         },
         "points": 303.2,
         "positionalFinish": 8,
-        "valueOverSlot": 2
+        "valueOverSlot": 2,
+        "pointsOverExpected": 17
       },
       {
         "overall": 21,
@@ -3276,7 +3296,8 @@
         },
         "points": 216.5,
         "positionalFinish": 20,
-        "valueOverSlot": -9
+        "valueOverSlot": -9,
+        "pointsOverExpected": -41
       },
       {
         "overall": 22,
@@ -3293,7 +3314,8 @@
         },
         "points": 229.7,
         "positionalFinish": 16,
-        "valueOverSlot": -5
+        "valueOverSlot": -5,
+        "pointsOverExpected": -56
       },
       {
         "overall": 23,
@@ -3310,7 +3332,8 @@
         },
         "points": 313.5,
         "positionalFinish": 10,
-        "valueOverSlot": 2
+        "valueOverSlot": 2,
+        "pointsOverExpected": 56
       },
       {
         "overall": 24,
@@ -3327,7 +3350,8 @@
         },
         "points": 176.3,
         "positionalFinish": 22,
-        "valueOverSlot": -10
+        "valueOverSlot": -10,
+        "pointsOverExpected": -110
       },
       {
         "overall": 25,
@@ -3344,7 +3368,8 @@
         },
         "points": 209.0,
         "positionalFinish": 17,
-        "valueOverSlot": -4
+        "valueOverSlot": -4,
+        "pointsOverExpected": -47
       },
       {
         "overall": 26,
@@ -3361,7 +3386,8 @@
         },
         "points": 217.9,
         "positionalFinish": 18,
-        "valueOverSlot": -5
+        "valueOverSlot": -5,
+        "pointsOverExpected": -10
       },
       {
         "overall": 27,
@@ -3378,7 +3404,8 @@
         },
         "points": 360.4,
         "positionalFinish": 1,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": 5
       },
       {
         "overall": 28,
@@ -3395,7 +3422,8 @@
         },
         "points": 282.7,
         "positionalFinish": 11,
-        "valueOverSlot": 3
+        "valueOverSlot": 3,
+        "pointsOverExpected": 27
       },
       {
         "overall": 29,
@@ -3412,7 +3440,8 @@
         },
         "points": 257.2,
         "positionalFinish": 14,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": 30
       },
       {
         "overall": 30,
@@ -3429,7 +3458,8 @@
         },
         "points": 264.7,
         "positionalFinish": 2,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": -91
       },
       {
         "overall": 31,
@@ -3446,7 +3476,8 @@
         },
         "points": 267.2,
         "positionalFinish": 13,
-        "valueOverSlot": 2
+        "valueOverSlot": 2,
+        "pointsOverExpected": 12
       },
       {
         "overall": 32,
@@ -3463,7 +3494,8 @@
         },
         "points": 165.4,
         "positionalFinish": 25,
-        "valueOverSlot": -10
+        "valueOverSlot": -10,
+        "pointsOverExpected": -62
       },
       {
         "overall": 33,
@@ -3480,7 +3512,8 @@
         },
         "points": 235.6,
         "positionalFinish": 3,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": -120
       },
       {
         "overall": 34,
@@ -3497,7 +3530,8 @@
         },
         "points": 342.0,
         "positionalFinish": 2,
-        "valueOverSlot": 14
+        "valueOverSlot": 14,
+        "pointsOverExpected": 86
       },
       {
         "overall": 35,
@@ -3514,7 +3548,8 @@
         },
         "points": 342.5,
         "positionalFinish": 7,
-        "valueOverSlot": 9
+        "valueOverSlot": 9,
+        "pointsOverExpected": 115
       },
       {
         "overall": 36,
@@ -3531,7 +3566,8 @@
         },
         "points": 232.3,
         "positionalFinish": 6,
-        "valueOverSlot": -2
+        "valueOverSlot": -2,
+        "pointsOverExpected": -123
       },
       {
         "overall": 37,
@@ -3548,7 +3584,8 @@
         },
         "points": 327.8,
         "positionalFinish": 9,
-        "valueOverSlot": 8
+        "valueOverSlot": 8,
+        "pointsOverExpected": 98
       },
       {
         "overall": 38,
@@ -3565,7 +3602,8 @@
         },
         "points": 235.7,
         "positionalFinish": 15,
-        "valueOverSlot": 2
+        "valueOverSlot": 2,
+        "pointsOverExpected": -22
       },
       {
         "overall": 39,
@@ -3582,7 +3620,8 @@
         },
         "points": 213.3,
         "positionalFinish": 4,
-        "valueOverSlot": -3
+        "valueOverSlot": -3,
+        "pointsOverExpected": -43
       },
       {
         "overall": 40,
@@ -3599,7 +3638,8 @@
         },
         "points": 343.5,
         "positionalFinish": 6,
-        "valueOverSlot": 12
+        "valueOverSlot": 12,
+        "pointsOverExpected": 114
       },
       {
         "overall": 41,
@@ -3616,7 +3656,8 @@
         },
         "points": 293.4,
         "positionalFinish": 9,
-        "valueOverSlot": 9
+        "valueOverSlot": 9,
+        "pointsOverExpected": 35
       },
       {
         "overall": 42,
@@ -3633,7 +3674,8 @@
         },
         "points": 322.3,
         "positionalFinish": 1,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": 66
       },
       {
         "overall": 43,
@@ -3650,7 +3692,8 @@
         },
         "points": 184.3,
         "positionalFinish": 23,
-        "valueOverSlot": -4
+        "valueOverSlot": -4,
+        "pointsOverExpected": -45
       },
       {
         "overall": 44,
@@ -3667,7 +3710,8 @@
         },
         "points": 339.1,
         "positionalFinish": 3,
-        "valueOverSlot": 16
+        "valueOverSlot": 16,
+        "pointsOverExpected": 81
       },
       {
         "overall": 45,
@@ -3684,7 +3728,8 @@
         },
         "points": 103.8,
         "positionalFinish": 12,
-        "valueOverSlot": -9
+        "valueOverSlot": -9,
+        "pointsOverExpected": -153
       },
       {
         "overall": 46,
@@ -3701,7 +3746,8 @@
         },
         "points": 295.2,
         "positionalFinish": 13,
-        "valueOverSlot": 7
+        "valueOverSlot": 7,
+        "pointsOverExpected": 65
       },
       {
         "overall": 47,
@@ -3718,7 +3764,8 @@
         },
         "points": 203.7,
         "positionalFinish": 19,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": -54
       },
       {
         "overall": 48,
@@ -3735,7 +3782,8 @@
         },
         "points": 106.6,
         "positionalFinish": 11,
-        "valueOverSlot": -7
+        "valueOverSlot": -7,
+        "pointsOverExpected": -150
       },
       {
         "overall": 49,
@@ -3752,7 +3800,8 @@
         },
         "points": 302.3,
         "positionalFinish": 11,
-        "valueOverSlot": 10
+        "valueOverSlot": 10,
+        "pointsOverExpected": 132
       },
       {
         "overall": 50,
@@ -3769,7 +3818,8 @@
         },
         "points": 205.1,
         "positionalFinish": 8,
-        "valueOverSlot": -3
+        "valueOverSlot": -3,
+        "pointsOverExpected": -93
       },
       {
         "overall": 51,
@@ -3786,7 +3836,8 @@
         },
         "points": 172.3,
         "positionalFinish": 9,
-        "valueOverSlot": -4
+        "valueOverSlot": -4,
+        "pointsOverExpected": -24
       },
       {
         "overall": 52,
@@ -3803,7 +3854,8 @@
         },
         "points": 203.9,
         "positionalFinish": 22,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": 34
       },
       {
         "overall": 53,
@@ -3820,7 +3872,8 @@
         },
         "points": 233.2,
         "positionalFinish": 5,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": -65
       },
       {
         "overall": 54,
@@ -3837,7 +3890,8 @@
         },
         "points": 202.3,
         "positionalFinish": 5,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": 6
       },
       {
         "overall": 55,
@@ -3854,7 +3908,8 @@
         },
         "points": 99.1,
         "positionalFinish": 27,
-        "valueOverSlot": -4
+        "valueOverSlot": -4,
+        "pointsOverExpected": -71
       },
       {
         "overall": 56,
@@ -3871,7 +3926,8 @@
         },
         "points": 234.9,
         "positionalFinish": 4,
-        "valueOverSlot": 3
+        "valueOverSlot": 3,
+        "pointsOverExpected": -63
       },
       {
         "overall": 57,
@@ -3888,7 +3944,8 @@
         },
         "points": 188.4,
         "positionalFinish": 8,
-        "valueOverSlot": -1
+        "valueOverSlot": -1,
+        "pointsOverExpected": -8
       },
       {
         "overall": 58,
@@ -3905,7 +3962,8 @@
         },
         "points": 180.5,
         "positionalFinish": 24,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": 11
       },
       {
         "overall": 59,
@@ -3922,7 +3980,8 @@
         },
         "points": 217.1,
         "positionalFinish": 7,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": -81
       },
       {
         "overall": 60,
@@ -3939,7 +3998,8 @@
         },
         "points": 303.4,
         "positionalFinish": 2,
-        "valueOverSlot": 6
+        "valueOverSlot": 6,
+        "pointsOverExpected": 107
       },
       {
         "overall": 61,
@@ -3956,7 +4016,8 @@
         },
         "points": 184.7,
         "positionalFinish": 21,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": 18
       },
       {
         "overall": 62,
@@ -3973,7 +4034,8 @@
         },
         "points": 217.6,
         "positionalFinish": 19,
-        "valueOverSlot": 6
+        "valueOverSlot": 6,
+        "pointsOverExpected": 79
       },
       {
         "overall": 63,
@@ -3990,7 +4052,8 @@
         },
         "points": 229.6,
         "positionalFinish": 3,
-        "valueOverSlot": 6
+        "valueOverSlot": 6,
+        "pointsOverExpected": 64
       },
       {
         "overall": 64,
@@ -4007,7 +4070,8 @@
         },
         "points": 105.2,
         "positionalFinish": 24,
-        "valueOverSlot": -2
+        "valueOverSlot": -2,
+        "pointsOverExpected": -62
       },
       {
         "overall": 65,
@@ -4024,7 +4088,8 @@
         },
         "points": 77.0,
         "positionalFinish": 28,
-        "valueOverSlot": -2
+        "valueOverSlot": -2,
+        "pointsOverExpected": -62
       },
       {
         "overall": 66,
@@ -4041,7 +4106,8 @@
         },
         "points": 142.0,
         "positionalFinish": 10,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": -24
       },
       {
         "overall": 67,
@@ -4058,7 +4124,8 @@
         },
         "points": 185.0,
         "positionalFinish": 20,
-        "valueOverSlot": 3
+        "valueOverSlot": 3,
+        "pointsOverExpected": 18
       },
       {
         "overall": 68,
@@ -4075,7 +4142,8 @@
         },
         "points": 241.1,
         "positionalFinish": 17,
-        "valueOverSlot": 10
+        "valueOverSlot": 10,
+        "pointsOverExpected": 102
       },
       {
         "overall": 69,
@@ -4092,7 +4160,8 @@
         },
         "points": 189.4,
         "positionalFinish": 6,
-        "valueOverSlot": 5
+        "valueOverSlot": 5,
+        "pointsOverExpected": 24
       },
       {
         "overall": 70,
@@ -4109,7 +4178,8 @@
         },
         "points": 155.2,
         "positionalFinish": 23,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": -12
       },
       {
         "overall": 71,
@@ -4126,7 +4196,8 @@
         },
         "points": 153.7,
         "positionalFinish": 26,
-        "valueOverSlot": 2
+        "valueOverSlot": 2,
+        "pointsOverExpected": 15
       },
       {
         "overall": 72,
@@ -4143,7 +4214,8 @@
         },
         "points": 188.8,
         "positionalFinish": 7,
-        "valueOverSlot": 5
+        "valueOverSlot": 5,
+        "pointsOverExpected": 23
       },
       {
         "overall": 73,
@@ -4160,7 +4232,8 @@
         },
         "points": 173.4,
         "positionalFinish": 1,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": 30
       },
       {
         "overall": 74,
@@ -4177,7 +4250,8 @@
         },
         "points": 142.67,
         "positionalFinish": 7,
-        "valueOverSlot": -5
+        "valueOverSlot": -5,
+        "pointsOverExpected": -1
       },
       {
         "overall": 75,
@@ -4194,7 +4268,8 @@
         },
         "points": 138.53,
         "positionalFinish": 8,
-        "valueOverSlot": -5
+        "valueOverSlot": -5,
+        "pointsOverExpected": -5
       },
       {
         "overall": 76,
@@ -4211,7 +4286,8 @@
         },
         "points": 119.13,
         "positionalFinish": 10,
-        "valueOverSlot": -6
+        "valueOverSlot": -6,
+        "pointsOverExpected": -24
       },
       {
         "overall": 77,
@@ -4228,7 +4304,8 @@
         },
         "points": 102.57,
         "positionalFinish": 12,
-        "valueOverSlot": -7
+        "valueOverSlot": -7,
+        "pointsOverExpected": -41
       },
       {
         "overall": 78,
@@ -4245,7 +4322,8 @@
         },
         "points": 164.97,
         "positionalFinish": 4,
-        "valueOverSlot": 2
+        "valueOverSlot": 2,
+        "pointsOverExpected": 21
       },
       {
         "overall": 79,
@@ -4262,7 +4340,8 @@
         },
         "points": 104.07,
         "positionalFinish": 11,
-        "valueOverSlot": -4
+        "valueOverSlot": -4,
+        "pointsOverExpected": -39
       },
       {
         "overall": 80,
@@ -4279,7 +4358,8 @@
         },
         "points": 151.33,
         "positionalFinish": 6,
-        "valueOverSlot": 2
+        "valueOverSlot": 2,
+        "pointsOverExpected": 8
       },
       {
         "overall": 81,
@@ -4296,7 +4376,8 @@
         },
         "points": 167.53,
         "positionalFinish": 3,
-        "valueOverSlot": 6
+        "valueOverSlot": 6,
+        "pointsOverExpected": 24
       },
       {
         "overall": 82,
@@ -4313,7 +4394,8 @@
         },
         "points": 129.07,
         "positionalFinish": 9,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": -14
       },
       {
         "overall": 83,
@@ -4330,7 +4412,8 @@
         },
         "points": 170.83,
         "positionalFinish": 2,
-        "valueOverSlot": 9
+        "valueOverSlot": 9,
+        "pointsOverExpected": 27
       },
       {
         "overall": 84,
@@ -4347,7 +4430,8 @@
         },
         "points": 158.67,
         "positionalFinish": 5,
-        "valueOverSlot": 7
+        "valueOverSlot": 7,
+        "pointsOverExpected": 15
       },
       {
         "overall": 85,
@@ -4364,7 +4448,8 @@
         },
         "points": 105.2,
         "positionalFinish": 10,
-        "valueOverSlot": -9
+        "valueOverSlot": -9,
+        "pointsOverExpected": -39
       },
       {
         "overall": 86,
@@ -4381,7 +4466,8 @@
         },
         "points": 130.93,
         "positionalFinish": 9,
-        "valueOverSlot": -7
+        "valueOverSlot": -7,
+        "pointsOverExpected": -14
       },
       {
         "overall": 87,
@@ -4398,7 +4484,8 @@
         },
         "points": 154.1,
         "positionalFinish": 5,
-        "valueOverSlot": -2
+        "valueOverSlot": -2,
+        "pointsOverExpected": 10
       },
       {
         "overall": 88,
@@ -4415,7 +4502,8 @@
         },
         "points": 175.07,
         "positionalFinish": 1,
-        "valueOverSlot": 3
+        "valueOverSlot": 3,
+        "pointsOverExpected": 31
       },
       {
         "overall": 89,
@@ -4432,7 +4520,8 @@
         },
         "points": 168.6,
         "positionalFinish": 3,
-        "valueOverSlot": 2
+        "valueOverSlot": 2,
+        "pointsOverExpected": 24
       },
       {
         "overall": 90,
@@ -4449,7 +4538,8 @@
         },
         "points": 105.0,
         "positionalFinish": 11,
-        "valueOverSlot": -5
+        "valueOverSlot": -5,
+        "pointsOverExpected": -39
       },
       {
         "overall": 91,
@@ -4466,7 +4556,8 @@
         },
         "points": 148.67,
         "positionalFinish": 6,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": 4
       },
       {
         "overall": 92,
@@ -4483,7 +4574,8 @@
         },
         "points": 162.3,
         "positionalFinish": 4,
-        "valueOverSlot": 4
+        "valueOverSlot": 4,
+        "pointsOverExpected": 18
       },
       {
         "overall": 93,
@@ -4500,7 +4592,8 @@
         },
         "points": 138.07,
         "positionalFinish": 8,
-        "valueOverSlot": 1
+        "valueOverSlot": 1,
+        "pointsOverExpected": -6
       },
       {
         "overall": 94,
@@ -4517,7 +4610,8 @@
         },
         "points": 169.37,
         "positionalFinish": 2,
-        "valueOverSlot": 8
+        "valueOverSlot": 8,
+        "pointsOverExpected": 25
       },
       {
         "overall": 95,
@@ -4534,7 +4628,8 @@
         },
         "points": 145.23,
         "positionalFinish": 7,
-        "valueOverSlot": 4
+        "valueOverSlot": 4,
+        "pointsOverExpected": 1
       },
       {
         "overall": 96,
@@ -4551,91 +4646,62 @@
         },
         "points": 103.0,
         "positionalFinish": 12,
-        "valueOverSlot": 0
+        "valueOverSlot": 0,
+        "pointsOverExpected": -41
       }
     ],
     "note": null,
+    "replacement": [
+      {
+        "position": "D/ST",
+        "finish": 12,
+        "points": 102.57
+      },
+      {
+        "position": "K",
+        "finish": 12,
+        "points": 103.0
+      },
+      {
+        "position": "QB",
+        "finish": 12,
+        "points": 103.8
+      },
+      {
+        "position": "RB",
+        "finish": 30,
+        "points": 105.2
+      },
+      {
+        "position": "TE",
+        "finish": 12,
+        "points": 205.1
+      },
+      {
+        "position": "WR",
+        "finish": 30,
+        "points": 77.0
+      }
+    ],
     "grades": [
       {
         "rank": 1,
-        "owner": {
-          "slug": "abel-trice",
-          "name": "Abel Trice"
-        },
-        "teamName": "Trice Tritons",
-        "total": 26,
-        "best": {
-          "overall": 44,
-          "round": 4,
-          "roundPick": 8,
-          "player": {
-            "name": "Zane Underhill",
-            "position": "RB",
-            "nflTeam": "TB"
-          },
-          "valueOverSlot": 16
-        },
-        "worst": {
-          "overall": 77,
-          "round": 7,
-          "roundPick": 5,
-          "player": {
-            "name": "Eagles D/ST",
-            "position": "D/ST",
-            "nflTeam": "PHI"
-          },
-          "valueOverSlot": -7
-        }
-      },
-      {
-        "rank": 2,
-        "owner": {
-          "slug": "lyle-fenwick",
-          "name": "Lyle Fenwick"
-        },
-        "teamName": "Fenwick Fog",
-        "total": 24,
-        "best": {
-          "overall": 40,
-          "round": 4,
-          "roundPick": 4,
-          "player": {
-            "name": "Upton Ashwick",
-            "position": "WR",
-            "nflTeam": "NO"
-          },
-          "valueOverSlot": 12
-        },
-        "worst": {
-          "overall": 64,
-          "round": 6,
-          "roundPick": 4,
-          "player": {
-            "name": "Upton Barrowell",
-            "position": "RB",
-            "nflTeam": "NO"
-          },
-          "valueOverSlot": -2
-        }
-      },
-      {
-        "rank": 3,
         "owner": {
           "slug": "marlo-quist",
           "name": "Marlo Quist"
         },
         "teamName": "Quist Quakes",
-        "total": 21,
+        "total": 243,
         "best": {
-          "overall": 34,
-          "round": 3,
-          "roundPick": 10,
+          "overall": 15,
+          "round": 2,
+          "roundPick": 3,
           "player": {
-            "name": "Nico Stonebrook",
-            "position": "RB",
-            "nflTeam": "NYJ"
+            "name": "Tobin Stonebrook",
+            "position": "WR",
+            "nflTeam": "CIN"
           },
-          "valueOverSlot": 14
+          "pointsOverExpected": 116
         },
         "worst": {
           "overall": 39,
@@ -4646,48 +4712,141 @@
             "position": "QB",
             "nflTeam": "CIN"
           },
-          "valueOverSlot": -3
+          "pointsOverExpected": -43
         }
       },
       {
-        "rank": 4,
+        "rank": 2,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "teamName": "Trice Tritons",
+        "total": 230,
+        "best": {
+          "overall": 68,
+          "round": 6,
+          "roundPick": 8,
+          "player": {
+            "name": "Zane Varnell",
+            "position": "WR",
+            "nflTeam": "TB"
+          },
+          "pointsOverExpected": 102
+        },
+        "worst": {
+          "overall": 53,
+          "round": 5,
+          "roundPick": 5,
+          "player": {
+            "name": "Ivo Stonebrook",
+            "position": "TE",
+            "nflTeam": "DET"
+          },
+          "pointsOverExpected": -65
+        }
+      },
+      {
+        "rank": 3,
         "owner": {
           "slug": "cass-imber",
           "name": "Cass Imber"
         },
         "teamName": "Imber Embers",
-        "total": 9,
+        "total": 139,
         "best": {
-          "overall": 37,
-          "round": 4,
-          "roundPick": 1,
+          "overall": 60,
+          "round": 5,
+          "roundPick": 12,
           "player": {
-            "name": "Rook Juniper",
-            "position": "WR",
-            "nflTeam": "PIT"
+            "name": "Pax Foxhallow",
+            "position": "QB",
+            "nflTeam": "GB"
           },
-          "valueOverSlot": 8
+          "pointsOverExpected": 107
         },
         "worst": {
-          "overall": 85,
-          "round": 8,
-          "roundPick": 1,
+          "overall": 36,
+          "round": 3,
+          "roundPick": 12,
           "player": {
-            "name": "Rook Larkspur",
-            "position": "K",
-            "nflTeam": "PIT"
+            "name": "Pax Elderby",
+            "position": "TE",
+            "nflTeam": "GB"
           },
-          "valueOverSlot": -9
+          "pointsOverExpected": -123
+        }
+      },
+      {
+        "rank": 4,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "teamName": "Fenwick Fog",
+        "total": 123,
+        "best": {
+          "overall": 40,
+          "round": 4,
+          "roundPick": 4,
+          "player": {
+            "name": "Upton Ashwick",
+            "position": "WR",
+            "nflTeam": "NO"
+          },
+          "pointsOverExpected": 114
+        },
+        "worst": {
+          "overall": 33,
+          "round": 3,
+          "roundPick": 9,
+          "player": {
+            "name": "Moss Northcott",
+            "position": "TE",
+            "nflTeam": "SEA"
+          },
+          "pointsOverExpected": -120
         }
       },
       {
         "rank": 5,
         "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles",
+        "total": 2,
+        "best": {
+          "overall": 46,
+          "round": 4,
+          "roundPick": 10,
+          "player": {
+            "name": "Bram Hollowell",
+            "position": "WR",
+            "nflTeam": "BAL"
+          },
+          "pointsOverExpected": 65
+        },
+        "worst": {
+          "overall": 22,
+          "round": 2,
+          "roundPick": 10,
+          "player": {
+            "name": "Bram Grimsby",
+            "position": "RB",
+            "nflTeam": "BAL"
+          },
+          "pointsOverExpected": -56
+        }
+      },
+      {
+        "rank": 6,
+        "owner": {
           "slug": "rue-calloway",
           "name": "Rue Calloway"
         },
         "teamName": "Calloway Comets",
-        "total": -2,
+        "total": -8,
         "best": {
           "overall": 35,
           "round": 3,
@@ -4697,7 +4856,7 @@
             "position": "WR",
             "nflTeam": "SF"
           },
-          "valueOverSlot": 9
+          "pointsOverExpected": 115
         },
         "worst": {
           "overall": 11,
@@ -4708,17 +4867,48 @@
             "position": "WR",
             "nflTeam": "SF"
           },
-          "valueOverSlot": -15
+          "pointsOverExpected": -82
         }
       },
       {
-        "rank": 6,
+        "rank": 7,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "teamName": "Vantor Vortex",
+        "total": -18,
+        "best": {
+          "overall": 42,
+          "round": 4,
+          "roundPick": 6,
+          "player": {
+            "name": "Wade Kettleby",
+            "position": "QB",
+            "nflTeam": "DAL"
+          },
+          "pointsOverExpected": 66
+        },
+        "worst": {
+          "overall": 55,
+          "round": 5,
+          "roundPick": 7,
+          "player": {
+            "name": "Kip Elderby",
+            "position": "WR",
+            "nflTeam": "DEN"
+          },
+          "pointsOverExpected": -71
+        }
+      },
+      {
+        "rank": 8,
         "owner": {
           "slug": "quinn-harrow",
           "name": "Quinn Harrow"
         },
         "teamName": "Harrow Hammers",
-        "total": -6,
+        "total": -56,
         "best": {
           "overall": 49,
           "round": 5,
@@ -4728,111 +4918,49 @@
             "position": "WR",
             "nflTeam": "PHI"
           },
-          "valueOverSlot": 10
+          "pointsOverExpected": 132
         },
         "worst": {
-          "overall": 24,
-          "round": 2,
+          "overall": 48,
+          "round": 4,
           "roundPick": 12,
           "player": {
-            "name": "Dax Quarrington",
-            "position": "RB",
+            "name": "Dax Rookwood",
+            "position": "QB",
             "nflTeam": "HOU"
           },
-          "valueOverSlot": -10
+          "pointsOverExpected": -150
         }
       },
       {
-        "rank": 7,
+        "rank": 9,
         "owner": {
-          "slug": "tamsin-oake",
-          "name": "Tamsin Oake"
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
         },
-        "teamName": "Oake Oracles",
-        "total": -8,
+        "teamName": "Paxton Pistons",
+        "total": -116,
         "best": {
-          "overall": 94,
-          "round": 8,
-          "roundPick": 10,
+          "overall": 52,
+          "round": 5,
+          "roundPick": 4,
           "player": {
-            "name": "Bram Juniper",
-            "position": "K",
-            "nflTeam": "BAL"
+            "name": "Hale Northcott",
+            "position": "WR",
+            "nflTeam": "BUF"
           },
-          "valueOverSlot": 8
+          "pointsOverExpected": 34
         },
         "worst": {
-          "overall": 3,
-          "round": 1,
-          "roundPick": 3,
-          "player": {
-            "name": "Gus Grimsby",
-            "position": "WR",
-            "nflTeam": "ATL"
-          },
-          "valueOverSlot": -10
-        }
-      },
-      {
-        "rank": 8,
-        "owner": {
-          "slug": "ines-dorrow",
-          "name": "Ines Dorrow"
-        },
-        "teamName": "Dorrow Drakes",
-        "total": -9,
-        "best": {
-          "overall": 41,
+          "overall": 45,
           "round": 4,
-          "roundPick": 5,
+          "roundPick": 9,
           "player": {
-            "name": "Vale Foxhallow",
-            "position": "RB",
-            "nflTeam": "CLE"
+            "name": "Arlo Cindergate",
+            "position": "QB",
+            "nflTeam": "KC"
           },
-          "valueOverSlot": 9
-        },
-        "worst": {
-          "overall": 32,
-          "round": 3,
-          "roundPick": 8,
-          "player": {
-            "name": "Lark Ironwood",
-            "position": "WR",
-            "nflTeam": "MIA"
-          },
-          "valueOverSlot": -10
-        }
-      },
-      {
-        "rank": 8,
-        "owner": {
-          "slug": "pell-vantor",
-          "name": "Pell Vantor"
-        },
-        "teamName": "Vantor Vortex",
-        "total": -9,
-        "best": {
-          "overall": 18,
-          "round": 2,
-          "roundPick": 6,
-          "player": {
-            "name": "Wade Juniper",
-            "position": "RB",
-            "nflTeam": "DAL"
-          },
-          "valueOverSlot": 2
-        },
-        "worst": {
-          "overall": 90,
-          "round": 8,
-          "roundPick": 6,
-          "player": {
-            "name": "Wade Merriweather",
-            "position": "K",
-            "nflTeam": "DAL"
-          },
-          "valueOverSlot": -5
+          "pointsOverExpected": -153
         }
       },
       {
@@ -4842,59 +4970,59 @@
           "name": "Odie Brask"
         },
         "teamName": "Brask Bruisers",
-        "total": -11,
+        "total": -138,
         "best": {
-          "overall": 67,
-          "round": 6,
-          "roundPick": 7,
-          "player": {
-            "name": "Yates Quarrington",
-            "position": "RB",
-            "nflTeam": "LAR"
-          },
-          "valueOverSlot": 3
-        },
-        "worst": {
-          "overall": 6,
-          "round": 1,
+          "overall": 78,
+          "round": 7,
           "roundPick": 6,
           "player": {
-            "name": "Jett Varnell",
-            "position": "RB",
+            "name": "Dolphins D/ST",
+            "position": "D/ST",
+            "nflTeam": "MIA"
+          },
+          "pointsOverExpected": 21
+        },
+        "worst": {
+          "overall": 30,
+          "round": 3,
+          "roundPick": 6,
+          "player": {
+            "name": "Jett Whitlock",
+            "position": "TE",
             "nflTeam": "JAX"
           },
-          "valueOverSlot": -9
+          "pointsOverExpected": -91
         }
       },
       {
         "rank": 11,
         "owner": {
-          "slug": "jory-paxton",
-          "name": "Jory Paxton"
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
         },
-        "teamName": "Paxton Pistons",
-        "total": -14,
+        "teamName": "Dorrow Drakes",
+        "total": -162,
         "best": {
-          "overall": 69,
-          "round": 6,
-          "roundPick": 9,
+          "overall": 41,
+          "round": 4,
+          "roundPick": 5,
           "player": {
-            "name": "Arlo Dunmore",
-            "position": "QB",
-            "nflTeam": "KC"
+            "name": "Vale Foxhallow",
+            "position": "RB",
+            "nflTeam": "CLE"
           },
-          "valueOverSlot": 5
+          "pointsOverExpected": 35
         },
         "worst": {
-          "overall": 21,
-          "round": 2,
-          "roundPick": 9,
+          "overall": 56,
+          "round": 5,
+          "roundPick": 8,
           "player": {
-            "name": "Arlo Barrowell",
-            "position": "WR",
-            "nflTeam": "KC"
+            "name": "Lark Juniper",
+            "position": "TE",
+            "nflTeam": "MIA"
           },
-          "valueOverSlot": -9
+          "pointsOverExpected": -63
         }
       },
       {
@@ -4904,17 +5032,17 @@
           "name": "Nell Ashgrove"
         },
         "teamName": "Ashgrove Aces",
-        "total": -21,
+        "total": -205,
         "best": {
-          "overall": 95,
-          "round": 8,
+          "overall": 23,
+          "round": 2,
           "roundPick": 11,
           "player": {
-            "name": "Cael Oakhurst",
-            "position": "K",
+            "name": "Cael Larkspur",
+            "position": "WR",
             "nflTeam": "LAC"
           },
-          "valueOverSlot": 4
+          "pointsOverExpected": 56
         },
         "worst": {
           "overall": 2,
@@ -4925,7 +5053,7 @@
             "position": "RB",
             "nflTeam": "MIN"
           },
-          "valueOverSlot": -17
+          "pointsOverExpected": -119
         }
       }
     ]

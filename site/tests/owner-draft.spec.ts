@@ -97,9 +97,9 @@ test("each Season shows the Owner's Draft grade, and each Pick its value", async
   for (const [i, d] of graded.draft.entries()) {
     await expect(seasons.nth(i).getByTestId("owner-draft-grade")).toContainText(`${ord(d.grade.rank)} of ${d.grade.of}`);
     await expect(seasons.nth(i).getByTestId("owner-draft-grade")).toContainText(signedValue(d.grade.total));
-    const p = d.picks.find((x: { valueOverSlot: number | null }) => x.valueOverSlot !== null);
+    const p = d.picks.find((x: { pointsOverExpected: number | null }) => x.pointsOverExpected !== null);
     const row = seasons.nth(i).locator(`[data-testid="owner-pick"][data-overall="${p.overall}"]`);
-    await expect(row.getByTestId("pick-value")).toHaveText(signedValue(p.valueOverSlot));
+    await expect(row.getByTestId("pick-value")).toHaveText(signedValue(p.pointsOverExpected));
     await expect(row).toContainText(`${p.points.toFixed(1)} pts`);
   }
 });

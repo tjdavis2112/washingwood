@@ -278,9 +278,9 @@
       "teamName": "Harrow Hammers",
       "slot": 1,
       "grade": {
-        "rank": 6,
+        "rank": 8,
         "of": 12,
-        "total": -6
+        "total": -56
       },
       "picks": [
         {
@@ -294,7 +294,8 @@
           },
           "points": 404.1,
           "positionalFinish": 1,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 107
         },
         {
           "overall": 24,
@@ -307,7 +308,8 @@
           },
           "points": 176.3,
           "positionalFinish": 22,
-          "valueOverSlot": -10
+          "valueOverSlot": -10,
+          "pointsOverExpected": -110
         },
         {
           "overall": 25,
@@ -320,7 +322,8 @@
           },
           "points": 209.0,
           "positionalFinish": 17,
-          "valueOverSlot": -4
+          "valueOverSlot": -4,
+          "pointsOverExpected": -47
         },
         {
           "overall": 48,
@@ -333,7 +336,8 @@
           },
           "points": 106.6,
           "positionalFinish": 11,
-          "valueOverSlot": -7
+          "valueOverSlot": -7,
+          "pointsOverExpected": -150
         },
         {
           "overall": 49,
@@ -346,7 +350,8 @@
           },
           "points": 302.3,
           "positionalFinish": 11,
-          "valueOverSlot": 10
+          "valueOverSlot": 10,
+          "pointsOverExpected": 132
         },
         {
           "overall": 72,
@@ -359,7 +364,8 @@
           },
           "points": 188.8,
           "positionalFinish": 7,
-          "valueOverSlot": 5
+          "valueOverSlot": 5,
+          "pointsOverExpected": 23
         },
         {
           "overall": 73,
@@ -372,7 +378,8 @@
           },
           "points": 173.4,
           "positionalFinish": 1,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 30
         },
         {
           "overall": 96,
@@ -385,7 +392,8 @@
           },
           "points": 103.0,
           "positionalFinish": 12,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -41
         }
       ]
     },
@@ -394,9 +402,9 @@
       "teamName": "Harrow Hammers",
       "slot": 10,
       "grade": {
-        "rank": 8,
+        "rank": 9,
         "of": 10,
-        "total": -8
+        "total": -191
       },
       "picks": [
         {
@@ -410,7 +418,8 @@
           },
           "points": 252.6,
           "positionalFinish": 12,
-          "valueOverSlot": -7
+          "valueOverSlot": -7,
+          "pointsOverExpected": -62
         },
         {
           "overall": 11,
@@ -423,7 +432,8 @@
           },
           "points": 326.2,
           "positionalFinish": 6,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 57
         },
         {
           "overall": 30,
@@ -436,7 +446,8 @@
           },
           "points": 165.4,
           "positionalFinish": 17,
-          "valueOverSlot": -3
+          "valueOverSlot": -3,
+          "pointsOverExpected": -80
         },
         {
           "overall": 31,
@@ -449,7 +460,8 @@
           },
           "points": 208.5,
           "positionalFinish": 14,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -33
         },
         {
           "overall": 50,
@@ -462,7 +474,8 @@
           },
           "points": 100.6,
           "positionalFinish": 23,
-          "valueOverSlot": -2
+          "valueOverSlot": -2,
+          "pointsOverExpected": -81
         },
         {
           "overall": 51,
@@ -475,7 +488,8 @@
           },
           "points": 135.8,
           "positionalFinish": 19,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": -21
         },
         {
           "overall": 70,
@@ -488,7 +502,8 @@
           },
           "points": 154.17,
           "positionalFinish": 4,
-          "valueOverSlot": 6
+          "valueOverSlot": 6,
+          "pointsOverExpected": 6
         },
         {
           "overall": 71,
@@ -501,7 +516,8 @@
           },
           "points": 165.8,
           "positionalFinish": 2,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": 23
         }
       ]
     }

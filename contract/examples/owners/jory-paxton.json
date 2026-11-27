@@ -240,9 +240,9 @@
       "teamName": "Paxton Pistons",
       "slot": 4,
       "grade": {
-        "rank": 11,
+        "rank": 9,
         "of": 12,
-        "total": -14
+        "total": -116
       },
       "picks": [
         {
@@ -256,7 +256,8 @@
           },
           "points": 348.3,
           "positionalFinish": 1,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": 23
         },
         {
           "overall": 21,
@@ -269,7 +270,8 @@
           },
           "points": 216.5,
           "positionalFinish": 20,
-          "valueOverSlot": -9
+          "valueOverSlot": -9,
+          "pointsOverExpected": -41
         },
         {
           "overall": 28,
@@ -282,7 +284,8 @@
           },
           "points": 282.7,
           "positionalFinish": 11,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 27
         },
         {
           "overall": 45,
@@ -295,7 +298,8 @@
           },
           "points": 103.8,
           "positionalFinish": 12,
-          "valueOverSlot": -9
+          "valueOverSlot": -9,
+          "pointsOverExpected": -153
         },
         {
           "overall": 52,
@@ -308,7 +312,8 @@
           },
           "points": 203.9,
           "positionalFinish": 22,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 34
         },
         {
           "overall": 69,
@@ -321,7 +326,8 @@
           },
           "points": 189.4,
           "positionalFinish": 6,
-          "valueOverSlot": 5
+          "valueOverSlot": 5,
+          "pointsOverExpected": 24
         },
         {
           "overall": 76,
@@ -334,7 +340,8 @@
           },
           "points": 119.13,
           "positionalFinish": 10,
-          "valueOverSlot": -6
+          "valueOverSlot": -6,
+          "pointsOverExpected": -24
         },
         {
           "overall": 93,
@@ -347,7 +354,8 @@
           },
           "points": 138.07,
           "positionalFinish": 8,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": -6
         }
       ]
     }

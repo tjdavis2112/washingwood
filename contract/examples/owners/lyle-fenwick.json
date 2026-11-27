@@ -274,9 +274,9 @@
       "teamName": "Fenwick Fog",
       "slot": 9,
       "grade": {
-        "rank": 2,
+        "rank": 4,
         "of": 12,
-        "total": 24
+        "total": 123
       },
       "picks": [
         {
@@ -290,7 +290,8 @@
           },
           "points": 390.3,
           "positionalFinish": 2,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 93
         },
         {
           "overall": 16,
@@ -303,7 +304,8 @@
           },
           "points": 337.3,
           "positionalFinish": 5,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 51
         },
         {
           "overall": 33,
@@ -316,7 +318,8 @@
           },
           "points": 235.6,
           "positionalFinish": 3,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -120
         },
         {
           "overall": 40,
@@ -329,7 +332,8 @@
           },
           "points": 343.5,
           "positionalFinish": 6,
-          "valueOverSlot": 12
+          "valueOverSlot": 12,
+          "pointsOverExpected": 114
         },
         {
           "overall": 57,
@@ -342,7 +346,8 @@
           },
           "points": 188.4,
           "positionalFinish": 8,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": -8
         },
         {
           "overall": 64,
@@ -355,7 +360,8 @@
           },
           "points": 105.2,
           "positionalFinish": 24,
-          "valueOverSlot": -2
+          "valueOverSlot": -2,
+          "pointsOverExpected": -62
         },
         {
           "overall": 81,
@@ -368,7 +374,8 @@
           },
           "points": 167.53,
           "positionalFinish": 3,
-          "valueOverSlot": 6
+          "valueOverSlot": 6,
+          "pointsOverExpected": 24
         },
         {
           "overall": 88,
@@ -381,7 +388,8 @@
           },
           "points": 175.07,
           "positionalFinish": 1,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 31
         }
       ]
     },
@@ -390,9 +398,9 @@
       "teamName": "Fenwick Foxes",
       "slot": 6,
       "grade": {
-        "rank": 5,
+        "rank": 4,
         "of": 10,
-        "total": 1
+        "total": 4
       },
       "picks": [
         {
@@ -406,7 +414,8 @@
           },
           "points": 261.0,
           "positionalFinish": 10,
-          "valueOverSlot": -7
+          "valueOverSlot": -7,
+          "pointsOverExpected": -53
         },
         {
           "overall": 15,
@@ -419,7 +428,8 @@
           },
           "points": 194.1,
           "positionalFinish": 16,
-          "valueOverSlot": -8
+          "valueOverSlot": -8,
+          "pointsOverExpected": -75
         },
         {
           "overall": 26,
@@ -432,7 +442,8 @@
           },
           "points": 222.2,
           "positionalFinish": 4,
-          "valueOverSlot": -2
+          "valueOverSlot": -2,
+          "pointsOverExpected": -23
         },
         {
           "overall": 35,
@@ -445,7 +456,8 @@
           },
           "points": 314.9,
           "positionalFinish": 6,
-          "valueOverSlot": 10
+          "valueOverSlot": 10,
+          "pointsOverExpected": 68
         },
         {
           "overall": 46,
@@ -458,7 +470,8 @@
           },
           "points": 268.8,
           "positionalFinish": 3,
-          "valueOverSlot": 2
+          "valueOverSlot": 2,
+          "pointsOverExpected": 44
         },
         {
           "overall": 55,
@@ -471,7 +484,8 @@
           },
           "points": 185.2,
           "positionalFinish": 18,
-          "valueOverSlot": 5
+          "valueOverSlot": 5,
+          "pointsOverExpected": 35
         },
         {
           "overall": 66,
@@ -484,7 +498,8 @@
           },
           "points": 125.5,
           "positionalFinish": 9,
-          "valueOverSlot": -3
+          "valueOverSlot": -3,
+          "pointsOverExpected": -23
         },
         {
           "overall": 75,
@@ -497,7 +512,8 @@
           },
           "points": 173.63,
           "positionalFinish": 1,
-          "valueOverSlot": 4
+          "valueOverSlot": 4,
+          "pointsOverExpected": 31
         }
       ]
     }

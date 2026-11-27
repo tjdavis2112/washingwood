@@ -121,12 +121,28 @@ A **Player**'s rank by **Season points** among every Player at their position th
 
 ## Analysis
 
+**Replacement level**:
+Per **Season** and position, the last starter-quality finish: team count × that position's starting slots, each FLEX counting as half an RB and half a WR, rounded up (a position with no starting slot counts one per team). Replacement points are the **Season points** of the **Player** at that **Positional finish** (on a tie that skips it, the nearest finish above; with fewer Players, the last one). 12 teams with 2 RB and 2 FLEX: RB36.
+
+**Points above replacement**:
+A drafted **Player**'s **Season points** minus their position's Replacement points that Season, never below 0 (anyone below replacement was waiver-wire level).
+
+**Points over expected**:
+A **Pick**'s **Points above replacement** minus what a Pick in that round usually returns: the mean Points above replacement of every recorded Pick in that round, across every **Season**. Rounded to whole points. Positive beat its round, negative fell short. It ranks the **Hits** and **Busts** and adds up to the **Draft grade**. Picks with no Player recorded are left out.
+_Avoid_: Draft value (unqualified), VOR
+
 **Value over slot**:
-A **Pick**'s order among that **Season**'s Picks at its position (1 = the first QB taken), minus its finish by **Season points** among the drafted Players at that position (ties share the better finish). The 8th QB taken who finishes as the 2nd-best drafted QB scores +6. Positive is a steal, negative a bust. Compared within a position, so one-per-team positions (QB, K, D/ST) aren't steals by default, and within one Season, so it compares across Scoring formats and team counts. Picks with no Player recorded are left out.
+A **Pick**'s order among that **Season**'s Picks at its position (1 = the first QB taken), minus its finish by **Season points** among the drafted Players at that position (ties share the better finish). The 8th QB taken who finishes as the 2nd-best drafted QB scores +6. Rank-based, so it rewards late-round finds and caps early ones: it ranks the **Steals** only, not the Draft grade. Compared within a position and within one Season. Picks with no Player recorded are left out.
 _Avoid_: Draft value (unqualified)
 
 **Draft grade**:
-The sum of a **Franchise**'s **Value over slot** in one **Season**, ranked within that Season. No letter grades.
+The sum of a **Franchise**'s **Points over expected** in one **Season**, ranked within that Season. No letter grades.
+
+**Hit** / **Bust**:
+The all-time 10 **Picks** with the highest / lowest **Points over expected**. A Hit can come from any round; Busts are mostly early Picks that fell apart.
+
+**Steal**:
+One of the all-time 10 **Picks** with the highest **Value over slot**: a Player who outplayed where they went.
 
 **All-play record**:
 A **Franchise**'s record if it had played every other Franchise every **Week**.

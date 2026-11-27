@@ -81,8 +81,10 @@ export type DraftPick = {
   points: number | null;
   positionalFinish: number | null;
   valueOverSlot: number | null;
+  pointsOverExpected: number | null;
 };
-export type GradedPick = { overall: number; round: number; roundPick: number; player: DraftPlayer; valueOverSlot: number };
+export type GradedPick = { overall: number; round: number; roundPick: number; player: DraftPlayer; pointsOverExpected: number };
+export type ReplacementLevel = { position: string; finish: number; points: number };
 export type DraftGrade = { rank: number; owner: OwnerRef; teamName: string; total: number; best: GradedPick; worst: GradedPick };
 export type Draft = {
   type: "snake" | "offline";
@@ -90,6 +92,7 @@ export type Draft = {
   order: { slot: number; owner: OwnerRef; teamName: string }[];
   picks: DraftPick[];
   note: string | null;
+  replacement: ReplacementLevel[];
   grades: DraftGrade[];
 };
 
@@ -232,6 +235,7 @@ export type OwnerDraftSeason = {
     points: number | null;
     positionalFinish: number | null;
     valueOverSlot: number | null;
+    pointsOverExpected: number | null;
   }[];
 };
 
@@ -252,20 +256,23 @@ export type AllTimePick = {
   round: number;
   roundPick: number;
   player: DraftPlayer;
+  points: number;
   positionalFinish: number;
   valueOverSlot: number;
+  pointsOverExpected: number;
 };
 export type BestDrafter = { owner: OwnerRef; seasons: number; averageRank: number };
 export type DraftHistory = {
   seasons: DraftHistorySeason[];
-  bestPicks: AllTimePick[];
-  worstPicks: AllTimePick[];
+  steals: AllTimePick[];
+  hits: AllTimePick[];
+  busts: AllTimePick[];
   bestDrafters: BestDrafter[];
 };
 
 let draftHistory: DraftHistory | undefined;
-/** draft.json: every Season's first round (newest first), the all-time best and worst Picks, and Best
- * drafters, all in the pipeline's order. */
+/** draft.json: every Season's first round (newest first), the all-time Steals, Hits and Busts, and
+ * Best drafters, all in the pipeline's order. */
 export function getDraftHistory(): DraftHistory {
   draftHistory ??= load<DraftHistory>("draft.json", "draft");
   return draftHistory;

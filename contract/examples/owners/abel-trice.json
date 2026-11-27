@@ -272,9 +272,9 @@
       "teamName": "Trice Tritons",
       "slot": 5,
       "grade": {
-        "rank": 1,
+        "rank": 2,
         "of": 12,
-        "total": 26
+        "total": 230
       },
       "picks": [
         {
@@ -288,7 +288,8 @@
           },
           "points": 385.3,
           "positionalFinish": 3,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 88
         },
         {
           "overall": 20,
@@ -301,7 +302,8 @@
           },
           "points": 303.2,
           "positionalFinish": 8,
-          "valueOverSlot": 2
+          "valueOverSlot": 2,
+          "pointsOverExpected": 17
         },
         {
           "overall": 29,
@@ -314,7 +316,8 @@
           },
           "points": 257.2,
           "positionalFinish": 14,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 30
         },
         {
           "overall": 44,
@@ -327,7 +330,8 @@
           },
           "points": 339.1,
           "positionalFinish": 3,
-          "valueOverSlot": 16
+          "valueOverSlot": 16,
+          "pointsOverExpected": 81
         },
         {
           "overall": 53,
@@ -340,7 +344,8 @@
           },
           "points": 233.2,
           "positionalFinish": 5,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": -65
         },
         {
           "overall": 68,
@@ -353,7 +358,8 @@
           },
           "points": 241.1,
           "positionalFinish": 17,
-          "valueOverSlot": 10
+          "valueOverSlot": 10,
+          "pointsOverExpected": 102
         },
         {
           "overall": 77,
@@ -366,7 +372,8 @@
           },
           "points": 102.57,
           "positionalFinish": 12,
-          "valueOverSlot": -7
+          "valueOverSlot": -7,
+          "pointsOverExpected": -41
         },
         {
           "overall": 92,
@@ -379,7 +386,8 @@
           },
           "points": 162.3,
           "positionalFinish": 4,
-          "valueOverSlot": 4
+          "valueOverSlot": 4,
+          "pointsOverExpected": 18
         }
       ]
     },
@@ -388,9 +396,9 @@
       "teamName": "Trice Tritons",
       "slot": 2,
       "grade": {
-        "rank": 3,
+        "rank": 2,
         "of": 10,
-        "total": 7
+        "total": 245
       },
       "picks": [
         {
@@ -404,7 +412,8 @@
           },
           "points": 395.3,
           "positionalFinish": 2,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": 81
         },
         {
           "overall": 19,
@@ -417,7 +426,8 @@
           },
           "points": 236.8,
           "positionalFinish": 11,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": -33
         },
         {
           "overall": 22,
@@ -430,7 +440,8 @@
           },
           "points": 357.5,
           "positionalFinish": 3,
-          "valueOverSlot": 8
+          "valueOverSlot": 8,
+          "pointsOverExpected": 118
         },
         {
           "overall": 39,
@@ -443,7 +454,8 @@
           },
           "points": 266.3,
           "positionalFinish": 4,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": -19
         },
         {
           "overall": 42,
@@ -456,7 +468,8 @@
           },
           "points": 282.7,
           "positionalFinish": 1,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 95
         },
         {
           "overall": 59,
@@ -469,7 +482,8 @@
           },
           "points": 194.7,
           "positionalFinish": 6,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 0
         },
         {
           "overall": 62,
@@ -482,7 +496,8 @@
           },
           "points": 151.63,
           "positionalFinish": 6,
-          "valueOverSlot": -4
+          "valueOverSlot": -4,
+          "pointsOverExpected": 3
         },
         {
           "overall": 79,
@@ -491,7 +506,8 @@
           "player": null,
           "points": null,
           "positionalFinish": null,
-          "valueOverSlot": null
+          "valueOverSlot": null,
+          "pointsOverExpected": null
         }
       ]
     }

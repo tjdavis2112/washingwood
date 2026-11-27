@@ -190,11 +190,11 @@ def owner_documents(conn: Connection) -> dict[str, dict]:
 
 def _owner_drafts(conn: Connection, owners) -> dict[int, list[dict]]:
     """owner_id -> one entry per Season, newest first: the Owner's Draft grade that Season and their
-    Picks in pick order with Season points, Positional finish and Value over slot."""
+    Picks in pick order with Season points, Positional finish, Value over slot and Points over expected."""
     grades = {
         (owner_id, year): {"rank": rank, "of": team_count, "total": total}
         for owner_id, year, rank, team_count, total in conn.execute(
-            """SELECT fo.owner_id, s.year, g.grade_rank, s.team_count, g.total_value_over_slot
+            """SELECT fo.owner_id, s.year, g.grade_rank, s.team_count, g.total_points_over_expected
                FROM stats.draft_grades g
                JOIN core.seasons s           ON s.season_id = g.season_id
                JOIN stats.franchise_owner fo ON fo.franchise_id = g.franchise_id"""
@@ -215,9 +215,10 @@ def _owner_drafts(conn: Connection, owners) -> dict[int, list[dict]]:
         points,
         finish,
         vos,
+        poe,
     ) in conn.execute(
         """SELECT owner_id, year, team_name, draft_slot, overall_pick, round, round_pick, player_name, position,
-                      nfl_team, points, positional_finish, value_over_slot
+                      nfl_team, points, positional_finish, value_over_slot, points_over_expected
                FROM stats.draft_board ORDER BY year DESC, overall_pick"""
     ).fetchall():
         entry = drafts[owner_id].setdefault(
@@ -232,6 +233,7 @@ def _owner_drafts(conn: Connection, owners) -> dict[int, list[dict]]:
                 "points": None if points is None else float(points),
                 "positionalFinish": finish,
                 "valueOverSlot": vos,
+                "pointsOverExpected": poe,
             }
         )
     return {owner_id: list(by_year.values()) for owner_id, by_year in drafts.items()}
@@ -282,11 +284,12 @@ def season_document(conn: Connection, year: int) -> dict:
 
 def _draft(conn: Connection, year: int) -> dict:
     """The Season's Draft: round-1 order by Draft slot, every Pick in order with its Season points,
-    Positional finish and Value over slot, and the Draft grades (stats.draft_board, stats.draft_grades)."""
+    Positional finish, Value over slot and Points over expected, each drafted position's Replacement level,
+    and the Draft grades (stats.draft_board, stats.replacement_level, stats.draft_grades)."""
     draft_type = conn.execute("SELECT draft_type FROM core.seasons WHERE year = %s", (year,)).fetchone()[0]
     rows = conn.execute(
         """SELECT overall_pick, round, round_pick, franchise_id, owner, team_name, draft_slot, player_name,
-                  position, nfl_team, points, positional_finish, value_over_slot
+                  position, nfl_team, points, positional_finish, value_over_slot, points_over_expected
            FROM stats.draft_board WHERE year = %s ORDER BY overall_pick""",
         (year,),
     ).fetchall()
@@ -294,7 +297,7 @@ def _draft(conn: Connection, year: int) -> dict:
         raise ExportError(f"Season {year}: no Draft picks loaded")
     order = sorted({(slot, owner, team) for _, rnd, _, _, owner, team, slot, *_ in rows if rnd == 1})
     picks, by_franchise = [], {}
-    for overall, rnd, round_pick, fid, owner, _, _, name, position, nfl_team, points, finish, vos in rows:
+    for overall, rnd, round_pick, fid, owner, _, _, name, position, nfl_team, points, finish, vos, poe in rows:
         pick = {
             "overall": overall,
             "round": rnd,
@@ -304,6 +307,7 @@ def _draft(conn: Connection, year: int) -> dict:
             "points": None if points is None else float(points),
             "positionalFinish": finish,
             "valueOverSlot": vos,
+            "pointsOverExpected": poe,
         }
         picks.append(pick)
         by_franchise.setdefault(fid, []).append(pick)
@@ -313,16 +317,17 @@ def _draft(conn: Connection, year: int) -> dict:
         "order": [{"slot": slot, "owner": _owner_ref(owner), "teamName": team} for slot, owner, team in order],
         "picks": picks,
         "note": _draft_note(draft_type, sum(p["player"] is None for p in picks)),
+        "replacement": _replacement(conn, year),
         "grades": _draft_grades(conn, year, by_franchise),
     }
 
 
 def _draft_grades(conn: Connection, year: int, by_franchise: dict[int, list[dict]]) -> list[dict]:
     """One Draft grade per Franchise, by rank then Owner name, naming its best and worst Pick
-    (highest / lowest Value over slot; the earliest Pick on a tie)."""
+    (highest / lowest Points over expected; the earliest Pick on a tie)."""
     grades = []
     for fid, rank, total, owner, team in conn.execute(
-        """SELECT g.franchise_id, g.grade_rank, g.total_value_over_slot, fo.display_name, f.team_name
+        """SELECT g.franchise_id, g.grade_rank, g.total_points_over_expected, fo.display_name, f.team_name
            FROM stats.draft_grades g
            JOIN core.seasons s           ON s.season_id = g.season_id
            JOIN core.franchises f        ON f.franchise_id = g.franchise_id
@@ -330,15 +335,15 @@ def _draft_grades(conn: Connection, year: int, by_franchise: dict[int, list[dict
            WHERE s.year = %s""",
         (year,),
     ).fetchall():
-        graded = [p for p in by_franchise[fid] if p["valueOverSlot"] is not None]
+        graded = [p for p in by_franchise[fid] if p["pointsOverExpected"] is not None]
         if not graded:
             raise ExportError(f"Season {year}: {owner} has no Pick with a recorded Player to grade")
 
         def named(p):
-            return {k: p[k] for k in ("overall", "round", "roundPick", "player", "valueOverSlot")}
+            return {k: p[k] for k in ("overall", "round", "roundPick", "player", "pointsOverExpected")}
 
-        best = max(graded, key=lambda p: (p["valueOverSlot"], -p["overall"]))
-        worst = min(graded, key=lambda p: (p["valueOverSlot"], p["overall"]))
+        best = max(graded, key=lambda p: (p["pointsOverExpected"], -p["overall"]))
+        worst = min(graded, key=lambda p: (p["pointsOverExpected"], p["overall"]))
         grades.append(
             {
                 "rank": rank,
@@ -350,6 +355,18 @@ def _draft_grades(conn: Connection, year: int, by_franchise: dict[int, list[dict
             }
         )
     return sorted(grades, key=lambda g: (g["rank"], g["owner"]["name"]))
+
+
+def _replacement(conn: Connection, year: int) -> list[dict]:
+    """Replacement level for every position drafted that Season, by position name."""
+    rows = conn.execute(
+        """SELECT rl.position, rl.replacement_finish, rl.replacement_points
+           FROM stats.replacement_level rl JOIN core.seasons s ON s.season_id = rl.season_id
+           WHERE s.year = %s AND rl.position IN (SELECT position FROM stats.draft_board WHERE year = %s)
+           ORDER BY rl.position""",
+        (year, year),
+    ).fetchall()
+    return [{"position": pos, "finish": finish, "points": float(points)} for pos, finish, points in rows]
 
 
 # Starting slots in lineup order (espn-api.md §5); bench (BE) before IR
@@ -663,15 +680,17 @@ ALL_TIME_PICKS = 10
 
 
 def _all_time_picks(conn: Connection) -> dict:
-    """The 10 best and 10 worst recorded Picks by Value over slot across every Season; ties by Season,
-    then overall pick."""
+    """The all-time Steals (highest Value over slot), Hits (highest Points over expected) and Busts
+    (lowest Points over expected): 10 recorded Picks each across every Season. Ties go by Season points
+    in the same direction (Busts: fewest first, since every Pick below replacement floors to the same
+    value), then Season, then overall pick."""
 
-    def picks(direction: str) -> list[dict]:
+    def picks(column: str, direction: str) -> list[dict]:
         rows = conn.execute(
             f"""SELECT year, owner, team_name, overall_pick, round, round_pick, player_name, position, nfl_team,
-                       positional_finish, value_over_slot
-                FROM stats.draft_board WHERE value_over_slot IS NOT NULL
-                ORDER BY value_over_slot {direction}, year, overall_pick LIMIT %s""",
+                       points, positional_finish, value_over_slot, points_over_expected
+                FROM stats.draft_board WHERE {column} IS NOT NULL
+                ORDER BY {column} {direction}, points {direction}, year, overall_pick LIMIT %s""",
             (ALL_TIME_PICKS,),
         ).fetchall()
         return [
@@ -683,13 +702,19 @@ def _all_time_picks(conn: Connection) -> dict:
                 "round": rnd,
                 "roundPick": round_pick,
                 "player": {"name": name, "position": position, "nflTeam": nfl_team},
+                "points": float(points),
                 "positionalFinish": finish,
                 "valueOverSlot": vos,
+                "pointsOverExpected": poe,
             }
-            for year, owner, team, overall, rnd, round_pick, name, position, nfl_team, finish, vos in rows
+            for year, owner, team, overall, rnd, round_pick, name, position, nfl_team, points, finish, vos, poe in rows
         ]
 
-    return {"bestPicks": picks("DESC"), "worstPicks": picks("ASC")}
+    return {
+        "steals": picks("value_over_slot", "DESC"),
+        "hits": picks("points_over_expected", "DESC"),
+        "busts": picks("points_over_expected", "ASC"),
+    }
 
 
 def _best_drafters(conn: Connection) -> list[dict]:

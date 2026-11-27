@@ -277,9 +277,9 @@
       "teamName": "Vantor Vortex",
       "slot": 7,
       "grade": {
-        "rank": 8,
+        "rank": 7,
         "of": 12,
-        "total": -9
+        "total": -18
       },
       "picks": [
         {
@@ -293,7 +293,8 @@
           },
           "points": 346.1,
           "positionalFinish": 5,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": 49
         },
         {
           "overall": 18,
@@ -306,7 +307,8 @@
           },
           "points": 313.5,
           "positionalFinish": 7,
-          "valueOverSlot": 2
+          "valueOverSlot": 2,
+          "pointsOverExpected": 28
         },
         {
           "overall": 31,
@@ -319,7 +321,8 @@
           },
           "points": 267.2,
           "positionalFinish": 13,
-          "valueOverSlot": 2
+          "valueOverSlot": 2,
+          "pointsOverExpected": 12
         },
         {
           "overall": 42,
@@ -332,7 +335,8 @@
           },
           "points": 322.3,
           "positionalFinish": 1,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": 66
         },
         {
           "overall": 55,
@@ -345,7 +349,8 @@
           },
           "points": 99.1,
           "positionalFinish": 27,
-          "valueOverSlot": -4
+          "valueOverSlot": -4,
+          "pointsOverExpected": -71
         },
         {
           "overall": 66,
@@ -358,7 +363,8 @@
           },
           "points": 142.0,
           "positionalFinish": 10,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -24
         },
         {
           "overall": 79,
@@ -371,7 +377,8 @@
           },
           "points": 104.07,
           "positionalFinish": 11,
-          "valueOverSlot": -4
+          "valueOverSlot": -4,
+          "pointsOverExpected": -39
         },
         {
           "overall": 90,
@@ -384,7 +391,8 @@
           },
           "points": 105.0,
           "positionalFinish": 11,
-          "valueOverSlot": -5
+          "valueOverSlot": -5,
+          "pointsOverExpected": -39
         }
       ]
     },
@@ -393,9 +401,9 @@
       "teamName": "Vantor Vipers",
       "slot": 9,
       "grade": {
-        "rank": 7,
+        "rank": 8,
         "of": 10,
-        "total": -7
+        "total": -119
       },
       "picks": [
         {
@@ -409,7 +417,8 @@
           },
           "points": 293.0,
           "positionalFinish": 7,
-          "valueOverSlot": -2
+          "valueOverSlot": -2,
+          "pointsOverExpected": -15
         },
         {
           "overall": 12,
@@ -422,7 +431,8 @@
           },
           "points": 213.1,
           "positionalFinish": 15,
-          "valueOverSlot": -9
+          "valueOverSlot": -9,
+          "pointsOverExpected": -62
         },
         {
           "overall": 29,
@@ -435,7 +445,8 @@
           },
           "points": 254.2,
           "positionalFinish": 3,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 9
         },
         {
           "overall": 32,
@@ -448,7 +459,8 @@
           },
           "points": 311.8,
           "positionalFinish": 7,
-          "valueOverSlot": 8
+          "valueOverSlot": 8,
+          "pointsOverExpected": 64
         },
         {
           "overall": 49,
@@ -461,7 +473,8 @@
           },
           "points": 132.4,
           "positionalFinish": 9,
-          "valueOverSlot": -3
+          "valueOverSlot": -3,
+          "pointsOverExpected": -93
         },
         {
           "overall": 52,
@@ -474,7 +487,8 @@
           },
           "points": 154.9,
           "positionalFinish": 21,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": 4
         },
         {
           "overall": 69,
@@ -487,7 +501,8 @@
           },
           "points": 128.33,
           "positionalFinish": 8,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": -20
         },
         {
           "overall": 72,
@@ -500,7 +515,8 @@
           },
           "points": 136.27,
           "positionalFinish": 5,
-          "valueOverSlot": -3
+          "valueOverSlot": -3,
+          "pointsOverExpected": -6
         }
       ]
     }

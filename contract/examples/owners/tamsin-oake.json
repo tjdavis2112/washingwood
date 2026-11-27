@@ -272,9 +272,9 @@
       "teamName": "Oake Oracles",
       "slot": 3,
       "grade": {
-        "rank": 7,
+        "rank": 5,
         "of": 12,
-        "total": -8
+        "total": 2
       },
       "picks": [
         {
@@ -288,7 +288,8 @@
           },
           "points": 300.4,
           "positionalFinish": 12,
-          "valueOverSlot": -10
+          "valueOverSlot": -10,
+          "pointsOverExpected": 4
         },
         {
           "overall": 22,
@@ -301,7 +302,8 @@
           },
           "points": 229.7,
           "positionalFinish": 16,
-          "valueOverSlot": -5
+          "valueOverSlot": -5,
+          "pointsOverExpected": -56
         },
         {
           "overall": 27,
@@ -314,7 +316,8 @@
           },
           "points": 360.4,
           "positionalFinish": 1,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 5
         },
         {
           "overall": 46,
@@ -327,7 +330,8 @@
           },
           "points": 295.2,
           "positionalFinish": 13,
-          "valueOverSlot": 7
+          "valueOverSlot": 7,
+          "pointsOverExpected": 65
         },
         {
           "overall": 51,
@@ -340,7 +344,8 @@
           },
           "points": 172.3,
           "positionalFinish": 9,
-          "valueOverSlot": -4
+          "valueOverSlot": -4,
+          "pointsOverExpected": -24
         },
         {
           "overall": 70,
@@ -353,7 +358,8 @@
           },
           "points": 155.2,
           "positionalFinish": 23,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": -12
         },
         {
           "overall": 75,
@@ -366,7 +372,8 @@
           },
           "points": 138.53,
           "positionalFinish": 8,
-          "valueOverSlot": -5
+          "valueOverSlot": -5,
+          "pointsOverExpected": -5
         },
         {
           "overall": 94,
@@ -379,7 +386,8 @@
           },
           "points": 169.37,
           "positionalFinish": 2,
-          "valueOverSlot": 8
+          "valueOverSlot": 8,
+          "pointsOverExpected": 25
         }
       ]
     },
@@ -388,9 +396,9 @@
       "teamName": "Oake Oracles",
       "slot": 4,
       "grade": {
-        "rank": 2,
+        "rank": 5,
         "of": 10,
-        "total": 11
+        "total": 3
       },
       "picks": [
         {
@@ -404,7 +412,8 @@
           },
           "points": 343.3,
           "positionalFinish": 4,
-          "valueOverSlot": -2
+          "valueOverSlot": -2,
+          "pointsOverExpected": 29
         },
         {
           "overall": 17,
@@ -417,7 +426,8 @@
           },
           "points": 212.0,
           "positionalFinish": 13,
-          "valueOverSlot": -4
+          "valueOverSlot": -4,
+          "pointsOverExpected": -57
         },
         {
           "overall": 24,
@@ -430,7 +440,8 @@
           },
           "points": 334.3,
           "positionalFinish": 5,
-          "valueOverSlot": 7
+          "valueOverSlot": 7,
+          "pointsOverExpected": 89
         },
         {
           "overall": 37,
@@ -443,7 +454,8 @@
           },
           "points": 248.7,
           "positionalFinish": 9,
-          "valueOverSlot": 7
+          "valueOverSlot": 7,
+          "pointsOverExpected": 7
         },
         {
           "overall": 44,
@@ -456,7 +468,8 @@
           },
           "points": 173.1,
           "positionalFinish": 19,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -8
         },
         {
           "overall": 57,
@@ -469,7 +482,8 @@
           },
           "points": 110.0,
           "positionalFinish": 20,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -47
         },
         {
           "overall": 64,
@@ -482,7 +496,8 @@
           },
           "points": 179.57,
           "positionalFinish": 1,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 31
         },
         {
           "overall": 77,
@@ -495,7 +510,8 @@
           },
           "points": 100.87,
           "positionalFinish": 7,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -41
         }
       ]
     }

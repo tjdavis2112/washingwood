@@ -301,7 +301,7 @@
       ]
     }
   ],
-  "bestPicks": [
+  "steals": [
     {
       "year": 2020,
       "owner": {
@@ -317,8 +317,10 @@
         "position": "RB",
         "nflTeam": "TB"
       },
+      "points": 339.1,
       "positionalFinish": 3,
-      "valueOverSlot": 16
+      "valueOverSlot": 16,
+      "pointsOverExpected": 81
     },
     {
       "year": 2020,
@@ -335,8 +337,10 @@
         "position": "RB",
         "nflTeam": "NYJ"
       },
+      "points": 342.0,
       "positionalFinish": 2,
-      "valueOverSlot": 14
+      "valueOverSlot": 14,
+      "pointsOverExpected": 86
     },
     {
       "year": 2018,
@@ -353,8 +357,10 @@
         "position": "WR",
         "nflTeam": "IND"
       },
+      "points": 327.8,
       "positionalFinish": 5,
-      "valueOverSlot": 13
+      "valueOverSlot": 13,
+      "pointsOverExpected": 146
     },
     {
       "year": 2020,
@@ -371,8 +377,10 @@
         "position": "WR",
         "nflTeam": "NO"
       },
+      "points": 343.5,
       "positionalFinish": 6,
-      "valueOverSlot": 12
+      "valueOverSlot": 12,
+      "pointsOverExpected": 114
     },
     {
       "year": 2018,
@@ -389,8 +397,10 @@
         "position": "WR",
         "nflTeam": "PHI"
       },
+      "points": 368.7,
       "positionalFinish": 2,
-      "valueOverSlot": 11
+      "valueOverSlot": 11,
+      "pointsOverExpected": 130
     },
     {
       "year": 2018,
@@ -407,8 +417,10 @@
         "position": "RB",
         "nflTeam": "MIA"
       },
+      "points": 314.9,
       "positionalFinish": 6,
-      "valueOverSlot": 10
+      "valueOverSlot": 10,
+      "pointsOverExpected": 68
     },
     {
       "year": 2020,
@@ -425,8 +437,10 @@
         "position": "WR",
         "nflTeam": "PHI"
       },
+      "points": 302.3,
       "positionalFinish": 11,
-      "valueOverSlot": 10
+      "valueOverSlot": 10,
+      "pointsOverExpected": 132
     },
     {
       "year": 2020,
@@ -443,8 +457,10 @@
         "position": "WR",
         "nflTeam": "TB"
       },
+      "points": 241.1,
       "positionalFinish": 17,
-      "valueOverSlot": 10
+      "valueOverSlot": 10,
+      "pointsOverExpected": 102
     },
     {
       "year": 2020,
@@ -461,8 +477,10 @@
         "position": "WR",
         "nflTeam": "SF"
       },
+      "points": 342.5,
       "positionalFinish": 7,
-      "valueOverSlot": 9
+      "valueOverSlot": 9,
+      "pointsOverExpected": 115
     },
     {
       "year": 2020,
@@ -479,11 +497,315 @@
         "position": "RB",
         "nflTeam": "CLE"
       },
+      "points": 293.4,
       "positionalFinish": 9,
-      "valueOverSlot": 9
+      "valueOverSlot": 9,
+      "pointsOverExpected": 35
     }
   ],
-  "worstPicks": [
+  "hits": [
+    {
+      "year": 2018,
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "teamName": "Dorrow Drakes",
+      "overall": 41,
+      "round": 5,
+      "roundPick": 1,
+      "player": {
+        "name": "Sully Oakhurst",
+        "position": "WR",
+        "nflTeam": "IND"
+      },
+      "points": 327.8,
+      "positionalFinish": 5,
+      "valueOverSlot": 13,
+      "pointsOverExpected": 146
+    },
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "teamName": "Harrow Hammers",
+      "overall": 49,
+      "round": 5,
+      "roundPick": 1,
+      "player": {
+        "name": "Ezra Whitlock",
+        "position": "WR",
+        "nflTeam": "PHI"
+      },
+      "points": 302.3,
+      "positionalFinish": 11,
+      "valueOverSlot": 10,
+      "pointsOverExpected": 132
+    },
+    {
+      "year": 2018,
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "teamName": "Calloway Comets",
+      "overall": 28,
+      "round": 3,
+      "roundPick": 8,
+      "player": {
+        "name": "Ezra Varnell",
+        "position": "WR",
+        "nflTeam": "PHI"
+      },
+      "points": 368.7,
+      "positionalFinish": 2,
+      "valueOverSlot": 11,
+      "pointsOverExpected": 130
+    },
+    {
+      "year": 2018,
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "teamName": "Quist Quakes",
+      "overall": 16,
+      "round": 2,
+      "roundPick": 6,
+      "player": {
+        "name": "Rook Ironwood",
+        "position": "RB",
+        "nflTeam": "PIT"
+      },
+      "points": 399.0,
+      "positionalFinish": 1,
+      "valueOverSlot": 7,
+      "pointsOverExpected": 124
+    },
+    {
+      "year": 2018,
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "teamName": "Trice Tritons",
+      "overall": 22,
+      "round": 3,
+      "roundPick": 2,
+      "player": {
+        "name": "Yates Oakhurst",
+        "position": "WR",
+        "nflTeam": "LAR"
+      },
+      "points": 357.5,
+      "positionalFinish": 3,
+      "valueOverSlot": 8,
+      "pointsOverExpected": 118
+    },
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "teamName": "Quist Quakes",
+      "overall": 15,
+      "round": 2,
+      "roundPick": 3,
+      "player": {
+        "name": "Tobin Stonebrook",
+        "position": "WR",
+        "nflTeam": "CIN"
+      },
+      "points": 374.0,
+      "positionalFinish": 4,
+      "valueOverSlot": 4,
+      "pointsOverExpected": 116
+    },
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "teamName": "Calloway Comets",
+      "overall": 35,
+      "round": 3,
+      "roundPick": 11,
+      "player": {
+        "name": "Otto Yarrowby",
+        "position": "WR",
+        "nflTeam": "SF"
+      },
+      "points": 342.5,
+      "positionalFinish": 7,
+      "valueOverSlot": 9,
+      "pointsOverExpected": 115
+    },
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "teamName": "Fenwick Fog",
+      "overall": 40,
+      "round": 4,
+      "roundPick": 4,
+      "player": {
+        "name": "Upton Ashwick",
+        "position": "WR",
+        "nflTeam": "NO"
+      },
+      "points": 343.5,
+      "positionalFinish": 6,
+      "valueOverSlot": 12,
+      "pointsOverExpected": 114
+    },
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "teamName": "Harrow Hammers",
+      "overall": 1,
+      "round": 1,
+      "roundPick": 1,
+      "player": {
+        "name": "Ezra Underhill",
+        "position": "WR",
+        "nflTeam": "PHI"
+      },
+      "points": 404.1,
+      "positionalFinish": 1,
+      "valueOverSlot": 0,
+      "pointsOverExpected": 107
+    },
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "teamName": "Imber Embers",
+      "overall": 60,
+      "round": 5,
+      "roundPick": 12,
+      "player": {
+        "name": "Pax Foxhallow",
+        "position": "QB",
+        "nflTeam": "GB"
+      },
+      "points": 303.4,
+      "positionalFinish": 2,
+      "valueOverSlot": 6,
+      "pointsOverExpected": 107
+    }
+  ],
+  "busts": [
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "teamName": "Paxton Pistons",
+      "overall": 45,
+      "round": 4,
+      "roundPick": 9,
+      "player": {
+        "name": "Arlo Cindergate",
+        "position": "QB",
+        "nflTeam": "KC"
+      },
+      "points": 103.8,
+      "positionalFinish": 12,
+      "valueOverSlot": -9,
+      "pointsOverExpected": -153
+    },
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "teamName": "Harrow Hammers",
+      "overall": 48,
+      "round": 4,
+      "roundPick": 12,
+      "player": {
+        "name": "Dax Rookwood",
+        "position": "QB",
+        "nflTeam": "HOU"
+      },
+      "points": 106.6,
+      "positionalFinish": 11,
+      "valueOverSlot": -7,
+      "pointsOverExpected": -150
+    },
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "teamName": "Imber Embers",
+      "overall": 36,
+      "round": 3,
+      "roundPick": 12,
+      "player": {
+        "name": "Pax Elderby",
+        "position": "TE",
+        "nflTeam": "GB"
+      },
+      "points": 232.3,
+      "positionalFinish": 6,
+      "valueOverSlot": -2,
+      "pointsOverExpected": -123
+    },
+    {
+      "year": 2018,
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "teamName": "Dorrow Drakes",
+      "overall": 40,
+      "round": 4,
+      "roundPick": 10,
+      "player": {
+        "name": "Rook Juniper",
+        "position": "WR",
+        "nflTeam": "PIT"
+      },
+      "points": 121.8,
+      "positionalFinish": 22,
+      "valueOverSlot": -5,
+      "pointsOverExpected": -120
+    },
+    {
+      "year": 2020,
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "teamName": "Fenwick Fog",
+      "overall": 33,
+      "round": 3,
+      "roundPick": 9,
+      "player": {
+        "name": "Moss Northcott",
+        "position": "TE",
+        "nflTeam": "SEA"
+      },
+      "points": 235.6,
+      "positionalFinish": 3,
+      "valueOverSlot": 0,
+      "pointsOverExpected": -120
+    },
     {
       "year": 2020,
       "owner": {
@@ -499,80 +821,10 @@
         "position": "RB",
         "nflTeam": "MIN"
       },
+      "points": 206.3,
       "positionalFinish": 18,
-      "valueOverSlot": -17
-    },
-    {
-      "year": 2020,
-      "owner": {
-        "slug": "rue-calloway",
-        "name": "Rue Calloway"
-      },
-      "teamName": "Calloway Comets",
-      "overall": 11,
-      "round": 1,
-      "roundPick": 11,
-      "player": {
-        "name": "Otto Whitlock",
-        "position": "WR",
-        "nflTeam": "SF"
-      },
-      "positionalFinish": 21,
-      "valueOverSlot": -15
-    },
-    {
-      "year": 2018,
-      "owner": {
-        "slug": "rue-calloway",
-        "name": "Rue Calloway"
-      },
-      "teamName": "Calloway Comets",
-      "overall": 8,
-      "round": 1,
-      "roundPick": 8,
-      "player": {
-        "name": "Ivo Quarrington",
-        "position": "RB",
-        "nflTeam": "DET"
-      },
-      "positionalFinish": 14,
-      "valueOverSlot": -10
-    },
-    {
-      "year": 2018,
-      "owner": {
-        "slug": "rue-calloway",
-        "name": "Rue Calloway"
-      },
-      "teamName": "Calloway Comets",
-      "overall": 13,
-      "round": 2,
-      "roundPick": 3,
-      "player": {
-        "name": "Nico Rookwood",
-        "position": "WR",
-        "nflTeam": "NYJ"
-      },
-      "positionalFinish": 17,
-      "valueOverSlot": -10
-    },
-    {
-      "year": 2020,
-      "owner": {
-        "slug": "tamsin-oake",
-        "name": "Tamsin Oake"
-      },
-      "teamName": "Oake Oracles",
-      "overall": 3,
-      "round": 1,
-      "roundPick": 3,
-      "player": {
-        "name": "Gus Grimsby",
-        "position": "WR",
-        "nflTeam": "ATL"
-      },
-      "positionalFinish": 12,
-      "valueOverSlot": -10
+      "valueOverSlot": -17,
+      "pointsOverExpected": -119
     },
     {
       "year": 2020,
@@ -589,44 +841,30 @@
         "position": "RB",
         "nflTeam": "HOU"
       },
+      "points": 176.3,
       "positionalFinish": 22,
-      "valueOverSlot": -10
-    },
-    {
-      "year": 2020,
-      "owner": {
-        "slug": "ines-dorrow",
-        "name": "Ines Dorrow"
-      },
-      "teamName": "Dorrow Drakes",
-      "overall": 32,
-      "round": 3,
-      "roundPick": 8,
-      "player": {
-        "name": "Lark Ironwood",
-        "position": "WR",
-        "nflTeam": "MIA"
-      },
-      "positionalFinish": 25,
-      "valueOverSlot": -10
+      "valueOverSlot": -10,
+      "pointsOverExpected": -110
     },
     {
       "year": 2018,
       "owner": {
-        "slug": "ines-dorrow",
-        "name": "Ines Dorrow"
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
       },
-      "teamName": "Dorrow Drakes",
-      "overall": 1,
-      "round": 1,
-      "roundPick": 1,
+      "teamName": "Calloway Comets",
+      "overall": 48,
+      "round": 5,
+      "roundPick": 8,
       "player": {
-        "name": "Bram Foxhallow",
-        "position": "WR",
-        "nflTeam": "BAL"
+        "name": "Arlo Cindergate",
+        "position": "TE",
+        "nflTeam": "KC"
       },
-      "positionalFinish": 10,
-      "valueOverSlot": -9
+      "points": 94.9,
+      "positionalFinish": 6,
+      "valueOverSlot": 0,
+      "pointsOverExpected": -93
     },
     {
       "year": 2018,
@@ -635,43 +873,47 @@
         "name": "Pell Vantor"
       },
       "teamName": "Vantor Vipers",
-      "overall": 12,
-      "round": 2,
-      "roundPick": 2,
+      "overall": 49,
+      "round": 5,
+      "roundPick": 9,
       "player": {
-        "name": "Moss Merriweather",
-        "position": "RB",
-        "nflTeam": "SEA"
+        "name": "Bram Hollowell",
+        "position": "QB",
+        "nflTeam": "BAL"
       },
-      "positionalFinish": 15,
-      "valueOverSlot": -9
+      "points": 132.4,
+      "positionalFinish": 9,
+      "valueOverSlot": -3,
+      "pointsOverExpected": -93
     },
     {
       "year": 2020,
       "owner": {
-        "slug": "odie-brask",
-        "name": "Odie Brask"
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
       },
-      "teamName": "Brask Bruisers",
-      "overall": 6,
-      "round": 1,
-      "roundPick": 6,
+      "teamName": "Ashgrove Aces",
+      "overall": 50,
+      "round": 5,
+      "roundPick": 2,
       "player": {
-        "name": "Jett Varnell",
-        "position": "RB",
-        "nflTeam": "JAX"
+        "name": "Fenn Dunmore",
+        "position": "TE",
+        "nflTeam": "MIN"
       },
-      "positionalFinish": 12,
-      "valueOverSlot": -9
+      "points": 205.1,
+      "positionalFinish": 8,
+      "valueOverSlot": -3,
+      "pointsOverExpected": -93
     }
   ],
   "bestDrafters": [
     {
       "owner": {
-        "slug": "wren-solano",
-        "name": "Wren Solano"
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
       },
-      "seasons": 1,
+      "seasons": 2,
       "averageRank": 1.0
     },
     {
@@ -684,10 +926,18 @@
     },
     {
       "owner": {
-        "slug": "marlo-quist",
-        "name": "Marlo Quist"
+        "slug": "cass-imber",
+        "name": "Cass Imber"
       },
-      "seasons": 2,
+      "seasons": 1,
+      "averageRank": 3.0
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "seasons": 1,
       "averageRank": 3.0
     },
     {
@@ -696,14 +946,6 @@
         "name": "Lyle Fenwick"
       },
       "seasons": 2,
-      "averageRank": 3.5
-    },
-    {
-      "owner": {
-        "slug": "cass-imber",
-        "name": "Cass Imber"
-      },
-      "seasons": 1,
       "averageRank": 4.0
     },
     {
@@ -712,23 +954,7 @@
         "name": "Tamsin Oake"
       },
       "seasons": 2,
-      "averageRank": 4.5
-    },
-    {
-      "owner": {
-        "slug": "ines-dorrow",
-        "name": "Ines Dorrow"
-      },
-      "seasons": 2,
-      "averageRank": 7.0
-    },
-    {
-      "owner": {
-        "slug": "quinn-harrow",
-        "name": "Quinn Harrow"
-      },
-      "seasons": 2,
-      "averageRank": 7.0
+      "averageRank": 5.0
     },
     {
       "owner": {
@@ -736,7 +962,7 @@
         "name": "Rue Calloway"
       },
       "seasons": 2,
-      "averageRank": 7.0
+      "averageRank": 6.5
     },
     {
       "owner": {
@@ -748,11 +974,19 @@
     },
     {
       "owner": {
-        "slug": "odie-brask",
-        "name": "Odie Brask"
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
       },
       "seasons": 2,
-      "averageRank": 10.0
+      "averageRank": 8.5
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "seasons": 2,
+      "averageRank": 8.5
     },
     {
       "owner": {
@@ -760,7 +994,15 @@
         "name": "Jory Paxton"
       },
       "seasons": 1,
-      "averageRank": 11.0
+      "averageRank": 9.0
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "seasons": 2,
+      "averageRank": 10.0
     },
     {
       "owner": {

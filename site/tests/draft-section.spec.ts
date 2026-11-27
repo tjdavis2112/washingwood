@@ -64,21 +64,27 @@ test("the first-round history fits the page", async ({ page }, info) => {
   await page.screenshot({ path: path.join(SHOTS, info.project.name, "draft-first-rounds.png"), fullPage: true });
 });
 
-// --- All-time best and worst Picks, Best drafters (#29) ---
+// --- All-time Hits, Steals and Busts, Best drafters (#29) ---
 
 const doc = JSON.parse(fs.readFileSync(path.join(EXAMPLES, "draft.json"), "utf-8"));
 const signedValue = (v: number) => (v > 0 ? `+${v}` : v < 0 ? `−${Math.abs(v)}` : "0");
 
-for (const [id, key] of [["best-picks", "bestPicks"], ["worst-picks", "worstPicks"]] as const) {
+const LISTS = [
+  ["hits", "pointsOverExpected"],
+  ["steals", "valueOverSlot"],
+  ["busts", "pointsOverExpected"],
+] as const;
+for (const [key, metric] of LISTS) {
   test(`${key}: the all-time table lists the fixture Picks in order`, async ({ page }) => {
     await page.goto("/draft/");
-    const rows = page.getByTestId(id).getByTestId("all-time-pick");
+    const rows = page.getByTestId(key).getByTestId("all-time-pick");
     await expect(rows).toHaveCount(doc[key].length);
     for (const [i, p] of doc[key].entries()) {
       await expect(rows.nth(i)).toContainText(p.player.name);
       await expect(rows.nth(i)).toContainText(String(p.year));
       await expect(rows.nth(i)).toContainText(`${p.player.position}${p.positionalFinish}`);
-      await expect(rows.nth(i)).toContainText(signedValue(p.valueOverSlot));
+      await expect(rows.nth(i)).toContainText(p.points.toFixed(1));
+      await expect(rows.nth(i).getByTestId("all-time-value")).toHaveText(signedValue(p[metric]));
       await expect(rows.nth(i).getByRole("link", { name: p.owner.name })).toHaveAttribute("href", `/owners/${p.owner.slug}/`);
     }
   });

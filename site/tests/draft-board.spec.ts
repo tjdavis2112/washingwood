@@ -103,31 +103,33 @@ test("an offline Draft shows its note; a snake Draft shows none", async ({ page 
   await expect(panel).toContainText("snake");
 });
 
-// --- Season points, Value over slot and Draft grades (#28) ---
+// --- Season points, Points over expected and Draft grades (#28) ---
 
-type GradedPick = { overall: number; round: number; roundPick: number; player: { name: string }; valueOverSlot: number };
+type GradedPick = { overall: number; round: number; roundPick: number; player: { name: string }; pointsOverExpected: number };
 type Grade = { rank: number; owner: { slug: string; name: string }; teamName: string; total: number; best: GradedPick; worst: GradedPick };
-type ValuedPick = Pick & { points: number | null; positionalFinish: number | null; valueOverSlot: number | null };
+type ValuedPick = Pick & { points: number | null; positionalFinish: number | null; pointsOverExpected: number | null };
 const fullDraft = (year: number) =>
   JSON.parse(fs.readFileSync(path.join(EXAMPLES, "seasons", `${year}.json`), "utf-8")).draft as {
     picks: ValuedPick[];
     grades: Grade[];
+    replacement: { position: string; finish: number; points: number }[];
   };
 const signed = (v: number) => (v > 0 ? `+${v}` : v < 0 ? `−${Math.abs(v)}` : "0");
 
 for (const year of [2018, 2020]) {
-  const { picks, grades } = fullDraft(year);
+  const { picks, grades, replacement } = fullDraft(year);
 
-  test(`${year}: Picks show Season points, Positional finish and signed Value over slot`, async ({ page }, info) => {
+  test(`${year}: Picks show Season points, Positional finish and signed Points over expected`, async ({ page }, info) => {
     const panel = await openDraft(page, year);
     const testId = info.project.name === "phone" ? "draft-row" : "draft-cell";
-    const steal = picks.filter((p) => p.valueOverSlot !== null).sort((a, b) => b.valueOverSlot! - a.valueOverSlot!)[0];
-    const bust = picks.filter((p) => p.valueOverSlot !== null).sort((a, b) => a.valueOverSlot! - b.valueOverSlot!)[0];
-    for (const p of [steal, bust]) {
+    const graded = picks.filter((p) => p.pointsOverExpected !== null);
+    const hit = [...graded].sort((a, b) => b.pointsOverExpected! - a.pointsOverExpected!)[0];
+    const bust = [...graded].sort((a, b) => a.pointsOverExpected! - b.pointsOverExpected!)[0];
+    for (const p of [hit, bust]) {
       const cell = panel.locator(`[data-testid="${testId}"][data-overall="${p.overall}"]`);
       await expect(cell).toContainText(`${p.points!.toFixed(1)} pts`);
       await expect(cell).toContainText(`${p.player!.position}${p.positionalFinish}`);
-      await expect(cell.getByTestId("pick-value")).toHaveText(signed(p.valueOverSlot!));
+      await expect(cell.getByTestId("pick-value")).toHaveText(signed(p.pointsOverExpected!));
     }
   });
 
@@ -143,7 +145,10 @@ for (const year of [2018, 2020]) {
       await expect(row).toContainText(signed(g.total));
       await expect(row).toContainText(g.best.player.name);
       await expect(row).toContainText(g.worst.player.name);
+      await expect(row).toContainText(signed(g.best.pointsOverExpected));
     }
+    const level = panel.getByTestId("replacement-level");
+    for (const r of replacement) await expect(level).toContainText(`${r.position}${r.finish} ${r.points.toFixed(1)} pts`);
   });
 }
 
@@ -153,8 +158,8 @@ test("the board is colored by value by default, and the toggle switches to posit
   await expect(board).toHaveAttribute("data-color-by", "value");
   const testId = info.project.name === "phone" ? "draft-row" : "draft-cell";
   const { picks } = fullDraft(2020);
-  const steal = picks.filter((p) => p.valueOverSlot !== null).sort((a, b) => b.valueOverSlot! - a.valueOverSlot!)[0];
-  const cell = panel.locator(`[data-testid="${testId}"][data-overall="${steal.overall}"]`);
+  const hit = picks.filter((p) => p.pointsOverExpected !== null).sort((a, b) => b.pointsOverExpected! - a.pointsOverExpected!)[0];
+  const cell = panel.locator(`[data-testid="${testId}"][data-overall="${hit.overall}"]`);
   const valueBg = await cell.evaluate((el) => getComputedStyle(el).backgroundColor);
 
   await panel.getByRole("button", { name: "Position" }).click();

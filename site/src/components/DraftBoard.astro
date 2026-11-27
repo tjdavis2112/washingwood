@@ -2,10 +2,10 @@
 // A Season's draft board (#25, values #28). Desktop: the classic grid, one column per Franchise in
 // Draft slot order and one row per round; it scrolls sideways inside its own box when it's wider than
 // the page. Phone: a list grouped by round, Picks in order. Each Pick shows its Season points,
-// Positional finish and signed Value over slot. A "Color by" toggle switches the tint between position
-// and the Value over slot scale (default: value); the text always carries the same information. On
-// tinted cells the value is white for contrast; the tint already shows steal or bust.
-// Below the board: the Draft grades table.
+// Positional finish and signed Points over expected (what the Draft grade adds up). A "Color by" toggle
+// switches the tint between position and the Points over expected scale (default: value); the text
+// always carries the same information. On tinted cells the value is white for contrast; the tint already
+// shows beat or fell short. Below the board: the Draft grades table and the Replacement level.
 import DraftExplainer from "./DraftExplainer.astro";
 import DraftGrades from "./DraftGrades.astro";
 import OwnerLink from "./OwnerLink.astro";
@@ -16,8 +16,8 @@ interface Props { draft: Draft }
 const { draft } = Astro.props;
 
 const LEGEND = Object.keys(POSITION_TINTS);
-const clamp = valueClamp(draft.picks.map((p) => p.valueOverSlot));
-const hasValues = draft.picks.some((p) => p.valueOverSlot !== null);
+const clamp = valueClamp(draft.picks.map((p) => p.pointsOverExpected));
+const hasValues = draft.picks.some((p) => p.pointsOverExpected !== null);
 
 const rounds = Array.from({ length: draft.rounds }, (_, i) => i + 1);
 const slotOf = new Map(draft.order.map((o) => [o.owner.slug, o.slot]));
@@ -62,8 +62,8 @@ const finish = (p: DraftPick) => (p.player && p.positionalFinish ? `${p.player.p
         <p data-legend="value" class="flex items-center gap-2 text-xs text-muted">
           <span>Bust</span>
           <span aria-hidden="true" class="inline-block h-2.5 w-24 rounded-full" style="background:linear-gradient(90deg, var(--color-value-bust), var(--color-panel), var(--color-value-steal))"></span>
-          <span>Steal</span>
-          <span class="sr-only">Colors show Value over slot: where a pick was taken among its position, minus where it finished among the drafted players at that position.</span>
+          <span>Hit</span>
+          <span class="sr-only">Colors show Points over expected: points above a replacement starter at the position, minus what a pick in that round usually returns.</span>
         </p>
       )}
     </div>
@@ -96,9 +96,9 @@ const finish = (p: DraftPick) => (p.player && p.positionalFinish ? `${p.player.p
                 <div
                   data-testid="draft-cell"
                   data-overall={p.overall}
-                  data-value={p.valueOverSlot ?? ""}
+                  data-value={p.pointsOverExpected ?? ""}
                   class:list={["h-full rounded-lg border-l-4 px-2 py-1.5", p.player ? "draft-pick" : "border-line bg-panel/40"]}
-                  style={pickColorVars(p.player, p.valueOverSlot, clamp)}
+                  style={pickColorVars(p.player, p.pointsOverExpected, clamp)}
                 >
                   <div class="flex items-baseline justify-between gap-1 text-[0.7rem] tabular-nums text-muted">
                     <span>{formatPick(p)}</span><span>#{p.overall}</span>
@@ -110,7 +110,7 @@ const finish = (p: DraftPick) => (p.player && p.positionalFinish ? `${p.player.p
                       {p.points !== null && (
                         <div class="mt-0.5 flex items-baseline justify-between gap-1 text-[0.7rem] tabular-nums">
                           <span class="text-paper/80">{points(p.points)} pts{finish(p) && <span class="text-muted"> · {finish(p)}</span>}</span>
-                          {p.valueOverSlot !== null && <span data-testid="pick-value" class="font-bold text-paper">{formatValue(p.valueOverSlot)}</span>}
+                          {p.pointsOverExpected !== null && <span data-testid="pick-value" class="font-bold text-paper">{formatValue(p.pointsOverExpected)}</span>}
                         </div>
                       )}
                     </>
@@ -137,7 +137,7 @@ const finish = (p: DraftPick) => (p.player && p.positionalFinish ? `${p.player.p
               data-testid="draft-row"
               data-overall={p.overall}
               class:list={["flex items-center gap-3 rounded-lg border-l-4 px-3 py-2", p.player ? "draft-pick" : "border-line bg-panel/40"]}
-              style={pickColorVars(p.player, p.valueOverSlot, clamp)}
+              style={pickColorVars(p.player, p.pointsOverExpected, clamp)}
             >
               <span class="w-10 shrink-0 text-xs tabular-nums text-muted">{formatPick(p)}</span>
               <span class="min-w-0 flex-1">
@@ -154,8 +154,8 @@ const finish = (p: DraftPick) => (p.player && p.positionalFinish ? `${p.player.p
                 )}
                 <OwnerLink owner={p.owner} class="block truncate text-xs text-muted" />
               </span>
-              {p.valueOverSlot !== null && (
-                <span data-testid="pick-value" class="shrink-0 text-sm font-bold tabular-nums text-paper">{formatValue(p.valueOverSlot)}</span>
+              {p.pointsOverExpected !== null && (
+                <span data-testid="pick-value" class="shrink-0 text-sm font-bold tabular-nums text-paper">{formatValue(p.pointsOverExpected)}</span>
               )}
             </li>
           ))}
@@ -164,7 +164,7 @@ const finish = (p: DraftPick) => (p.player && p.positionalFinish ? `${p.player.p
     ))}
   </div>
 </section>
-{draft.grades.length > 0 && hasValues && <DraftGrades grades={draft.grades} />}
+{draft.grades.length > 0 && hasValues && <DraftGrades grades={draft.grades} replacement={draft.replacement} />}
 </div>
 
 <script is:inline>

@@ -2,13 +2,14 @@
 
 Two Seasons. 2021 is test_draft_grades.py's scenario without the undrafted K: pick 36 (Quinn's last,
 the 6th K taken) scores 500 and pick 8 (the 2nd WR) ties pick 2 (the 1st WR). Value over slot: +5 for
-pick 36, -1 for the other five Ks (6, 12, 18, 24, 30), +1 for pick 8, 0 for everything else. Draft
-grades: Quinn 1st (+4), Tamsin 2nd (+1), seven tied 3rd (0), Jory and Lyle tied 10th (-1), Marlo 12th
-(-2). 2022 uses default points: every Pick 0, every Franchise tied 1st.
+pick 36, -1 for the other five Ks (6, 12, 18, 24, 30), +1 for pick 8, 0 for everything else. 2022 uses
+default points. Points over expected compares each Pick with its Round's mean across both Seasons
+(tests/draft_examples.py is the reference).
 """
 
 import json
 
+import draft_examples
 import pytest
 from espn_fixture import PEOPLE
 from test_build import SEED_ORDER, season
@@ -33,25 +34,43 @@ def export(archive, owners, tmp_path, pg_dsn):
     return load
 
 
+def drafts(export):
+    return {year: export(f"seasons/{year}.json", "season")["draft"] for year in (2021, 2022)}
+
+
+def test_round_expectation_is_shared_across_seasons(export):
+    by_year = drafts(export)
+    expectations = draft_examples.round_expectations(list(by_year.values()))
+    for d in by_year.values():
+        poe = draft_examples.points_over_expected(d, expectations)
+        assert {p["overall"]: p["pointsOverExpected"] for p in d["picks"]} == poe
+        assert d["grades"] == draft_examples.grades(d, poe)
+    # The same Pick scores less over expected in 2022, where pick 36 is back to its default 292 points
+    p36 = {year: next(p for p in d["picks"] if p["overall"] == 36) for year, d in by_year.items()}
+    assert p36[2021]["pointsOverExpected"] > p36[2022]["pointsOverExpected"]
+
+
 def test_owner_draft_seasons_carry_their_grade_and_pick_values(export):
+    by_year = drafts(export)
     quinn = export("owners/quinn-harrow.json", "owner")
-    by_year = {d["year"]: d for d in quinn["draft"]}
-    assert by_year[2021]["grade"] == {"rank": 1, "of": 12, "total": 4}
-    assert by_year[2022]["grade"] == {"rank": 1, "of": 12, "total": 0}
-    picks = {p["overall"]: p for p in by_year[2021]["picks"]}
+    for d in quinn["draft"]:
+        grade = next(g for g in by_year[d["year"]]["grades"] if g["owner"] == owner("quinn"))
+        assert d["grade"] == {"rank": grade["rank"], "of": 12, "total": grade["total"]}
+        assert d["grade"]["total"] == sum(p["pointsOverExpected"] for p in d["picks"])
+    picks = {p["overall"]: p for p in quinn["draft"][-1]["picks"]}  # newest first: 2021 is last
     assert (picks[36]["points"], picks[36]["valueOverSlot"]) == (500.0, 5)
-    assert picks[12]["valueOverSlot"] == -1
     assert picks[36]["positionalFinish"] == 1  # the best K that Season
 
-    tamsin = export("owners/tamsin-oake.json", "owner")
-    assert {d["year"]: d["grade"] for d in tamsin["draft"]}[2021] == {"rank": 2, "of": 12, "total": 1}
 
-
-def test_best_and_worst_picks_are_all_time_top_ten_with_ties_by_season_then_pick(export):
+def test_steals_hits_and_busts_are_all_time_top_ten_with_ties_by_season_then_pick(export):
     doc = export("draft.json", "draft")
-    best = doc["bestPicks"]
-    assert len(best) == 10
-    assert best[0] == {
+    every = [{"year": year, **p} for year, d in drafts(export).items() for p in d["picks"] if p["player"] is not None]
+    for key, value, sign in (("steals", "valueOverSlot", -1), ("hits", "pointsOverExpected", -1),
+                             ("busts", "pointsOverExpected", 1)):  # fmt: skip
+        ranked = sorted(every, key=lambda p: (sign * p[value], sign * p["points"], p["year"], p["overall"]))[:10]
+        assert [(p["year"], p["overall"]) for p in doc[key]] == [(p["year"], p["overall"]) for p in ranked], key
+    # Steals: pick 36 (+5), then pick 8 (+1)
+    assert doc["steals"][0] == {
         "year": 2021,
         "owner": owner("quinn"),
         "teamName": PEOPLE["quinn"][1],
@@ -59,40 +78,28 @@ def test_best_and_worst_picks_are_all_time_top_ten_with_ties_by_season_then_pick
         "round": 3,
         "roundPick": 12,
         "player": {"name": "Fixture Player 036", "position": "K", "nflTeam": "CIN"},
+        "points": 500.0,
         "positionalFinish": 1,
         "valueOverSlot": 5,
+        "pointsOverExpected": doc["steals"][0]["pointsOverExpected"],
     }
-    # Then pick 8 (+1), then the 0s from 2021 pick 1
-    assert [(p["year"], p["overall"], p["valueOverSlot"]) for p in best[1:4]] == [
-        (2021, 8, 1),
-        (2021, 1, 0),
-        (2021, 2, 0),
-    ]
-    worst = doc["worstPicks"]
-    assert len(worst) == 10
-    # The five -1 Ks, then the 0s from 2021 pick 1
-    assert [(p["year"], p["overall"], p["valueOverSlot"]) for p in worst[:6]] == [
-        (2021, 6, -1),
-        (2021, 12, -1),
-        (2021, 18, -1),
-        (2021, 24, -1),
-        (2021, 30, -1),
-        (2021, 1, 0),
-    ]
+    assert [(p["year"], p["overall"]) for p in doc["steals"][1:2]] == [(2021, 8)]
+    # Hits: the WRs, far above the undrafted 50-point WR that sets their replacement level
+    assert {p["player"]["position"] for p in doc["hits"][:4]} == {"WR"}
 
 
 def test_best_drafters_average_each_owners_grade_rank(export):
+    ranks = {}
+    for d in drafts(export).values():
+        for g in d["grades"]:
+            ranks.setdefault(g["owner"]["slug"], []).append(g["rank"])
     drafters = export("draft.json", "draft")["bestDrafters"]
     assert len(drafters) == 12
-    assert drafters[0] == {"owner": owner("quinn"), "seasons": 2, "averageRank": 1.0}
-    assert drafters[1] == {"owner": owner("tamsin"), "seasons": 2, "averageRank": 1.5}
-    middle = drafters[2:9]
-    assert {d["averageRank"] for d in middle} == {2.0}
-    assert [d["owner"]["name"] for d in middle] == sorted(d["owner"]["name"] for d in middle)
-    # Jory and Lyle (10th, 1st) -> 5.5; Marlo (12th, 1st) -> 6.5
-    assert [(d["owner"]["slug"], d["averageRank"]) for d in drafters[9:]] == [
-        (owner("jory")["slug"], 5.5),
-        (owner("lyle")["slug"], 5.5),
-        (owner("marlo")["slug"], 6.5),
-    ]
+    assert {d["owner"]["slug"]: d["averageRank"] for d in drafters} == {
+        slug: round(sum(r) / len(r), 2) for slug, r in ranks.items()
+    }
+    assert all(d["seasons"] == 2 for d in drafters)
+    assert [(d["averageRank"], d["owner"]["name"]) for d in drafters] == sorted(
+        (d["averageRank"], d["owner"]["name"]) for d in drafters
+    )
     assert {d["owner"]["slug"] for d in drafters} == {owner(k)["slug"] for k in SEED_ORDER}

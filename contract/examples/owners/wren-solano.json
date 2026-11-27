@@ -208,9 +208,9 @@
       "teamName": "Solano Sparks",
       "slot": 7,
       "grade": {
-        "rank": 1,
+        "rank": 3,
         "of": 10,
-        "total": 20
+        "total": 167
       },
       "picks": [
         {
@@ -224,7 +224,8 @@
           },
           "points": 369.3,
           "positionalFinish": 1,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 61
         },
         {
           "overall": 14,
@@ -237,7 +238,8 @@
           },
           "points": 346.7,
           "positionalFinish": 3,
-          "valueOverSlot": 4
+          "valueOverSlot": 4,
+          "pointsOverExpected": 71
         },
         {
           "overall": 27,
@@ -250,7 +252,8 @@
           },
           "points": 272.0,
           "positionalFinish": 9,
-          "valueOverSlot": 4
+          "valueOverSlot": 4,
+          "pointsOverExpected": 27
         },
         {
           "overall": 34,
@@ -263,7 +266,8 @@
           },
           "points": 224.0,
           "positionalFinish": 12,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": -17
         },
         {
           "overall": 47,
@@ -276,7 +280,8 @@
           },
           "points": 206.3,
           "positionalFinish": 15,
-          "valueOverSlot": 5
+          "valueOverSlot": 5,
+          "pointsOverExpected": 25
         },
         {
           "overall": 54,
@@ -289,7 +294,8 @@
           },
           "points": 144.3,
           "positionalFinish": 18,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": -12
         },
         {
           "overall": 67,
@@ -302,7 +308,8 @@
           },
           "points": 150.93,
           "positionalFinish": 7,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 2
         },
         {
           "overall": 74,
@@ -315,7 +322,8 @@
           },
           "points": 152.77,
           "positionalFinish": 4,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": 10
         }
       ]
     }

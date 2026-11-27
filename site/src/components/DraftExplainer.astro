@@ -1,7 +1,8 @@
 ---
 // "How the grades work": a short, collapsible explanation shown on every Draft view (Season Draft tab,
-// Owner Draft tab, /draft). Wording follows GLOSSARY.md (Season points, Positional finish, Value over
-// slot, Draft grade). `bestDrafters` adds the line for the /draft page's Best drafters table.
+// Owner Draft tab, /draft). Wording follows GLOSSARY.md (Season points, Positional finish, Replacement
+// level, Points over expected, Value over slot, Draft grade). `bestDrafters` adds the lines for the
+// /draft page's all-time lists and Best drafters table.
 interface Props { bestDrafters?: boolean }
 const { bestDrafters = false } = Astro.props;
 ---
@@ -20,29 +21,49 @@ const { bestDrafters = false } = Astro.props;
       <dd>Where the player ranked by Season points among everyone at that position that Season, drafted or not.</dd>
     </div>
     <div>
-      <dt class="font-semibold text-paper">Value over slot</dt>
+      <dt class="font-semibold text-paper">Replacement level</dt>
       <dd>
-        Compares a pick only with picks at the same position: where the player was taken among them, minus
-        where they finished among the drafted players at that position. The 8th QB taken who finishes as the 2nd-best
-        drafted QB is <span class="font-semibold text-paper">+6</span>; the 1st RB taken who finishes 10th among
-        drafted RBs is <span class="font-semibold text-paper">−9</span>. Positive is a steal, negative a bust.
-        Staying within a position keeps QBs, kickers and defenses (one starter each, often taken late) from
-        looking like steals by default. Picks that weren't recorded aren't graded.
+        The last starter-quality player at a position: teams × starting slots, with each FLEX counted as half
+        an RB and half a WR. In a 12-team league with 2 RB and 2 FLEX that's RB36. Points above replacement
+        is a player's Season points minus that player's, and never below 0: anyone under it was waiver-wire
+        level. Comparing with a replacement keeps QBs, kickers and defenses, who all score a lot, on the same
+        scale as everyone else.
+      </dd>
+    </div>
+    <div>
+      <dt class="font-semibold text-paper">Points over expected</dt>
+      <dd>
+        Points above replacement minus what a pick in that round usually returns (the average across every
+        Season). A 3rd-rounder who finishes WR2 is about <span class="font-semibold text-paper">+140</span>;
+        a 1st-rounder who finishes below replacement is about <span class="font-semibold text-paper">−100</span>.
+        This is what the numbers on each pick show and what the grades add up. Picks that weren't recorded
+        aren't graded.
       </dd>
     </div>
     <div>
       <dt class="font-semibold text-paper">Draft grade</dt>
-      <dd>The sum of a team's Value over slot for the Season, ranked against the rest of the league that Season. Ties share a rank.</dd>
+      <dd>The sum of a team's Points over expected for the Season, ranked against the rest of the league that Season. Ties share a rank.</dd>
     </div>
     <div>
       <dt class="font-semibold text-paper">Colors</dt>
-      <dd>Green is a steal, magenta a bust; the stronger the color, the bigger the value. The scale tops out at that Season's 90th percentile, so one huge steal doesn't wash out the rest.</dd>
+      <dd>Green beat its round, magenta fell short; the stronger the color, the bigger the gap. The scale tops out at that Season's 90th percentile, so one huge hit doesn't wash out the rest.</dd>
     </div>
     {bestDrafters && (
-      <div>
-        <dt class="font-semibold text-paper">Best drafters</dt>
-        <dd>Each Owner's average Draft grade rank across every Season they drafted in. Lower is better.</dd>
-      </div>
+      <>
+        <div>
+          <dt class="font-semibold text-paper">Value over slot</dt>
+          <dd>
+            Ranks the Biggest steals. It compares a pick only with picks at the same position: where the player
+            was taken among them, minus where they finished among the drafted players at that position. The
+            60th WR taken who finishes 8th among drafted WRs is <span class="font-semibold text-paper">+52</span>.
+            It rewards late-round finds, so it isn't used for the grades.
+          </dd>
+        </div>
+        <div>
+          <dt class="font-semibold text-paper">Best drafters</dt>
+          <dd>Each Owner's average Draft grade rank across every Season they drafted in. Lower is better.</dd>
+        </div>
+      </>
     )}
   </dl>
 </details>

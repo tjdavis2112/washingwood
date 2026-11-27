@@ -278,9 +278,9 @@
       "teamName": "Calloway Comets",
       "slot": 11,
       "grade": {
-        "rank": 5,
+        "rank": 6,
         "of": 12,
-        "total": -2
+        "total": -8
       },
       "picks": [
         {
@@ -294,7 +294,8 @@
           },
           "points": 214.9,
           "positionalFinish": 21,
-          "valueOverSlot": -15
+          "valueOverSlot": -15,
+          "pointsOverExpected": -82
         },
         {
           "overall": 14,
@@ -307,7 +308,8 @@
           },
           "points": 256.0,
           "positionalFinish": 14,
-          "valueOverSlot": -7
+          "valueOverSlot": -7,
+          "pointsOverExpected": -30
         },
         {
           "overall": 35,
@@ -320,7 +322,8 @@
           },
           "points": 342.5,
           "positionalFinish": 7,
-          "valueOverSlot": 9
+          "valueOverSlot": 9,
+          "pointsOverExpected": 115
         },
         {
           "overall": 38,
@@ -333,7 +336,8 @@
           },
           "points": 235.7,
           "positionalFinish": 15,
-          "valueOverSlot": 2
+          "valueOverSlot": 2,
+          "pointsOverExpected": -22
         },
         {
           "overall": 59,
@@ -346,7 +350,8 @@
           },
           "points": 217.1,
           "positionalFinish": 7,
-          "valueOverSlot": 1
+          "valueOverSlot": 1,
+          "pointsOverExpected": -81
         },
         {
           "overall": 62,
@@ -359,7 +364,8 @@
           },
           "points": 217.6,
           "positionalFinish": 19,
-          "valueOverSlot": 6
+          "valueOverSlot": 6,
+          "pointsOverExpected": 79
         },
         {
           "overall": 83,
@@ -372,7 +378,8 @@
           },
           "points": 170.83,
           "positionalFinish": 2,
-          "valueOverSlot": 9
+          "valueOverSlot": 9,
+          "pointsOverExpected": 27
         },
         {
           "overall": 86,
@@ -385,7 +392,8 @@
           },
           "points": 130.93,
           "positionalFinish": 9,
-          "valueOverSlot": -7
+          "valueOverSlot": -7,
+          "pointsOverExpected": -14
         }
       ]
     },
@@ -394,9 +402,9 @@
       "teamName": "Calloway Comets",
       "slot": 8,
       "grade": {
-        "rank": 9,
+        "rank": 7,
         "of": 10,
-        "total": -10
+        "total": -102
       },
       "picks": [
         {
@@ -410,7 +418,8 @@
           },
           "points": 232.0,
           "positionalFinish": 14,
-          "valueOverSlot": -10
+          "valueOverSlot": -10,
+          "pointsOverExpected": -82
         },
         {
           "overall": 13,
@@ -423,7 +432,8 @@
           },
           "points": 186.1,
           "positionalFinish": 17,
-          "valueOverSlot": -10
+          "valueOverSlot": -10,
+          "pointsOverExpected": -83
         },
         {
           "overall": 28,
@@ -436,7 +446,8 @@
           },
           "points": 368.7,
           "positionalFinish": 2,
-          "valueOverSlot": 11
+          "valueOverSlot": 11,
+          "pointsOverExpected": 130
         },
         {
           "overall": 33,
@@ -449,7 +460,8 @@
           },
           "points": 322.2,
           "positionalFinish": 2,
-          "valueOverSlot": -1
+          "valueOverSlot": -1,
+          "pointsOverExpected": 37
         },
         {
           "overall": 48,
@@ -462,7 +474,8 @@
           },
           "points": 94.9,
           "positionalFinish": 6,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -93
         },
         {
           "overall": 53,
@@ -475,7 +488,8 @@
           },
           "points": 192.5,
           "positionalFinish": 7,
-          "valueOverSlot": 0
+          "valueOverSlot": 0,
+          "pointsOverExpected": -2
         },
         {
           "overall": 68,
@@ -488,7 +502,8 @@
           },
           "points": 152.73,
           "positionalFinish": 5,
-          "valueOverSlot": 3
+          "valueOverSlot": 3,
+          "pointsOverExpected": 4
         },
         {
           "overall": 73,
@@ -501,7 +516,8 @@
           },
           "points": 129.23,
           "positionalFinish": 6,
-          "valueOverSlot": -3
+          "valueOverSlot": -3,
+          "pointsOverExpected": -13
         }
       ]
     }

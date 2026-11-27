@@ -1,13 +1,13 @@
 ---
 // A Season's Draft grades (#28): one row per Franchise, by rank (ties share a rank), with the total
-// Value over slot and the best and worst Pick. On phones the table scrolls sideways inside its own
-// box, with the Owner column pinned.
+// Points over expected and the best and worst Pick, then the Season's Replacement level. On phones the
+// table scrolls sideways inside its own box, with the Owner column pinned.
 import OwnerLink from "./OwnerLink.astro";
 import { formatValue } from "../data/positions";
-import { formatPick, type DraftGrade, type GradedPick } from "../data/site-data";
+import { formatPick, type DraftGrade, type GradedPick, type ReplacementLevel } from "../data/site-data";
 
-interface Props { grades: DraftGrade[] }
-const { grades } = Astro.props;
+interface Props { grades: DraftGrade[]; replacement: ReplacementLevel[] }
+const { grades, replacement } = Astro.props;
 const valueClass = (v: number) => (v > 0 ? "text-[color:var(--color-value-steal)]" : v < 0 ? "text-[color:var(--color-value-bust)]" : "text-muted");
 const pickText = (p: GradedPick) => `${formatPick(p)} ${p.player.name}`;
 ---
@@ -16,7 +16,7 @@ const pickText = (p: GradedPick) => `${formatPick(p)} ${p.player.name}`;
     <h2 id="draft-grades-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Draft grades</h2>
     <p aria-hidden="true" class="text-xs text-muted md:hidden">Swipe for more →</p>
   </div>
-  <p class="mt-2 text-xs text-muted">Total Value over slot: for each pick, where it was taken among its position minus where it finished among the drafted players at that position.</p>
+  <p class="mt-2 text-xs text-muted">Total Points over expected: for each pick, the points it scored above a replacement starter at its position, minus what a pick in that round usually returns.</p>
   <div data-testid="draft-grades-scroll" class="mt-4 overflow-x-auto rounded-2xl border border-line">
     <table aria-labelledby="draft-grades-heading" class="w-full min-w-[44rem] border-collapse text-sm">
       <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
@@ -36,11 +36,17 @@ const pickText = (p: GradedPick) => `${formatPick(p)} ${p.player.name}`;
             <td class="sticky left-0 bg-inherit px-3 py-2.5 font-semibold whitespace-nowrap"><OwnerLink owner={g.owner} /></td>
             <td class="px-3 py-2.5 whitespace-nowrap text-muted">{g.teamName}</td>
             <td class:list={["px-3 py-2.5 text-right font-bold tabular-nums", valueClass(g.total)]}>{formatValue(g.total)}</td>
-            <td class="px-3 py-2.5 whitespace-nowrap">{pickText(g.best)} <span class:list={["font-semibold tabular-nums", valueClass(g.best.valueOverSlot)]}>{formatValue(g.best.valueOverSlot)}</span></td>
-            <td class="px-3 py-2.5 whitespace-nowrap">{pickText(g.worst)} <span class:list={["font-semibold tabular-nums", valueClass(g.worst.valueOverSlot)]}>{formatValue(g.worst.valueOverSlot)}</span></td>
+            <td class="px-3 py-2.5 whitespace-nowrap">{pickText(g.best)} <span class:list={["font-semibold tabular-nums", valueClass(g.best.pointsOverExpected)]}>{formatValue(g.best.pointsOverExpected)}</span></td>
+            <td class="px-3 py-2.5 whitespace-nowrap">{pickText(g.worst)} <span class:list={["font-semibold tabular-nums", valueClass(g.worst.pointsOverExpected)]}>{formatValue(g.worst.pointsOverExpected)}</span></td>
           </tr>
         ))}
       </tbody>
     </table>
   </div>
+  <p data-testid="replacement-level" class="mt-3 flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
+    <span>Replacement level this Season:</span>
+    {replacement.map((r) => (
+      <span class="whitespace-nowrap"><span class="font-semibold text-paper">{r.position}{r.finish}</span> {r.points.toFixed(1)} pts</span>
+    ))}
+  </p>
 </section>

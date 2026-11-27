@@ -87,7 +87,16 @@ def derive() -> tuple[dict, dict[str, dict]]:
         grade_of = {g["owner"]["slug"]: g for g in doc["draft"]["grades"]}
         for o in doc["draft"]["order"]:
             slug = o["owner"]["slug"]
-            keys = ("overall", "round", "roundPick", "player", "points", "positionalFinish", "valueOverSlot")
+            keys = (
+                "overall",
+                "round",
+                "roundPick",
+                "player",
+                "points",
+                "positionalFinish",
+                "valueOverSlot",
+                "pointsOverExpected",
+            )
             picks = [{k: p[k] for k in keys} for p in doc["draft"]["picks"] if p["owner"]["slug"] == slug]
             grade = {"rank": grade_of[slug]["rank"], "of": doc["teamCount"], "total": grade_of[slug]["total"]}
             drafts[slug].append(
