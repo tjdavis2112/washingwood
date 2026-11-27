@@ -82,6 +82,7 @@ ESPN API ──(archiver, needs cookies)──▶ archive/ (private repo)
 - Dark and sleek. Brand colors are **red, black and white**: black background, white text, red for highlights and buttons.
 - **Gold, silver and bronze appear only on trophies and medals.**
 - The **Podium** is a lit trophy case: 1st raised in the center, 2nd and 3rd lower on each side. It is not built from cards.
+- **Draft boards** use muted, non-metallic position tints, and a diverging red-to-green scale for **Value over slot** (its red is a different hue from the brand red). Every cell also shows its number, so the colors are never the only signal.
 - **Interactive cards** (tilt, shine, flip) are for players, trades and similar items later. Not in v1.
 - **Phone and desktop are both designed for.** Every page is checked at both widths, and nothing should look stretched or empty on desktop.
 - Subtle motion: hover lifts, smooth page transitions.
@@ -111,7 +112,7 @@ Kept from the original plan; build in roughly this order.
 - **Owners hub**: first slice done (#12): trophy case, career W-L, playoff appearances, season-by-season, H2H vs every owner. Still to come: roster per season, draft grades, trades, badges (they need lineups, draft and transactions loaded)
 - **Matchups**: every matchup with box score cards; bracket history; championship feature cards; rivalry grid; closest games, blowouts, upsets
 - **Record Book**: single week / season / all-time leaderboards, stat picker, team records, streaks, luck index, bench points, last-place history. Always show or filter by Scoring format.
-- **Draft**: full board per year colored by Value over slot, grades, best/worst picks
+- **Draft**: specced in #24: board per Season (position or Value over slot coloring), draft grades, first-round history, best/worst picks, Best drafters
 - **Transactions**: trade cards with points each side scored after the trade; best waiver pickups
 - **Hall of Fame**: legendary player seasons, curated in `core.hall_of_fame`
 - **League Rules**: scoring and roster template by year, hand-written changelog (`core.rule_changes`), the league-wide Punishment explainer

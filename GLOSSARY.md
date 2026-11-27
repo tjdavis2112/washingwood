@@ -80,10 +80,32 @@ _Avoid_: Loser, toilet bowl winner
 **Punishment**:
 The penalty the **Last place** **Owner** serves for a **Season**. Chosen fresh each Season, with its own title, description and picture.
 
+## Draft
+
+**Draft**:
+A **Season**'s player draft: a snake draft (2019 onward) or, in 2018, an offline draft entered by hand.
+
+**Pick**:
+One selection in a **Draft**: its overall number, round and pick within the round, the **Franchise** that made it, and the **Player** taken. A Pick can have no Player recorded (13 late 2018 Picks).
+_Avoid_: Selection, draft slot (a slot is the position in the order)
+
+**Draft slot**:
+A **Franchise**'s position in round 1 of the **Draft** order. The order reverses each round.
+
+**Season points**:
+A **Player**'s fantasy points for a **Season** under that Season's scoring: ESPN's season total, covering the whole NFL regular season. From 2021 that includes NFL week 18, which is after the fantasy season.
+
+**Positional finish**:
+A **Player**'s rank by **Season points** among every Player at their position that **Season** (e.g. RB3).
+
 ## Analysis
 
 **Value over slot**:
-A draft pick's season points minus the average for that overall pick across all **Seasons**.
+A **Pick**'s overall pick number minus its rank by **Season points** among that **Season**'s drafted Picks. Positive is a steal, negative a bust. Ranked within one Season, so it compares across Scoring formats and team counts. Picks with no Player recorded are left out.
+_Avoid_: Draft value (unqualified)
+
+**Draft grade**:
+The sum of a **Franchise**'s **Value over slot** in one **Season**, ranked within that Season. No letter grades.
 
 **All-play record**:
 A **Franchise**'s record if it had played every other Franchise every **Week**.
