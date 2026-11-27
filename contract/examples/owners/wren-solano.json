@@ -207,6 +207,11 @@
       "year": 2018,
       "teamName": "Solano Sparks",
       "slot": 7,
+      "grade": {
+        "rank": 3,
+        "of": 10,
+        "total": 35
+      },
       "picks": [
         {
           "overall": 7,
@@ -216,7 +221,10 @@
             "name": "Hale Larkspur",
             "position": "WR",
             "nflTeam": "BUF"
-          }
+          },
+          "points": 369.3,
+          "positionalFinish": 1,
+          "valueOverSlot": 4
         },
         {
           "overall": 14,
@@ -226,7 +234,10 @@
             "name": "Otto Whitlock",
             "position": "RB",
             "nflTeam": "SF"
-          }
+          },
+          "points": 346.7,
+          "positionalFinish": 3,
+          "valueOverSlot": 6
         },
         {
           "overall": 27,
@@ -236,7 +247,10 @@
             "name": "Dax Quarrington",
             "position": "RB",
             "nflTeam": "HOU"
-          }
+          },
+          "points": 272.0,
+          "positionalFinish": 9,
+          "valueOverSlot": 7
         },
         {
           "overall": 34,
@@ -246,7 +260,10 @@
             "name": "Kip Dunmore",
             "position": "WR",
             "nflTeam": "DEN"
-          }
+          },
+          "points": 224.0,
+          "positionalFinish": 12,
+          "valueOverSlot": 0
         },
         {
           "overall": 47,
@@ -256,7 +273,10 @@
             "name": "Zane Underhill",
             "position": "WR",
             "nflTeam": "TB"
-          }
+          },
+          "points": 206.3,
+          "positionalFinish": 15,
+          "valueOverSlot": 7
         },
         {
           "overall": 54,
@@ -266,7 +286,10 @@
             "name": "Gus Ironwood",
             "position": "RB",
             "nflTeam": "ATL"
-          }
+          },
+          "points": 144.3,
+          "positionalFinish": 18,
+          "valueOverSlot": -9
         },
         {
           "overall": 67,
@@ -276,7 +299,10 @@
             "name": "Bengals D/ST",
             "position": "D/ST",
             "nflTeam": "CIN"
-          }
+          },
+          "points": 150.93,
+          "positionalFinish": 7,
+          "valueOverSlot": 5
         },
         {
           "overall": 74,
@@ -286,7 +312,10 @@
             "name": "Cael Northcott",
             "position": "K",
             "nflTeam": "LAC"
-          }
+          },
+          "points": 152.77,
+          "positionalFinish": 4,
+          "valueOverSlot": 15
         }
       ]
     }

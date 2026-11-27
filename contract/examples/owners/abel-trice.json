@@ -271,6 +271,11 @@
       "year": 2020,
       "teamName": "Trice Tritons",
       "slot": 5,
+      "grade": {
+        "rank": 1,
+        "of": 12,
+        "total": 82
+      },
       "picks": [
         {
           "overall": 5,
@@ -280,7 +285,10 @@
             "name": "Ivo Quarrington",
             "position": "WR",
             "nflTeam": "DET"
-          }
+          },
+          "points": 385.3,
+          "positionalFinish": 3,
+          "valueOverSlot": 2
         },
         {
           "overall": 20,
@@ -290,7 +298,10 @@
             "name": "Zane Thistlewood",
             "position": "RB",
             "nflTeam": "TB"
-          }
+          },
+          "points": 303.2,
+          "positionalFinish": 8,
+          "valueOverSlot": -1
         },
         {
           "overall": 29,
@@ -300,7 +311,10 @@
             "name": "Ivo Rookwood",
             "position": "WR",
             "nflTeam": "DET"
-          }
+          },
+          "points": 257.2,
+          "positionalFinish": 14,
+          "valueOverSlot": -2
         },
         {
           "overall": 44,
@@ -310,7 +324,10 @@
             "name": "Zane Underhill",
             "position": "RB",
             "nflTeam": "TB"
-          }
+          },
+          "points": 339.1,
+          "positionalFinish": 3,
+          "valueOverSlot": 33
         },
         {
           "overall": 53,
@@ -320,7 +337,10 @@
             "name": "Ivo Stonebrook",
             "position": "TE",
             "nflTeam": "DET"
-          }
+          },
+          "points": 233.2,
+          "positionalFinish": 5,
+          "valueOverSlot": 14
         },
         {
           "overall": 68,
@@ -330,7 +350,10 @@
             "name": "Zane Varnell",
             "position": "WR",
             "nflTeam": "TB"
-          }
+          },
+          "points": 241.1,
+          "positionalFinish": 17,
+          "valueOverSlot": 33
         },
         {
           "overall": 77,
@@ -340,7 +363,10 @@
             "name": "Eagles D/ST",
             "position": "D/ST",
             "nflTeam": "PHI"
-          }
+          },
+          "points": 102.57,
+          "positionalFinish": 12,
+          "valueOverSlot": -17
         },
         {
           "overall": 92,
@@ -350,7 +376,10 @@
             "name": "Zane Whitlock",
             "position": "K",
             "nflTeam": "TB"
-          }
+          },
+          "points": 162.3,
+          "positionalFinish": 4,
+          "valueOverSlot": 20
         }
       ]
     },
@@ -358,6 +387,11 @@
       "year": 2018,
       "teamName": "Trice Tritons",
       "slot": 2,
+      "grade": {
+        "rank": 2,
+        "of": 10,
+        "total": 63
+      },
       "picks": [
         {
           "overall": 2,
@@ -367,7 +401,10 @@
             "name": "Cael Kettleby",
             "position": "RB",
             "nflTeam": "LAC"
-          }
+          },
+          "points": 395.3,
+          "positionalFinish": 2,
+          "valueOverSlot": 0
         },
         {
           "overall": 19,
@@ -377,7 +414,10 @@
             "name": "Upton Yarrowby",
             "position": "WR",
             "nflTeam": "NO"
-          }
+          },
+          "points": 236.8,
+          "positionalFinish": 11,
+          "valueOverSlot": -13
         },
         {
           "overall": 22,
@@ -387,7 +427,10 @@
             "name": "Yates Oakhurst",
             "position": "WR",
             "nflTeam": "LAR"
-          }
+          },
+          "points": 357.5,
+          "positionalFinish": 3,
+          "valueOverSlot": 16
         },
         {
           "overall": 39,
@@ -397,7 +440,10 @@
             "name": "Pax Elderby",
             "position": "QB",
             "nflTeam": "GB"
-          }
+          },
+          "points": 266.3,
+          "positionalFinish": 4,
+          "valueOverSlot": 17
         },
         {
           "overall": 42,
@@ -407,7 +453,10 @@
             "name": "Tobin Thistlewood",
             "position": "TE",
             "nflTeam": "CIN"
-          }
+          },
+          "points": 282.7,
+          "positionalFinish": 1,
+          "valueOverSlot": 24
         },
         {
           "overall": 59,
@@ -417,7 +466,10 @@
             "name": "Lark Juniper",
             "position": "QB",
             "nflTeam": "MIA"
-          }
+          },
+          "points": 194.7,
+          "positionalFinish": 6,
+          "valueOverSlot": 18
         },
         {
           "overall": 62,
@@ -427,13 +479,19 @@
             "name": "Bills D/ST",
             "position": "D/ST",
             "nflTeam": "BUF"
-          }
+          },
+          "points": 151.63,
+          "positionalFinish": 6,
+          "valueOverSlot": 1
         },
         {
           "overall": 79,
           "round": 8,
           "roundPick": 9,
-          "player": null
+          "player": null,
+          "points": null,
+          "positionalFinish": null,
+          "valueOverSlot": null
         }
       ]
     }

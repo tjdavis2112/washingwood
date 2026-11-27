@@ -223,7 +223,16 @@ export type OwnerDraftSeason = {
   year: number;
   teamName: string;
   slot: number;
-  picks: { overall: number; round: number; roundPick: number; player: DraftPlayer | null }[];
+  grade: { rank: number; of: number; total: number };
+  picks: {
+    overall: number;
+    round: number;
+    roundPick: number;
+    player: DraftPlayer | null;
+    points: number | null;
+    positionalFinish: number | null;
+    valueOverSlot: number | null;
+  }[];
 };
 
 const ownerDocs = new Map<string, OwnerDoc>();
@@ -235,9 +244,35 @@ export function getOwner(slug: string): OwnerDoc {
 export type FirstRoundPick = { overall: number; owner: OwnerRef; teamName: string; player: DraftPlayer | null };
 export type DraftHistorySeason = { year: number; teamCount: number; type: "snake" | "offline"; firstRound: FirstRoundPick[] };
 
-let draftHistory: DraftHistorySeason[] | undefined;
-/** Every Season's first round, newest first (the pipeline's order). */
-export function getDraftHistory(): DraftHistorySeason[] {
-  draftHistory ??= load<{ seasons: DraftHistorySeason[] }>("draft.json", "draft").seasons;
+export type AllTimePick = {
+  year: number;
+  owner: OwnerRef;
+  teamName: string;
+  overall: number;
+  round: number;
+  roundPick: number;
+  player: DraftPlayer;
+  positionalFinish: number;
+  valueOverSlot: number;
+};
+export type BestDrafter = { owner: OwnerRef; seasons: number; averageRank: number };
+export type DraftHistory = {
+  seasons: DraftHistorySeason[];
+  bestPicks: AllTimePick[];
+  worstPicks: AllTimePick[];
+  bestDrafters: BestDrafter[];
+};
+
+let draftHistory: DraftHistory | undefined;
+/** draft.json: every Season's first round (newest first), the all-time best and worst Picks, and Best
+ * drafters, all in the pipeline's order. */
+export function getDraftHistory(): DraftHistory {
+  draftHistory ??= load<DraftHistory>("draft.json", "draft");
   return draftHistory;
 }
+
+/** "1st", "2nd", "3rd", "11th". */
+export const ordinal = (n: number) => {
+  const tail = n % 100 >= 11 && n % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[n % 10] ?? "th";
+  return `${n}${tail}`;
+};

@@ -189,20 +189,49 @@ def owner_documents(conn: Connection) -> dict[str, dict]:
 
 
 def _owner_drafts(conn: Connection, owners) -> dict[int, list[dict]]:
-    """owner_id -> one entry per Season, newest first, holding the Owner's Picks in pick order."""
+    """owner_id -> one entry per Season, newest first: the Owner's Draft grade that Season and their
+    Picks in pick order with Season points, Positional finish and Value over slot."""
+    grades = {
+        (owner_id, year): {"rank": rank, "of": team_count, "total": total}
+        for owner_id, year, rank, team_count, total in conn.execute(
+            """SELECT fo.owner_id, s.year, g.grade_rank, s.team_count, g.total_value_over_slot
+               FROM stats.draft_grades g
+               JOIN core.seasons s           ON s.season_id = g.season_id
+               JOIN stats.franchise_owner fo ON fo.franchise_id = g.franchise_id"""
+        ).fetchall()
+    }
     drafts: dict[int, dict[int, dict]] = {owner_id: {} for owner_id in owners}
-    for owner_id, year, team, slot, overall, rnd, round_pick, name, position, nfl_team in conn.execute(
+    for (
+        owner_id,
+        year,
+        team,
+        slot,
+        overall,
+        rnd,
+        round_pick,
+        name,
+        position,
+        nfl_team,
+        points,
+        finish,
+        vos,
+    ) in conn.execute(
         """SELECT owner_id, year, team_name, draft_slot, overall_pick, round, round_pick, player_name, position,
-                  nfl_team
-           FROM stats.draft_board ORDER BY year DESC, overall_pick"""
+                      nfl_team, points, positional_finish, value_over_slot
+               FROM stats.draft_board ORDER BY year DESC, overall_pick"""
     ).fetchall():
-        entry = drafts[owner_id].setdefault(year, {"year": year, "teamName": team, "slot": slot, "picks": []})
+        entry = drafts[owner_id].setdefault(
+            year, {"year": year, "teamName": team, "slot": slot, "grade": grades[(owner_id, year)], "picks": []}
+        )
         entry["picks"].append(
             {
                 "overall": overall,
                 "round": rnd,
                 "roundPick": round_pick,
                 "player": None if name is None else {"name": name, "position": position, "nflTeam": nfl_team},
+                "points": None if points is None else float(points),
+                "positionalFinish": finish,
+                "valueOverSlot": vos,
             }
         )
     return {owner_id: list(by_year.values()) for owner_id, by_year in drafts.items()}
@@ -348,7 +377,51 @@ def draft_history(conn: Connection) -> dict:
             )
     if not seasons:
         raise ExportError("no Draft picks loaded")
-    return {"seasons": list(seasons.values())}
+    return {"seasons": list(seasons.values()), **_all_time_picks(conn), "bestDrafters": _best_drafters(conn)}
+
+
+ALL_TIME_PICKS = 10
+
+
+def _all_time_picks(conn: Connection) -> dict:
+    """The 10 best and 10 worst recorded Picks by Value over slot across every Season; ties by Season,
+    then overall pick."""
+
+    def picks(direction: str) -> list[dict]:
+        rows = conn.execute(
+            f"""SELECT year, owner, team_name, overall_pick, round, round_pick, player_name, position, nfl_team,
+                       positional_finish, value_over_slot
+                FROM stats.draft_board WHERE value_over_slot IS NOT NULL
+                ORDER BY value_over_slot {direction}, year, overall_pick LIMIT %s""",
+            (ALL_TIME_PICKS,),
+        ).fetchall()
+        return [
+            {
+                "year": year,
+                "owner": _owner_ref(owner),
+                "teamName": team,
+                "overall": overall,
+                "round": rnd,
+                "roundPick": round_pick,
+                "player": {"name": name, "position": position, "nflTeam": nfl_team},
+                "positionalFinish": finish,
+                "valueOverSlot": vos,
+            }
+            for year, owner, team, overall, rnd, round_pick, name, position, nfl_team, finish, vos in rows
+        ]
+
+    return {"bestPicks": picks("DESC"), "worstPicks": picks("ASC")}
+
+
+def _best_drafters(conn: Connection) -> list[dict]:
+    """Every Owner who has drafted: their average Draft grade rank (lower is better), then name."""
+    rows = conn.execute(
+        """SELECT fo.display_name, count(*), round(avg(g.grade_rank), 2)
+           FROM stats.draft_grades g JOIN stats.franchise_owner fo ON fo.franchise_id = g.franchise_id
+           GROUP BY fo.owner_id, fo.display_name
+           ORDER BY round(avg(g.grade_rank), 2), fo.display_name"""
+    ).fetchall()
+    return [{"owner": _owner_ref(name), "seasons": n, "averageRank": float(avg)} for name, n, avg in rows]
 
 
 def _draft_note(draft_type: str, unrecorded: int) -> str | None:

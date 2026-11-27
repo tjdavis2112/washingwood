@@ -277,6 +277,11 @@
       "year": 2020,
       "teamName": "Calloway Comets",
       "slot": 11,
+      "grade": {
+        "rank": 5,
+        "of": 12,
+        "total": 25
+      },
       "picks": [
         {
           "overall": 11,
@@ -286,7 +291,10 @@
             "name": "Otto Whitlock",
             "position": "WR",
             "nflTeam": "SF"
-          }
+          },
+          "points": 214.9,
+          "positionalFinish": 21,
+          "valueOverSlot": -36
         },
         {
           "overall": 14,
@@ -296,7 +304,10 @@
             "name": "Sully Northcott",
             "position": "RB",
             "nflTeam": "IND"
-          }
+          },
+          "points": 256.0,
+          "positionalFinish": 14,
+          "valueOverSlot": -18
         },
         {
           "overall": 35,
@@ -306,7 +317,10 @@
             "name": "Otto Yarrowby",
             "position": "WR",
             "nflTeam": "SF"
-          }
+          },
+          "points": 342.5,
+          "positionalFinish": 7,
+          "valueOverSlot": 26
         },
         {
           "overall": 38,
@@ -316,7 +330,10 @@
             "name": "Sully Oakhurst",
             "position": "RB",
             "nflTeam": "IND"
-          }
+          },
+          "points": 235.7,
+          "positionalFinish": 15,
+          "valueOverSlot": 2
         },
         {
           "overall": 59,
@@ -326,7 +343,10 @@
             "name": "Otto Ashwick",
             "position": "TE",
             "nflTeam": "SF"
-          }
+          },
+          "points": 217.1,
+          "positionalFinish": 7,
+          "valueOverSlot": 14
         },
         {
           "overall": 62,
@@ -336,7 +356,10 @@
             "name": "Sully Pemberly",
             "position": "WR",
             "nflTeam": "IND"
-          }
+          },
+          "points": 217.6,
+          "positionalFinish": 19,
+          "valueOverSlot": 18
         },
         {
           "overall": 83,
@@ -346,7 +369,10 @@
             "name": "Rams D/ST",
             "position": "D/ST",
             "nflTeam": "LAR"
-          }
+          },
+          "points": 170.83,
+          "positionalFinish": 2,
+          "valueOverSlot": 17
         },
         {
           "overall": 86,
@@ -356,7 +382,10 @@
             "name": "Sully Quarrington",
             "position": "K",
             "nflTeam": "IND"
-          }
+          },
+          "points": 130.93,
+          "positionalFinish": 9,
+          "valueOverSlot": 2
         }
       ]
     },
@@ -364,6 +393,11 @@
       "year": 2018,
       "teamName": "Calloway Comets",
       "slot": 8,
+      "grade": {
+        "rank": 6,
+        "of": 10,
+        "total": -16
+      },
       "picks": [
         {
           "overall": 8,
@@ -373,7 +407,10 @@
             "name": "Ivo Quarrington",
             "position": "RB",
             "nflTeam": "DET"
-          }
+          },
+          "points": 232.0,
+          "positionalFinish": 14,
+          "valueOverSlot": -25
         },
         {
           "overall": 13,
@@ -383,7 +420,10 @@
             "name": "Nico Rookwood",
             "position": "WR",
             "nflTeam": "NYJ"
-          }
+          },
+          "points": 186.1,
+          "positionalFinish": 17,
+          "valueOverSlot": -32
         },
         {
           "overall": 28,
@@ -393,7 +433,10 @@
             "name": "Ezra Varnell",
             "position": "WR",
             "nflTeam": "PHI"
-          }
+          },
+          "points": 368.7,
+          "positionalFinish": 2,
+          "valueOverSlot": 24
         },
         {
           "overall": 33,
@@ -403,7 +446,10 @@
             "name": "Jett Whitlock",
             "position": "QB",
             "nflTeam": "JAX"
-          }
+          },
+          "points": 322.2,
+          "positionalFinish": 2,
+          "valueOverSlot": 20
         },
         {
           "overall": 48,
@@ -413,7 +459,10 @@
             "name": "Arlo Cindergate",
             "position": "TE",
             "nflTeam": "KC"
-          }
+          },
+          "points": 94.9,
+          "positionalFinish": 6,
+          "valueOverSlot": -27
         },
         {
           "overall": 53,
@@ -423,7 +472,10 @@
             "name": "Fenn Dunmore",
             "position": "QB",
             "nflTeam": "MIN"
-          }
+          },
+          "points": 192.5,
+          "positionalFinish": 7,
+          "valueOverSlot": 10
         },
         {
           "overall": 68,
@@ -433,7 +485,10 @@
             "name": "Ravens D/ST",
             "position": "D/ST",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 152.73,
+          "positionalFinish": 5,
+          "valueOverSlot": 8
         },
         {
           "overall": 73,
@@ -443,7 +498,10 @@
             "name": "Bram Ironwood",
             "position": "K",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 129.23,
+          "positionalFinish": 6,
+          "valueOverSlot": 6
         }
       ]
     }

@@ -277,6 +277,11 @@
       "year": 2020,
       "teamName": "Harrow Hammers",
       "slot": 1,
+      "grade": {
+        "rank": 9,
+        "of": 12,
+        "total": -46
+      },
       "picks": [
         {
           "overall": 1,
@@ -286,7 +291,10 @@
             "name": "Ezra Underhill",
             "position": "WR",
             "nflTeam": "PHI"
-          }
+          },
+          "points": 404.1,
+          "positionalFinish": 1,
+          "valueOverSlot": 0
         },
         {
           "overall": 24,
@@ -296,7 +304,10 @@
             "name": "Dax Quarrington",
             "position": "RB",
             "nflTeam": "HOU"
-          }
+          },
+          "points": 176.3,
+          "positionalFinish": 22,
+          "valueOverSlot": -38
         },
         {
           "overall": 25,
@@ -306,7 +317,10 @@
             "name": "Ezra Varnell",
             "position": "RB",
             "nflTeam": "PHI"
-          }
+          },
+          "points": 209.0,
+          "positionalFinish": 17,
+          "valueOverSlot": -24
         },
         {
           "overall": 48,
@@ -316,7 +330,10 @@
             "name": "Dax Rookwood",
             "position": "QB",
             "nflTeam": "HOU"
-          }
+          },
+          "points": 106.6,
+          "positionalFinish": 11,
+          "valueOverSlot": -39
         },
         {
           "overall": 49,
@@ -326,7 +343,10 @@
             "name": "Ezra Whitlock",
             "position": "WR",
             "nflTeam": "PHI"
-          }
+          },
+          "points": 302.3,
+          "positionalFinish": 11,
+          "valueOverSlot": 27
         },
         {
           "overall": 72,
@@ -336,7 +356,10 @@
             "name": "Dax Stonebrook",
             "position": "QB",
             "nflTeam": "HOU"
-          }
+          },
+          "points": 188.8,
+          "positionalFinish": 7,
+          "valueOverSlot": 16
         },
         {
           "overall": 73,
@@ -346,7 +369,10 @@
             "name": "Chiefs D/ST",
             "position": "D/ST",
             "nflTeam": "KC"
-          }
+          },
+          "points": 173.4,
+          "positionalFinish": 1,
+          "valueOverSlot": 9
         },
         {
           "overall": 96,
@@ -356,7 +382,10 @@
             "name": "Dax Thistlewood",
             "position": "K",
             "nflTeam": "HOU"
-          }
+          },
+          "points": 103.0,
+          "positionalFinish": 12,
+          "valueOverSlot": 3
         }
       ]
     },
@@ -364,6 +393,11 @@
       "year": 2018,
       "teamName": "Harrow Hammers",
       "slot": 10,
+      "grade": {
+        "rank": 9,
+        "of": 10,
+        "total": -59
+      },
       "picks": [
         {
           "overall": 10,
@@ -373,7 +407,10 @@
             "name": "Kip Cindergate",
             "position": "RB",
             "nflTeam": "DEN"
-          }
+          },
+          "points": 252.6,
+          "positionalFinish": 12,
+          "valueOverSlot": -17
         },
         {
           "overall": 11,
@@ -383,7 +420,10 @@
             "name": "Lark Hollowell",
             "position": "WR",
             "nflTeam": "MIA"
-          }
+          },
+          "points": 326.2,
+          "positionalFinish": 6,
+          "valueOverSlot": -1
         },
         {
           "overall": 30,
@@ -393,7 +433,10 @@
             "name": "Gus Hollowell",
             "position": "RB",
             "nflTeam": "ATL"
-          }
+          },
+          "points": 165.4,
+          "positionalFinish": 17,
+          "valueOverSlot": -25
         },
         {
           "overall": 31,
@@ -403,7 +446,10 @@
             "name": "Hale Merriweather",
             "position": "WR",
             "nflTeam": "BUF"
-          }
+          },
+          "points": 208.5,
+          "positionalFinish": 14,
+          "valueOverSlot": -8
         },
         {
           "overall": 50,
@@ -413,7 +459,10 @@
             "name": "Cael Merriweather",
             "position": "WR",
             "nflTeam": "LAC"
-          }
+          },
+          "points": 100.6,
+          "positionalFinish": 23,
+          "valueOverSlot": -24
         },
         {
           "overall": 51,
@@ -423,7 +472,10 @@
             "name": "Dax Rookwood",
             "position": "RB",
             "nflTeam": "HOU"
-          }
+          },
+          "points": 135.8,
+          "positionalFinish": 19,
+          "valueOverSlot": -14
         },
         {
           "overall": 70,
@@ -433,7 +485,10 @@
             "name": "Packers D/ST",
             "position": "D/ST",
             "nflTeam": "GB"
-          }
+          },
+          "points": 154.17,
+          "positionalFinish": 4,
+          "valueOverSlot": 12
         },
         {
           "overall": 71,
@@ -443,7 +498,10 @@
             "name": "Zane Varnell",
             "position": "K",
             "nflTeam": "TB"
-          }
+          },
+          "points": 165.8,
+          "positionalFinish": 2,
+          "valueOverSlot": 18
         }
       ]
     }

@@ -1,13 +1,17 @@
 ---
-// An Owner's Draft tab (#26). A "First-round picks" strip (their round-1 Player every Season), then
-// their Picks Season by Season, newest first, each Season linking to its draft board. Both wrap into
-// a grid, so phones never scroll sideways and desktop doesn't stretch one long list.
-import { pickStyle } from "../data/positions";
-import { formatPick, type DraftPlayer, type OwnerDraftSeason } from "../data/site-data";
+// An Owner's Draft tab (#26; grades #29). A "First-round picks" strip (their round-1 Player every
+// Season), then their Picks Season by Season, newest first, each Season linking to its draft board and
+// showing the Owner's Draft grade; each Pick shows Season points, Positional finish and Value over slot.
+// Both wrap into a grid, so phones never scroll sideways and desktop doesn't stretch one long list.
+import { formatValue, pickStyle } from "../data/positions";
+import { formatPick, ordinal, type DraftPlayer, type OwnerDraftSeason } from "../data/site-data";
 
 interface Props { seasons: OwnerDraftSeason[] }
 const { seasons } = Astro.props;
 const detail = (p: DraftPlayer) => `${p.position}${p.nflTeam ? ` · ${p.nflTeam}` : ""}`;
+const valueClass = (v: number) => (v > 0 ? "text-[color:var(--color-value-steal)]" : v < 0 ? "text-[color:var(--color-value-bust)]" : "text-muted");
+const outcome = (p: OwnerDraftSeason["picks"][number]) =>
+  p.player && p.points !== null ? ` · ${p.points.toFixed(1)} pts${p.positionalFinish ? ` · ${p.player.position}${p.positionalFinish}` : ""}` : "";
 ---
 <div class="space-y-10">
   <section aria-labelledby="first-round-heading">
@@ -43,6 +47,11 @@ const detail = (p: DraftPlayer) => `${p.position}${p.nflTeam ? ` · ${p.nflTeam}
             <a href={`/seasons/${s.year}/#draft`} class="text-lg font-black transition-colors hover:text-brand">{s.year}</a>
             <span class="text-xs text-muted">{s.teamName} · Slot {s.slot}</span>
           </h3>
+          <p data-testid="owner-draft-grade" class="flex flex-wrap items-baseline gap-x-2 px-1 pb-3 text-sm">
+            <span class="text-muted">Draft grade</span>
+            <span class="font-bold">{ordinal(s.grade.rank)} of {s.grade.of}</span>
+            <span class:list={["font-bold tabular-nums", valueClass(s.grade.total)]}>{formatValue(s.grade.total)}</span>
+          </p>
           <ol class="space-y-1.5">
             {s.picks.map((p) => (
               <li data-testid="owner-pick" data-overall={p.overall} class:list={["flex items-center gap-3 rounded-lg border-l-4 px-3 py-1.5", p.player ? "" : "border-line bg-panel/40"]} style={pickStyle(p.player)}>
@@ -51,13 +60,16 @@ const detail = (p: DraftPlayer) => `${p.position}${p.nflTeam ? ` · ${p.nflTeam}
                   {p.player ? (
                     <>
                       <span class="block truncate font-semibold">{p.player.name}</span>
-                      <span class="block text-xs text-paper/80">{detail(p.player)}</span>
+                      <span class="block text-xs text-paper/80">{detail(p.player)}<span class="text-muted">{outcome(p)}</span></span>
                     </>
                   ) : (
                     <span class="block text-sm italic text-muted">Not recorded</span>
                   )}
                 </span>
-                <span class="shrink-0 text-xs tabular-nums text-muted">#{p.overall}</span>
+                <span class="shrink-0 text-right tabular-nums">
+                  {p.valueOverSlot !== null && <span data-testid="pick-value" class="block text-sm font-bold text-paper">{formatValue(p.valueOverSlot)}</span>}
+                  <span class="block text-[0.7rem] text-muted">#{p.overall}</span>
+                </span>
               </li>
             ))}
           </ol>

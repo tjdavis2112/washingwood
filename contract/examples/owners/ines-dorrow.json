@@ -277,6 +277,11 @@
       "year": 2020,
       "teamName": "Dorrow Drakes",
       "slot": 8,
+      "grade": {
+        "rank": 9,
+        "of": 12,
+        "total": -46
+      },
       "picks": [
         {
           "overall": 8,
@@ -286,7 +291,10 @@
             "name": "Lark Hollowell",
             "position": "RB",
             "nflTeam": "MIA"
-          }
+          },
+          "points": 292.8,
+          "positionalFinish": 10,
+          "valueOverSlot": -18
         },
         {
           "overall": 17,
@@ -296,7 +304,10 @@
             "name": "Vale Elderby",
             "position": "WR",
             "nflTeam": "CLE"
-          }
+          },
+          "points": 247.8,
+          "positionalFinish": 16,
+          "valueOverSlot": -17
         },
         {
           "overall": 32,
@@ -306,7 +317,10 @@
             "name": "Lark Ironwood",
             "position": "WR",
             "nflTeam": "MIA"
-          }
+          },
+          "points": 165.4,
+          "positionalFinish": 25,
+          "valueOverSlot": -38
         },
         {
           "overall": 41,
@@ -316,7 +330,10 @@
             "name": "Vale Foxhallow",
             "position": "RB",
             "nflTeam": "CLE"
-          }
+          },
+          "points": 293.4,
+          "positionalFinish": 9,
+          "valueOverSlot": 16
         },
         {
           "overall": 56,
@@ -326,7 +343,10 @@
             "name": "Lark Juniper",
             "position": "TE",
             "nflTeam": "MIA"
-          }
+          },
+          "points": 234.9,
+          "positionalFinish": 4,
+          "valueOverSlot": 18
         },
         {
           "overall": 65,
@@ -336,7 +356,10 @@
             "name": "Vale Grimsby",
             "position": "WR",
             "nflTeam": "CLE"
-          }
+          },
+          "points": 77.0,
+          "positionalFinish": 28,
+          "valueOverSlot": -31
         },
         {
           "overall": 80,
@@ -346,7 +369,10 @@
             "name": "Ravens D/ST",
             "position": "D/ST",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 151.33,
+          "positionalFinish": 6,
+          "valueOverSlot": 3
         },
         {
           "overall": 89,
@@ -356,7 +382,10 @@
             "name": "Vale Hollowell",
             "position": "K",
             "nflTeam": "CLE"
-          }
+          },
+          "points": 168.6,
+          "positionalFinish": 3,
+          "valueOverSlot": 21
         }
       ]
     },
@@ -364,6 +393,11 @@
       "year": 2018,
       "teamName": "Dorrow Drakes",
       "slot": 1,
+      "grade": {
+        "rank": 8,
+        "of": 10,
+        "total": -33
+      },
       "picks": [
         {
           "overall": 1,
@@ -373,7 +407,10 @@
             "name": "Bram Foxhallow",
             "position": "WR",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 247.3,
+          "positionalFinish": 10,
+          "valueOverSlot": -28
         },
         {
           "overall": 20,
@@ -383,7 +420,10 @@
             "name": "Vale Elderby",
             "position": "RB",
             "nflTeam": "CLE"
-          }
+          },
+          "points": 283.8,
+          "positionalFinish": 8,
+          "valueOverSlot": 3
         },
         {
           "overall": 21,
@@ -393,7 +433,10 @@
             "name": "Wade Juniper",
             "position": "RB",
             "nflTeam": "DAL"
-          }
+          },
+          "points": 255.2,
+          "positionalFinish": 11,
+          "valueOverSlot": -4
         },
         {
           "overall": 40,
@@ -403,7 +446,10 @@
             "name": "Rook Juniper",
             "position": "WR",
             "nflTeam": "PIT"
-          }
+          },
+          "points": 121.8,
+          "positionalFinish": 22,
+          "valueOverSlot": -30
         },
         {
           "overall": 41,
@@ -413,7 +459,10 @@
             "name": "Sully Oakhurst",
             "position": "WR",
             "nflTeam": "IND"
-          }
+          },
+          "points": 327.8,
+          "positionalFinish": 5,
+          "valueOverSlot": 30
         },
         {
           "overall": 60,
@@ -423,7 +472,10 @@
             "name": "Moss Oakhurst",
             "position": "RB",
             "nflTeam": "SEA"
-          }
+          },
+          "points": 94.6,
+          "positionalFinish": 21,
+          "valueOverSlot": -16
         },
         {
           "overall": 61,
@@ -433,13 +485,19 @@
             "name": "Chiefs D/ST",
             "position": "D/ST",
             "nflTeam": "KC"
-          }
+          },
+          "points": 175.2,
+          "positionalFinish": 2,
+          "valueOverSlot": 12
         },
         {
           "overall": 80,
           "round": 8,
           "roundPick": 10,
-          "player": null
+          "player": null,
+          "points": null,
+          "positionalFinish": null,
+          "valueOverSlot": null
         }
       ]
     }

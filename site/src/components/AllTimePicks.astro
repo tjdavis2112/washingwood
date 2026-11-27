@@ -1,0 +1,44 @@
+---
+// The all-time best or worst Picks by Value over slot (#29): Season, Owner, Player, round.pick,
+// Positional finish and the signed value. On phones the table scrolls sideways inside its own box,
+// with the Player column pinned.
+import OwnerLink from "./OwnerLink.astro";
+import { formatValue } from "../data/positions";
+import { formatPick, type AllTimePick } from "../data/site-data";
+
+interface Props { id: string; title: string; picks: AllTimePick[] }
+const { id, title, picks } = Astro.props;
+const valueClass = (v: number) => (v > 0 ? "text-[color:var(--color-value-steal)]" : v < 0 ? "text-[color:var(--color-value-bust)]" : "text-muted");
+---
+<section aria-labelledby={id} data-testid={id}>
+  <div class="flex items-baseline justify-between gap-4">
+    <h2 id={id} class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">{title}</h2>
+    <p aria-hidden="true" class="text-xs text-muted md:hidden">Swipe for more →</p>
+  </div>
+  <div class="mt-4 overflow-x-auto rounded-2xl border border-line">
+    <table aria-labelledby={id} class="w-full min-w-[38rem] border-collapse text-sm">
+      <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+        <tr>
+          <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Player</th>
+          <th scope="col" class="px-3 py-3">Season</th>
+          <th scope="col" class="px-3 py-3">Pick</th>
+          <th scope="col" class="px-3 py-3">Owner</th>
+          <th scope="col" class="px-3 py-3">Finish</th>
+          <th scope="col" class="px-3 py-3 text-right">Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        {picks.map((p) => (
+          <tr data-testid="all-time-pick" class="border-t border-line odd:bg-ink even:bg-panel/40">
+            <td class="sticky left-0 bg-inherit px-3 py-2.5 font-semibold whitespace-nowrap">{p.player.name}<span class="ml-1.5 text-xs font-normal text-muted">{p.player.position}</span></td>
+            <td class="px-3 py-2.5"><a href={`/seasons/${p.year}/#draft`} class="transition-colors hover:text-brand">{p.year}</a></td>
+            <td class="px-3 py-2.5 tabular-nums text-muted">{formatPick(p)}</td>
+            <td class="px-3 py-2.5 whitespace-nowrap"><OwnerLink owner={p.owner} /></td>
+            <td class="px-3 py-2.5 tabular-nums">{p.player.position}{p.positionalFinish}</td>
+            <td class:list={["px-3 py-2.5 text-right font-bold tabular-nums", valueClass(p.valueOverSlot)]}>{formatValue(p.valueOverSlot)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>

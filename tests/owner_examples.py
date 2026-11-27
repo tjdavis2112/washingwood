@@ -83,15 +83,16 @@ def derive() -> tuple[dict, dict[str, dict]]:
                     "isLastPlace": slug == last,
                 }
             )
-        # Draft: each Owner's Picks that Season, in pick order, with their Draft slot
+        # Draft: each Owner's Picks that Season, in pick order, with their Draft slot and Draft grade
+        grade_of = {g["owner"]["slug"]: g for g in doc["draft"]["grades"]}
         for o in doc["draft"]["order"]:
             slug = o["owner"]["slug"]
-            picks = [
-                {k: p[k] for k in ("overall", "round", "roundPick", "player")}
-                for p in doc["draft"]["picks"]
-                if p["owner"]["slug"] == slug
-            ]
-            drafts[slug].append({"year": year, "teamName": o["teamName"], "slot": o["slot"], "picks": picks})
+            keys = ("overall", "round", "roundPick", "player", "points", "positionalFinish", "valueOverSlot")
+            picks = [{k: p[k] for k in keys} for p in doc["draft"]["picks"] if p["owner"]["slug"] == slug]
+            grade = {"rank": grade_of[slug]["rank"], "of": doc["teamCount"], "total": grade_of[slug]["total"]}
+            drafts[slug].append(
+                {"year": year, "teamName": o["teamName"], "slot": o["slot"], "grade": grade, "picks": picks}
+            )
         # Playoff appearance: any spot in the winners' bracket, a bye included
         bracket_games = [m for r in doc["bracket"]["rounds"] for m in r["matchups"]]
         in_bracket = {s["owner"]["slug"] for m in bracket_games for s in (m["home"], m["away"]) if s}

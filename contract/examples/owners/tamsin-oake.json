@@ -271,6 +271,11 @@
       "year": 2020,
       "teamName": "Oake Oracles",
       "slot": 3,
+      "grade": {
+        "rank": 6,
+        "of": 12,
+        "total": 7
+      },
       "picks": [
         {
           "overall": 3,
@@ -280,7 +285,10 @@
             "name": "Gus Grimsby",
             "position": "WR",
             "nflTeam": "ATL"
-          }
+          },
+          "points": 300.4,
+          "positionalFinish": 12,
+          "valueOverSlot": -20
         },
         {
           "overall": 22,
@@ -290,7 +298,10 @@
             "name": "Bram Grimsby",
             "position": "RB",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 229.7,
+          "positionalFinish": 16,
+          "valueOverSlot": -19
         },
         {
           "overall": 27,
@@ -300,7 +311,10 @@
             "name": "Gus Hollowell",
             "position": "TE",
             "nflTeam": "ATL"
-          }
+          },
+          "points": 360.4,
+          "positionalFinish": 1,
+          "valueOverSlot": 22
         },
         {
           "overall": 46,
@@ -310,7 +324,10 @@
             "name": "Bram Hollowell",
             "position": "WR",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 295.2,
+          "positionalFinish": 13,
+          "valueOverSlot": 22
         },
         {
           "overall": 51,
@@ -320,7 +337,10 @@
             "name": "Gus Ironwood",
             "position": "QB",
             "nflTeam": "ATL"
-          }
+          },
+          "points": 172.3,
+          "positionalFinish": 9,
+          "valueOverSlot": -14
         },
         {
           "overall": 70,
@@ -330,7 +350,10 @@
             "name": "Bram Ironwood",
             "position": "RB",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 155.2,
+          "positionalFinish": 23,
+          "valueOverSlot": -4
         },
         {
           "overall": 75,
@@ -340,7 +363,10 @@
             "name": "49ers D/ST",
             "position": "D/ST",
             "nflTeam": "SF"
-          }
+          },
+          "points": 138.53,
+          "positionalFinish": 8,
+          "valueOverSlot": -7
         },
         {
           "overall": 94,
@@ -350,7 +376,10 @@
             "name": "Bram Juniper",
             "position": "K",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 169.37,
+          "positionalFinish": 2,
+          "valueOverSlot": 27
         }
       ]
     },
@@ -358,6 +387,11 @@
       "year": 2018,
       "teamName": "Oake Oracles",
       "slot": 4,
+      "grade": {
+        "rank": 5,
+        "of": 10,
+        "total": -3
+      },
       "picks": [
         {
           "overall": 4,
@@ -367,7 +401,10 @@
             "name": "Ezra Underhill",
             "position": "RB",
             "nflTeam": "PHI"
-          }
+          },
+          "points": 343.3,
+          "positionalFinish": 4,
+          "valueOverSlot": -5
         },
         {
           "overall": 17,
@@ -377,7 +414,10 @@
             "name": "Sully Northcott",
             "position": "WR",
             "nflTeam": "IND"
-          }
+          },
+          "points": 212.0,
+          "positionalFinish": 13,
+          "valueOverSlot": -21
         },
         {
           "overall": 24,
@@ -387,7 +427,10 @@
             "name": "Arlo Barrowell",
             "position": "RB",
             "nflTeam": "KC"
-          }
+          },
+          "points": 334.3,
+          "positionalFinish": 5,
+          "valueOverSlot": 14
         },
         {
           "overall": 37,
@@ -397,7 +440,10 @@
             "name": "Nico Stonebrook",
             "position": "WR",
             "nflTeam": "NYJ"
-          }
+          },
+          "points": 248.7,
+          "positionalFinish": 9,
+          "valueOverSlot": 9
         },
         {
           "overall": 44,
@@ -407,7 +453,10 @@
             "name": "Vale Foxhallow",
             "position": "WR",
             "nflTeam": "CLE"
-          }
+          },
+          "points": 173.1,
+          "positionalFinish": 19,
+          "valueOverSlot": -7
         },
         {
           "overall": 57,
@@ -417,7 +466,10 @@
             "name": "Jett Yarrowby",
             "position": "RB",
             "nflTeam": "JAX"
-          }
+          },
+          "points": 110.0,
+          "positionalFinish": 20,
+          "valueOverSlot": -14
         },
         {
           "overall": 64,
@@ -427,7 +479,10 @@
             "name": "Cowboys D/ST",
             "position": "D/ST",
             "nflTeam": "DAL"
-          }
+          },
+          "points": 179.57,
+          "positionalFinish": 1,
+          "valueOverSlot": 17
         },
         {
           "overall": 77,
@@ -437,7 +492,10 @@
             "name": "Fenn Elderby",
             "position": "K",
             "nflTeam": "MIN"
-          }
+          },
+          "points": 100.87,
+          "positionalFinish": 7,
+          "valueOverSlot": 4
         }
       ]
     }

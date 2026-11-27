@@ -273,6 +273,11 @@
       "year": 2020,
       "teamName": "Fenwick Fog",
       "slot": 9,
+      "grade": {
+        "rank": 3,
+        "of": 12,
+        "total": 51
+      },
       "picks": [
         {
           "overall": 9,
@@ -282,7 +287,10 @@
             "name": "Moss Merriweather",
             "position": "WR",
             "nflTeam": "SEA"
-          }
+          },
+          "points": 390.3,
+          "positionalFinish": 2,
+          "valueOverSlot": 7
         },
         {
           "overall": 16,
@@ -292,7 +300,10 @@
             "name": "Upton Yarrowby",
             "position": "RB",
             "nflTeam": "NO"
-          }
+          },
+          "points": 337.3,
+          "positionalFinish": 5,
+          "valueOverSlot": 3
         },
         {
           "overall": 33,
@@ -302,7 +313,10 @@
             "name": "Moss Northcott",
             "position": "TE",
             "nflTeam": "SEA"
-          }
+          },
+          "points": 235.6,
+          "positionalFinish": 3,
+          "valueOverSlot": -4
         },
         {
           "overall": 40,
@@ -312,7 +326,10 @@
             "name": "Upton Ashwick",
             "position": "WR",
             "nflTeam": "NO"
-          }
+          },
+          "points": 343.5,
+          "positionalFinish": 6,
+          "valueOverSlot": 32
         },
         {
           "overall": 57,
@@ -322,7 +339,10 @@
             "name": "Moss Oakhurst",
             "position": "QB",
             "nflTeam": "SEA"
-          }
+          },
+          "points": 188.4,
+          "positionalFinish": 8,
+          "valueOverSlot": 0
         },
         {
           "overall": 64,
@@ -332,7 +352,10 @@
             "name": "Upton Barrowell",
             "position": "RB",
             "nflTeam": "NO"
-          }
+          },
+          "points": 105.2,
+          "positionalFinish": 24,
+          "valueOverSlot": -24
         },
         {
           "overall": 81,
@@ -342,7 +365,10 @@
             "name": "Lions D/ST",
             "position": "D/ST",
             "nflTeam": "DET"
-          }
+          },
+          "points": 167.53,
+          "positionalFinish": 3,
+          "valueOverSlot": 12
         },
         {
           "overall": 88,
@@ -352,7 +378,10 @@
             "name": "Upton Cindergate",
             "position": "K",
             "nflTeam": "NO"
-          }
+          },
+          "points": 175.07,
+          "positionalFinish": 1,
+          "valueOverSlot": 25
         }
       ]
     },
@@ -360,6 +389,11 @@
       "year": 2018,
       "teamName": "Fenwick Foxes",
       "slot": 6,
+      "grade": {
+        "rank": 4,
+        "of": 10,
+        "total": 24
+      },
       "picks": [
         {
           "overall": 6,
@@ -369,7 +403,10 @@
             "name": "Gus Grimsby",
             "position": "RB",
             "nflTeam": "ATL"
-          }
+          },
+          "points": 261.0,
+          "positionalFinish": 10,
+          "valueOverSlot": -17
         },
         {
           "overall": 15,
@@ -379,7 +416,10 @@
             "name": "Pax Dunmore",
             "position": "WR",
             "nflTeam": "GB"
-          }
+          },
+          "points": 194.1,
+          "positionalFinish": 16,
+          "valueOverSlot": -27
         },
         {
           "overall": 26,
@@ -389,7 +429,10 @@
             "name": "Cael Larkspur",
             "position": "TE",
             "nflTeam": "LAC"
-          }
+          },
+          "points": 222.2,
+          "positionalFinish": 4,
+          "valueOverSlot": -9
         },
         {
           "overall": 35,
@@ -399,7 +442,10 @@
             "name": "Lark Ironwood",
             "position": "RB",
             "nflTeam": "MIA"
-          }
+          },
+          "points": 314.9,
+          "positionalFinish": 6,
+          "valueOverSlot": 21
         },
         {
           "overall": 46,
@@ -409,7 +455,10 @@
             "name": "Yates Pemberly",
             "position": "QB",
             "nflTeam": "LAR"
-          }
+          },
+          "points": 268.8,
+          "positionalFinish": 3,
+          "valueOverSlot": 25
         },
         {
           "overall": 55,
@@ -419,7 +468,10 @@
             "name": "Hale Northcott",
             "position": "WR",
             "nflTeam": "BUF"
-          }
+          },
+          "points": 185.2,
+          "positionalFinish": 18,
+          "valueOverSlot": 9
         },
         {
           "overall": 66,
@@ -429,7 +481,10 @@
             "name": "Dolphins D/ST",
             "position": "D/ST",
             "nflTeam": "MIA"
-          }
+          },
+          "points": 125.5,
+          "positionalFinish": 9,
+          "valueOverSlot": -3
         },
         {
           "overall": 75,
@@ -439,7 +494,10 @@
             "name": "Dax Stonebrook",
             "position": "K",
             "nflTeam": "HOU"
-          }
+          },
+          "points": 173.63,
+          "positionalFinish": 1,
+          "valueOverSlot": 25
         }
       ]
     }

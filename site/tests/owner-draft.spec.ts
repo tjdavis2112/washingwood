@@ -78,3 +78,28 @@ test("the Draft tab fits the page", async ({ page }, info) => {
   expect(overflow, "page is wider than the viewport").toBeLessThanOrEqual(0);
   await page.screenshot({ path: path.join(SHOTS, info.project.name, `owners-${owner.slug}-draft.png`), fullPage: true });
 });
+
+// --- Draft grades on the Owner tab (#29) ---
+
+const ord = (n: number) => {
+  const tail = n % 100 >= 11 && n % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[n % 10] ?? "th";
+  return `${n}${tail}`;
+};
+const signedValue = (v: number) => (v > 0 ? `+${v}` : v < 0 ? `−${Math.abs(v)}` : "0");
+const graded = fs
+  .readdirSync(path.join(EXAMPLES, "owners"))
+  .map((f) => JSON.parse(fs.readFileSync(path.join(EXAMPLES, "owners", f), "utf-8")))
+  .find((d) => d.draft.length > 1);
+
+test("each Season shows the Owner's Draft grade, and each Pick its value", async ({ page }) => {
+  const panel = await openDraft(page, graded.owner.slug);
+  const seasons = panel.getByTestId("owner-draft-season");
+  for (const [i, d] of graded.draft.entries()) {
+    await expect(seasons.nth(i).getByTestId("owner-draft-grade")).toContainText(`${ord(d.grade.rank)} of ${d.grade.of}`);
+    await expect(seasons.nth(i).getByTestId("owner-draft-grade")).toContainText(signedValue(d.grade.total));
+    const p = d.picks.find((x: { valueOverSlot: number | null }) => x.valueOverSlot !== null);
+    const row = seasons.nth(i).locator(`[data-testid="owner-pick"][data-overall="${p.overall}"]`);
+    await expect(row.getByTestId("pick-value")).toHaveText(signedValue(p.valueOverSlot));
+    await expect(row).toContainText(`${p.points.toFixed(1)} pts`);
+  }
+});
