@@ -48,3 +48,46 @@ test("the Matchups page fits the screen", async ({ page }, info) => {
   expect(overflow, "page is wider than the viewport").toBeLessThanOrEqual(0);
   await page.screenshot({ path: path.join(SHOTS, info.project.name, "matchups-championships.png"), fullPage: true });
 });
+
+// --- Leaderboards (#38) ---
+
+const { leaderboards } = JSON.parse(fs.readFileSync(path.join(EXAMPLES, "matchups.json"), "utf-8"));
+const BOARDS = [
+  { tab: "Blowouts", id: "blowouts", key: "blowouts", kind: "game" },
+  { tab: "Closest games", id: "closest", key: "closestGames", kind: "game" },
+  { tab: "Highest scores", id: "highest", key: "highestScores", kind: "score" },
+  { tab: "Lowest scores", id: "lowest", key: "lowestScores", kind: "score" },
+  { tab: "Playoff upsets", id: "upsets", key: "playoffUpsets", kind: "upset" },
+] as const;
+
+for (const b of BOARDS) {
+  test(`${b.tab}: the tab lists the example rows in order with a format badge`, async ({ page }) => {
+    await page.goto("/matchups/");
+    const section = page.getByTestId("leaderboards");
+    await section.getByRole("tab", { name: b.tab }).click();
+    const rows = section.getByTestId(`board-${b.id}`).getByTestId("leaderboard-row");
+    const expected = leaderboards[b.key];
+    await expect(rows).toHaveCount(expected.length);
+    for (const [i, r] of expected.entries()) {
+      const row = rows.nth(i);
+      await expect(row).toContainText(String(r.year));
+      await expect(row.getByTestId("format-badge")).toHaveText(r.scoringFormat);
+      if (b.kind === "score") {
+        await expect(row).toContainText(pts(r.team.score));
+        await expect(row.getByRole("link", { name: r.team.owner.name, exact: true })).toBeVisible();
+      } else {
+        await expect(row).toContainText(`${pts(r.winner.score)}–${pts(r.loser.score)}`);
+        await expect(row).toContainText(b.kind === "upset" ? String(r.seedGap) : pts(r.margin));
+        await expect(row.getByRole("link", { name: r.winner.owner.name, exact: true })).toBeVisible();
+      }
+    }
+  });
+}
+
+test("leaderboard tables fit the page and scroll inside their own box", async ({ page }, info) => {
+  await page.goto("/matchups/#highest");
+  await expect(page.getByTestId("board-highest")).toBeVisible();
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow, "page is wider than the viewport").toBeLessThanOrEqual(0);
+  await page.screenshot({ path: path.join(SHOTS, info.project.name, "matchups-leaderboards.png"), fullPage: true });
+});

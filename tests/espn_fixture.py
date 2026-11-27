@@ -120,6 +120,10 @@ class FixtureSeason:
     pool_without_points: set[int] = field(default_factory=set)
     # Extra undrafted pool Players: playerId -> (defaultPositionId, points)
     undrafted: dict[int, tuple[int, float]] = field(default_factory=dict)
+    # Set a Matchup's scores: (matchup period, index of the Matchup within that period in schedule
+    # order) -> (home points, away points). The winner follows the scores, so keep the original winner
+    # for playoff Matchups or the bracket checks will fail.
+    scores: dict[tuple[int, int], tuple[float, float]] = field(default_factory=dict)
 
     TEAMS = 0
     REGULAR_PERIODS = 0
@@ -136,6 +140,16 @@ class FixtureSeason:
         self._final_rank: dict[str, int] = {}
         self._regular_season()
         self._playoffs()
+        self._set_scores()
+
+    def _set_scores(self):
+        for (period, index), (home, away) in self.scores.items():
+            m = [m for m in self._schedule if m["matchupPeriodId"] == period][index]
+            weeks = self._weeks(period)
+            for side, pts in (("home", home), ("away", away)):
+                m[side]["totalPoints"] = pts
+                m[side]["pointsByScoringPeriod"] = {str(w): round(pts / len(weeks), 2) for w in weeks}
+            m["winner"] = "HOME" if home > away else "AWAY" if away > home else "TIE"
 
     # -- simulation ----------------------------------------------------------
 

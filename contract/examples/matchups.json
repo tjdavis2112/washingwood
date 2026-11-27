@@ -53,5 +53,1247 @@
       },
       "margin": 54.89
     }
-  ]
+  ],
+  "leaderboards": {
+    "blowouts": [
+      {
+        "year": 2018,
+        "matchupPeriod": 9,
+        "weeks": [
+          9
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 159.35,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "teamName": "Trice Tritons",
+          "score": 84.23,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 75.12,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "wren-solano",
+            "name": "Wren Solano"
+          },
+          "teamName": "Solano Sparks",
+          "score": 147.08,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Foxes",
+          "score": 72.76,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 74.32,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 157.88,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 85.83,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 72.05,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 156.38,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          },
+          "teamName": "Paxton Pistons",
+          "score": 84.72,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 71.66,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "teamName": "Trice Tritons",
+          "score": 147.0,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "score": 77.19,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 69.81,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vipers",
+          "score": 147.1,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "wren-solano",
+            "name": "Wren Solano"
+          },
+          "teamName": "Solano Sparks",
+          "score": 77.31,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 69.79,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 16,
+        "weeks": [
+          16
+        ],
+        "kind": "playoff",
+        "winner": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 152.63,
+          "seed": 2
+        },
+        "loser": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 83.32,
+          "seed": 3
+        },
+        "isTie": false,
+        "margin": 69.31,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 13,
+        "weeks": [
+          13
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Foxes",
+          "score": 151.91,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "score": 84.02,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 67.89,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 145.31,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "score": 77.45,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 67.86,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 159.22,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vipers",
+          "score": 92.06,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 67.16,
+        "scoringFormat": "PPR"
+      }
+    ],
+    "closestGames": [
+      {
+        "year": 2018,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "score": 110.63,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Foxes",
+          "score": 110.63,
+          "seed": null
+        },
+        "isTie": true,
+        "margin": 0.0,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "score": 74.04,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 73.56,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 0.48,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 12,
+        "weeks": [
+          12
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "teamName": "Ashgrove Aces",
+          "score": 95.52,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "score": 94.84,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 0.68,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 7,
+        "weeks": [
+          7
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Fog",
+          "score": 85.33,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "score": 84.54,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 0.79,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 145.67,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Foxes",
+          "score": 144.41,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 1.26,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vipers",
+          "score": 91.12,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "score": 89.53,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 1.59,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 86.62,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 84.94,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 1.68,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "score": 132.54,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          },
+          "teamName": "Paxton Pistons",
+          "score": 130.8,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 1.74,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 10,
+        "weeks": [
+          10
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 148.2,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "score": 145.61,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 2.59,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 4,
+        "weeks": [
+          4
+        ],
+        "kind": "regular",
+        "winner": {
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "score": 126.6,
+          "seed": null
+        },
+        "loser": {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "score": 123.93,
+          "seed": null
+        },
+        "isTie": false,
+        "margin": 2.67,
+        "scoringFormat": "PPR + TE premium"
+      }
+    ],
+    "highestScores": [
+      {
+        "year": 2020,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 159.7,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "score": 108.74,
+          "seed": null
+        },
+        "result": "win",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 159.52,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "score": 134.72,
+          "seed": null
+        },
+        "result": "win",
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 159.4,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 120.84,
+          "seed": null
+        },
+        "result": "win",
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 9,
+        "weeks": [
+          9
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 159.35,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "teamName": "Trice Tritons",
+          "score": 84.23,
+          "seed": null
+        },
+        "result": "win",
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 159.22,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vipers",
+          "score": 92.06,
+          "seed": null
+        },
+        "result": "win",
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vipers",
+          "score": 158.54,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 123.24,
+          "seed": null
+        },
+        "result": "win",
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 14,
+        "weeks": [
+          14
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "score": 158.52,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "score": 122.07,
+          "seed": null
+        },
+        "result": "win",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 15,
+        "weeks": [
+          15
+        ],
+        "kind": "playoff",
+        "team": {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "score": 157.9,
+          "seed": 5
+        },
+        "opponent": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Fog",
+          "score": 96.96,
+          "seed": 4
+        },
+        "result": "win",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 157.88,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 85.83,
+          "seed": null
+        },
+        "result": "win",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "score": 157.35,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "teamName": "Ashgrove Aces",
+          "score": 98.21,
+          "seed": null
+        },
+        "result": "win",
+        "scoringFormat": "PPR + TE premium"
+      }
+    ],
+    "lowestScores": [
+      {
+        "year": 2020,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "teamName": "Ashgrove Aces",
+          "score": 70.26,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 118.91,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "teamName": "Trice Tritons",
+          "score": 72.16,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 132.79,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vortex",
+          "score": 72.22,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 129.42,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 72.23,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vipers",
+          "score": 76.81,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 7,
+        "weeks": [
+          7
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "score": 72.5,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 120.96,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "teamName": "Ashgrove Aces",
+          "score": 72.71,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vortex",
+          "score": 118.01,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Foxes",
+          "score": 72.76,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "wren-solano",
+            "name": "Wren Solano"
+          },
+          "teamName": "Solano Sparks",
+          "score": 147.08,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 9,
+        "weeks": [
+          9
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Fog",
+          "score": 72.97,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vortex",
+          "score": 114.69,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          },
+          "teamName": "Paxton Pistons",
+          "score": 73.18,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "score": 99.95,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 1,
+        "weeks": [
+          1
+        ],
+        "kind": "regular",
+        "team": {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vortex",
+          "score": 73.28,
+          "seed": null
+        },
+        "opponent": {
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          },
+          "teamName": "Paxton Pistons",
+          "score": 80.4,
+          "seed": null
+        },
+        "result": "loss",
+        "scoringFormat": "PPR + TE premium"
+      }
+    ],
+    "playoffUpsets": [
+      {
+        "year": 2020,
+        "matchupPeriod": 16,
+        "weeks": [
+          16
+        ],
+        "kind": "playoff",
+        "winner": {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "score": 120.86,
+          "seed": 5
+        },
+        "loser": {
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "score": 110.71,
+          "seed": 1
+        },
+        "isTie": false,
+        "margin": 10.15,
+        "scoringFormat": "PPR + TE premium",
+        "seedGap": 4
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 17,
+        "weeks": [
+          17
+        ],
+        "kind": "playoff",
+        "winner": {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "score": 87.46,
+          "seed": 5
+        },
+        "loser": {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "score": 78.47,
+          "seed": 2
+        },
+        "isTie": false,
+        "margin": 8.99,
+        "scoringFormat": "PPR + TE premium",
+        "seedGap": 3
+      },
+      {
+        "year": 2020,
+        "matchupPeriod": 15,
+        "weeks": [
+          15
+        ],
+        "kind": "playoff",
+        "winner": {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "score": 157.9,
+          "seed": 5
+        },
+        "loser": {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Fog",
+          "score": 96.96,
+          "seed": 4
+        },
+        "isTie": false,
+        "margin": 60.94,
+        "scoringFormat": "PPR + TE premium",
+        "seedGap": 1
+      }
+    ]
+  }
 }
