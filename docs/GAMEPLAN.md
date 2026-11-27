@@ -14,9 +14,10 @@ Layout whiteboard: https://claude.ai/artifact/UviRRz54BkANGtVgwRpZ68
 |---|---|
 | ESPN API map | Done (from cwendt94/espn-api; not vendored in this repo) |
 | Postgres schema | Done: `db/schema.sql`, loads on PG16, views tested on sample data |
-| Raw archiver | Done: `scripts/archive_espn.py`, tested against a mocked API only |
-| First real archive run (2018–2025) | **Next** |
-| Loader (raw → core) | Not started; build it from the real archived JSON |
+| Raw archiver | Done: `scripts/archive_espn.py`, run against the real API for 2018–2025 |
+| Archive run (2018–2025) | Done: full data for every season |
+| ESPN field map | Done: `docs/research/espn-api.md` |
+| Loader (raw → core) | **Next** |
 | Export (stats → JSON) | Not started |
 | Frontend (v1) | Not started |
 | Passphrase gate + deploy | Not started |
@@ -49,9 +50,27 @@ Stack:
 - **Access**: one shared passphrase checked by Cloudflare Pages middleware on every path, images included. HTTP-only cookie for about a year, `noindex` (ADR-0006).
 - **Data location**: this repo is public and holds no league data. The archive, `owners.yaml` and Punishment content live in the private `washingwood-archive` repo. Exported JSON goes straight to Cloudflare (ADR-0007).
 
+### Where the site's data comes from
+
+The deployed site **never calls ESPN** and holds no cookies. Data flows one way, and only the first step touches ESPN:
+
+```
+ESPN API ──(archiver, needs cookies)──▶ archive/ (private repo)
+         ──(loader)──▶ local Postgres ──(exporter)──▶ JSON files
+         ──(build + deploy)──▶ Cloudflare Pages ──▶ league members' browsers
+```
+
+- **ESPN cookies are needed only for the archive step**, once a year when a finished Season is added. They must come from an account that was a league member that Season.
+- Everything after that runs from the archive on disk: load, export, build and deploy work with no ESPN access.
+- If ESPN dropped the league tomorrow, the site would keep working and could still be rebuilt from the archive (ADR-0001).
+- `espn_s2` may expire between seasons, so expect to copy fresh cookies before each yearly run.
+
 ### Yearly update (after the championship week)
 
-One local run: **archive** the finished season → **load** into Postgres → **export** stats to JSON → **build** the site → **deploy** to Cloudflare. Then commit the new raw files to `washingwood-archive`.
+1. Put current cookies for a member account in `.env`.
+2. **Archive** the finished season: `uv run --env-file .env python scripts/archive_espn.py --years <YEAR>`
+3. Commit and push the new raw files in `archive/` (private repo).
+4. **Load** into Postgres → **export** stats to JSON → **build** the site → **deploy** to Cloudflare.
 
 ---
 
@@ -109,10 +128,15 @@ Kept from the original plan; build in roughly this order.
 - Player stats: `statSourceId` 0 = actual, 1 = projected; `scoringPeriodId` 0 = season total; skip `statSplitTypeId == 2`
 
 ### Data tiers by season
+Full field map, sources and open questions: `docs/research/espn-api.md`.
+
 | Seasons | Tier | What we get |
 |---|---|---|
-| 2019+ | full | Weekly lineups incl. bench, player stats, box scores, transactions, activity |
-| 2018 | partial | League-level data. The espn-api library blocks box scores/activity before 2019, so verify what ESPN actually returns on the first run |
+| 2018–2025 | full | Weekly lineups incl. bench, player stats, box scores, transactions (the espn-api library's "nothing before 2019" limit doesn't hold for this league) |
+
+Private seasons must be fetched with cookies from an account that was a member that season. Otherwise ESPN serves the leagueHistory route, which has no lineups or transactions. 2019 needed a different account.
+
+The activity feed (`/communication/`) returns 404 for every season. Transactions come from per-week `mTransactions2` instead.
 
 ---
 
@@ -137,7 +161,7 @@ Not yet in the schema: Punishment (per-season title, description, image) and a w
 uv run python scripts/archive_espn.py --league-id <ID> --years 2018-2025 --out archive/
 ```
 - Reads `ESPN_S2`, `ESPN_SWID` and `WASHINGWOOD_PG` (optional) from the environment
-- Per season: league views, pro schedule, player list; for 2019+ also `player_pool`, per-week box scores / rosters / transactions, and the paginated activity feed
+- Per season: league views, pro schedule, player list; for 2018+ also `player_pool`, per-week box scores / rosters / transactions, and the paginated activity feed
 - `manifest.jsonl` logs every call, failures included
 - Past seasons are reused from disk; `--force` refetches everything
 - Unverified: the `player_pool` filter (`kona_player_info`, limit 2000). Check its output after the first run
@@ -146,9 +170,9 @@ uv run python scripts/archive_espn.py --league-id <ID> --years 2018-2025 --out a
 
 ## Next steps
 
-1. **Create the private `washingwood-archive` repo** and clone it so `archive/` and `owners.yaml` live there.
-2. **Run the archiver** for 2018–2025. Read `manifest.jsonl` for failures, especially in 2018.
-3. **Inspect the real JSON** and confirm field paths: box score `rosterForCurrentScoringPeriod`, transaction items, draft picks, settings scoring items / `lineupSlotCounts`, and how the 3rd-place game and final ranks appear.
+1. ~~**Create the private `washingwood-archive` repo**~~ Done: cloned at `archive/`.
+2. ~~**Run the archiver** for 2018–2025~~ Done: full data for every season (2019 needed a 2019 member's cookies).
+3. ~~**Inspect the real JSON**~~ Done: `docs/research/espn-api.md` (2019 not yet checked against its conclusions).
 4. **Start Postgres** in Docker and load `db/schema.sql`.
 5. **Write `owners.yaml`** (in the private repo): ESPN SWIDs / team IDs → person, per season.
 6. **Write the loader** (`scripts/load_espn.py`): raw → core, idempotent per season. v1 needs only seasons/settings → owners → franchises → matchups (plus final ranks).

@@ -17,3 +17,17 @@ def test_current_season_rolls_over_in_august():
 
 def test_parse_years_accepts_ranges_and_lists():
     assert archive_espn.parse_years("2017-2019,2021") == [2017, 2018, 2019, 2021]
+
+
+def test_lineup_entry_count_flags_boxscores_without_lineups():
+    with_lineups = {
+        "schedule": [
+            {
+                "home": {"rosterForCurrentScoringPeriod": {"entries": [{}, {}]}},
+                "away": {"rosterForCurrentScoringPeriod": {"entries": [{}]}},
+            }
+        ]
+    }
+    history_route_shape = {"schedule": [{"home": {"totalPoints": 100.0}, "away": {"totalPoints": 90.0}}]}
+    assert archive_espn.lineup_entry_count(with_lineups) == 3
+    assert archive_espn.lineup_entry_count(history_route_shape) == 0

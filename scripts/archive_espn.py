@@ -33,8 +33,9 @@ BASE = "https://lm-api-reads.fantasy.espn.com/apis/v3/games/ffl"
 # League-level views, fetched one per call so each raw file has one meaning.
 SEASON_VIEWS = ["mSettings", "mStatus", "mTeam", "mRoster", "mMatchupScore", "mStandings", "mDraftDetail"]
 
-# Seasons where ESPN returns player-level weekly data. Earlier years are archival.
-FULL_DATA_FROM = 2019
+# Seasons where ESPN returns player-level weekly data. Verified for this league from 2018
+# (the espn-api library's 2019 cutoff doesn't hold). Earlier years are archival.
+FULL_DATA_FROM = 2018
 
 
 def current_season(today=None):
@@ -58,6 +59,7 @@ class Archiver:
         self.pg = None
         if pg_dsn:
             import psycopg  # pip install "psycopg[binary]"
+
             self.pg = psycopg.connect(pg_dsn, autocommit=True)
 
     # -- URL helpers ---------------------------------------------------------
@@ -73,7 +75,7 @@ class Archiver:
         for attempt in range(4):
             r = self.session.get(url, params=params, headers=headers, timeout=30)
             if r.status_code in (429, 500, 502, 503, 504):
-                time.sleep(2 ** attempt * max(self.delay, 1))
+                time.sleep(2**attempt * max(self.delay, 1))
                 continue
             return r
         return r
@@ -110,8 +112,12 @@ class Archiver:
 
         entry = {
             "fetched_at": dt.datetime.now(dt.timezone.utc).isoformat(),
-            "season": year, "resource": resource, "week": week,
-            "url": full_url, "params": full_params, "filters": filters,
+            "season": year,
+            "resource": resource,
+            "week": week,
+            "url": full_url,
+            "params": full_params,
+            "filters": filters,
             "status": r.status_code,
         }
 
@@ -165,17 +171,26 @@ class Archiver:
 
         # Pro schedule (byes, opponents) and the player pool for name/ID mapping
         self.fetch(year, "pro_schedule", {"view": "proTeamSchedules_wl"}, league=False)
-        self.fetch(year, "players", {"view": "players_wl"}, league=False, extend="/players",
-                   filters={"filterActive": {"value": True}})
+        self.fetch(
+            year,
+            "players",
+            {"view": "players_wl"},
+            league=False,
+            extend="/players",
+            filters={"filterActive": {"value": True}},
+        )
 
         if year < FULL_DATA_FROM:
             print("  (archival season: skipping per-week calls)")
             return
 
         # Every player with season stats, rostered or not (for draft value)
-        self.fetch(year, "player_pool", {"view": "kona_player_info", "scoringPeriodId": 0},
-                   filters={"players": {"limit": 2000,
-                                        "sortPercOwned": {"sortPriority": 1, "sortAsc": False}}})
+        self.fetch(
+            year,
+            "player_pool",
+            {"view": "kona_player_info", "scoringPeriodId": 0},
+            filters={"players": {"limit": 2000, "sortPercOwned": {"sortPriority": 1, "sortAsc": False}}},
+        )
 
         # Per-week: box scores (lineups + player stats), rosters, transactions
         matchup_periods = settings.get("settings", {}).get("scheduleSettings", {}).get("matchupPeriods", {})
@@ -183,12 +198,31 @@ class Archiver:
         last_week = status.get("latestScoringPeriod") or status.get("finalScoringPeriod") or 17
         last_week = min(last_week, status.get("finalScoringPeriod") or last_week)
 
+        if self.route.get(year) == "history":
+            print(
+                f"  ! {year}: fell back to leagueHistory (account not a member that season?). "
+                "Box scores and transactions will be empty; rerun with that season's member cookies.",
+                file=sys.stderr,
+            )
+
+        empty_weeks = 0
         for week in range(1, last_week + 1):
             period = week_to_period.get(week, week)
-            self.fetch(year, "boxscore", {"view": ["mMatchupScore", "mScoreboard"], "scoringPeriodId": week},
-                       week=week, filters={"schedule": {"filterMatchupPeriodIds": {"value": [period]}}})
+            box = self.fetch(
+                year,
+                "boxscore",
+                {"view": ["mMatchupScore", "mScoreboard"], "scoringPeriodId": week},
+                week=week,
+                filters={"schedule": {"filterMatchupPeriodIds": {"value": [period]}}},
+            )
+            if box and not lineup_entry_count(box):
+                empty_weeks += 1
             self.fetch(year, "roster", {"view": "mRoster", "scoringPeriodId": week}, week=week)
             self.fetch(year, "transactions", {"view": "mTransactions2", "scoringPeriodId": week}, week=week)
+
+        if empty_weeks:
+            # HTTP 200 with no lineups is a silent failure; don't let it pass unnoticed
+            print(f"  ! {year}: {empty_weeks}/{last_week} box scores have no lineups", file=sys.stderr)
 
         self.archive_activity(year)
 
@@ -196,20 +230,38 @@ class Archiver:
         """Activity feed (adds/drops/trades), paged until exhausted."""
         offset, page = 0, 0
         while True:
-            filters = {"topics": {
-                "filterType": {"value": ["ACTIVITY_TRANSACTIONS"]},
-                "limit": page_size, "limitPerMessageSet": {"value": 25}, "offset": offset,
-                "sortMessageDate": {"sortPriority": 1, "sortAsc": False},
-                "sortFor": {"sortPriority": 2, "sortAsc": False},
-                "filterIncludeMessageTypeIds": {"value": [178, 179, 180, 181, 239, 244]},
-            }}
-            data = self.fetch(year, f"activity_p{page:03d}", {"view": "kona_league_communication"},
-                              filters=filters, extend="/communication/")
+            filters = {
+                "topics": {
+                    "filterType": {"value": ["ACTIVITY_TRANSACTIONS"]},
+                    "limit": page_size,
+                    "limitPerMessageSet": {"value": 25},
+                    "offset": offset,
+                    "sortMessageDate": {"sortPriority": 1, "sortAsc": False},
+                    "sortFor": {"sortPriority": 2, "sortAsc": False},
+                    "filterIncludeMessageTypeIds": {"value": [178, 179, 180, 181, 239, 244]},
+                }
+            }
+            data = self.fetch(
+                year,
+                f"activity_p{page:03d}",
+                {"view": "kona_league_communication"},
+                filters=filters,
+                extend="/communication/",
+            )
             topics = (data or {}).get("topics", [])
             if len(topics) < page_size:
                 break
             offset += page_size
             page += 1
+
+
+def lineup_entry_count(boxscore):
+    """Number of player lineup entries across all matchups in a box score payload."""
+    return sum(
+        len(m.get(side, {}).get("rosterForCurrentScoringPeriod", {}).get("entries", []))
+        for m in boxscore.get("schedule", [])
+        for side in ("home", "away")
+    )
 
 
 def parse_years(spec):
@@ -225,7 +277,7 @@ def parse_years(spec):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    p.add_argument("--league-id", required=True)
+    p.add_argument("--league-id", default=os.environ.get("ESPN_LEAGUE_ID"))
     p.add_argument("--years", required=True, help="e.g. 2018-2025 or 2019,2021")
     p.add_argument("--espn-s2", default=os.environ.get("ESPN_S2"))
     p.add_argument("--swid", default=os.environ.get("ESPN_SWID"))
@@ -234,6 +286,8 @@ def main():
     p.add_argument("--pg", default=os.environ.get("WASHINGWOOD_PG"), help="Postgres DSN for raw.responses")
     p.add_argument("--force", action="store_true", help="refetch files that already exist")
     args = p.parse_args()
+    if not args.league_id:
+        p.error("--league-id or ESPN_LEAGUE_ID is required")
 
     cookies = {}
     if args.espn_s2 and args.swid:
