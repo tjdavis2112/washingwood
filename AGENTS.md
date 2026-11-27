@@ -24,7 +24,8 @@ Read `docs/GAMEPLAN.md` for scope, v1 definition, design direction and roadmap b
 - `uv run ruff check .` / `uv run ruff format .`: lint and format
 - `uv run python scripts/archive_espn.py --help`: archiver usage
 - In `site/`: `npm test` (build from `contract/examples` + Playwright at phone and desktop widths; screenshots in `site/test-results/screenshots/`), `npx astro check` and `npx tsc -p functions` (typecheck site and middleware)
-- `uv run python -m washingwood.build --help`: build site data (see `docs/guides/build-site-data.md`). Postgres-backed tests need Docker Desktop running.
+- `uv run python -m washingwood.build --help`: build site data (see `docs/guides/build-site-data.md`).
+- `uv run python -m washingwood.deploy --help`: build and deploy to Cloudflare Pages, local only (see `docs/guides/deploy.md`). Postgres-backed tests need Docker Desktop running.
 
 ## Rules
 

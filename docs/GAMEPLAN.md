@@ -17,10 +17,10 @@ Layout whiteboard: https://claude.ai/artifact/UviRRz54BkANGtVgwRpZ68
 | Raw archiver | Done: `scripts/archive_espn.py`, run against the real API for 2018–2025 |
 | Archive run (2018–2025) | Done: full data for every season |
 | ESPN field map | Done: `docs/research/espn-api.md` |
-| Loader (raw → core) | **Next** |
-| Export (stats → JSON) | Not started |
-| Frontend (v1) | Not started |
-| Passphrase gate + deploy | Gate done (`site/functions/_middleware.ts`); deploy not started |
+| Loader (raw → core) | Done: `src/washingwood/loader.py` |
+| Export (stats → JSON) | Done: `src/washingwood/export.py`, validated against `contract/` |
+| Frontend (v1) | Done: `site/` (Home, Season pages, Coming soon sections) |
+| Passphrase gate + deploy | Gate done; deploy command done (`washingwood.deploy`); first deploy **next** |
 
 ---
 
@@ -70,7 +70,9 @@ ESPN API ──(archiver, needs cookies)──▶ archive/ (private repo)
 1. Put current cookies for a member account in `.env`.
 2. **Archive** the finished season: `uv run --env-file .env python scripts/archive_espn.py --years <YEAR>`
 3. Commit and push the new raw files in `archive/` (private repo).
-4. **Load** into Postgres → **export** stats to JSON → **build** the site → **deploy** to Cloudflare.
+4. **Deploy:** load into Postgres → export site data → build the site → upload to Cloudflare, in one command. The build checks every Season first and stops on any problem:
+   `uv run --env-file .env python -m washingwood.deploy --archive archive/<league-id> --owners archive/owners.yaml`
+   Details and first-time setup: `docs/guides/deploy.md`.
 
 ---
 

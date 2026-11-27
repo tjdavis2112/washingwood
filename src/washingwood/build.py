@@ -28,6 +28,18 @@ class BuildError(Exception):
     """The build stopped; the message says why."""
 
 
+# Failures with a clear message of their own: commands print them without a traceback.
+# (psycopg's connection errors name host and user, never the password; the DSN itself is never echoed.)
+FAILURES = (
+    BuildError,
+    OwnerMappingError,
+    LoadError,
+    export.ExportError,
+    contract.ContractError,
+    psycopg.OperationalError,
+)
+
+
 def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list[Path]:
     """Load every Season in `archive_dir` and write the site data to `out_dir`. Returns files written."""
     archive_dir, out_dir = Path(archive_dir), Path(out_dir)
@@ -83,12 +95,8 @@ def main(argv: list[str] | None = None) -> int:
         p.error("no Postgres DSN: pass --pg or set WASHINGWOOD_PG")
     try:
         written = build(args.archive, args.owners, args.out, args.pg)
-    except (BuildError, OwnerMappingError, LoadError, export.ExportError, contract.ContractError) as e:
-        print(f"build failed: {e}", file=sys.stderr)
-        return 1
-    except psycopg.OperationalError as e:
-        # psycopg's message names host/user but not the password; still, never echo the DSN itself
-        print(f"build failed: can't use the Postgres database ({type(e).__name__}: {e})", file=sys.stderr)
+    except FAILURES as e:
+        print(f"build failed: {type(e).__name__}: {e}", file=sys.stderr)
         return 1
     for path in written:
         print(f"wrote {path}")
