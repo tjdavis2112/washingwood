@@ -1,0 +1,28 @@
+[project]
+name = "washingwood"
+version = "0.1.0"
+description = "League history app for our ESPN fantasy football league"
+requires-python = ">=3.10"
+dependencies = [
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+# Only needed when writing to Postgres (--pg / FAINTASY_PG)
+pg = ["psycopg[binary]>=3.1"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
