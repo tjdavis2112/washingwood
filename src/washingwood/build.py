@@ -45,12 +45,16 @@ def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list
             with conn.transaction():
                 load_season(conn, SeasonFiles.read(d), owner_map)
         docs = {"league.json": (export.league_summary(conn), "league")}
+        for d in season_dirs:
+            docs[f"seasons/{d.name}.json"] = (export.season_document(conn, int(d.name)), "season")
 
-    out_dir.mkdir(parents=True, exist_ok=True)
-    written = []
-    for name, (doc, kind) in docs.items():
+    # Validate everything before writing anything, so a failed build leaves no partial output
+    for doc, kind in docs.values():
         contract.validate(doc, kind)
+    written = []
+    for name, (doc, _) in docs.items():
         path = out_dir / name
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
         written.append(path)
     return written
@@ -61,7 +65,7 @@ def _ensure_schema(conn: psycopg.Connection) -> None:
     if conn.execute("SELECT to_regclass('core.seasons')").fetchone()[0] is None:
         conn.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
         conn.commit()
-    elif conn.execute("SELECT to_regclass('stats.champions')").fetchone()[0] is None:
+    elif conn.execute("SELECT to_regclass('stats.last_place')").fetchone()[0] is None:  # newest view
         raise BuildError("the database's schema predates db/schema.sql: drop and recreate the database, then re-run")
 
 

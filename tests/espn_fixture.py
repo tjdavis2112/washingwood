@@ -36,6 +36,8 @@ class Season2020Style:
     teams_by_seed: list[Team]  # index 0 = seed 1
     upsets: set[str] = field(default_factory=set)
     league_name: str = "Example Fantasy League"
+    # Seed 12 (worst regular season) wins its last consolation game and finishes 11th, above seed 11
+    last_place_climbs: bool = False
 
     REGULAR_PERIODS = 14
     TOTAL_PERIODS = 17
@@ -109,17 +111,21 @@ class Season2020Style:
         self._add(16, *sorted((l36, l45), key=self._seed.get), wcl)
         for a, b in ((7, 10), (8, 9), (11, 12)):
             self._add(16, by_seed[a], by_seed[b], lcl)
-        # Period 17: final, Third-place game, 5th-place game, losers' ladder
+        # Period 17: 5th-place game (listed first, same tier as the Third-place game), final,
+        # Third-place game, losers' ladder
+        fifth, sixth = self._add(17, *sorted((l36, l45), key=self._seed.get), wcl)
         champ, runner = self._add(17, *sorted((s1w, s2w), key=self._seed.get), wb)
         third, fourth = self._add(17, *sorted((s1l, s2l), key=self._seed.get), wcl)
-        fifth, sixth = self._add(17, *sorted((l36, l45), key=self._seed.get), wcl)
-        for a, b in ((7, 8), (9, 10), (11, 12)):
-            self._add(17, by_seed[a], by_seed[b], lcl)
+        self._add(17, by_seed[7], by_seed[8], lcl)
+        self._add(17, by_seed[9], by_seed[10], lcl)
+        self._add(17, by_seed[11], by_seed[12], lcl, home_wins=not self.last_place_climbs)
 
         placed = [champ, runner, third, fourth, fifth, sixth]
         self._final_rank = {k: i + 1 for i, k in enumerate(placed)}
         for seed in range(7, 13):
             self._final_rank[by_seed[seed]] = seed
+        if self.last_place_climbs:
+            self._final_rank[by_seed[11]], self._final_rank[by_seed[12]] = 12, 11
 
     # -- ESPN-shaped documents ----------------------------------------------
 

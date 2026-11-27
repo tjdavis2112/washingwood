@@ -1,0 +1,19 @@
+---
+// Last place: the worst regular-season Franchise (highest playoff seed), with the Punishment button.
+import { formatRecord, type Season } from "../data/site-data";
+import PunishmentDialog from "./PunishmentDialog.astro";
+
+interface Props { season: Season }
+const { season } = Astro.props;
+const last = season.lastPlace;
+---
+<section aria-labelledby="last-place-heading" class="rounded-3xl border border-brand/40 bg-gradient-to-br from-brand-deep/25 to-ink p-6 md:p-8">
+  <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+    <div class="min-w-0">
+      <h2 id="last-place-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-brand">Last place</h2>
+      <p class="mt-2 break-words text-2xl font-black md:text-3xl">{last.owner.name}</p>
+      <p class="text-muted">{last.teamName} · <span class="tabular-nums">{formatRecord(last.record)}</span></p>
+    </div>
+    <div class="shrink-0"><PunishmentDialog ownerName={last.owner.name} year={season.year} punishment={last.punishment} /></div>
+  </div>
+</section>

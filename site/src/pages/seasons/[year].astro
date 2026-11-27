@@ -1,14 +1,23 @@
 ---
-// Placeholder Season page; the real page (Podium, standings, bracket...) arrives with #7-#10.
-import ComingSoon from "../../components/ComingSoon.astro";
-import { getLeague } from "../../data/site-data";
+// One page per Season: the Podium and Last place. Standings, bracket, weekly results and the
+// Scoring format tab arrive with #8-#10.
+import LastPlace from "../../components/LastPlace.astro";
+import Podium from "../../components/Podium.astro";
+import { getLeague, getSeason } from "../../data/site-data";
 import Base from "../../layouts/Base.astro";
 
 export function getStaticPaths() {
-  return getLeague().seasons.map((s) => ({ params: { year: String(s.year) }, props: { season: s } }));
+  return getLeague().seasons.map((s) => ({ params: { year: String(s.year) }, props: { year: s.year } }));
 }
-const { season } = Astro.props;
+const season = getSeason(Astro.props.year);
 ---
 <Base title={`${season.year} Season`}>
-  <ComingSoon title={`${season.year} Season`} blurb={`${season.teamCount} teams. Podium, standings, bracket and weekly results are on the way.`} />
+  <header class="mb-8">
+    <h1 class="text-4xl font-black md:text-6xl">{season.year} Season</h1>
+    <p class="mt-2 text-muted">{season.teamCount} teams</p>
+  </header>
+  <div class="space-y-8">
+    <Podium spots={season.podium} />
+    <LastPlace season={season} />
+  </div>
 </Base>

@@ -78,6 +78,7 @@ def _has_lineups(boxscore: Path) -> bool:
 def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> None:
     """Replace one Season's rows in core.* inside the caller's transaction."""
     franchise_owners = _map_owners(files, owner_map)  # fail before touching the database
+    _check_seeds(files)
     league_id = _upsert_league(conn, files)
     season_id = _upsert_season(conn, league_id, files)
 
@@ -106,6 +107,13 @@ def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> No
             )
 
     _matchups(conn, season_id, files, franchise_ids)
+
+
+def _check_seeds(files: SeasonFiles) -> None:
+    """playoffSeed ranks every Franchise 1..n by regular season. Last place depends on it, so it must be whole."""
+    seeds = sorted(t.get("playoffSeed") or 0 for t in files.teams["teams"])
+    if seeds != list(range(1, len(seeds) + 1)):
+        raise LoadError(f"Season {files.year}: playoff seeds should be 1..{len(seeds)}, found {seeds}")
 
 
 def _map_owners(files: SeasonFiles, owner_map: OwnerMap):
@@ -204,18 +212,15 @@ def _upsert_owner(conn: Connection, owner) -> int:
 def _matchups(conn: Connection, season_id: int, files: SeasonFiles, franchise_ids: dict[int, int]) -> None:
     periods = files.settings["settings"]["scheduleSettings"]["matchupPeriods"]
     schedule = sorted(files.matchups["schedule"], key=lambda m: (m["matchupPeriodId"], m["id"]))
-    last = max(m["matchupPeriodId"] for m in schedule)
-    finals = [m for m in schedule if m["matchupPeriodId"] == last and m["playoffTierType"] == "WINNERS_BRACKET"]
-    if len(finals) != 1:
-        raise LoadError(
-            f"Season {files.year}: expected one WINNERS_BRACKET Matchup in period {last}, found {len(finals)}"
-        )
+    final = _championship(files, schedule)
+    third = _third_place_game(files, schedule)
+    _check_against_espn_places(files, final, third)
+    rounds = {id(final): "final", id(third): "3rd place"}
 
     for m in schedule:
         weeks = periods[str(m["matchupPeriodId"])]
         home, away = m["home"], m.get("away")
-        winner = {"HOME": home, "AWAY": away}.get(m["winner"])
-        is_final = m is finals[0]
+        winner = _winner(m)
         conn.execute(
             """INSERT INTO core.matchups (season_id, matchup_period, first_week, last_week, home_franchise_id,
                    away_franchise_id, home_points, away_points, winner_franchise_id, is_playoff, bracket,
@@ -224,6 +229,63 @@ def _matchups(conn: Connection, season_id: int, files: SeasonFiles, franchise_id
             (season_id, m["matchupPeriodId"], min(weeks), max(weeks), franchise_ids[home["teamId"]],
              franchise_ids[away["teamId"]] if away else None,
              home["totalPoints"], away["totalPoints"] if away else None,
-             franchise_ids[winner["teamId"]] if winner else None, m["playoffTierType"] != "NONE",
-             BRACKETS[m["playoffTierType"]], "final" if is_final else None, is_final),
+             franchise_ids[winner] if winner else None, m["playoffTierType"] != "NONE",
+             BRACKETS[m["playoffTierType"]], rounds.get(id(m)), m is final),
         )  # fmt: skip
+
+
+def _winner(m: dict) -> int | None:
+    """Winning team id, or None for a tie, bye or unplayed Matchup."""
+    side = {"HOME": m["home"], "AWAY": m.get("away")}.get(m["winner"])
+    return side["teamId"] if side else None
+
+
+def _loser(m: dict) -> int | None:
+    side = {"HOME": m.get("away"), "AWAY": m["home"]}.get(m["winner"])
+    return side["teamId"] if side else None
+
+
+def _championship(files: SeasonFiles, schedule: list[dict]) -> dict:
+    """The single WINNERS_BRACKET Matchup in the last Matchup period (espn-api.md §3)."""
+    last = max(m["matchupPeriodId"] for m in schedule)
+    finals = [m for m in schedule if m["matchupPeriodId"] == last and m["playoffTierType"] == "WINNERS_BRACKET"]
+    if len(finals) != 1:
+        raise LoadError(
+            f"Season {files.year}: expected one WINNERS_BRACKET Matchup in period {last}, found {len(finals)}"
+        )
+    return finals[0]
+
+
+def _third_place_game(files: SeasonFiles, schedule: list[dict]) -> dict:
+    """The last-period WINNERS_CONSOLATION_LADDER Matchup between the two semifinal losers.
+
+    Tier alone isn't enough: from 2020 the 5th-place game shares the tier and the period."""
+    last = max(m["matchupPeriodId"] for m in schedule)
+    semis = [m for m in schedule if m["matchupPeriodId"] == last - 1 and m["playoffTierType"] == "WINNERS_BRACKET"]
+    semi_losers = {_loser(m) for m in semis}
+    games = [
+        m
+        for m in schedule
+        if m["matchupPeriodId"] == last
+        and m["playoffTierType"] == "WINNERS_CONSOLATION_LADDER"
+        and {m["home"]["teamId"], (m.get("away") or {}).get("teamId")} == semi_losers
+    ]
+    if len(semis) != 2 or len(games) != 1:
+        raise LoadError(f"Season {files.year}: couldn't find the Third-place game between the semifinal losers")
+    return games[0]
+
+
+def _check_against_espn_places(files: SeasonFiles, final: dict, third: dict) -> None:
+    """Final placement comes from rankCalculatedFinal. The bracket must agree with it, or the build stops."""
+    rank = {t["id"]: t["rankCalculatedFinal"] for t in files.teams["teams"]}
+    expected = [
+        ("Champion", _winner(final), 1),
+        ("runner-up", _loser(final), 2),
+        ("Third-place game winner", _winner(third), 3),
+    ]
+    for label, team_id, place in expected:
+        if rank.get(team_id) != place:
+            raise LoadError(
+                f"Season {files.year}: the {label} (team {team_id}) is ranked {rank.get(team_id)} by ESPN, not "
+                f"{place}. The Third-place game or championship disagrees with ESPN's final places."
+            )

@@ -55,3 +55,23 @@ export function getLeague(): League {
   league ??= load<League>("league.json", "league");
   return league;
 }
+
+export type WinLossTie = { wins: number; losses: number; ties: number };
+export type PodiumSpot = { place: 1 | 2 | 3; owner: OwnerRef; teamName: string; record: WinLossTie };
+export type Punishment = { title: string; description: string; image: string | null };
+export type Season = {
+  year: number;
+  teamCount: number;
+  dataTier: "full" | "partial";
+  podium: [PodiumSpot, PodiumSpot, PodiumSpot];
+  lastPlace: { owner: OwnerRef; teamName: string; record: WinLossTie; punishment: Punishment | null };
+};
+
+const seasons = new Map<number, Season>();
+export function getSeason(year: number): Season {
+  if (!seasons.has(year)) seasons.set(year, load<Season>(`seasons/${year}.json`, "season"));
+  return seasons.get(year)!;
+}
+
+/** "9-5", or "8-5-1" when there were ties. */
+export const formatRecord = (r: WinLossTie) => (r.ties ? `${r.wins}-${r.losses}-${r.ties}` : `${r.wins}-${r.losses}`);

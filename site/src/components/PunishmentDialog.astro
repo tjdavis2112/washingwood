@@ -1,0 +1,56 @@
+---
+// The Punishment button and its popup: a native <dialog> (modal, Escape closes it, focus handled by
+// the browser). An inline script wires the button as soon as the HTML is parsed, so there's no
+// window where a click does nothing. Slots for picture, title and description are always there;
+// until a Season's Punishment is filled in they show a placeholder.
+import type { Punishment } from "../data/site-data";
+
+interface Props { ownerName: string; year: number; punishment: Punishment | null }
+const { ownerName, year, punishment } = Astro.props;
+const id = `punishment-${year}`;
+---
+<button
+  type="button"
+  data-open-dialog={id}
+  class="rounded-full bg-brand px-5 py-2 text-sm font-bold uppercase tracking-widest transition hover:bg-brand-deep"
+>Punishment</button>
+
+<dialog
+  id={id}
+  aria-labelledby={`${id}-heading`}
+  class="punishment m-auto w-[min(32rem,calc(100vw-2rem))] rounded-3xl border border-line bg-panel p-6 text-paper backdrop:bg-black/70 backdrop:backdrop-blur-sm md:p-8"
+>
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <p class="text-xs font-semibold uppercase tracking-[0.3em] text-brand">{year} · {ownerName}</p>
+      <h2 id={`${id}-heading`} class="mt-1 text-2xl font-black">Punishment</h2>
+    </div>
+    <form method="dialog">
+      <button aria-label="Close" class="rounded-full px-3 py-1 text-2xl leading-none text-muted hover:bg-ink hover:text-paper">×</button>
+    </form>
+  </div>
+
+  <div data-testid="punishment-picture" class="mt-6 grid aspect-video place-items-center overflow-hidden rounded-2xl border border-dashed border-line bg-ink text-sm text-muted">
+    {punishment?.image ? <img src={punishment.image} alt={punishment.title} class="size-full object-cover" /> : "Picture"}
+  </div>
+  <h3 data-testid="punishment-title" class="mt-5 text-xl font-bold">{punishment?.title ?? "Punishment details coming soon"}</h3>
+  <p data-testid="punishment-description" class="mt-2 text-muted">
+    {punishment?.description ?? "The title, picture and story of this Season's Punishment will be added here."}
+  </p>
+</dialog>
+
+<script is:inline>
+  // Open on click; a click on the backdrop (outside the panel) closes it
+  document.addEventListener("click", (e) => {
+    const opener = e.target.closest("[data-open-dialog]");
+    if (opener) return document.getElementById(opener.dataset.openDialog)?.showModal();
+    if (e.target instanceof HTMLDialogElement) e.target.close();
+  });
+</script>
+
+<style>
+  /* A subtle entrance; skipped for reduced motion */
+  .punishment[open] { animation: punishment-in 200ms ease-out; }
+  @keyframes punishment-in { from { opacity: 0; transform: translateY(12px); } }
+  @media (prefers-reduced-motion: reduce) { .punishment[open] { animation: none; } }
+</style>

@@ -313,13 +313,25 @@ JOIN core.franchises f        ON f.franchise_id = m.winner_franchise_id
 JOIN stats.franchise_owner fo ON fo.franchise_id = f.franchise_id
 WHERE m.is_championship;
 
--- Podium per season
+-- Podium per season: final places 1-3 (rankCalculatedFinal), with regular-season record
 CREATE VIEW stats.podium AS
-SELECT s.year, f.final_rank, f.team_name, fo.display_name AS owner
+SELECT s.year, f.final_rank, f.franchise_id, f.team_name, fo.owner_id, fo.display_name AS owner,
+       f.wins, f.losses, f.ties
 FROM core.franchises f
 JOIN core.seasons s ON s.season_id = f.season_id
 JOIN stats.franchise_owner fo ON fo.franchise_id = f.franchise_id
 WHERE f.final_rank <= 3;
+
+-- Last place per season: the highest playoff seed (worst regular season). Never final rank:
+-- consolation games can move the regular-season loser up.
+CREATE VIEW stats.last_place AS
+SELECT DISTINCT ON (s.year)
+       s.year, f.franchise_id, f.team_name, fo.owner_id, fo.display_name AS owner,
+       f.wins, f.losses, f.ties, f.playoff_seed
+FROM core.franchises f
+JOIN core.seasons s ON s.season_id = f.season_id
+JOIN stats.franchise_owner fo ON fo.franchise_id = f.franchise_id
+ORDER BY s.year, f.playoff_seed DESC NULLS LAST;
 
 -- Owner career totals
 CREATE VIEW stats.owner_career AS

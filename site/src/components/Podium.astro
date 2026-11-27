@@ -1,0 +1,41 @@
+---
+// The Podium as a lit trophy case (docs/GAMEPLAN.md "Design direction"): the Champion raised in
+// the center, runner-up and Third-place game winner lower on each side. Not cards.
+// Gold, silver and bronze appear here because these are trophies.
+import { formatRecord, type PodiumSpot } from "../data/site-data";
+import Trophy from "./Trophy.astro";
+
+interface Props { spots: PodiumSpot[] }
+const { spots } = Astro.props;
+const byPlace = (p: number) => spots.find((s) => s.place === p)!;
+
+const STYLE = {
+  1: { metal: "gold", label: "1st", plinth: "h-28 md:h-40", trophy: "size-16 md:size-28", glow: "var(--color-gold)" },
+  2: { metal: "silver", label: "2nd", plinth: "h-16 md:h-24", trophy: "size-12 md:size-20", glow: "var(--color-silver)" },
+  3: { metal: "bronze", label: "3rd", plinth: "h-10 md:h-16", trophy: "size-12 md:size-20", glow: "var(--color-bronze)" },
+} as const;
+---
+<section aria-labelledby="podium-heading" class="relative overflow-hidden rounded-3xl border border-line bg-gradient-to-b from-panel to-ink px-2 pt-8 md:px-10 md:pt-12">
+  <h2 id="podium-heading" class="text-center text-xs font-semibold uppercase tracking-[0.3em] text-muted">Podium</h2>
+  <!-- Display order 2nd, 1st, 3rd; reading order follows place -->
+  <ol class="mt-6 grid grid-cols-3 items-end gap-2 md:gap-6">
+    {[2, 1, 3].map((place) => {
+      const spot = byPlace(place);
+      const s = STYLE[place as 1 | 2 | 3];
+      return (
+        <li class:list={["flex min-w-0 flex-col items-center text-center", { "order-2": place === 1, "order-1": place === 2, "order-3": place === 3 }]}>
+          <div class:list={[s.trophy, "transition-transform duration-300 hover:-translate-y-1"]} style={`filter: drop-shadow(0 0 18px color-mix(in srgb, ${s.glow} 40%, transparent))`}>
+            <Trophy metal={s.metal} class="size-full" />
+          </div>
+          <p class="mt-3 w-full break-words text-sm font-black leading-tight md:text-xl">{spot.owner.name}</p>
+          <p class="w-full break-words text-xs text-muted md:text-sm">{spot.teamName}</p>
+          <p class="mt-1 text-xs tabular-nums text-muted md:text-sm">{formatRecord(spot.record)}</p>
+          <div
+            class:list={["mt-3 flex w-full items-start justify-center rounded-t-xl border-x border-t pt-2 text-lg font-black md:text-3xl", s.plinth]}
+            style={`border-color: color-mix(in srgb, ${s.glow} 45%, transparent); background: linear-gradient(to bottom, color-mix(in srgb, ${s.glow} 22%, transparent), transparent); color: ${s.glow}`}
+          >{s.label}</div>
+        </li>
+      );
+    })}
+  </ol>
+</section>
