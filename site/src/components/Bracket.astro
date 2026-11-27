@@ -1,11 +1,14 @@
 ---
 // The playoff bracket: winners' bracket rounds left to right on desktop (stacked on phones),
 // with the Third-place game under the championship. Consolation games aren't part of it.
-import { type Bracket, formatWeeks } from "../data/site-data";
+import { type Bracket, type BracketMatchup as Game, boxScorePath, formatWeeks, hasBoxScores } from "../data/site-data";
 import BracketMatchup from "./BracketMatchup.astro";
 
-interface Props { bracket: Bracket }
-const { bracket } = Astro.props;
+interface Props { bracket: Bracket; year: number }
+const { bracket, year } = Astro.props;
+const boxed = hasBoxScores(year);
+const href = (g: Game, weeks: number[]) =>
+  boxed && g.away ? boxScorePath(year, weeks[0], g.home.owner.slug, g.away.owner.slug) : undefined;
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 ---
 <section aria-labelledby="bracket-heading">
@@ -26,7 +29,7 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
               <p class="text-xs text-muted">{formatWeeks(round.weeks)}</p>
             </div>
             <ul class="flex flex-1 flex-col justify-around gap-3">
-              {round.matchups.map((game) => <BracketMatchup game={game} />)}
+              {round.matchups.map((game) => <BracketMatchup game={game} href={href(game, round.weeks)} />)}
             </ul>
           </div>
           {last && (
@@ -35,7 +38,7 @@ const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
                 <h3 id="round-third-place" class="text-sm font-bold uppercase tracking-widest text-paper">Third-place game</h3>
                 <p class="text-xs text-muted">{formatWeeks(bracket.thirdPlaceGame.weeks)}</p>
               </div>
-              <ul><BracketMatchup game={bracket.thirdPlaceGame.matchup} /></ul>
+              <ul><BracketMatchup game={bracket.thirdPlaceGame.matchup} href={href(bracket.thirdPlaceGame.matchup, bracket.thirdPlaceGame.weeks)} /></ul>
             </div>
           )}
         </div>

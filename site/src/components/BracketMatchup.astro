@@ -4,8 +4,8 @@
 import OwnerLink from "./OwnerLink.astro";
 import { type BracketMatchup, type BracketSide, formatPoints } from "../data/site-data";
 
-interface Props { game: BracketMatchup }
-const { game } = Astro.props;
+interface Props { game: BracketMatchup; href?: string }
+const { game, href } = Astro.props;
 const sides: { side: BracketSide; won: boolean }[] = [{ side: game.home, won: game.winner === "home" }];
 if (game.away) sides.push({ side: game.away, won: game.winner === "away" });
 ---
@@ -32,4 +32,5 @@ if (game.away) sides.push({ side: game.away, won: game.winner === "away" });
   {game.isBye && (
     <div class="border-t border-dashed border-line px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted">Bye</div>
   )}
+  {href && !game.isBye && <a href={href} data-testid="box-score-link" class="block border-t border-line px-3 py-1.5 text-right text-[0.7rem] font-semibold uppercase tracking-widest text-muted transition-colors hover:text-brand">Box score →</a>}
 </li>

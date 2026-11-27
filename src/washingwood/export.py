@@ -352,6 +352,109 @@ def _draft_grades(conn: Connection, year: int, by_franchise: dict[int, list[dict
     return sorted(grades, key=lambda g: (g["rank"], g["owner"]["name"]))
 
 
+# Starting slots in lineup order (espn-api.md §5); bench (BE) before IR
+SLOT_ORDER = ["QB", "TQB", "RB", "RB/WR", "WR", "WR/TE", "TE", "OP", "FLEX", "D/ST", "K"]
+BENCH_ORDER = ["BE", "IR"]
+
+
+def box_score_documents(conn: Connection) -> dict[int, dict]:
+    """box-scores/<year>.json for every Season with lineups: every played Matchup (byes have no Box
+    score) with each side's lineups Week by Week, totals, Projected score and any manual adjustment."""
+    docs = {}
+    for season_id, year, roster in conn.execute(
+        """SELECT season_id, year, roster_slots FROM core.seasons s
+           WHERE EXISTS (SELECT 1 FROM core.lineup_entries le WHERE le.season_id = s.season_id) ORDER BY year"""
+    ).fetchall():
+        template = {slot: n for slot, n in (roster or {}).items() if slot not in BENCH_ORDER}
+        lineups: dict[tuple[int, int], list] = {}
+        for week, fid, slot, starter, name, position, nfl_team, pts, proj in conn.execute(
+            """SELECT week, franchise_id, slot, is_starter, player_name, position, nfl_team, points, projected_points
+               FROM stats.box_score_entries WHERE year = %s""",
+            (year,),
+        ).fetchall():
+            lineups.setdefault((fid, week), []).append(
+                {"slot": slot, "name": name, "position": position, "nflTeam": nfl_team,
+                 "points": None if pts is None else float(pts), "projected": None if proj is None else float(proj),
+                 "_starter": starter}
+            )  # fmt: skip
+        info = {
+            fid: (owner, team)
+            for fid, owner, team in conn.execute(
+                "SELECT franchise_id, owner, team_name FROM stats.standings WHERE year = %s", (year,)
+            ).fetchall()
+        }
+        matchups = []
+        for period, first, last, home, away, hp, ap, hadj, aadj, winner, is_playoff, bracket, rnd in conn.execute(
+            """SELECT matchup_period, first_week, last_week, home_franchise_id, away_franchise_id, home_points,
+                      away_points, home_adjustment, away_adjustment, winner_franchise_id, is_playoff, bracket,
+                      playoff_round
+               FROM core.matchups WHERE season_id = %s AND away_franchise_id IS NOT NULL
+               ORDER BY matchup_period, matchup_id""",
+            (season_id,),
+        ).fetchall():
+            weeks = list(range(first, last + 1))
+            kind = (
+                "regular" if not is_playoff else "playoff" if bracket == "winners"
+                else "thirdPlace" if rnd == THIRD_PLACE else "consolation"
+            )  # fmt: skip
+
+            matchups.append(
+                {
+                    "matchupPeriod": period,
+                    "weeks": weeks,
+                    "kind": kind,
+                    "home": _box_score_side(
+                        info[home], hp, hadj, [lineups.get((home, w), []) for w in weeks], weeks, template
+                    ),
+                    "away": _box_score_side(
+                        info[away], ap, aadj, [lineups.get((away, w), []) for w in weeks], weeks, template
+                    ),
+                    "winner": None if winner is None else ("home" if winner == home else "away"),
+                    "isTie": winner is None,
+                }
+            )
+        docs[year] = {"year": year, "matchups": matchups}
+    return docs
+
+
+def _box_score_side(who: tuple[str, str], pts, adj, week_entries: list[list[dict]], weeks: list[int], template) -> dict:
+    """One side of a Box score: starters in slot order, then bench and IR, for each Week; empty starting
+    slots against the Season's roster template; the Projected score over the Week(s)."""
+    owner, team = who
+    week_docs, projected = [], 0.0
+    for w, entries in zip(weeks, week_entries, strict=True):
+        starters = sorted(
+            (e for e in entries if e["_starter"]),
+            key=lambda e: (SLOT_ORDER.index(e["slot"]) if e["slot"] in SLOT_ORDER else 99, e["name"]),
+        )
+        bench = sorted(
+            (e for e in entries if not e["_starter"]), key=lambda e: (BENCH_ORDER.index(e["slot"]), e["name"])
+        )
+        filled = {slot: sum(e["slot"] == slot for e in starters) for slot in template}
+        empty = [slot for slot in SLOT_ORDER if slot in template for _ in range(template[slot] - filled[slot])]
+        projected += sum(e["projected"] or 0 for e in starters)
+        week_docs.append(
+            {
+                "week": w,
+                "starters": [_entry(e) for e in starters],
+                "bench": [_entry(e) for e in bench],
+                "emptySlots": empty,
+            }
+        )
+    return {
+        "owner": _owner_ref(owner),
+        "teamName": team,
+        "score": float(pts),
+        "projected": round(projected, 2),
+        "adjustment": float(adj or 0),
+        "weeks": week_docs,
+    }
+
+
+def _entry(e: dict) -> dict:
+    return {k: v for k, v in e.items() if not k.startswith("_")}
+
+
 def matchups_document(conn: Connection) -> dict:
     """The Matchups section. Championship cards come from each Season's bracket final, so they always
     agree with the Season pages."""

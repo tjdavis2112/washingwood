@@ -124,6 +124,14 @@ class FixtureSeason:
     # order) -> (home points, away points). The winner follows the scores, so keep the original winner
     # for playoff Matchups or the bracket checks will fail.
     scores: dict[tuple[int, int], tuple[float, float]] = field(default_factory=dict)
+    # Box scores (espn-api.md §4). Set False to write none (a partial-tier Season).
+    box_scores: bool = True
+    # (week, team key) whose first starter's points are off by +1, so starters don't sum to the score
+    bad_lineup: tuple[int, str] | None = None
+    # (week, team key) whose 2nd starter has no actual stat row (didn't play) and whose bench Player is
+    # one that exists only in this box score (not in players.json or the pool)
+    quirks: tuple[int, str] | None = None
+    # Manual score adjustments on a side's period-4 Matchup are set by `adjustments` (above)
 
     TEAMS = 0
     REGULAR_PERIODS = 0
@@ -405,6 +413,76 @@ class FixtureSeason:
             ("league_mDraftDetail", self.draft()),
         ):
             (d / f"{name}.json").write_text(json.dumps(doc, indent=1), encoding="utf-8")
+        if self.box_scores:
+            last = self._weeks(self.REGULAR_PERIODS + self.PLAYOFF_PERIODS)[-1]
+            for week in range(1, last + 1):
+                (d / f"boxscore_w{week:02d}.json").write_text(
+                    json.dumps(self.box_score(week), indent=1), encoding="utf-8"
+                )
+
+    # -- box scores ------------------------------------------------------------
+
+    def _period_of(self, week: int) -> int:
+        return next(p for p in range(1, self.REGULAR_PERIODS + self.PLAYOFF_PERIODS + 1) if week in self._weeks(p))
+
+    def box_score(self, week: int) -> dict:
+        """boxscore_wNN.json: that period's Matchups, each side with its lineup for this Week. Starters'
+        points add up to the side's pointsByScoringPeriod for the Week (espn-api.md §4)."""
+        period = self._period_of(week)
+        keys = {v: k for k, v in self._ids.items()}
+        schedule = []
+        for m in self._schedule:
+            if m["matchupPeriodId"] != period:
+                continue
+            m = json.loads(json.dumps(m))
+            for side in ("home", "away"):
+                if side in m:
+                    team_key = keys[m[side]["teamId"]]
+                    total = m[side]["pointsByScoringPeriod"][str(week)]
+                    m[side]["rosterForCurrentScoringPeriod"] = {"entries": self._lineup(week, team_key, total)}
+            schedule.append(m)
+        return {"id": int(LEAGUE_ID), "seasonId": self.year, "scoringPeriodId": week, "schedule": schedule}
+
+    def _lineup(self, week: int, team_key: str, total: float) -> list[dict]:
+        team_id = self._ids[team_key]
+        starters = [(0, 1), (2, 2), (2, 2), (4, 3), (4, 3), (6, 4), (23, 2), (16, 16), (17, 5)]  # (slot, position)
+        bench = [(20, 2), (20, 3), (20, 3), (20, 4), (20, 1), (20, 2), (21, 3)]
+        share = round(total / len(starters), 2)
+        points = [share] * (len(starters) - 1) + [round(total - share * (len(starters) - 1), 2)]
+        if self.bad_lineup == (week, team_key):
+            points[0] = round(points[0] + 1, 2)
+        if self.quirks == (week, team_key):  # the 2nd starter didn't play: the last starter scores their share
+            points[-1], points[1] = round(points[-1] + points[1], 2), 0.0
+        entries = []
+        for i, ((slot, position), pts) in enumerate(zip(starters + bench, points + [4.5] * len(bench), strict=True)):
+            pid = -16000 - team_id if position == 16 else 70000 + team_id * 100 + i
+            played = not (self.quirks == (week, team_key) and i == 1)
+            if self.quirks == (week, team_key) and i == len(starters):
+                pid = 99000 + team_id  # only in this box score
+            stats = [{"seasonId": self.year, "scoringPeriodId": week, "statSourceId": 1, "statSplitTypeId": 1,
+                      "appliedTotal": round(pts + 2.0, 2), "proTeamId": 1 + i}]  # fmt: skip
+            if played:
+                actual = {"seasonId": self.year, "scoringPeriodId": week, "statSourceId": 0, "statSplitTypeId": 1}
+                stats.append({**actual, "appliedTotal": pts, "proTeamId": 1 + i, "externalId": f"40{week:02d}{i:02d}"})
+            entries.append(
+                {
+                    "lineupSlotId": slot,
+                    "playerId": pid,
+                    "playerPoolEntry": {
+                        "id": pid,
+                        "onTeamId": team_id,
+                        "appliedStatTotal": pts if played else 0.0,
+                        "player": {
+                            "id": pid,
+                            "fullName": f"Team{team_id} D/ST" if position == 16 else f"Lineup {team_id}-{i:02d}",
+                            "defaultPositionId": position,
+                            "proTeamId": 1 + i,
+                            "stats": stats,
+                        },
+                    },
+                }
+            )
+        return entries
 
 
 @dataclass

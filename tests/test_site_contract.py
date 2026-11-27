@@ -694,3 +694,63 @@ def test_a_rivalry_game_winner_is_a_side_index_or_null():
     doc["games"][0]["winner"] = 2
     with pytest.raises(ContractError, match="winner"):
         validate(doc, "rivalry")
+
+
+# --- Box scores (#40) ---
+
+
+def example_box_scores():
+    return {int(p.stem): load_example(f"box-scores/{p.name}") for p in sorted((EXAMPLES / "box-scores").glob("*.json"))}
+
+
+def test_box_score_examples_validate_and_are_reproducible():
+    from box_score_examples import derive
+
+    seasons = example_seasons()
+    for year, doc in example_box_scores().items():
+        validate(doc, "boxScores")
+        assert doc == derive(seasons[year]), year
+
+
+def test_box_score_examples_cover_every_played_matchup_with_the_season_scores():
+    seasons = example_seasons()
+    for year, doc in example_box_scores().items():
+        played = [
+            (
+                p["matchupPeriod"],
+                m["home"]["owner"]["slug"],
+                m["away"]["owner"]["slug"],
+                m["home"]["score"],
+                m["away"]["score"],
+            )
+            for p in seasons[year]["weeklyResults"]
+            for m in p["matchups"]
+            if not m["isBye"]
+        ]
+        boxed = [
+            (
+                m["matchupPeriod"],
+                m["home"]["owner"]["slug"],
+                m["away"]["owner"]["slug"],
+                m["home"]["score"],
+                m["away"]["score"],
+            )
+            for m in doc["matchups"]
+        ]
+        assert boxed == played, year
+
+
+def test_box_score_example_starters_add_up_to_the_score():
+    for year, doc in example_box_scores().items():
+        for m in doc["matchups"]:
+            for side in (m["home"], m["away"]):
+                starters = sum(e["points"] or 0 for w in side["weeks"] for e in w["starters"])
+                assert round(starters, 2) == side["score"], (year, m["matchupPeriod"], side["owner"]["slug"])
+                assert [w["week"] for w in side["weeks"]] == m["weeks"]
+
+
+def test_a_box_score_entry_needs_points_even_if_null():
+    doc = example_box_scores()[2020]
+    del doc["matchups"][0]["home"]["weeks"][0]["starters"][0]["points"]
+    with pytest.raises(ContractError, match="points"):
+        validate(doc, "boxScores")

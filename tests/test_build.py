@@ -119,7 +119,8 @@ def test_rerunning_on_the_same_input_gives_byte_identical_output(archive, owners
     owner_files = [f"owners/{slugify(PEOPLE[k][0])}.json" for k in SEED_ORDER]
     rivalry_files = [f for f in first if f.startswith("rivalries/")]
     assert len(rivalry_files) == 66  # 12 Owners, every pair met
-    assert sorted(f for f in first if not f.startswith("rivalries/")) == sorted(
+    assert sorted(f for f in first if f.startswith("box-scores/")) == ["box-scores/2020.json", "box-scores/2021.json"]
+    assert sorted(f for f in first if not f.startswith(("rivalries/", "box-scores/"))) == sorted(
         [
             "draft.json",
             "league.json",

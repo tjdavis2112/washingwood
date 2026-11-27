@@ -20,5 +20,7 @@ export const ALL_PAGES = [
   "/draft/",
   "/matchups/",
   "/matchups/abel-trice-vs-cass-imber/",
+  "/matchups/2018/1/quinn-harrow-vs-wren-solano/",
+  "/matchups/2018/14/quinn-harrow-vs-wren-solano/",
   ...Object.keys(COMING_SOON),
 ];

@@ -66,6 +66,7 @@ class SeasonFiles:
     players: dict[int, dict]  # players.json by ESPN player id
     pool: dict[int, dict]  # player_pool.json `player` objects by ESPN player id
     has_lineups: bool
+    season_dir: Path  # box scores are read Week by Week from here, not held in memory
 
     @classmethod
     def read(cls, season_dir: Path) -> SeasonFiles:
@@ -84,6 +85,7 @@ class SeasonFiles:
             players={p["id"]: p for p in load("players")},
             pool={e["player"]["id"]: e["player"] for e in load("player_pool")["players"]},
             has_lineups=_has_lineups(season_dir / "boxscore_w01.json"),
+            season_dir=season_dir,
         )
 
 
@@ -112,6 +114,7 @@ def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> No
         "(SELECT franchise_id FROM core.franchises WHERE season_id = %s)",
         (season_id,),
     )
+    conn.execute("DELETE FROM core.lineup_entries WHERE season_id = %s", (season_id,))
     conn.execute("DELETE FROM core.draft_picks WHERE season_id = %s", (season_id,))
     conn.execute("DELETE FROM core.player_seasons WHERE season_id = %s", (season_id,))
     conn.execute("DELETE FROM core.matchups WHERE season_id = %s", (season_id,))
@@ -135,6 +138,8 @@ def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> No
 
     _matchups(conn, season_id, files, franchise_ids)
     _draft(conn, season_id, files, picks, franchise_ids)
+    if files.has_lineups:
+        _lineups(conn, season_id, files, franchise_ids)
 
 
 def _check_picks(files: SeasonFiles) -> list[dict]:
@@ -388,12 +393,13 @@ def _matchups(conn: Connection, season_id: int, files: SeasonFiles, franchise_id
         winner = _winner(m)
         conn.execute(
             """INSERT INTO core.matchups (season_id, matchup_period, first_week, last_week, home_franchise_id,
-                   away_franchise_id, home_points, away_points, winner_franchise_id, is_playoff, bracket,
-                   playoff_round, is_championship)
-               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                   away_franchise_id, home_points, away_points, home_adjustment, away_adjustment,
+                   winner_franchise_id, is_playoff, bracket, playoff_round, is_championship)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             (season_id, m["matchupPeriodId"], min(weeks), max(weeks), franchise_ids[home["teamId"]],
              franchise_ids[away["teamId"]] if away else None,
              home["totalPoints"], away["totalPoints"] if away else None,
+             home.get("adjustment") or 0, (away.get("adjustment") or 0) if away else None,
              franchise_ids[winner] if winner else None, m["playoffTierType"] != "NONE",
              BRACKETS[m["playoffTierType"]], rounds.get(id(m)), m is final),
         )  # fmt: skip
@@ -469,3 +475,89 @@ def _check_against_espn_places(files: SeasonFiles, final: dict, third: dict) -> 
                 f"Season {files.year}: the {label} (team {team_id}) is ranked {rank.get(team_id)} by ESPN, not "
                 f"{place}. The Third-place game or championship disagrees with ESPN's final places."
             )
+
+
+STARTER_EXCLUDED = {"BE", "IR"}
+
+
+def _lineups(conn: Connection, season_id: int, files: SeasonFiles, franchise_ids: dict[int, int]) -> None:
+    """Every Week's lineups from boxscore_wNN.json into core.lineup_entries (espn-api.md §4): each side's
+    rosterForCurrentScoringPeriod.entries (never rosterForMatchupPeriod). Points come from the actual
+    stat row (none = didn't play), the projection from statSourceId 1, the NFL team from that game's
+    actual row. A team-Week whose starters don't add up to its score stops the build."""
+    periods = files.settings["settings"]["scheduleSettings"]["matchupPeriods"]
+    last_week = max(w for weeks in periods.values() for w in weeks)
+    team_names = {t["id"]: t["name"] for t in files.teams["teams"]}
+    known = dict(
+        conn.execute("SELECT external_id, player_id FROM core.player_external_ids WHERE platform = %s", (PLATFORM,))
+    )
+    in_season = {
+        pid for (pid,) in conn.execute("SELECT player_id FROM core.player_seasons WHERE season_id = %s", (season_id,))
+    }
+    rows = []
+    for week in range(1, last_week + 1):
+        path = files.season_dir / f"boxscore_w{week:02d}.json"
+        if not path.exists():
+            raise LoadError(f"Season {files.year}: missing {path.name}")
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        for m in doc.get("schedule", []):
+            for side in (m.get("home"), m.get("away")):
+                if not side:
+                    continue
+                entries = (side.get("rosterForCurrentScoringPeriod") or {}).get("entries") or []
+                starters_total = 0.0
+                for e in entries:
+                    slot = SLOTS.get(str(e["lineupSlotId"]))
+                    if slot is None:
+                        raise LoadError(f"Season {files.year}, Week {week}: unknown lineupSlotId {e['lineupSlotId']}")
+                    entry = e["playerPoolEntry"]
+                    player = entry["player"]
+                    if slot not in STARTER_EXCLUDED:
+                        starters_total += entry.get("appliedStatTotal") or 0
+                    player_id = known.get(str(player["id"]))
+                    if player_id is None:
+                        player_id = known[str(player["id"])] = _upsert_player(conn, files, player)
+                    if player_id not in in_season:
+                        conn.execute(
+                            """INSERT INTO core.player_seasons (season_id, player_id, nfl_team, position)
+                               VALUES (%s, %s, %s, %s) ON CONFLICT DO NOTHING""",
+                            (season_id, player_id, NFL_TEAMS.get(player.get("proTeamId")),
+                             POSITIONS[player["defaultPositionId"]]),
+                        )  # fmt: skip
+                        in_season.add(player_id)
+                    actual = _week_row(player, files.year, week, source=0)
+                    projected = _week_row(player, files.year, week, source=1)
+                    rows.append(
+                        (season_id, week, franchise_ids[side["teamId"]], player_id, slot,
+                         actual.get("appliedTotal") if actual else None,
+                         projected.get("appliedTotal") if projected else None,
+                         NFL_TEAMS.get((actual or projected or {}).get("proTeamId")))
+                    )  # fmt: skip
+                expected = (side.get("pointsByScoringPeriod") or {}).get(str(week))
+                if entries and expected is not None and abs(round(starters_total, 2) - expected) > 0.011:
+                    raise LoadError(
+                        f"Season {files.year}, Week {week}: {team_names[side['teamId']]}'s starters add up to "
+                        f"{round(starters_total, 2)}, but the Matchup score for the Week is {expected}"
+                    )
+    with conn.cursor() as cur:
+        cur.executemany(
+            """INSERT INTO core.lineup_entries (season_id, week, franchise_id, player_id, slot, points,
+                   projected_points, nfl_team)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s)""",
+            rows,
+        )
+
+
+def _week_row(player: dict, year: int, week: int, *, source: int) -> dict | None:
+    """The player's single-Week stat row: statSourceId 0 = actual, 1 = projection (espn-api.md §4)."""
+    return next(
+        (
+            r
+            for r in player.get("stats", [])
+            if r.get("statSourceId") == source
+            and r.get("statSplitTypeId") == 1
+            and r.get("scoringPeriodId") == week
+            and r.get("seasonId", year) == year
+        ),
+        None,
+    )

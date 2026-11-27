@@ -1041,6 +1041,212 @@
       }
     },
 
+    "boxScores": {
+      "title": "Box scores document",
+      "description": "Every played Matchup of one Season with both lineups (GLOSSARY: Box score). Exported as box-scores/<year>.json for Seasons with lineups; byes have no Box score.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "matchups"
+      ],
+      "properties": {
+        "year": {
+          "description": "The Season.",
+          "$ref": "#/$defs/year"
+        },
+        "matchups": {
+          "description": "Every played Matchup, in Matchup-period order.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "matchupPeriod",
+              "weeks",
+              "kind",
+              "home",
+              "away",
+              "winner",
+              "isTie"
+            ],
+            "properties": {
+              "matchupPeriod": {
+                "description": "The Matchup period.",
+                "$ref": "#/$defs/matchupPeriod"
+              },
+              "weeks": {
+                "description": "The NFL Weeks it spans. Its page is /matchups/<year>/<first week>/<a>-vs-<b>/.",
+                "$ref": "#/$defs/weeks"
+              },
+              "kind": {
+                "description": "regular season, playoff (championship bracket), the Third-place game, or a consolation game.",
+                "enum": [
+                  "regular",
+                  "playoff",
+                  "thirdPlace",
+                  "consolation"
+                ]
+              },
+              "home": {
+                "$ref": "#/$defs/boxScoreSide",
+                "description": "The home side."
+              },
+              "away": {
+                "$ref": "#/$defs/boxScoreSide",
+                "description": "The away side."
+              },
+              "winner": {
+                "description": "home or away, or null on a tie.",
+                "enum": [
+                  "home",
+                  "away",
+                  null
+                ]
+              },
+              "isTie": {
+                "description": "True if the Matchup ended level.",
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "boxScoreSide": {
+      "description": "One side of a Box score.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "teamName",
+        "score",
+        "projected",
+        "adjustment",
+        "weeks"
+      ],
+      "properties": {
+        "owner": {
+          "description": "The Franchise's Owner.",
+          "$ref": "#/$defs/ownerRef"
+        },
+        "teamName": {
+          "description": "The Franchise's team name that Season.",
+          "$ref": "#/$defs/teamName"
+        },
+        "score": {
+          "description": "The Matchup score, as ESPN recorded it (combined over a two-week round; manual adjustments excluded). Equals the starters' points.",
+          "type": "number"
+        },
+        "projected": {
+          "description": "Projected score: the sum of the starters' projections over the Week(s) (missing projections count as 0).",
+          "type": "number"
+        },
+        "adjustment": {
+          "description": "A manual score adjustment on this Matchup: counts toward points for in the standings, not toward this score. 0 when none.",
+          "type": "number"
+        },
+        "weeks": {
+          "description": "The side's lineup for each Week of the Matchup period, in order.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "week",
+              "starters",
+              "bench",
+              "emptySlots"
+            ],
+            "properties": {
+              "week": {
+                "description": "The NFL Week.",
+                "type": "integer",
+                "minimum": 1
+              },
+              "starters": {
+                "description": "Starters in lineup-slot order.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/boxScoreEntry"
+                }
+              },
+              "bench": {
+                "description": "Bench, then IR.",
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/boxScoreEntry"
+                }
+              },
+              "emptySlots": {
+                "description": "Starting slots left empty that Week, in lineup order.",
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "boxScoreEntry": {
+      "description": "One Lineup entry in a Box score.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "slot",
+        "name",
+        "position",
+        "nflTeam",
+        "points",
+        "projected"
+      ],
+      "properties": {
+        "slot": {
+          "description": "Lineup slot that Week: QB, RB, WR, TE, FLEX, D/ST, K (starters) or BE, IR.",
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "description": "The Player's name.",
+          "type": "string",
+          "minLength": 1
+        },
+        "position": {
+          "description": "The Player's position that Season.",
+          "type": "string",
+          "minLength": 1
+        },
+        "nflTeam": {
+          "description": "The Player's NFL team in that game, or null when unknown.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "points": {
+          "description": "Fantasy points that Week, or null when the Player didn't play (no actual stat row).",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "projected": {
+          "description": "ESPN's projection for that Week, or null when there is none.",
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+
     "season": {
       "title": "Season document",
       "description": "Everything the Season page shows for one Season. Exported as seasons/<year>.json.",
