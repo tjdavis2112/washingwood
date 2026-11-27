@@ -278,9 +278,9 @@
       "teamName": "Harrow Hammers",
       "slot": 1,
       "grade": {
-        "rank": 9,
+        "rank": 6,
         "of": 12,
-        "total": -46
+        "total": -6
       },
       "picks": [
         {
@@ -307,7 +307,7 @@
           },
           "points": 176.3,
           "positionalFinish": 22,
-          "valueOverSlot": -38
+          "valueOverSlot": -10
         },
         {
           "overall": 25,
@@ -320,7 +320,7 @@
           },
           "points": 209.0,
           "positionalFinish": 17,
-          "valueOverSlot": -24
+          "valueOverSlot": -4
         },
         {
           "overall": 48,
@@ -333,7 +333,7 @@
           },
           "points": 106.6,
           "positionalFinish": 11,
-          "valueOverSlot": -39
+          "valueOverSlot": -7
         },
         {
           "overall": 49,
@@ -346,7 +346,7 @@
           },
           "points": 302.3,
           "positionalFinish": 11,
-          "valueOverSlot": 27
+          "valueOverSlot": 10
         },
         {
           "overall": 72,
@@ -359,7 +359,7 @@
           },
           "points": 188.8,
           "positionalFinish": 7,
-          "valueOverSlot": 16
+          "valueOverSlot": 5
         },
         {
           "overall": 73,
@@ -372,7 +372,7 @@
           },
           "points": 173.4,
           "positionalFinish": 1,
-          "valueOverSlot": 9
+          "valueOverSlot": 0
         },
         {
           "overall": 96,
@@ -385,7 +385,7 @@
           },
           "points": 103.0,
           "positionalFinish": 12,
-          "valueOverSlot": 3
+          "valueOverSlot": 0
         }
       ]
     },
@@ -394,9 +394,9 @@
       "teamName": "Harrow Hammers",
       "slot": 10,
       "grade": {
-        "rank": 9,
+        "rank": 8,
         "of": 10,
-        "total": -59
+        "total": -8
       },
       "picks": [
         {
@@ -410,7 +410,7 @@
           },
           "points": 252.6,
           "positionalFinish": 12,
-          "valueOverSlot": -17
+          "valueOverSlot": -7
         },
         {
           "overall": 11,
@@ -423,7 +423,7 @@
           },
           "points": 326.2,
           "positionalFinish": 6,
-          "valueOverSlot": -1
+          "valueOverSlot": 0
         },
         {
           "overall": 30,
@@ -436,7 +436,7 @@
           },
           "points": 165.4,
           "positionalFinish": 17,
-          "valueOverSlot": -25
+          "valueOverSlot": -3
         },
         {
           "overall": 31,
@@ -449,7 +449,7 @@
           },
           "points": 208.5,
           "positionalFinish": 14,
-          "valueOverSlot": -8
+          "valueOverSlot": 0
         },
         {
           "overall": 50,
@@ -462,7 +462,7 @@
           },
           "points": 100.6,
           "positionalFinish": 23,
-          "valueOverSlot": -24
+          "valueOverSlot": -2
         },
         {
           "overall": 51,
@@ -475,7 +475,7 @@
           },
           "points": 135.8,
           "positionalFinish": 19,
-          "valueOverSlot": -14
+          "valueOverSlot": -1
         },
         {
           "overall": 70,
@@ -488,7 +488,7 @@
           },
           "points": 154.17,
           "positionalFinish": 4,
-          "valueOverSlot": 12
+          "valueOverSlot": 6
         },
         {
           "overall": 71,
@@ -501,7 +501,7 @@
           },
           "points": 165.8,
           "positionalFinish": 2,
-          "valueOverSlot": 18
+          "valueOverSlot": -1
         }
       ]
     }

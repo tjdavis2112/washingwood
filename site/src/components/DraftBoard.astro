@@ -6,6 +6,7 @@
 // and the Value over slot scale (default: value); the text always carries the same information. On
 // tinted cells the value is white for contrast; the tint already shows steal or bust.
 // Below the board: the Draft grades table.
+import DraftExplainer from "./DraftExplainer.astro";
 import DraftGrades from "./DraftGrades.astro";
 import OwnerLink from "./OwnerLink.astro";
 import { POSITION_TINTS, formatValue, pickColorVars, valueClamp } from "../data/positions";
@@ -30,6 +31,7 @@ const points = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits:
 const finish = (p: DraftPick) => (p.player && p.positionalFinish ? `${p.player.position}${p.positionalFinish}` : "");
 ---
 <div class="space-y-10">
+{hasValues && <DraftExplainer />}
 <section aria-labelledby="draft-heading" data-testid="draft-board" data-draft-board data-color-by={hasValues ? "value" : "position"}>
   <div class="flex flex-wrap items-center justify-between gap-x-4 gap-y-3">
     <h2 id="draft-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">
@@ -61,7 +63,7 @@ const finish = (p: DraftPick) => (p.player && p.positionalFinish ? `${p.player.p
           <span>Bust</span>
           <span aria-hidden="true" class="inline-block h-2.5 w-24 rounded-full" style="background:linear-gradient(90deg, var(--color-value-bust), var(--color-panel), var(--color-value-steal))"></span>
           <span>Steal</span>
-          <span class="sr-only">Colors show Value over slot: overall pick minus rank by Season points among this Draft's picks.</span>
+          <span class="sr-only">Colors show Value over slot: where a pick was taken among its position, minus where it finished among the drafted players at that position.</span>
         </p>
       )}
     </div>

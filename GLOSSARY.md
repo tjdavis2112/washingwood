@@ -101,7 +101,7 @@ A **Player**'s rank by **Season points** among every Player at their position th
 ## Analysis
 
 **Value over slot**:
-A **Pick**'s overall pick number minus its rank by **Season points** among that **Season**'s drafted Picks. Positive is a steal, negative a bust. Ranked within one Season, so it compares across Scoring formats and team counts. Picks with no Player recorded are left out.
+A **Pick**'s order among that **Season**'s Picks at its position (1 = the first QB taken), minus its finish by **Season points** among the drafted Players at that position (ties share the better finish). The 8th QB taken who finishes as the 2nd-best drafted QB scores +6. Positive is a steal, negative a bust. Compared within a position, so one-per-team positions (QB, K, D/ST) aren't steals by default, and within one Season, so it compares across Scoring formats and team counts. Picks with no Player recorded are left out.
 _Avoid_: Draft value (unqualified)
 
 **Draft grade**:

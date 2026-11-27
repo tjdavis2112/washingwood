@@ -4,6 +4,7 @@
 // First rounds on desktop: a grid with one row per Season and one column per pick (10-team Seasons
 // leave the last columns empty); it scrolls inside its own box if needed. Phone: one list per Season.
 import AllTimePicks from "../../components/AllTimePicks.astro";
+import DraftExplainer from "../../components/DraftExplainer.astro";
 import OwnerLink from "../../components/OwnerLink.astro";
 import { POSITION_TINTS, pickStyle } from "../../data/positions";
 import { getDraftHistory, type DraftPlayer } from "../../data/site-data";
@@ -21,6 +22,8 @@ const drafterRank = (avg: number) => 1 + bestDrafters.filter((d) => d.averageRan
     <h1 class="text-3xl font-black md:text-5xl">Draft</h1>
     <p class="mt-2 text-muted">Every Season's first round, the best and worst picks ever, and who drafts best. Open a Season for its full board.</p>
   </header>
+
+  <div class="mb-8"><DraftExplainer bestDrafters /></div>
 
   <section aria-labelledby="first-rounds-heading">
     <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">

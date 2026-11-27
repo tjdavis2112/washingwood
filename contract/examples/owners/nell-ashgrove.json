@@ -242,7 +242,7 @@
       "grade": {
         "rank": 12,
         "of": 12,
-        "total": -62
+        "total": -21
       },
       "picks": [
         {
@@ -256,7 +256,7 @@
           },
           "points": 206.3,
           "positionalFinish": 18,
-          "valueOverSlot": -48
+          "valueOverSlot": -17
         },
         {
           "overall": 23,
@@ -269,7 +269,7 @@
           },
           "points": 313.5,
           "positionalFinish": 10,
-          "valueOverSlot": 5
+          "valueOverSlot": 2
         },
         {
           "overall": 26,
@@ -282,7 +282,7 @@
           },
           "points": 217.9,
           "positionalFinish": 18,
-          "valueOverSlot": -17
+          "valueOverSlot": -5
         },
         {
           "overall": 47,
@@ -295,7 +295,7 @@
           },
           "points": 203.7,
           "positionalFinish": 19,
-          "valueOverSlot": -6
+          "valueOverSlot": 1
         },
         {
           "overall": 50,
@@ -308,7 +308,7 @@
           },
           "points": 205.1,
           "positionalFinish": 8,
-          "valueOverSlot": -1
+          "valueOverSlot": -3
         },
         {
           "overall": 71,
@@ -321,7 +321,7 @@
           },
           "points": 153.7,
           "positionalFinish": 26,
-          "valueOverSlot": -5
+          "valueOverSlot": 2
         },
         {
           "overall": 74,
@@ -334,7 +334,7 @@
           },
           "points": 142.67,
           "positionalFinish": 7,
-          "valueOverSlot": -6
+          "valueOverSlot": -5
         },
         {
           "overall": 95,
@@ -347,7 +347,7 @@
           },
           "points": 145.23,
           "positionalFinish": 7,
-          "valueOverSlot": 16
+          "valueOverSlot": 4
         }
       ]
     }

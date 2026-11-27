@@ -274,7 +274,7 @@
                       "minimum": 1
                     },
                     "valueOverSlot": {
-                      "description": "Value over slot: overall pick number minus the Pick's rank by Season points among that Season's drafted Picks (ties share the better rank). Positive is a steal, negative a bust. Null when no Player was recorded; such Picks are left out of the ranking.",
+                      "description": "Value over slot: the Pick's order among that Season's Picks at its position (1 = the first QB taken), minus its finish by Season points among the drafted Players at that position (ties share the better finish). Positive is a steal, negative a bust. Null when no Player was recorded; such Picks are left out.",
                       "type": [
                         "integer",
                         "null"
@@ -835,7 +835,7 @@
           "minimum": 1
         },
         "valueOverSlot": {
-          "description": "Value over slot: overall pick number minus the Pick's rank by Season points among that Season's drafted Picks (ties share the better rank). Positive is a steal, negative a bust. Null when no Player was recorded; such Picks are left out of the ranking.",
+          "description": "Value over slot: the Pick's order among that Season's Picks at its position (1 = the first QB taken), minus its finish by Season points among the drafted Players at that position (ties share the better finish). Positive is a steal, negative a bust. Null when no Player was recorded; such Picks are left out.",
           "type": [
             "integer",
             "null"

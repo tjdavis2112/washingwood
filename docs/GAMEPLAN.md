@@ -21,6 +21,7 @@ Layout whiteboard: https://claude.ai/artifact/UviRRz54BkANGtVgwRpZ68
 | Export (stats → JSON) | Done: `src/washingwood/export.py`, validated against `contract/` |
 | Frontend (v1) | Done: `site/` (Home, Season pages, Coming soon sections) |
 | Owners section | Done: Owners index and Owner pages (trophy case, career, every Season, head-to-head), Owner names linked site-wide (#12) |
+| Draft section | Done: Season draft boards with Value over slot and Draft grades, Owner Draft tabs, `/draft` first rounds, best/worst Picks and Best drafters (#24) |
 | Passphrase gate + deploy | Gate done; deploy command done (`washingwood.deploy`); first deploy **next** |
 
 ---
@@ -112,7 +113,7 @@ Kept from the original plan; build in roughly this order.
 - **Owners hub**: first slice done (#12): trophy case, career W-L, playoff appearances, season-by-season, H2H vs every owner. Still to come: roster per season, draft grades, trades, badges (they need lineups, draft and transactions loaded)
 - **Matchups**: every matchup with box score cards; bracket history; championship feature cards; rivalry grid; closest games, blowouts, upsets
 - **Record Book**: single week / season / all-time leaderboards, stat picker, team records, streaks, luck index, bench points, last-place history. Always show or filter by Scoring format.
-- **Draft**: specced in #24: board per Season (position or Value over slot coloring), draft grades, first-round history, best/worst picks, Best drafters
+- **Draft**: done (#24): board per Season (position or Value over slot coloring), draft grades, first-round history, best/worst picks, Best drafters
 - **Transactions**: trade cards with points each side scored after the trade; best waiver pickups
 - **Hall of Fame**: legendary player seasons, curated in `core.hall_of_fame`
 - **League Rules**: scoring and roster template by year, hand-written changelog (`core.rule_changes`), the league-wide Punishment explainer

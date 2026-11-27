@@ -244,9 +244,9 @@
       "teamName": "Imber Embers",
       "slot": 12,
       "grade": {
-        "rank": 2,
+        "rank": 4,
         "of": 12,
-        "total": 62
+        "total": 9
       },
       "picks": [
         {
@@ -260,7 +260,7 @@
           },
           "points": 318.2,
           "positionalFinish": 6,
-          "valueOverSlot": -5
+          "valueOverSlot": 0
         },
         {
           "overall": 13,
@@ -286,7 +286,7 @@
           },
           "points": 232.3,
           "positionalFinish": 6,
-          "valueOverSlot": -4
+          "valueOverSlot": -2
         },
         {
           "overall": 37,
@@ -299,7 +299,7 @@
           },
           "points": 327.8,
           "positionalFinish": 9,
-          "valueOverSlot": 22
+          "valueOverSlot": 8
         },
         {
           "overall": 60,
@@ -312,7 +312,7 @@
           },
           "points": 303.4,
           "positionalFinish": 2,
-          "valueOverSlot": 40
+          "valueOverSlot": 6
         },
         {
           "overall": 61,
@@ -325,7 +325,7 @@
           },
           "points": 184.7,
           "positionalFinish": 21,
-          "valueOverSlot": 2
+          "valueOverSlot": 0
         },
         {
           "overall": 84,
@@ -338,7 +338,7 @@
           },
           "points": 158.67,
           "positionalFinish": 5,
-          "valueOverSlot": 11
+          "valueOverSlot": 7
         },
         {
           "overall": 85,
@@ -351,7 +351,7 @@
           },
           "points": 105.2,
           "positionalFinish": 10,
-          "valueOverSlot": -3
+          "valueOverSlot": -9
         }
       ]
     }

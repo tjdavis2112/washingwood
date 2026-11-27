@@ -3,6 +3,7 @@
 // Season), then their Picks Season by Season, newest first, each Season linking to its draft board and
 // showing the Owner's Draft grade; each Pick shows Season points, Positional finish and Value over slot.
 // Both wrap into a grid, so phones never scroll sideways and desktop doesn't stretch one long list.
+import DraftExplainer from "./DraftExplainer.astro";
 import { formatValue, pickStyle } from "../data/positions";
 import { formatPick, ordinal, type DraftPlayer, type OwnerDraftSeason } from "../data/site-data";
 
@@ -14,6 +15,7 @@ const outcome = (p: OwnerDraftSeason["picks"][number]) =>
   p.player && p.points !== null ? ` · ${p.points.toFixed(1)} pts${p.positionalFinish ? ` · ${p.player.position}${p.positionalFinish}` : ""}` : "";
 ---
 <div class="space-y-10">
+  <DraftExplainer />
   <section aria-labelledby="first-round-heading">
     <h2 id="first-round-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">First-round picks</h2>
     <ol data-testid="first-round-strip" class="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-4">

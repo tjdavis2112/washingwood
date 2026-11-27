@@ -276,7 +276,7 @@
       "grade": {
         "rank": 3,
         "of": 12,
-        "total": 51
+        "total": 21
       },
       "picks": [
         {
@@ -290,7 +290,7 @@
           },
           "points": 338.1,
           "positionalFinish": 4,
-          "valueOverSlot": -2
+          "valueOverSlot": 1
         },
         {
           "overall": 15,
@@ -303,7 +303,7 @@
           },
           "points": 374.0,
           "positionalFinish": 4,
-          "valueOverSlot": 11
+          "valueOverSlot": 4
         },
         {
           "overall": 34,
@@ -316,7 +316,7 @@
           },
           "points": 342.0,
           "positionalFinish": 2,
-          "valueOverSlot": 24
+          "valueOverSlot": 14
         },
         {
           "overall": 39,
@@ -329,7 +329,7 @@
           },
           "points": 213.3,
           "positionalFinish": 4,
-          "valueOverSlot": -9
+          "valueOverSlot": -3
         },
         {
           "overall": 58,
@@ -342,7 +342,7 @@
           },
           "points": 180.5,
           "positionalFinish": 24,
-          "valueOverSlot": -3
+          "valueOverSlot": 0
         },
         {
           "overall": 63,
@@ -355,7 +355,7 @@
           },
           "points": 229.6,
           "positionalFinish": 3,
-          "valueOverSlot": 21
+          "valueOverSlot": 6
         },
         {
           "overall": 82,
@@ -368,7 +368,7 @@
           },
           "points": 129.07,
           "positionalFinish": 9,
-          "valueOverSlot": -3
+          "valueOverSlot": 1
         },
         {
           "overall": 87,
@@ -381,7 +381,7 @@
           },
           "points": 154.1,
           "positionalFinish": 5,
-          "valueOverSlot": 12
+          "valueOverSlot": -2
         }
       ]
     },
@@ -390,9 +390,9 @@
       "teamName": "Quist Quakes",
       "slot": 5,
       "grade": {
-        "rank": 1,
+        "rank": 3,
         "of": 10,
-        "total": 77
+        "total": 7
       },
       "picks": [
         {
@@ -406,7 +406,7 @@
           },
           "points": 350.1,
           "positionalFinish": 4,
-          "valueOverSlot": -2
+          "valueOverSlot": -1
         },
         {
           "overall": 16,
@@ -419,7 +419,7 @@
           },
           "points": 399.0,
           "positionalFinish": 1,
-          "valueOverSlot": 15
+          "valueOverSlot": 7
         },
         {
           "overall": 25,
@@ -432,7 +432,7 @@
           },
           "points": 167.7,
           "positionalFinish": 20,
-          "valueOverSlot": -27
+          "valueOverSlot": -8
         },
         {
           "overall": 36,
@@ -445,7 +445,7 @@
           },
           "points": 361.1,
           "positionalFinish": 1,
-          "valueOverSlot": 31
+          "valueOverSlot": 1
         },
         {
           "overall": 45,
@@ -458,7 +458,7 @@
           },
           "points": 256.7,
           "positionalFinish": 2,
-          "valueOverSlot": 21
+          "valueOverSlot": 3
         },
         {
           "overall": 56,
@@ -471,7 +471,7 @@
           },
           "points": 179.4,
           "positionalFinish": 8,
-          "valueOverSlot": 8
+          "valueOverSlot": 0
         },
         {
           "overall": 65,
@@ -484,7 +484,7 @@
           },
           "points": 158.43,
           "positionalFinish": 3,
-          "valueOverSlot": 9
+          "valueOverSlot": 2
         },
         {
           "overall": 76,
@@ -497,7 +497,7 @@
           },
           "points": 165.6,
           "positionalFinish": 3,
-          "valueOverSlot": 22
+          "valueOverSlot": 3
         }
       ]
     }
