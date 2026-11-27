@@ -39,6 +39,18 @@ For small changes, skip steps 2–3: `/grill-with-docs` then `/implement` in the
 
 `needs-triage` → `needs-info` (waiting on someone) → `ready-for-agent` (an agent can do it unattended) or `ready-for-human` → `wontfix`.
 
-## Suggested first run
+## Picking up in a new session
 
-The next GAMEPLAN step is the first real archive run, then the loader. A good first use of the flow is `/grill-with-docs` on the loader once real JSON is in `archive/`.
+A new session starts with no memory of earlier ones. Everything it needs is in the repo:
+
+- `AGENTS.md`: the rules, layout and commands.
+- `docs/GAMEPLAN.md`: the status table, v1 scope and the "Later" roadmap.
+- GitHub Issues: what's open and what blocks what (`gh issue list --repo tjdavis2112/washingwood`).
+- `docs/guides/`: how to build, deploy and test.
+
+Before building, check the local setup:
+- Docker Desktop is running (the Postgres-backed tests and the build need it).
+- The `washingwood-pg` container is up, and `.env` has `WASHINGWOOD_PG`.
+- For deploys, Wrangler is still logged in: `npx wrangler whoami` in `site/`.
+
+To start the next feature, open a fresh session and run `/grill-with-docs` on one item from GAMEPLAN's "Later" list (for example the Owners hub). Then `/to-spec`, `/to-tickets`, and `/implement` per ticket, as above.
