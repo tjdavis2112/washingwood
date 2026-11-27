@@ -271,6 +271,11 @@
       "year": 2020,
       "teamName": "Brask Bruisers",
       "slot": 6,
+      "grade": {
+        "rank": 7,
+        "of": 12,
+        "total": -24
+      },
       "picks": [
         {
           "overall": 6,
@@ -280,7 +285,10 @@
             "name": "Jett Varnell",
             "position": "RB",
             "nflTeam": "JAX"
-          }
+          },
+          "points": 279.5,
+          "positionalFinish": 12,
+          "valueOverSlot": -22
         },
         {
           "overall": 19,
@@ -290,7 +298,10 @@
             "name": "Yates Oakhurst",
             "position": "WR",
             "nflTeam": "LAR"
-          }
+          },
+          "points": 253.2,
+          "positionalFinish": 15,
+          "valueOverSlot": -14
         },
         {
           "overall": 30,
@@ -300,7 +311,10 @@
             "name": "Jett Whitlock",
             "position": "TE",
             "nflTeam": "JAX"
-          }
+          },
+          "points": 264.7,
+          "positionalFinish": 2,
+          "valueOverSlot": 0
         },
         {
           "overall": 43,
@@ -310,7 +324,10 @@
             "name": "Yates Pemberly",
             "position": "WR",
             "nflTeam": "LAR"
-          }
+          },
+          "points": 184.3,
+          "positionalFinish": 23,
+          "valueOverSlot": -17
         },
         {
           "overall": 54,
@@ -320,7 +337,10 @@
             "name": "Jett Yarrowby",
             "position": "QB",
             "nflTeam": "JAX"
-          }
+          },
+          "points": 202.3,
+          "positionalFinish": 5,
+          "valueOverSlot": 0
         },
         {
           "overall": 67,
@@ -330,7 +350,10 @@
             "name": "Yates Quarrington",
             "position": "RB",
             "nflTeam": "LAR"
-          }
+          },
+          "points": 185.0,
+          "positionalFinish": 20,
+          "valueOverSlot": 9
         },
         {
           "overall": 78,
@@ -340,7 +363,10 @@
             "name": "Dolphins D/ST",
             "position": "D/ST",
             "nflTeam": "MIA"
-          }
+          },
+          "points": 164.97,
+          "positionalFinish": 4,
+          "valueOverSlot": 7
         },
         {
           "overall": 91,
@@ -350,7 +376,10 @@
             "name": "Yates Rookwood",
             "position": "K",
             "nflTeam": "LAR"
-          }
+          },
+          "points": 148.67,
+          "positionalFinish": 6,
+          "valueOverSlot": 13
         }
       ]
     },
@@ -358,6 +387,11 @@
       "year": 2018,
       "teamName": "Brask Bruisers",
       "slot": 3,
+      "grade": {
+        "rank": 10,
+        "of": 10,
+        "total": -63
+      },
       "picks": [
         {
           "overall": 3,
@@ -367,7 +401,10 @@
             "name": "Dax Pemberly",
             "position": "WR",
             "nflTeam": "HOU"
-          }
+          },
+          "points": 278.4,
+          "positionalFinish": 8,
+          "valueOverSlot": -16
         },
         {
           "overall": 18,
@@ -377,7 +414,10 @@
             "name": "Tobin Stonebrook",
             "position": "RB",
             "nflTeam": "CIN"
-          }
+          },
+          "points": 239.4,
+          "positionalFinish": 13,
+          "valueOverSlot": -12
         },
         {
           "overall": 23,
@@ -387,7 +427,10 @@
             "name": "Zane Thistlewood",
             "position": "TE",
             "nflTeam": "TB"
-          }
+          },
+          "points": 213.6,
+          "positionalFinish": 5,
+          "valueOverSlot": -13
         },
         {
           "overall": 38,
@@ -397,7 +440,10 @@
             "name": "Otto Yarrowby",
             "position": "RB",
             "nflTeam": "SF"
-          }
+          },
+          "points": 190.9,
+          "positionalFinish": 16,
+          "valueOverSlot": -6
         },
         {
           "overall": 43,
@@ -407,7 +453,10 @@
             "name": "Upton Ashwick",
             "position": "QB",
             "nflTeam": "NO"
-          }
+          },
+          "points": 236.9,
+          "positionalFinish": 5,
+          "valueOverSlot": 12
         },
         {
           "overall": 58,
@@ -417,7 +466,10 @@
             "name": "Kip Elderby",
             "position": "WR",
             "nflTeam": "DEN"
-          }
+          },
+          "points": 88.6,
+          "positionalFinish": 24,
+          "valueOverSlot": -19
         },
         {
           "overall": 63,
@@ -427,13 +479,19 @@
             "name": "49ers D/ST",
             "position": "D/ST",
             "nflTeam": "SF"
-          }
+          },
+          "points": 107.5,
+          "positionalFinish": 10,
+          "valueOverSlot": -9
         },
         {
           "overall": 78,
           "round": 8,
           "roundPick": 8,
-          "player": null
+          "player": null,
+          "points": null,
+          "positionalFinish": null,
+          "valueOverSlot": null
         }
       ]
     }

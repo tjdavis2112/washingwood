@@ -239,6 +239,11 @@
       "year": 2020,
       "teamName": "Ashgrove Aces",
       "slot": 2,
+      "grade": {
+        "rank": 12,
+        "of": 12,
+        "total": -62
+      },
       "picks": [
         {
           "overall": 2,
@@ -248,7 +253,10 @@
             "name": "Fenn Barrowell",
             "position": "RB",
             "nflTeam": "MIN"
-          }
+          },
+          "points": 206.3,
+          "positionalFinish": 18,
+          "valueOverSlot": -48
         },
         {
           "overall": 23,
@@ -258,7 +266,10 @@
             "name": "Cael Larkspur",
             "position": "WR",
             "nflTeam": "LAC"
-          }
+          },
+          "points": 313.5,
+          "positionalFinish": 10,
+          "valueOverSlot": 5
         },
         {
           "overall": 26,
@@ -268,7 +279,10 @@
             "name": "Fenn Cindergate",
             "position": "WR",
             "nflTeam": "MIN"
-          }
+          },
+          "points": 217.9,
+          "positionalFinish": 18,
+          "valueOverSlot": -17
         },
         {
           "overall": 47,
@@ -278,7 +292,10 @@
             "name": "Cael Merriweather",
             "position": "RB",
             "nflTeam": "LAC"
-          }
+          },
+          "points": 203.7,
+          "positionalFinish": 19,
+          "valueOverSlot": -6
         },
         {
           "overall": 50,
@@ -288,7 +305,10 @@
             "name": "Fenn Dunmore",
             "position": "TE",
             "nflTeam": "MIN"
-          }
+          },
+          "points": 205.1,
+          "positionalFinish": 8,
+          "valueOverSlot": -1
         },
         {
           "overall": 71,
@@ -298,7 +318,10 @@
             "name": "Cael Northcott",
             "position": "WR",
             "nflTeam": "LAC"
-          }
+          },
+          "points": 153.7,
+          "positionalFinish": 26,
+          "valueOverSlot": -5
         },
         {
           "overall": 74,
@@ -308,7 +331,10 @@
             "name": "Bills D/ST",
             "position": "D/ST",
             "nflTeam": "BUF"
-          }
+          },
+          "points": 142.67,
+          "positionalFinish": 7,
+          "valueOverSlot": -6
         },
         {
           "overall": 95,
@@ -318,7 +344,10 @@
             "name": "Cael Oakhurst",
             "position": "K",
             "nflTeam": "LAC"
-          }
+          },
+          "points": 145.23,
+          "positionalFinish": 7,
+          "valueOverSlot": 16
         }
       ]
     }

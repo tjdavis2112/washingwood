@@ -239,6 +239,11 @@
       "year": 2020,
       "teamName": "Paxton Pistons",
       "slot": 4,
+      "grade": {
+        "rank": 11,
+        "of": 12,
+        "total": -59
+      },
       "picks": [
         {
           "overall": 4,
@@ -248,7 +253,10 @@
             "name": "Hale Larkspur",
             "position": "RB",
             "nflTeam": "BUF"
-          }
+          },
+          "points": 348.3,
+          "positionalFinish": 1,
+          "valueOverSlot": -2
         },
         {
           "overall": 21,
@@ -258,7 +266,10 @@
             "name": "Arlo Barrowell",
             "position": "WR",
             "nflTeam": "KC"
-          }
+          },
+          "points": 216.5,
+          "positionalFinish": 20,
+          "valueOverSlot": -25
         },
         {
           "overall": 28,
@@ -268,7 +279,10 @@
             "name": "Hale Merriweather",
             "position": "RB",
             "nflTeam": "BUF"
-          }
+          },
+          "points": 282.7,
+          "positionalFinish": 11,
+          "valueOverSlot": 1
         },
         {
           "overall": 45,
@@ -278,7 +292,10 @@
             "name": "Arlo Cindergate",
             "position": "QB",
             "nflTeam": "KC"
-          }
+          },
+          "points": 103.8,
+          "positionalFinish": 12,
+          "valueOverSlot": -47
         },
         {
           "overall": 52,
@@ -288,7 +305,10 @@
             "name": "Hale Northcott",
             "position": "WR",
             "nflTeam": "BUF"
-          }
+          },
+          "points": 203.9,
+          "positionalFinish": 22,
+          "valueOverSlot": 0
         },
         {
           "overall": 69,
@@ -298,7 +318,10 @@
             "name": "Arlo Dunmore",
             "position": "QB",
             "nflTeam": "KC"
-          }
+          },
+          "points": 189.4,
+          "positionalFinish": 6,
+          "valueOverSlot": 14
         },
         {
           "overall": 76,
@@ -308,7 +331,10 @@
             "name": "Cowboys D/ST",
             "position": "D/ST",
             "nflTeam": "DAL"
-          }
+          },
+          "points": 119.13,
+          "positionalFinish": 10,
+          "valueOverSlot": -10
         },
         {
           "overall": 93,
@@ -318,7 +344,10 @@
             "name": "Arlo Elderby",
             "position": "K",
             "nflTeam": "KC"
-          }
+          },
+          "points": 138.07,
+          "positionalFinish": 8,
+          "valueOverSlot": 10
         }
       ]
     }

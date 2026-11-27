@@ -1,21 +1,25 @@
 ---
-// The Draft section (#27): every Season's first round, newest first, each linking to that Season's
-// full board. Desktop: a grid with one row per Season and one column per pick (10-team Seasons leave
-// the last columns empty); it scrolls inside its own box if needed. Phone: one list per Season.
+// The Draft section (#27; all-time tables #29): every Season's first round, newest first, each linking
+// to that Season's full board; then the 10 best and worst Picks ever and Best drafters.
+// First rounds on desktop: a grid with one row per Season and one column per pick (10-team Seasons
+// leave the last columns empty); it scrolls inside its own box if needed. Phone: one list per Season.
+import AllTimePicks from "../../components/AllTimePicks.astro";
 import OwnerLink from "../../components/OwnerLink.astro";
 import { POSITION_TINTS, pickStyle } from "../../data/positions";
 import { getDraftHistory, type DraftPlayer } from "../../data/site-data";
 import Base from "../../layouts/Base.astro";
 
-const seasons = getDraftHistory();
+const { seasons, bestPicks, worstPicks, bestDrafters } = getDraftHistory();
 const columns = Array.from({ length: Math.max(...seasons.map((s) => s.teamCount)) }, (_, i) => i + 1);
 const detail = (p: DraftPlayer) => `${p.position}${p.nflTeam ? ` · ${p.nflTeam}` : ""}`;
 const LEGEND = Object.keys(POSITION_TINTS);
+// Best drafters: equal averages share a rank, like every other ranking on the site
+const drafterRank = (avg: number) => 1 + bestDrafters.filter((d) => d.averageRank < avg).length;
 ---
 <Base title="Draft">
   <header class="mb-8">
     <h1 class="text-3xl font-black md:text-5xl">Draft</h1>
-    <p class="mt-2 text-muted">Every Season's first round. Open a Season for its full board.</p>
+    <p class="mt-2 text-muted">Every Season's first round, the best and worst picks ever, and who drafts best. Open a Season for its full board.</p>
   </header>
 
   <section aria-labelledby="first-rounds-heading">
@@ -102,5 +106,30 @@ const LEGEND = Object.keys(POSITION_TINTS);
         </div>
       ))}
     </div>
+  </section>
+
+  <div class="mt-12 space-y-10">
+    <AllTimePicks id="best-picks" title="Best picks ever" picks={bestPicks} />
+    <AllTimePicks id="worst-picks" title="Worst picks ever" picks={worstPicks} />
+  </div>
+
+  <section aria-labelledby="best-drafters" data-testid="best-drafters" class="mt-12">
+    <h2 id="best-drafters" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Best drafters</h2>
+    <p class="mt-2 text-xs text-muted">Average Draft grade rank across every Season the Owner drafted in. Lower is better.</p>
+    <ol class="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      {bestDrafters.map((d) => (
+        <li data-testid="best-drafter" class="flex items-center gap-3 rounded-xl border border-line bg-panel/40 px-4 py-3">
+          <span data-testid="best-drafter-rank" class="w-6 text-right text-sm font-bold tabular-nums text-muted">{drafterRank(d.averageRank)}</span>
+          <span class="min-w-0 flex-1">
+            <OwnerLink owner={d.owner} class="block truncate font-semibold" />
+            <span class="block text-xs text-muted">{d.seasons} {d.seasons === 1 ? "Season" : "Seasons"}</span>
+          </span>
+          <span class="text-right">
+            <span class="block text-lg font-black tabular-nums">{d.averageRank.toFixed(2)}</span>
+            <span class="block text-[0.65rem] uppercase tracking-wider text-muted">avg rank</span>
+          </span>
+        </li>
+      ))}
+    </ol>
   </section>
 </Base>

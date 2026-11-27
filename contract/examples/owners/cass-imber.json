@@ -243,6 +243,11 @@
       "year": 2020,
       "teamName": "Imber Embers",
       "slot": 12,
+      "grade": {
+        "rank": 2,
+        "of": 12,
+        "total": 62
+      },
       "picks": [
         {
           "overall": 12,
@@ -252,7 +257,10 @@
             "name": "Pax Dunmore",
             "position": "RB",
             "nflTeam": "GB"
-          }
+          },
+          "points": 318.2,
+          "positionalFinish": 6,
+          "valueOverSlot": -5
         },
         {
           "overall": 13,
@@ -262,7 +270,10 @@
             "name": "Rook Ironwood",
             "position": "WR",
             "nflTeam": "PIT"
-          }
+          },
+          "points": 328.0,
+          "positionalFinish": 8,
+          "valueOverSlot": -1
         },
         {
           "overall": 36,
@@ -272,7 +283,10 @@
             "name": "Pax Elderby",
             "position": "TE",
             "nflTeam": "GB"
-          }
+          },
+          "points": 232.3,
+          "positionalFinish": 6,
+          "valueOverSlot": -4
         },
         {
           "overall": 37,
@@ -282,7 +296,10 @@
             "name": "Rook Juniper",
             "position": "WR",
             "nflTeam": "PIT"
-          }
+          },
+          "points": 327.8,
+          "positionalFinish": 9,
+          "valueOverSlot": 22
         },
         {
           "overall": 60,
@@ -292,7 +309,10 @@
             "name": "Pax Foxhallow",
             "position": "QB",
             "nflTeam": "GB"
-          }
+          },
+          "points": 303.4,
+          "positionalFinish": 2,
+          "valueOverSlot": 40
         },
         {
           "overall": 61,
@@ -302,7 +322,10 @@
             "name": "Rook Kettleby",
             "position": "RB",
             "nflTeam": "PIT"
-          }
+          },
+          "points": 184.7,
+          "positionalFinish": 21,
+          "valueOverSlot": 2
         },
         {
           "overall": 84,
@@ -312,7 +335,10 @@
             "name": "Vikings D/ST",
             "position": "D/ST",
             "nflTeam": "MIN"
-          }
+          },
+          "points": 158.67,
+          "positionalFinish": 5,
+          "valueOverSlot": 11
         },
         {
           "overall": 85,
@@ -322,7 +348,10 @@
             "name": "Rook Larkspur",
             "position": "K",
             "nflTeam": "PIT"
-          }
+          },
+          "points": 105.2,
+          "positionalFinish": 10,
+          "valueOverSlot": -3
         }
       ]
     }

@@ -273,6 +273,11 @@
       "year": 2020,
       "teamName": "Quist Quakes",
       "slot": 10,
+      "grade": {
+        "rank": 3,
+        "of": 12,
+        "total": 51
+      },
       "picks": [
         {
           "overall": 10,
@@ -282,7 +287,10 @@
             "name": "Nico Rookwood",
             "position": "RB",
             "nflTeam": "NYJ"
-          }
+          },
+          "points": 338.1,
+          "positionalFinish": 4,
+          "valueOverSlot": -2
         },
         {
           "overall": 15,
@@ -292,7 +300,10 @@
             "name": "Tobin Stonebrook",
             "position": "WR",
             "nflTeam": "CIN"
-          }
+          },
+          "points": 374.0,
+          "positionalFinish": 4,
+          "valueOverSlot": 11
         },
         {
           "overall": 34,
@@ -302,7 +313,10 @@
             "name": "Nico Stonebrook",
             "position": "RB",
             "nflTeam": "NYJ"
-          }
+          },
+          "points": 342.0,
+          "positionalFinish": 2,
+          "valueOverSlot": 24
         },
         {
           "overall": 39,
@@ -312,7 +326,10 @@
             "name": "Tobin Thistlewood",
             "position": "QB",
             "nflTeam": "CIN"
-          }
+          },
+          "points": 213.3,
+          "positionalFinish": 4,
+          "valueOverSlot": -9
         },
         {
           "overall": 58,
@@ -322,7 +339,10 @@
             "name": "Nico Thistlewood",
             "position": "WR",
             "nflTeam": "NYJ"
-          }
+          },
+          "points": 180.5,
+          "positionalFinish": 24,
+          "valueOverSlot": -3
         },
         {
           "overall": 63,
@@ -332,7 +352,10 @@
             "name": "Tobin Underhill",
             "position": "QB",
             "nflTeam": "CIN"
-          }
+          },
+          "points": 229.6,
+          "positionalFinish": 3,
+          "valueOverSlot": 21
         },
         {
           "overall": 82,
@@ -342,7 +365,10 @@
             "name": "Packers D/ST",
             "position": "D/ST",
             "nflTeam": "GB"
-          }
+          },
+          "points": 129.07,
+          "positionalFinish": 9,
+          "valueOverSlot": -3
         },
         {
           "overall": 87,
@@ -352,7 +378,10 @@
             "name": "Tobin Varnell",
             "position": "K",
             "nflTeam": "CIN"
-          }
+          },
+          "points": 154.1,
+          "positionalFinish": 5,
+          "valueOverSlot": 12
         }
       ]
     },
@@ -360,6 +389,11 @@
       "year": 2018,
       "teamName": "Quist Quakes",
       "slot": 5,
+      "grade": {
+        "rank": 1,
+        "of": 10,
+        "total": 77
+      },
       "picks": [
         {
           "overall": 5,
@@ -369,7 +403,10 @@
             "name": "Fenn Barrowell",
             "position": "WR",
             "nflTeam": "MIN"
-          }
+          },
+          "points": 350.1,
+          "positionalFinish": 4,
+          "valueOverSlot": -2
         },
         {
           "overall": 16,
@@ -379,7 +416,10 @@
             "name": "Rook Ironwood",
             "position": "RB",
             "nflTeam": "PIT"
-          }
+          },
+          "points": 399.0,
+          "positionalFinish": 1,
+          "valueOverSlot": 15
         },
         {
           "overall": 25,
@@ -389,7 +429,10 @@
             "name": "Bram Grimsby",
             "position": "WR",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 167.7,
+          "positionalFinish": 20,
+          "valueOverSlot": -27
         },
         {
           "overall": 36,
@@ -399,7 +442,10 @@
             "name": "Moss Northcott",
             "position": "QB",
             "nflTeam": "SEA"
-          }
+          },
+          "points": 361.1,
+          "positionalFinish": 1,
+          "valueOverSlot": 31
         },
         {
           "overall": 45,
@@ -409,7 +455,10 @@
             "name": "Wade Kettleby",
             "position": "TE",
             "nflTeam": "DAL"
-          }
+          },
+          "points": 256.7,
+          "positionalFinish": 2,
+          "valueOverSlot": 21
         },
         {
           "overall": 56,
@@ -419,7 +468,10 @@
             "name": "Ivo Stonebrook",
             "position": "QB",
             "nflTeam": "DET"
-          }
+          },
+          "points": 179.4,
+          "positionalFinish": 8,
+          "valueOverSlot": 8
         },
         {
           "overall": 65,
@@ -429,7 +481,10 @@
             "name": "Eagles D/ST",
             "position": "D/ST",
             "nflTeam": "PHI"
-          }
+          },
+          "points": 158.43,
+          "positionalFinish": 3,
+          "valueOverSlot": 9
         },
         {
           "overall": 76,
@@ -439,7 +494,10 @@
             "name": "Ezra Yarrowby",
             "position": "K",
             "nflTeam": "PHI"
-          }
+          },
+          "points": 165.6,
+          "positionalFinish": 3,
+          "valueOverSlot": 22
         }
       ]
     }

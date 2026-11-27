@@ -173,6 +173,7 @@
               "year",
               "teamName",
               "slot",
+              "grade",
               "picks"
             ],
             "properties": {
@@ -189,6 +190,31 @@
                 "type": "integer",
                 "minimum": 1
               },
+              "grade": {
+                "description": "The Owner's Draft grade that Season: rank within the Season (ties share the better rank), out of how many Franchises, and the total Value over slot.",
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "rank",
+                  "of",
+                  "total"
+                ],
+                "properties": {
+                  "rank": {
+                    "description": "Rank within the Season, 1 = best Draft.",
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "of": {
+                    "description": "Number of Franchises that Season.",
+                    "$ref": "#/$defs/teamCount"
+                  },
+                  "total": {
+                    "description": "The sum of the Owner's Value over slot that Season.",
+                    "type": "integer"
+                  }
+                }
+              },
               "picks": {
                 "description": "The Owner's Picks that Season, in pick order. The first is their round-1 Pick.",
                 "type": "array",
@@ -200,7 +226,10 @@
                     "overall",
                     "round",
                     "roundPick",
-                    "player"
+                    "player",
+                    "points",
+                    "positionalFinish",
+                    "valueOverSlot"
                   ],
                   "properties": {
                     "overall": {
@@ -227,6 +256,28 @@
                         {
                           "$ref": "#/$defs/draftPlayer"
                         }
+                      ]
+                    },
+                    "points": {
+                      "description": "The Player's Season points: the platform's season total under that Season's scoring, covering the whole NFL regular season (from 2021 that includes week 18). Null when no Player was recorded.",
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "positionalFinish": {
+                      "description": "Positional finish: the Player's rank by Season points among every Player at their position that Season, drafted or not (shown as e.g. RB3). Ties share the better rank. Null when no Player was recorded.",
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "minimum": 1
+                    },
+                    "valueOverSlot": {
+                      "description": "Value over slot: overall pick number minus the Pick's rank by Season points among that Season's drafted Picks (ties share the better rank). Positive is a steal, negative a bust. Null when no Player was recorded; such Picks are left out of the ranking.",
+                      "type": [
+                        "integer",
+                        "null"
                       ]
                     }
                   }
@@ -259,7 +310,10 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "seasons"
+        "seasons",
+        "bestPicks",
+        "worstPicks",
+        "bestDrafters"
       ],
       "properties": {
         "seasons": {
@@ -334,6 +388,111 @@
               }
             }
           }
+        },
+        "bestPicks": {
+          "description": "The 10 Picks with the highest Value over slot across every Season (fewer if there are fewer recorded Picks). Ordered by Value over slot (descending), then Season, then overall pick.",
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "$ref": "#/$defs/allTimePick"
+          }
+        },
+        "worstPicks": {
+          "description": "The 10 Picks with the lowest Value over slot across every Season. Ordered by Value over slot (ascending), then Season, then overall pick.",
+          "type": "array",
+          "maxItems": 10,
+          "items": {
+            "$ref": "#/$defs/allTimePick"
+          }
+        },
+        "bestDrafters": {
+          "description": "Every Owner who has drafted, by average Draft grade rank across their Seasons (ascending), then name.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "owner",
+              "seasons",
+              "averageRank"
+            ],
+            "properties": {
+              "owner": {
+                "description": "The Owner.",
+                "$ref": "#/$defs/ownerRef"
+              },
+              "seasons": {
+                "description": "Seasons counted: every Season the Owner drafted in.",
+                "type": "integer",
+                "minimum": 1
+              },
+              "averageRank": {
+                "description": "Mean of the Owner's Draft grade ranks, rounded to 2 decimals. Lower is better.",
+                "type": "number",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "allTimePick": {
+      "description": "A recorded Pick named in the all-time best or worst Picks.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "owner",
+        "teamName",
+        "overall",
+        "round",
+        "roundPick",
+        "player",
+        "positionalFinish",
+        "valueOverSlot"
+      ],
+      "properties": {
+        "year": {
+          "description": "The Season.",
+          "$ref": "#/$defs/year"
+        },
+        "owner": {
+          "description": "The Owner of the Franchise that made the Pick.",
+          "$ref": "#/$defs/ownerRef"
+        },
+        "teamName": {
+          "description": "That Franchise's team name that Season.",
+          "$ref": "#/$defs/teamName"
+        },
+        "overall": {
+          "description": "Overall pick number.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "round": {
+          "description": "Round.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "roundPick": {
+          "description": "Pick within the round.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "player": {
+          "description": "The Player taken.",
+          "$ref": "#/$defs/draftPlayer"
+        },
+        "positionalFinish": {
+          "description": "The Player's Positional finish that Season.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "valueOverSlot": {
+          "description": "The Pick's Value over slot.",
+          "type": "integer"
         }
       }
     },

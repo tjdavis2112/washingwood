@@ -16,10 +16,22 @@ EXAMPLES = Path(__file__).resolve().parents[1] / "contract" / "examples"
 
 
 def derive() -> dict:
-    """Every Season's first round, newest first."""
-    seasons = []
+    """Every Season's first round, newest first; the all-time best and worst Picks; Best drafters."""
+    seasons, all_picks, ranks = [], [], {}
     for path in sorted((EXAMPLES / "seasons").glob("*.json"), reverse=True):
         doc = json.loads(path.read_text(encoding="utf-8"))
+        teams_by_slug = {o["owner"]["slug"]: o["teamName"] for o in doc["draft"]["order"]}
+        for p in doc["draft"]["picks"]:
+            if p["valueOverSlot"] is not None:
+                all_picks.append(
+                    {"year": doc["year"], "owner": p["owner"], "teamName": teams_by_slug[p["owner"]["slug"]]}
+                    | {
+                        k: p[k]
+                        for k in ("overall", "round", "roundPick", "player", "positionalFinish", "valueOverSlot")
+                    }
+                )
+        for g in doc["draft"]["grades"]:
+            ranks.setdefault(g["owner"]["slug"], (g["owner"], []))[1].append(g["rank"])
         teams = {o["owner"]["slug"]: o["teamName"] for o in doc["draft"]["order"]}
         seasons.append(
             {
@@ -38,7 +50,13 @@ def derive() -> dict:
                 ],
             }
         )
-    return {"seasons": seasons}
+    best = sorted(all_picks, key=lambda p: (-p["valueOverSlot"], p["year"], p["overall"]))[:10]
+    worst = sorted(all_picks, key=lambda p: (p["valueOverSlot"], p["year"], p["overall"]))[:10]
+    drafters = [
+        {"owner": ref, "seasons": len(r), "averageRank": round(sum(r) / len(r), 2)} for ref, r in ranks.values()
+    ]
+    drafters.sort(key=lambda d: (d["averageRank"], d["owner"]["name"]))
+    return {"seasons": seasons, "bestPicks": best, "worstPicks": worst, "bestDrafters": drafters}
 
 
 def points_rank(value: float, values: list[float]) -> int:

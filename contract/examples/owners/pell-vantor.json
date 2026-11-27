@@ -276,6 +276,11 @@
       "year": 2020,
       "teamName": "Vantor Vortex",
       "slot": 7,
+      "grade": {
+        "rank": 8,
+        "of": 12,
+        "total": -39
+      },
       "picks": [
         {
           "overall": 7,
@@ -285,7 +290,10 @@
             "name": "Kip Cindergate",
             "position": "WR",
             "nflTeam": "DEN"
-          }
+          },
+          "points": 346.1,
+          "positionalFinish": 5,
+          "valueOverSlot": 0
         },
         {
           "overall": 18,
@@ -295,7 +303,10 @@
             "name": "Wade Juniper",
             "position": "RB",
             "nflTeam": "DAL"
-          }
+          },
+          "points": 313.5,
+          "positionalFinish": 7,
+          "valueOverSlot": 0
         },
         {
           "overall": 31,
@@ -305,7 +316,10 @@
             "name": "Kip Dunmore",
             "position": "RB",
             "nflTeam": "DEN"
-          }
+          },
+          "points": 267.2,
+          "positionalFinish": 13,
+          "valueOverSlot": 2
         },
         {
           "overall": 42,
@@ -315,7 +329,10 @@
             "name": "Wade Kettleby",
             "position": "QB",
             "nflTeam": "DAL"
-          }
+          },
+          "points": 322.3,
+          "positionalFinish": 1,
+          "valueOverSlot": 26
         },
         {
           "overall": 55,
@@ -325,7 +342,10 @@
             "name": "Kip Elderby",
             "position": "WR",
             "nflTeam": "DEN"
-          }
+          },
+          "points": 99.1,
+          "positionalFinish": 27,
+          "valueOverSlot": -40
         },
         {
           "overall": 66,
@@ -335,7 +355,10 @@
             "name": "Wade Larkspur",
             "position": "QB",
             "nflTeam": "DAL"
-          }
+          },
+          "points": 142.0,
+          "positionalFinish": 10,
+          "valueOverSlot": -15
         },
         {
           "overall": 79,
@@ -345,7 +368,10 @@
             "name": "Bengals D/ST",
             "position": "D/ST",
             "nflTeam": "CIN"
-          }
+          },
+          "points": 104.07,
+          "positionalFinish": 11,
+          "valueOverSlot": -12
         },
         {
           "overall": 90,
@@ -355,7 +381,10 @@
             "name": "Wade Merriweather",
             "position": "K",
             "nflTeam": "DAL"
-          }
+          },
+          "points": 105.0,
+          "positionalFinish": 11,
+          "valueOverSlot": 0
         }
       ]
     },
@@ -363,6 +392,11 @@
       "year": 2018,
       "teamName": "Vantor Vipers",
       "slot": 9,
+      "grade": {
+        "rank": 7,
+        "of": 10,
+        "total": -25
+      },
       "picks": [
         {
           "overall": 9,
@@ -372,7 +406,10 @@
             "name": "Jett Varnell",
             "position": "WR",
             "nflTeam": "JAX"
-          }
+          },
+          "points": 293.0,
+          "positionalFinish": 7,
+          "valueOverSlot": -7
         },
         {
           "overall": 12,
@@ -382,7 +419,10 @@
             "name": "Moss Merriweather",
             "position": "RB",
             "nflTeam": "SEA"
-          }
+          },
+          "points": 213.1,
+          "positionalFinish": 15,
+          "valueOverSlot": -25
         },
         {
           "overall": 29,
@@ -392,7 +432,10 @@
             "name": "Fenn Cindergate",
             "position": "TE",
             "nflTeam": "MIN"
-          }
+          },
+          "points": 254.2,
+          "positionalFinish": 3,
+          "valueOverSlot": 3
         },
         {
           "overall": 32,
@@ -402,7 +445,10 @@
             "name": "Ivo Rookwood",
             "position": "RB",
             "nflTeam": "DET"
-          }
+          },
+          "points": 311.8,
+          "positionalFinish": 7,
+          "valueOverSlot": 17
         },
         {
           "overall": 49,
@@ -412,7 +458,10 @@
             "name": "Bram Hollowell",
             "position": "QB",
             "nflTeam": "BAL"
-          }
+          },
+          "points": 132.4,
+          "positionalFinish": 9,
+          "valueOverSlot": -17
         },
         {
           "overall": 52,
@@ -422,7 +471,10 @@
             "name": "Ezra Whitlock",
             "position": "WR",
             "nflTeam": "PHI"
-          }
+          },
+          "points": 154.9,
+          "positionalFinish": 21,
+          "valueOverSlot": -5
         },
         {
           "overall": 69,
@@ -432,7 +484,10 @@
             "name": "Lions D/ST",
             "position": "D/ST",
             "nflTeam": "DET"
-          }
+          },
+          "points": 128.33,
+          "positionalFinish": 8,
+          "valueOverSlot": 1
         },
         {
           "overall": 72,
@@ -442,7 +497,10 @@
             "name": "Arlo Dunmore",
             "position": "K",
             "nflTeam": "KC"
-          }
+          },
+          "points": 136.27,
+          "positionalFinish": 5,
+          "valueOverSlot": 8
         }
       ]
     }
