@@ -10,6 +10,9 @@ const SCHEMA_PATH = fileURLToPath(new URL("../contract/site-data.schema.json", i
 export default defineConfig({
   output: "static",
   trailingSlash: "ignore",
+  // CSS goes inside each page: the landing screen then needs no separate asset, and nothing
+  // under /_astro/ ever has to be served without the passphrase (ADR-0006)
+  build: { inlineStylesheets: "always" },
   integrations: [react()],
   vite: { plugins: [tailwindcss()], define: { __SITE_DATA_SCHEMA__: JSON.stringify(SCHEMA_PATH) } },
 });

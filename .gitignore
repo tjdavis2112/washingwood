@@ -32,3 +32,6 @@ export/
 # Playwright output: screenshots and traces for review, never committed
 site/test-results/
 site/playwright-report/
+
+# Wrangler local secrets (SITE_PASSPHRASE for `wrangler pages dev`)
+.dev.vars

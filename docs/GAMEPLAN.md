@@ -20,7 +20,7 @@ Layout whiteboard: https://claude.ai/artifact/UviRRz54BkANGtVgwRpZ68
 | Loader (raw → core) | **Next** |
 | Export (stats → JSON) | Not started |
 | Frontend (v1) | Not started |
-| Passphrase gate + deploy | Not started |
+| Passphrase gate + deploy | Gate done (`site/functions/_middleware.ts`); deploy not started |
 
 ---
 

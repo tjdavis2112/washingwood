@@ -1,0 +1,39 @@
+---
+// The landing screen: the only page served without the passphrase (ADR-0006).
+// No nav and no league data. The middleware shows the error line after a wrong passphrase.
+import "../styles/global.css";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Washingwood Fantasy Football</title>
+  </head>
+  <body class="grid min-h-dvh place-items-center bg-ink px-4">
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,color-mix(in_srgb,var(--color-brand)_22%,transparent),transparent_60%)]"></div>
+    <main class="relative w-full max-w-md py-12 text-center">
+      <p class="text-xs font-semibold uppercase tracking-[0.4em] text-brand">Est. 2018</p>
+      <h1 class="mt-4 text-4xl font-black uppercase leading-none tracking-tight md:text-5xl">
+        Washingwood <span class="block text-brand">Fantasy Football</span>
+      </h1>
+      <form method="post" action="/enter/" class="mt-10 space-y-4 text-left">
+        <label for="passphrase" class="block text-sm font-medium text-muted">Passphrase</label>
+        <input
+          id="passphrase"
+          name="passphrase"
+          type="password"
+          required
+          autocomplete="current-password"
+          autofocus
+          class="w-full rounded-xl border border-line bg-panel px-4 py-3 text-paper placeholder:text-muted focus:border-brand focus:outline-none"
+        />
+        <p data-gate-error hidden role="alert" class="text-sm font-medium text-brand">That passphrase isn't right. Try again.</p>
+        <button type="submit" class="w-full rounded-xl bg-brand px-4 py-3 font-bold uppercase tracking-widest transition hover:bg-brand-deep">
+          Enter
+        </button>
+      </form>
+    </main>
+  </body>
+</html>
