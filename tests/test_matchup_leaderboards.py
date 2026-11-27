@@ -58,7 +58,14 @@ def scores_in(row):
 
 
 def test_every_leaderboard_has_ten_rows_with_a_scoring_format(boards):
-    assert set(boards) == {"blowouts", "closestGames", "highestScores", "lowestScores", "playoffUpsets"}
+    assert set(boards) == {
+        "blowouts",
+        "closestGames",
+        "highestScores",
+        "lowestScores",
+        "playoffUpsets",
+        "projectionUpsets",
+    }
     for name in ("blowouts", "closestGames", "highestScores", "lowestScores"):
         assert len(boards[name]) == 10, name
     assert all(r["scoringFormat"] == "PPR" for r in all_rows(boards))

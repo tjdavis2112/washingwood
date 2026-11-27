@@ -561,7 +561,8 @@
             "closestGames",
             "highestScores",
             "lowestScores",
-            "playoffUpsets"
+            "playoffUpsets",
+            "projectionUpsets"
           ],
           "properties": {
             "blowouts": {
@@ -602,6 +603,14 @@
               "maxItems": 10,
               "items": {
                 "$ref": "#/$defs/leaderboardUpset"
+              }
+            },
+            "projectionUpsets": {
+              "description": "Projection upsets by projected deficit (largest first). Only Seasons with lineups have projections.",
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "$ref": "#/$defs/leaderboardProjectionUpset"
               }
             }
           }
@@ -979,6 +988,82 @@
           "description": "The winner's seed minus the loser's.",
           "type": "integer",
           "minimum": 1
+        }
+      }
+    },
+
+    "leaderboardProjectionUpset": {
+      "description": "A Projection upset: a Counted Matchup won by the side with the lower Projected score.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "matchupPeriod",
+        "weeks",
+        "kind",
+        "winner",
+        "loser",
+        "isTie",
+        "margin",
+        "scoringFormat",
+        "winnerProjected",
+        "loserProjected",
+        "projectedDeficit"
+      ],
+      "properties": {
+        "year": {
+          "description": "The Season.",
+          "$ref": "#/$defs/year"
+        },
+        "matchupPeriod": {
+          "description": "The Matchup period.",
+          "$ref": "#/$defs/matchupPeriod"
+        },
+        "weeks": {
+          "description": "The single NFL Week it was played in (two-week rounds aren't Counted Matchups).",
+          "$ref": "#/$defs/weeks"
+        },
+        "kind": {
+          "description": "regular = regular season; playoff = a championship-bracket Matchup.",
+          "enum": [
+            "regular",
+            "playoff"
+          ]
+        },
+        "winner": {
+          "description": "The winning side; on a tie, the home side.",
+          "$ref": "#/$defs/leaderboardSide"
+        },
+        "loser": {
+          "description": "The losing side; on a tie, the away side.",
+          "$ref": "#/$defs/leaderboardSide"
+        },
+        "isTie": {
+          "description": "True if the Matchup ended level.",
+          "type": "boolean"
+        },
+        "margin": {
+          "description": "Margin: the winner's score minus the loser's, rounded to 2 decimals (0 on a tie).",
+          "type": "number",
+          "minimum": 0
+        },
+        "scoringFormat": {
+          "description": "The Season's Scoring format label (e.g. PPR, Standard + TE premium). Scores across formats aren't comparable.",
+          "type": "string",
+          "minLength": 1
+        },
+        "winnerProjected": {
+          "description": "The winner's Projected score (sum of its starters' projections).",
+          "type": "number"
+        },
+        "loserProjected": {
+          "description": "The loser's Projected score.",
+          "type": "number"
+        },
+        "projectedDeficit": {
+          "description": "How far behind the winner was projected: loserProjected minus winnerProjected, rounded to 2 decimals.",
+          "type": "number",
+          "exclusiveMinimum": 0
         }
       }
     },

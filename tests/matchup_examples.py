@@ -93,7 +93,30 @@ def leaderboards(seasons: list[dict]) -> dict:
         "highestScores": sorted(sides, key=lambda r: (-r["team"]["score"], *when(r, "team")))[:10],
         "lowestScores": sorted(sides, key=lambda r: (r["team"]["score"], *when(r, "team")))[:10],
         "playoffUpsets": sorted(upsets, key=lambda g: (-g["seedGap"], -g["margin"], *when(g, "winner")))[:10],
+        "projectionUpsets": projection_upsets(games),
     }
+
+
+def projection_upsets(games: list[dict]) -> list[dict]:
+    """Counted Matchups won by the side with the lower Projected score, from the Box score examples'
+    projections (Seasons without a Box score file have none); by projected deficit, then Season, Week,
+    winner name."""
+    projected = {}
+    for path in (EXAMPLES / "box-scores").glob("*.json"):
+        doc = json.loads(path.read_text(encoding="utf-8"))
+        for m in doc["matchups"]:
+            for k in ("home", "away"):
+                projected[(doc["year"], m["matchupPeriod"], m[k]["owner"]["slug"])] = m[k]["projected"]
+    rows = []
+    for g in games:
+        if g["isTie"]:
+            continue
+        win = projected.get((g["year"], g["matchupPeriod"], g["winner"]["owner"]["slug"]))
+        lose = projected.get((g["year"], g["matchupPeriod"], g["loser"]["owner"]["slug"]))
+        if win is not None and lose is not None and win < lose:
+            rows.append(g | {"winnerProjected": win, "loserProjected": lose, "projectedDeficit": round(lose - win, 2)})
+    key = lambda g: (-g["projectedDeficit"], g["year"], g["matchupPeriod"], g["winner"]["owner"]["name"])  # noqa: E731
+    return sorted(rows, key=key)[:10]
 
 
 def _seasons() -> list[dict]:
