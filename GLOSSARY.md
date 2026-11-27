@@ -144,11 +144,26 @@ The all-time 10 **Picks** with the highest / lowest **Points over expected**. A 
 **Steal**:
 One of the all-time 10 **Picks** with the highest **Value over slot**: a Player who outplayed where they went.
 
+**Record Book**:
+The site's cross-**Season** records: Week, Season and all-time leaderboards, **Streaks**, **Luck index**, **Bench points** and **Last place** history. Single-game extremes (blowouts, closest games, highest and lowest scores, upsets) stay on the Matchups leaderboards.
+
+**Points per game**:
+A **Franchise**'s regular-season points for divided by its regular-season games, to two decimals. Season records rank points by it, so 13-game and 14-game Seasons compare fairly.
+
+**Bench points**:
+The points a **Franchise**'s bench **Lineup entries** scored in a **Week**. IR slots don't count, and a **Player** who didn't play counts 0. Not adjusted for bench size, and not a judgement of whether those Players could have started.
+
+**Streak**:
+An **Owner**'s run of consecutive regular-season wins, or of losses, in order across **Seasons**. A Season the Owner sat out doesn't break it, a tie ends it, and playoff games don't count. A Streak still running at the end of the latest Season is **active**.
+
 **All-play record**:
-A **Franchise**'s record if it had played every other Franchise every **Week**.
+A **Franchise**'s record if it had played every other Franchise every regular-season **Week**. Each Week it gets a win for each Franchise it outscored and half a win for each tie. All-play win % is those wins divided by the number of other Franchises that Week (9 or 11), averaged over the Season.
+
+**Expected wins**:
+A **Franchise**'s all-play win % times its regular-season games: the wins an average schedule would have given it.
 
 **Luck index**:
-The gap between a **Franchise**'s actual record and its **All-play record**.
+A **Franchise**'s actual regular-season wins minus its **Expected wins**, to one decimal. Positive is lucky. An **Owner**'s all-time Luck index is the sum of their Seasons.
 
 **Acquisition impact**:
 Points a **Player** scored as a starter for the **Franchise** that acquired them, from the acquisition **Week** to the end of the **Season**.
