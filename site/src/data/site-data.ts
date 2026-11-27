@@ -162,3 +162,40 @@ export function getOwnerIndex(): OwnerIndexEntry[] {
 
 /** "2018–2025", or "2020" for a single Season. */
 export const formatSpan = (first: number, last: number) => (first === last ? String(first) : `${first}–${last}`);
+
+export type OwnerSeasonRow = {
+  year: number;
+  teamName: string;
+  record: WinLossTie;
+  pointsFor: number;
+  pointsAgainst: number;
+  playoffSeed: number;
+  finalRank: number;
+  podiumPlace: 1 | 2 | 3 | null;
+  isLastPlace: boolean;
+};
+export type HeadToHeadRow = { opponent: OwnerRef; regularSeason: WinLossTie; playoffs: WinLossTie; meetings: number };
+export type OwnerDoc = {
+  owner: OwnerRef;
+  currentTeamName: string;
+  firstSeason: number;
+  lastSeason: number;
+  isFormer: boolean;
+  trophies: { titles: number[]; runnerUps: number[]; thirds: number[] };
+  career: {
+    regularSeason: WinLossTie;
+    playoffs: WinLossTie;
+    avgPointsFor: number;
+    avgPointsAgainst: number;
+    playoffAppearances: number[];
+    lastPlaces: number[];
+  };
+  seasons: OwnerSeasonRow[];
+  headToHead: HeadToHeadRow[];
+};
+
+const ownerDocs = new Map<string, OwnerDoc>();
+export function getOwner(slug: string): OwnerDoc {
+  if (!ownerDocs.has(slug)) ownerDocs.set(slug, load<OwnerDoc>(`owners/${slug}.json`, "owner"));
+  return ownerDocs.get(slug)!;
+}

@@ -1,0 +1,40 @@
+---
+// An Owner's trophy case: titles, runner-ups and Third-place finishes, each a trophy labelled with
+// its year. Only shelves with trophies are shown. Gold, silver and bronze appear here because these
+// are trophies.
+import Trophy from "./Trophy.astro";
+
+interface Props { trophies: { titles: number[]; runnerUps: number[]; thirds: number[] } }
+const { trophies } = Astro.props;
+const SHELVES = [
+  { label: "Titles", metal: "gold", years: trophies.titles, size: "size-12 md:size-16", glow: "var(--color-gold)" },
+  { label: "Runner-up finishes", metal: "silver", years: trophies.runnerUps, size: "size-10 md:size-12", glow: "var(--color-silver)" },
+  { label: "Third-place finishes", metal: "bronze", years: trophies.thirds, size: "size-9 md:size-11", glow: "var(--color-bronze)" },
+] as const;
+const shelves = SHELVES.filter((s) => s.years.length > 0);
+---
+<section aria-labelledby="trophy-case-heading" class="relative overflow-hidden rounded-3xl border border-line bg-gradient-to-b from-panel to-ink px-5 py-6 md:px-8">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/[0.04] to-transparent"></div>
+  <h2 id="trophy-case-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Trophy case</h2>
+  {shelves.length === 0 ? (
+    <p class="mt-6 text-muted">No Podium finishes.</p>
+  ) : (
+    <div class="mt-6 flex flex-wrap gap-x-12 gap-y-6">
+      {shelves.map((s) => (
+        <div class="min-w-40 border-b border-line/70 pb-3 shadow-[inset_0_-3px_0_rgba(255,255,255,0.03)]">
+          <p class="text-[0.7rem] font-semibold uppercase tracking-widest text-muted">{s.label} · {s.years.length}</p>
+          <ul aria-label={s.label} class="mt-3 flex flex-wrap items-end gap-3">
+            {s.years.map((y) => (
+              <li class="flex flex-col items-center">
+                <div class={s.size} style={`filter: drop-shadow(0 0 10px color-mix(in srgb, ${s.glow} 35%, transparent))`}>
+                  <Trophy metal={s.metal} class="size-full" />
+                </div>
+                <span class="mt-1 text-xs tabular-nums text-muted">{y}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  )}
+</section>

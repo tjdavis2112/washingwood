@@ -126,13 +126,10 @@ def test_rerunning_on_the_same_input_gives_byte_identical_output(archive, owners
     first = snapshot()
     run(archive, owners, tmp_path, pg_dsn)  # same database: every Season is reloaded in place
 
-    assert sorted(first) == [
-        "league.json",
-        "owners.json",
-        "seasons/2020.json",
-        "seasons/2021.json",
-        "trophy-shelf.json",
-    ]
+    owner_files = [f"owners/{slugify(PEOPLE[k][0])}.json" for k in SEED_ORDER]
+    assert sorted(first) == sorted(
+        ["league.json", "owners.json", "seasons/2020.json", "seasons/2021.json", "trophy-shelf.json", *owner_files]
+    )
     assert snapshot() == first
 
 
@@ -664,3 +661,115 @@ def test_owner_index_lists_every_owner_like_the_shelf_with_career_regular_season
     jory = entries["jory-paxton"]
     assert (jory["isFormer"], jory["regularSeason"]) == (True, {"wins": 4, "losses": 24, "ties": 0})
     assert entries["nell-ashgrove"]["regularSeason"] == {"wins": 2, "losses": 12, "ties": 0}
+
+
+# --- Owner documents (#14) ---
+# 2019 (2018-style, two-week rounds, no upsets): Quinn (1) beats Rue (4), Pell (2) beats Odie (3),
+#   Quinn beats Pell for the title; Odie beats Rue in the Third-place game. Wren (10) is Last place.
+# 2020 (seed 5 Tamsin upsets): byes for Quinn (1) and Pell (2). Quarterfinals: Odie (3) beats
+#   Lyle (6), Tamsin (5) beats Rue (4). Semifinals: Tamsin beats Quinn, Pell beats Odie. Final:
+#   Tamsin beats Pell. Third-place game: Quinn beats Odie. 5th-place game: Rue beats Lyle.
+#   Jory (12) is Last place.
+
+
+def owner_docs(archive, owners, tmp_path, pg_dsn):
+    Season2018Style(2019, [team(k) for k in SEED_ORDER[:10]]).write(archive)
+    season(2020, upsets={"tamsin"}).write(archive)
+    out = tmp_path / "export"
+    build(archive_dir=archive, owners_file=owners, out_dir=out, dsn=pg_dsn)
+    return {p.stem: json.loads(p.read_text(encoding="utf-8")) for p in (out / "owners").glob("*.json")}
+
+
+def test_every_owner_gets_a_valid_owner_document(archive, owners, tmp_path, pg_dsn):
+    docs = owner_docs(archive, owners, tmp_path, pg_dsn)
+
+    index = json.loads((tmp_path / "export" / "owners.json").read_text(encoding="utf-8"))
+    assert sorted(docs) == sorted(e["owner"]["slug"] for e in index["owners"])
+    for slug, doc in docs.items():
+        validate(doc, "owner")
+        assert doc["owner"]["slug"] == slug
+
+
+def test_owner_header_trophies_and_career_summary(archive, owners, tmp_path, pg_dsn):
+    quinn = owner_docs(archive, owners, tmp_path, pg_dsn)["quinn-harrow"]
+
+    assert {k: quinn[k] for k in ("owner", "currentTeamName", "firstSeason", "lastSeason", "isFormer")} == {
+        "owner": {"slug": "quinn-harrow", "name": "Quinn Harrow"},
+        "currentTeamName": "Harrow Hammers",
+        "firstSeason": 2019,
+        "lastSeason": 2020,
+        "isFormer": False,
+    }
+    assert quinn["trophies"] == {"titles": [2019], "runnerUps": [], "thirds": [2020]}
+    assert quinn["career"] == {
+        "regularSeason": {"wins": 25, "losses": 2, "ties": 0},  # seed 1 twice: 12-1 and 13-1
+        # 2019: semifinal + final (two-week rounds, once each). 2020: the bye and the Third-place
+        # game don't count, the semifinal loss does.
+        "playoffs": {"wins": 2, "losses": 1, "ties": 0},
+        "avgPointsFor": 111.04,  # (1499 + 1499) / 27
+        "avgPointsAgainst": 103.78,  # (1401 + 1401) / 27
+        "playoffAppearances": [2019, 2020],  # 2020 was a bye: it still counts
+        "lastPlaces": [],
+    }
+
+
+def test_playoff_record_counts_only_winners_bracket_games_played(archive, owners, tmp_path, pg_dsn):
+    docs = owner_docs(archive, owners, tmp_path, pg_dsn)
+    playoffs = {slug: d["career"]["playoffs"] for slug, d in docs.items()}
+
+    assert playoffs["tamsin-oake"] == {"wins": 3, "losses": 0, "ties": 0}  # quarterfinal, semifinal, final
+    # Odie: 2019 semifinal loss (the Third-place win doesn't count); 2020 quarterfinal win, semifinal loss
+    assert playoffs["odie-brask"] == {"wins": 1, "losses": 2, "ties": 0}
+    # Rue: two losses; the 2020 5th-place win is a consolation game
+    assert playoffs["rue-calloway"] == {"wins": 0, "losses": 2, "ties": 0}
+    assert docs["rue-calloway"]["career"]["playoffAppearances"] == [2019, 2020]
+    # Wren missed the playoffs and finished Last place in 2019
+    wren = docs["wren-solano"]["career"]
+    assert (wren["playoffs"], wren["playoffAppearances"], wren["lastPlaces"]) == (
+        {"wins": 0, "losses": 0, "ties": 0},
+        [],
+        [2019],
+    )
+    assert docs["jory-paxton"]["career"]["lastPlaces"] == [2020]
+
+
+def test_owner_seasons_are_newest_first_with_finish_markers(archive, owners, tmp_path, pg_dsn):
+    docs = owner_docs(archive, owners, tmp_path, pg_dsn)
+
+    assert docs["quinn-harrow"]["seasons"] == [
+        {
+            "year": 2020, "teamName": "Harrow Hammers", "record": {"wins": 13, "losses": 1, "ties": 0},
+            "pointsFor": 1499.0, "pointsAgainst": 1401.0, "playoffSeed": 1, "finalRank": 3,
+            "podiumPlace": 3, "isLastPlace": False,
+        },
+        {
+            "year": 2019, "teamName": "Harrow Hammers", "record": {"wins": 12, "losses": 1, "ties": 0},
+            "pointsFor": 1499.0, "pointsAgainst": 1401.0, "playoffSeed": 1, "finalRank": 1,
+            "podiumPlace": 1, "isLastPlace": False,
+        },
+    ]  # fmt: skip
+    assert [(s["year"], s["podiumPlace"], s["isLastPlace"]) for s in docs["wren-solano"]["seasons"]] == [
+        (2020, None, False),
+        (2019, None, True),
+    ]
+
+
+def test_head_to_head_splits_regular_season_and_playoffs_and_skips_the_third_place_game(
+    archive, owners, tmp_path, pg_dsn
+):
+    docs = owner_docs(archive, owners, tmp_path, pg_dsn)
+
+    def h2h(a, b):
+        return next((h for h in docs[a]["headToHead"] if h["opponent"]["slug"] == b), None)
+
+    assert h2h("quinn-harrow", "tamsin-oake")["playoffs"] == {"wins": 0, "losses": 1, "ties": 0}
+    assert h2h("tamsin-oake", "quinn-harrow")["playoffs"] == {"wins": 1, "losses": 0, "ties": 0}
+    # Quinn and Odie met only in the 2020 Third-place game in the playoffs: it doesn't count
+    assert h2h("quinn-harrow", "odie-brask")["playoffs"] == {"wins": 0, "losses": 0, "ties": 0}
+    for slug, doc in docs.items():
+        for row in doc["headToHead"]:
+            back = h2h(row["opponent"]["slug"], slug)
+            assert row["meetings"] == back["meetings"] > 0
+            assert row["regularSeason"]["wins"] == back["regularSeason"]["losses"]
+        meetings = [row["meetings"] for row in doc["headToHead"]]
+        assert meetings == sorted(meetings, reverse=True)

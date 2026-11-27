@@ -1,21 +1,40 @@
 ---
-// One page per Owner. A stub until #14: the header from the Owner index, then a placeholder.
-// #14 switches this page to owners/<slug>.json.
+// One page per Owner, rendered from owners/<slug>.json. Career tab: trophy case and career
+// summary (#14); the season-by-season table (#15) and head-to-head (#16) join it.
+// Rosters, Draft, Trades: Coming soon.
+import CareerSummary from "../../components/CareerSummary.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
-import { formatSpan, getOwnerIndex } from "../../data/site-data";
+import OwnerTrophyCase from "../../components/OwnerTrophyCase.astro";
+import Tabs from "../../components/Tabs.astro";
+import { formatSpan, getOwner, getOwnerIndex } from "../../data/site-data";
 import Base from "../../layouts/Base.astro";
 
 export function getStaticPaths() {
-  return getOwnerIndex().map((e) => ({ params: { slug: e.owner.slug }, props: { entry: e } }));
+  return getOwnerIndex().map((e) => ({ params: { slug: e.owner.slug } }));
 }
-const { entry: e } = Astro.props;
+const owner = getOwner(Astro.params.slug!);
+const TABS = [
+  { id: "career", label: "Career" },
+  { id: "rosters", label: "Rosters" },
+  { id: "draft", label: "Draft" },
+  { id: "trades", label: "Trades" },
+];
 ---
-<Base title={e.owner.name}>
-  <header class="mb-8">
-    <h1 class="text-4xl font-black md:text-6xl">{e.owner.name}</h1>
+<Base title={owner.owner.name}>
+  <header class="mb-6">
+    <h1 class="text-4xl font-black md:text-6xl">{owner.owner.name}</h1>
     <p class="mt-2 text-muted">
-      {e.currentTeamName} · {formatSpan(e.firstSeason, e.lastSeason)}{e.isFormer && " · Former Owner"}
+      {owner.currentTeamName} · {formatSpan(owner.firstSeason, owner.lastSeason)}
+      {owner.isFormer && <span class="ml-2 rounded-full border border-line px-2 py-0.5 text-[0.7rem] font-semibold uppercase tracking-widest">Former Owner</span>}
     </p>
   </header>
-  <ComingSoon level={2} title="Owner page" blurb="Trophy case, career record, every Season and head-to-head." />
+  <Tabs label={`${owner.owner.name} sections`} tabs={TABS}>
+    <div slot="career" class="space-y-8">
+      <OwnerTrophyCase trophies={owner.trophies} />
+      <CareerSummary career={owner.career} seasonCount={owner.seasons.length} />
+    </div>
+    <ComingSoon slot="rosters" level={2} title="Rosters" blurb="This Owner's roster every Season." />
+    <ComingSoon slot="draft" level={2} title="Draft" blurb="Every pick this Owner has made, graded." />
+    <ComingSoon slot="trades" level={2} title="Trades" blurb="Every trade this Owner has made, and who won it." />
+  </Tabs>
 </Base>

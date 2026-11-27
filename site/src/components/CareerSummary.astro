@@ -1,0 +1,27 @@
+---
+// An Owner's career at a glance. Regular season and playoffs are kept apart (GLOSSARY: Playoff
+// record), and points are per-game averages because totals would mix Scoring formats.
+import { formatPoints, formatRecord, type OwnerDoc } from "../data/site-data";
+
+interface Props { career: OwnerDoc["career"]; seasonCount: number }
+const { career, seasonCount } = Astro.props;
+const STATS = [
+  { label: "Regular season", value: formatRecord(career.regularSeason) },
+  { label: "Playoffs", value: formatRecord(career.playoffs) },
+  { label: "Playoff appearances", value: `${career.playoffAppearances.length} of ${seasonCount}` },
+  { label: "Avg points for", value: formatPoints(career.avgPointsFor) },
+  { label: "Avg points against", value: formatPoints(career.avgPointsAgainst) },
+  { label: "Last place finishes", value: String(career.lastPlaces.length) },
+];
+---
+<section aria-labelledby="career-heading">
+  <h2 id="career-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Career</h2>
+  <dl class="mt-4 grid grid-cols-2 gap-3 md:grid-cols-3">
+    {STATS.map((s) => (
+      <div class="rounded-2xl border border-line bg-panel p-4 md:p-5">
+        <dt class="text-[0.7rem] font-semibold uppercase tracking-widest text-muted">{s.label}</dt>
+        <dd class="mt-1 text-2xl font-black tabular-nums md:text-3xl">{s.value}</dd>
+      </div>
+    ))}
+  </dl>
+</section>

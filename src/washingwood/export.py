@@ -88,6 +88,98 @@ def owner_index(conn: Connection) -> dict:
     }
 
 
+def owner_documents(conn: Connection) -> dict[str, dict]:
+    """One Owner document per Owner, keyed by slug. Records, playoff record and head-to-head follow
+    GLOSSARY.md (Playoff record, Playoff appearance) through stats.owner_games."""
+    head = {
+        owner_id: (name, team, first, last, is_former, list(titles), list(runner_ups))
+        for owner_id, name, team, first, last, is_former, titles, runner_ups in conn.execute(
+            """SELECT owner_id, display_name, current_team_name, first_season, last_season, is_former,
+                      title_seasons, runner_up_seasons
+               FROM stats.trophy_shelf"""
+        ).fetchall()
+    }
+    seasons: dict[int, list[dict]] = {owner_id: [] for owner_id in head}
+    appearances: dict[int, list[int]] = {owner_id: [] for owner_id in head}
+    for owner_id, year, team, w, lost, tied, pf, pa, seed, rank, playoff_teams, is_last in conn.execute(
+        """SELECT st.owner_id, st.year, st.team_name, st.wins, st.losses, st.ties, st.points_for,
+                  st.points_against, st.playoff_seed, st.final_rank, s.playoff_team_count,
+                  st.franchise_id = lp.franchise_id
+           FROM stats.standings st
+           JOIN core.seasons s       ON s.year = st.year
+           JOIN stats.last_place lp ON lp.year = st.year
+           ORDER BY st.year DESC"""
+    ).fetchall():
+        seasons[owner_id].append(
+            {
+                "year": year,
+                "teamName": team,
+                "record": _record(w, lost, tied),
+                "pointsFor": float(pf),
+                "pointsAgainst": float(pa),
+                "playoffSeed": seed,
+                "finalRank": rank,
+                "podiumPlace": rank if rank <= 3 else None,
+                "isLastPlace": is_last,
+            }
+        )
+        if seed <= playoff_teams:  # Playoff appearance: a first-round bye counts
+            appearances[owner_id].append(year)
+    playoffs = {owner_id: _record(0, 0, 0) for owner_id in head}
+    for owner_id, w, lost, tied in conn.execute(
+        """SELECT owner_id, count(*) FILTER (WHERE result = 'W'), count(*) FILTER (WHERE result = 'L'),
+                  count(*) FILTER (WHERE result = 'T')
+           FROM stats.owner_games WHERE kind = 'playoff' GROUP BY owner_id"""
+    ).fetchall():
+        playoffs[owner_id] = _record(w, lost, tied)
+    h2h: dict[int, list[dict]] = {owner_id: [] for owner_id in head}
+    for owner_id, opp, rw, rl, rt, pw, pl, pt, meetings in conn.execute(
+        """SELECT owner_id, opponent_owner_id, regular_wins, regular_losses, regular_ties,
+                  playoff_wins, playoff_losses, playoff_ties, meetings
+           FROM stats.head_to_head"""
+    ).fetchall():
+        h2h[owner_id].append(
+            {
+                "opponent": _owner_ref(head[opp][0]),
+                "regularSeason": _record(rw, rl, rt),
+                "playoffs": _record(pw, pl, pt),
+                "meetings": meetings,
+            }
+        )
+
+    docs = {}
+    for owner_id, (name, team, first, last, is_former, titles, runner_ups) in head.items():
+        rows = seasons[owner_id]
+        regular = {k: sum(r["record"][k] for r in rows) for k in ("wins", "losses", "ties")}
+        games = sum(regular.values())
+        if not games:
+            raise ExportError(f"Owner {name} has no regular-season games")
+        ref = _owner_ref(name)
+        docs[ref["slug"]] = {
+            "owner": ref,
+            "currentTeamName": team,
+            "firstSeason": first,
+            "lastSeason": last,
+            "isFormer": is_former,
+            "trophies": {
+                "titles": titles,
+                "runnerUps": runner_ups,
+                "thirds": sorted(r["year"] for r in rows if r["podiumPlace"] == 3),
+            },
+            "career": {
+                "regularSeason": regular,
+                "playoffs": playoffs[owner_id],
+                "avgPointsFor": round(sum(r["pointsFor"] for r in rows) / games, 2),
+                "avgPointsAgainst": round(sum(r["pointsAgainst"] for r in rows) / games, 2),
+                "playoffAppearances": sorted(appearances[owner_id]),
+                "lastPlaces": sorted(r["year"] for r in rows if r["isLastPlace"]),
+            },
+            "seasons": rows,
+            "headToHead": sorted(h2h[owner_id], key=lambda h: (-h["meetings"], h["opponent"]["name"])),
+        }
+    return dict(sorted(docs.items()))
+
+
 def season_document(conn: Connection, year: int) -> dict:
     """One Season's document. The bracket and weekly results join in #9 and #10."""
     team_count, data_tier = conn.execute(

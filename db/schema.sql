@@ -381,17 +381,32 @@ SELECT ofr.owner_id, ofr.display_name,
 FROM owner_franchises ofr
 GROUP BY ofr.owner_id, ofr.display_name;
 
--- Head-to-head between owners
-CREATE VIEW stats.head_to_head AS
-SELECT a.owner_id, b.owner_id AS opponent_owner_id,
-       count(*) FILTER (WHERE g.result = 'W') AS wins,
-       count(*) FILTER (WHERE g.result = 'L') AS losses,
-       count(*) FILTER (WHERE g.result = 'T') AS ties,
-       count(*) FILTER (WHERE g.is_playoff)   AS playoff_meetings
+-- One row per Owner per Matchup they played that counts toward a record (GLOSSARY: Playoff record):
+-- kind 'regular' = regular-season Matchups; kind 'playoff' = winners'-bracket Matchups. Byes are
+-- not games (team_games drops them). The Third-place game and other consolation Matchups count
+-- toward neither, so they are left out. A two-week round is one Matchup, so it counts once.
+CREATE VIEW stats.owner_games AS
+SELECT s.year, g.matchup_id, a.owner_id, b.owner_id AS opponent_owner_id, g.result,
+       CASE WHEN NOT g.is_playoff THEN 'regular' ELSE 'playoff' END AS kind
 FROM stats.team_games g
-JOIN stats.franchise_owner a ON a.franchise_id = g.franchise_id
-JOIN stats.franchise_owner b ON b.franchise_id = g.opponent_id
-GROUP BY a.owner_id, b.owner_id;
+JOIN core.seasons s           ON s.season_id = g.season_id
+JOIN stats.franchise_owner a  ON a.franchise_id = g.franchise_id
+JOIN stats.franchise_owner b  ON b.franchise_id = g.opponent_id
+WHERE NOT g.is_playoff OR g.bracket = 'winners';
+
+-- Head-to-head between Owners, regular season and playoffs apart (same rules as owner_games).
+-- Only pairs who have met at least once have a row.
+CREATE VIEW stats.head_to_head AS
+SELECT owner_id, opponent_owner_id,
+       count(*) FILTER (WHERE kind = 'regular' AND result = 'W') AS regular_wins,
+       count(*) FILTER (WHERE kind = 'regular' AND result = 'L') AS regular_losses,
+       count(*) FILTER (WHERE kind = 'regular' AND result = 'T') AS regular_ties,
+       count(*) FILTER (WHERE kind = 'playoff' AND result = 'W') AS playoff_wins,
+       count(*) FILTER (WHERE kind = 'playoff' AND result = 'L') AS playoff_losses,
+       count(*) FILTER (WHERE kind = 'playoff' AND result = 'T') AS playoff_ties,
+       count(*)                                                 AS meetings
+FROM stats.owner_games
+GROUP BY owner_id, opponent_owner_id;
 
 -- Player season totals for the franchise that started them
 CREATE VIEW stats.player_franchise_season AS
