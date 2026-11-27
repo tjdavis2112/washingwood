@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://washingwood.xyz/contract/site-data.schema.json",
   "title": "Washingwood site-data contract",
-  "description": "The interface between the pipeline and the site. Each document kind is an entry point under $defs: league, trophyShelf, season.",
+  "description": "The interface between the pipeline and the site. Each document kind is an entry point under $defs: league, trophyShelf, ownerIndex, owner, season.",
   "$defs": {
     "league": {
       "title": "League summary",
@@ -69,6 +69,111 @@
               "firstSeason": { "description": "The Owner's first Season in the League.", "$ref": "#/$defs/year" },
               "lastSeason": { "description": "The Owner's most recent Season in the League.", "$ref": "#/$defs/year" },
               "isFormer": { "description": "True if the Owner has no Franchise in the most recent Season.", "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+
+    "ownerIndex": {
+      "title": "Owner index",
+      "description": "Every Owner, for the Owners index page. Exported as owners.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owners"],
+      "properties": {
+        "owners": {
+          "description": "One entry per Owner, former Owners included. Ordered like the trophy shelf: title count, then runner-up count (both descending), then name.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["owner", "currentTeamName", "firstSeason", "lastSeason", "isFormer", "titles", "runnerUps", "regularSeason"],
+            "properties": {
+              "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+              "currentTeamName": { "description": "Current team name: the team name of the Owner's most recent Franchise.", "$ref": "#/$defs/teamName" },
+              "firstSeason": { "description": "The Owner's first Season in the League.", "$ref": "#/$defs/year" },
+              "lastSeason": { "description": "The Owner's most recent Season in the League.", "$ref": "#/$defs/year" },
+              "isFormer": { "description": "True if the Owner has no Franchise in the most recent Season.", "type": "boolean" },
+              "titles": { "description": "Seasons the Owner was Champion, oldest first.", "$ref": "#/$defs/yearList" },
+              "runnerUps": { "description": "Seasons the Owner lost the championship Matchup, oldest first.", "$ref": "#/$defs/yearList" },
+              "regularSeason": { "description": "Career regular-season record: the sum of the Owner's records in each Season's standings. Playoff and consolation Matchups are not included.", "$ref": "#/$defs/record" }
+            }
+          }
+        }
+      }
+    },
+
+    "owner": {
+      "title": "Owner document",
+      "description": "Everything one Owner's page shows. Exported as owners/<slug>.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "currentTeamName", "firstSeason", "lastSeason", "isFormer", "trophies", "career", "seasons", "headToHead"],
+      "properties": {
+        "owner": { "description": "The Owner. The file name is its slug.", "$ref": "#/$defs/ownerRef" },
+        "currentTeamName": { "description": "Current team name: the team name of the Owner's most recent Franchise.", "$ref": "#/$defs/teamName" },
+        "firstSeason": { "description": "The Owner's first Season in the League.", "$ref": "#/$defs/year" },
+        "lastSeason": { "description": "The Owner's most recent Season in the League.", "$ref": "#/$defs/year" },
+        "isFormer": { "description": "True if the Owner has no Franchise in the most recent Season.", "type": "boolean" },
+        "trophies": {
+          "description": "The Owner's Podium finishes.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["titles", "runnerUps", "thirds"],
+          "properties": {
+            "titles": { "description": "Seasons the Owner was Champion, oldest first.", "$ref": "#/$defs/yearList" },
+            "runnerUps": { "description": "Seasons the Owner lost the championship Matchup, oldest first.", "$ref": "#/$defs/yearList" },
+            "thirds": { "description": "Seasons the Owner won the Third-place game, oldest first.", "$ref": "#/$defs/yearList" }
+          }
+        },
+        "career": {
+          "description": "Career totals across every Season.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["regularSeason", "playoffs", "avgPointsFor", "avgPointsAgainst", "playoffAppearances", "lastPlaces"],
+          "properties": {
+            "regularSeason": { "description": "Career regular-season record: the sum of the Owner's records in each Season's standings.", "$ref": "#/$defs/record" },
+            "playoffs": { "description": "Career Playoff record: championship-bracket Matchups played. Byes, the Third-place game and consolation Matchups are excluded; a two-week round counts once.", "$ref": "#/$defs/record" },
+            "avgPointsFor": { "description": "Regular-season points for per game across the career (standings points for / regular-season games), rounded to 2 decimals.", "type": "number", "minimum": 0 },
+            "avgPointsAgainst": { "description": "Regular-season points against per game across the career, rounded to 2 decimals.", "type": "number", "minimum": 0 },
+            "playoffAppearances": { "description": "Seasons with a Playoff appearance (seed within the playoff field; a bye counts), oldest first.", "$ref": "#/$defs/yearList" },
+            "lastPlaces": { "description": "Seasons the Owner finished Last place (highest playoff seed), oldest first.", "$ref": "#/$defs/yearList" }
+          }
+        },
+        "seasons": {
+          "description": "One row per Season the Owner played, newest first.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["year", "teamName", "record", "pointsFor", "pointsAgainst", "playoffSeed", "finalRank", "podiumPlace", "isLastPlace"],
+            "properties": {
+              "year": { "description": "The Season.", "$ref": "#/$defs/year" },
+              "teamName": { "description": "The Owner's team name that Season.", "$ref": "#/$defs/teamName" },
+              "record": { "description": "Regular-season record, as in that Season's standings.", "$ref": "#/$defs/record" },
+              "pointsFor": { "description": "Points for, as in that Season's standings.", "type": "number" },
+              "pointsAgainst": { "description": "Points against, as in that Season's standings.", "type": "number" },
+              "playoffSeed": { "description": "Regular-season seed (1 = best).", "type": "integer", "minimum": 1 },
+              "finalRank": { "description": "Final place that Season, as in that Season's standings.", "type": "integer", "minimum": 1 },
+              "podiumPlace": { "description": "1, 2 or 3 for a Podium finish, otherwise null.", "enum": [1, 2, 3, null] },
+              "isLastPlace": { "description": "True if the Owner was that Season's Last place.", "type": "boolean" }
+            }
+          }
+        },
+        "headToHead": {
+          "description": "One row per opponent Owner played at least once, former Owners included. Ordered by meetings (descending), then opponent name.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["opponent", "regularSeason", "playoffs", "meetings"],
+            "properties": {
+              "opponent": { "description": "The opponent Owner.", "$ref": "#/$defs/ownerRef" },
+              "regularSeason": { "description": "The Owner's record against this opponent in regular-season Matchups.", "$ref": "#/$defs/record" },
+              "playoffs": { "description": "The Owner's record against this opponent under the Playoff record rule.", "$ref": "#/$defs/record" },
+              "meetings": { "description": "Regular-season plus playoff Matchups between the two (consolation and Third-place games excluded). Never 0.", "type": "integer", "minimum": 1 }
             }
           }
         }

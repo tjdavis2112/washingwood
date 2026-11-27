@@ -60,6 +60,34 @@ def trophy_shelf(conn: Connection) -> dict:
     }
 
 
+def owner_index(conn: Connection) -> dict:
+    """Every Owner for the Owners index, in trophy-shelf order. The regular-season record is the sum of
+    the Owner's Season records in the standings (stats.owner_career), so playoffs and consolation
+    Matchups are left out."""
+    rows = conn.execute(
+        """SELECT t.display_name, t.current_team_name, t.first_season, t.last_season, t.is_former,
+                  t.title_seasons, t.runner_up_seasons, c.wins, c.losses, c.ties
+           FROM stats.trophy_shelf t
+           JOIN stats.owner_career c USING (owner_id)
+           ORDER BY cardinality(t.title_seasons) DESC, cardinality(t.runner_up_seasons) DESC, t.display_name"""
+    ).fetchall()
+    return {
+        "owners": [
+            {
+                "owner": _owner_ref(name),
+                "currentTeamName": team,
+                "firstSeason": first,
+                "lastSeason": last,
+                "isFormer": is_former,
+                "titles": list(titles),
+                "runnerUps": list(runner_ups),
+                "regularSeason": _record(int(w), int(lost), int(tied)),
+            }
+            for name, team, first, last, is_former, titles, runner_ups, w, lost, tied in rows
+        ]
+    }
+
+
 def season_document(conn: Connection, year: int) -> dict:
     """One Season's document. The bracket and weekly results join in #9 and #10."""
     team_count, data_tier = conn.execute(

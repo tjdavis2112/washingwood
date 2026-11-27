@@ -1,0 +1,237 @@
+{
+  "owner": {
+    "slug": "jory-paxton",
+    "name": "Jory Paxton"
+  },
+  "currentTeamName": "Paxton Pistons",
+  "firstSeason": 2020,
+  "lastSeason": 2020,
+  "isFormer": false,
+  "trophies": {
+    "titles": [],
+    "runnerUps": [],
+    "thirds": []
+  },
+  "career": {
+    "regularSeason": {
+      "wins": 6,
+      "losses": 8,
+      "ties": 0
+    },
+    "playoffs": {
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    },
+    "avgPointsFor": 111.09,
+    "avgPointsAgainst": 112.8,
+    "playoffAppearances": [],
+    "lastPlaces": []
+  },
+  "seasons": [
+    {
+      "year": 2020,
+      "teamName": "Paxton Pistons",
+      "record": {
+        "wins": 6,
+        "losses": 8,
+        "ties": 0
+      },
+      "pointsFor": 1555.2,
+      "pointsAgainst": 1579.2,
+      "playoffSeed": 9,
+      "finalRank": 9,
+      "podiumPlace": null,
+      "isLastPlace": false
+    }
+  ],
+  "headToHead": [
+    {
+      "opponent": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 2
+    },
+    {
+      "opponent": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 2
+    },
+    {
+      "opponent": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 2
+    },
+    {
+      "opponent": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 1
+    },
+    {
+      "opponent": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 1
+    },
+    {
+      "opponent": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 1
+    },
+    {
+      "opponent": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 1
+    },
+    {
+      "opponent": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 1
+    },
+    {
+      "opponent": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 1
+    },
+    {
+      "opponent": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 1
+    },
+    {
+      "opponent": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "meetings": 1
+    }
+  ]
+}

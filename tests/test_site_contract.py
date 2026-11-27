@@ -352,7 +352,13 @@ def test_example_champion_is_the_latest_seasons_first_place():
 
 
 def test_example_owner_slugs_always_carry_the_same_name():
-    docs = [load_example("league.json"), load_example("trophy-shelf.json"), *example_seasons().values()]
+    docs = [
+        load_example("league.json"),
+        load_example("trophy-shelf.json"),
+        load_example("owners.json"),
+        *example_seasons().values(),
+        *example_owners().values(),
+    ]
     names = {}
     for ref in (r for d in docs for r in owner_refs(d)):
         assert names.setdefault(ref["slug"], ref["name"]) == ref["name"], ref["slug"]
@@ -405,3 +411,70 @@ def test_season_requires_every_section():
         del doc[key]
         with pytest.raises(ContractError, match=key):
             validate(doc, "season")
+
+
+# --- Owner index and Owner documents (#13) ---
+
+
+def example_owners():
+    return {p.stem: load_example(f"owners/{p.name}") for p in sorted((EXAMPLES / "owners").glob("*.json"))}
+
+
+def test_owner_examples_validate_and_are_named_by_slug():
+    validate(load_example("owners.json"), "ownerIndex")
+    for slug, doc in example_owners().items():
+        validate(doc, "owner")
+        assert doc["owner"]["slug"] == slug
+
+
+def test_owner_examples_agree_with_the_season_and_shelf_examples():
+    # Re-derived in plain Python from the Season and trophy-shelf examples (tests/owner_examples.py)
+    from owner_examples import derive
+
+    index, owners = derive()
+    assert load_example("owners.json") == index
+    assert example_owners() == owners
+
+
+def test_owner_index_example_follows_the_trophy_shelf():
+    shelf = load_example("trophy-shelf.json")["owners"]
+    index = load_example("owners.json")["owners"]
+    assert [e["owner"] for e in index] == [e["owner"] for e in shelf]
+    assert {e["owner"]["slug"] for e in index} == set(example_owners())
+    assert any(e["isFormer"] for e in index)
+
+
+def test_owner_example_head_to_head_is_symmetric_and_sums_to_the_career_record():
+    owners = example_owners()
+    for slug, doc in owners.items():
+        regular = {k: sum(h["regularSeason"][k] for h in doc["headToHead"]) for k in ("wins", "losses", "ties")}
+        assert regular == doc["career"]["regularSeason"], slug
+        for h in doc["headToHead"]:
+            back = next(b for b in owners[h["opponent"]["slug"]]["headToHead"] if b["opponent"]["slug"] == slug)
+            for part in ("regularSeason", "playoffs"):
+                assert (h[part]["wins"], h[part]["ties"]) == (back[part]["losses"], back[part]["ties"])
+
+
+def owner_doc():
+    return copy.deepcopy(example_owners()["quinn-harrow"])
+
+
+def test_head_to_head_rows_need_at_least_one_meeting():
+    doc = owner_doc()
+    doc["headToHead"][0]["meetings"] = 0
+    with pytest.raises(ContractError, match="/headToHead/0/meetings"):
+        validate(doc, "owner")
+
+
+def test_podium_place_is_1_2_3_or_null():
+    doc = owner_doc()
+    doc["seasons"][0]["podiumPlace"] = 4
+    with pytest.raises(ContractError, match="/seasons/0/podiumPlace"):
+        validate(doc, "owner")
+
+
+def test_owner_index_entry_needs_a_regular_season_record():
+    doc = load_example("owners.json")
+    del doc["owners"][0]["regularSeason"]
+    with pytest.raises(ContractError, match="regularSeason"):
+        validate(doc, "ownerIndex")

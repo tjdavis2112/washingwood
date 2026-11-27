@@ -2,7 +2,6 @@
 export const NAV = ["Home", "Seasons", "Owners", "Matchups", "Record Book", "Hall of Fame", "Draft", "Transactions", "League Rules"];
 
 export const COMING_SOON: Record<string, string> = {
-  "/owners/": "Owners",
   "/matchups/": "Matchups",
   "/record-book/": "Record Book",
   "/hall-of-fame/": "Hall of Fame",
@@ -11,5 +10,14 @@ export const COMING_SOON: Record<string, string> = {
   "/league-rules/": "League Rules",
 };
 
-// contract/examples has Seasons 2018 and 2020
-export const ALL_PAGES = ["/", "/seasons/", "/seasons/2018/", "/seasons/2020/", ...Object.keys(COMING_SOON)];
+// contract/examples has Seasons 2018 and 2020, and Wren Solano is its former Owner
+export const ALL_PAGES = [
+  "/",
+  "/seasons/",
+  "/seasons/2018/",
+  "/seasons/2020/",
+  "/owners/",
+  "/owners/quinn-harrow/",
+  "/owners/wren-solano/",
+  ...Object.keys(COMING_SOON),
+];

@@ -126,7 +126,13 @@ def test_rerunning_on_the_same_input_gives_byte_identical_output(archive, owners
     first = snapshot()
     run(archive, owners, tmp_path, pg_dsn)  # same database: every Season is reloaded in place
 
-    assert sorted(first) == ["league.json", "seasons/2020.json", "seasons/2021.json", "trophy-shelf.json"]
+    assert sorted(first) == [
+        "league.json",
+        "owners.json",
+        "seasons/2020.json",
+        "seasons/2021.json",
+        "trophy-shelf.json",
+    ]
     assert snapshot() == first
 
 
@@ -601,8 +607,8 @@ def test_trophy_shelf_counts_titles_and_runner_ups_and_marks_former_owners(archi
     assert (entries["nell-ashgrove"]["firstSeason"], entries["nell-ashgrove"]["isFormer"]) == (2021, False)
 
 
-def test_a_co_owner_shares_the_franchises_title_on_the_shelf(archive, owners, tmp_path, pg_dsn):
-    # Nell co-owns Tamsin's 2020 Franchise without being its primary Owner
+def test_a_franchise_mapped_to_two_owners_fails_the_build(archive, owners, tmp_path, pg_dsn):
+    # One Owner per Franchise (GLOSSARY: Franchise). Nell's account is added to Tamsin's 2020 team
     s = season(2020, upsets={"tamsin"})
     s.write(archive)
     path = archive / "2020" / "league_mTeam.json"
@@ -612,9 +618,49 @@ def test_a_co_owner_shares_the_franchises_title_on_the_shelf(archive, owners, tm
     doc["members"].append({"id": PEOPLE["nell"][2], "displayName": "user13", "firstName": "X", "lastName": "Y"})
     path.write_text(json.dumps(doc), encoding="utf-8")
 
-    shelf = run_shelf(archive, owners, tmp_path, pg_dsn)
+    with pytest.raises(OwnerMappingError) as err:
+        run(archive, owners, tmp_path, pg_dsn)
 
-    entries = {e["owner"]["slug"]: e for e in shelf["owners"]}
-    assert entries["tamsin-oake"]["titles"] == [2020]
-    assert entries["nell-ashgrove"]["titles"] == [2020]
-    assert entries["nell-ashgrove"]["currentTeamName"] == "Oake Oracles"
+    assert "Season 2020" in str(err.value)
+    assert "Oake Oracles" in str(err.value)
+    assert "2 Owners" in str(err.value)
+    assert not (tmp_path / "export" / "league.json").exists()
+
+
+# --- Owner index (#13) ---
+
+
+def test_owner_index_lists_every_owner_like_the_shelf_with_career_regular_season_records(
+    archive, owners, tmp_path, pg_dsn
+):
+    # The trophy-shelf scenario: Lyle wins 2021 renamed; Nell replaces Jory, who leaves after 2020.
+    # Fixture records come from the seed: seed s goes (14 - s)-s over 14 regular-season periods.
+    season(2019, overrides={"jory": team("jory", name="Paxton Pioneers")}).write(archive)
+    season(2020, upsets={"tamsin"}).write(archive)
+    season(
+        2021,
+        upsets={"lyle"},
+        overrides={"lyle": team("lyle", name="Fenwick Fog"), "jory": team("nell")},
+    ).write(archive)
+    out = tmp_path / "export"
+
+    build(archive_dir=archive, owners_file=owners, out_dir=out, dsn=pg_dsn)
+
+    index = json.loads((out / "owners.json").read_text(encoding="utf-8"))
+    shelf = json.loads((out / "trophy-shelf.json").read_text(encoding="utf-8"))
+    validate(index, "ownerIndex")
+    assert [e["owner"] for e in index["owners"]] == [e["owner"] for e in shelf["owners"]]
+    entries = {e["owner"]["slug"]: e for e in index["owners"]}
+    assert entries["lyle-fenwick"] == {
+        "owner": {"slug": "lyle-fenwick", "name": "Lyle Fenwick"},
+        "currentTeamName": "Fenwick Fog",
+        "firstSeason": 2019,
+        "lastSeason": 2021,
+        "isFormer": False,
+        "titles": [2021],
+        "runnerUps": [],
+        "regularSeason": {"wins": 24, "losses": 18, "ties": 0},  # seed 6 three times; playoff wins not counted
+    }
+    jory = entries["jory-paxton"]
+    assert (jory["isFormer"], jory["regularSeason"]) == (True, {"wins": 4, "losses": 24, "ties": 0})
+    assert entries["nell-ashgrove"]["regularSeason"] == {"wins": 2, "losses": 12, "ties": 0}

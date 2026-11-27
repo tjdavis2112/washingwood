@@ -1,0 +1,232 @@
+{
+  "owners": [
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "currentTeamName": "Dorrow Drakes",
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [
+        2020
+      ],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 13,
+        "losses": 14,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "currentTeamName": "Harrow Hammers",
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [
+        2018
+      ],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 11,
+        "losses": 15,
+        "ties": 1
+      }
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "currentTeamName": "Calloway Comets",
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [
+        2018,
+        2020
+      ],
+      "regularSeason": {
+        "wins": 17,
+        "losses": 10,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "currentTeamName": "Trice Tritons",
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 11,
+        "losses": 16,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "currentTeamName": "Imber Embers",
+      "firstSeason": 2020,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 10,
+        "losses": 4,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "currentTeamName": "Paxton Pistons",
+      "firstSeason": 2020,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 6,
+        "losses": 8,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "currentTeamName": "Fenwick Fog",
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 15,
+        "losses": 11,
+        "ties": 1
+      }
+    },
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "currentTeamName": "Quist Quakes",
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 15,
+        "losses": 12,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "currentTeamName": "Ashgrove Aces",
+      "firstSeason": 2020,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 4,
+        "losses": 10,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "currentTeamName": "Brask Bruisers",
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 13,
+        "losses": 14,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "currentTeamName": "Vantor Vortex",
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 16,
+        "losses": 11,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "currentTeamName": "Oake Oracles",
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 10,
+        "losses": 17,
+        "ties": 0
+      }
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "currentTeamName": "Solano Sparks",
+      "firstSeason": 2018,
+      "lastSeason": 2018,
+      "isFormer": true,
+      "titles": [],
+      "runnerUps": [],
+      "regularSeason": {
+        "wins": 7,
+        "losses": 6,
+        "ties": 0
+      }
+    }
+  ]
+}

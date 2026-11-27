@@ -1,0 +1,26 @@
+---
+// The Owners index: current Owners first, then Former Owners in their own group.
+// Order within each group comes from the pipeline: titles, then runner-ups, then name.
+import OwnerCard from "../../components/OwnerCard.astro";
+import { getOwnerIndex } from "../../data/site-data";
+import Base from "../../layouts/Base.astro";
+
+const owners = getOwnerIndex();
+const groups = [
+  { id: "current-owners", title: "Current Owners", entries: owners.filter((e) => !e.isFormer) },
+  { id: "former-owners", title: "Former Owners", entries: owners.filter((e) => e.isFormer) },
+].filter((g) => g.entries.length);
+---
+<Base title="Owners">
+  <h1 class="text-3xl font-black md:text-5xl">Owners</h1>
+  <div class="mt-8 space-y-10">
+    {groups.map((g) => (
+      <section aria-labelledby={g.id}>
+        <h2 id={g.id} class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">{g.title}</h2>
+        <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {g.entries.map((e) => <li><OwnerCard entry={e} /></li>)}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>

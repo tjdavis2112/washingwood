@@ -5,7 +5,7 @@ export type Section = { label: string; href: string; built: boolean; blurb: stri
 export const SECTIONS: Section[] = [
   { label: "Home", href: "/", built: true, blurb: "" },
   { label: "Seasons", href: "/seasons/", built: true, blurb: "" },
-  { label: "Owners", href: "/owners/", built: false, blurb: "Every Owner's trophy case, career record and rivalries." },
+  { label: "Owners", href: "/owners/", built: true, blurb: "Every Owner's trophy case, career record and rivalries." },
   { label: "Matchups", href: "/matchups/", built: false, blurb: "Every Matchup, bracket history, blowouts and upsets." },
   { label: "Record Book", href: "/record-book/", built: false, blurb: "Single-week, season and all-time records." },
   { label: "Hall of Fame", href: "/hall-of-fame/", built: false, blurb: "The league's legendary player seasons." },

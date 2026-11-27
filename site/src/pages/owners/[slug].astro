@@ -1,0 +1,21 @@
+---
+// One page per Owner. A stub until #14: the header from the Owner index, then a placeholder.
+// #14 switches this page to owners/<slug>.json.
+import ComingSoon from "../../components/ComingSoon.astro";
+import { formatSpan, getOwnerIndex } from "../../data/site-data";
+import Base from "../../layouts/Base.astro";
+
+export function getStaticPaths() {
+  return getOwnerIndex().map((e) => ({ params: { slug: e.owner.slug }, props: { entry: e } }));
+}
+const { entry: e } = Astro.props;
+---
+<Base title={e.owner.name}>
+  <header class="mb-8">
+    <h1 class="text-4xl font-black md:text-6xl">{e.owner.name}</h1>
+    <p class="mt-2 text-muted">
+      {e.currentTeamName} · {formatSpan(e.firstSeason, e.lastSeason)}{e.isFormer && " · Former Owner"}
+    </p>
+  </header>
+  <ComingSoon level={2} title="Owner page" blurb="Trophy case, career record, every Season and head-to-head." />
+</Base>

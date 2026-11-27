@@ -16,7 +16,7 @@ _Avoid_: Manager, user, member, team
 The team name of an **Owner**'s most recent **Franchise**. Used to label the Owner across all Seasons.
 
 **Franchise**:
-One team in one **Season**, run by one or more **Owners**. Each Season has a new Franchise, even for the same Owner.
+One team in one **Season**, run by exactly one **Owner**. Washingwood has no co-owners. Each Season has a new Franchise, even for the same Owner.
 _Avoid_: Team (when you mean the cross-season entity), roster
 
 **Player**:
@@ -62,6 +62,13 @@ _Avoid_: Winner (ambiguous with a weekly Matchup winner)
 
 **Third-place game**:
 The playoff **Matchup** between the two semifinal losers. Its winner takes 3rd.
+
+**Playoff record**:
+An **Owner**'s wins, losses and ties in championship-bracket **Matchups** they actually played: quarterfinals, semifinals and the championship. A two-week round counts as one game. Byes, the **Third-place game** and consolation Matchups don't count.
+_Avoid_: Postseason record
+
+**Playoff appearance**:
+A **Season** in which a **Franchise**'s seed is within that Season's playoff field. A first-round bye counts.
 
 **Podium**:
 A **Season**'s **Champion**, runner-up and **Third-place game** winner.

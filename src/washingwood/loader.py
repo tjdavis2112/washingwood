@@ -137,6 +137,12 @@ def _map_owners(files: SeasonFiles, owner_map: OwnerMap):
                 )
             primary[owner] = primary.get(owner, False) or member == t.get("primaryOwner")
         mapped = list(primary.items())
+        # A Franchise has exactly one Owner (GLOSSARY: Franchise); several accounts of that one Owner are fine
+        if len(mapped) > 1:
+            raise OwnerMappingError(
+                f"Season {files.year}: team {t['id']} ({t['name']}) maps to {len(mapped)} Owners, "
+                "but a Franchise has exactly one Owner. Fix its ESPN members in owners.yaml."
+            )
         if not any(p for _, p in mapped):
             mapped[0] = (mapped[0][0], True)
         result[t["id"]] = mapped

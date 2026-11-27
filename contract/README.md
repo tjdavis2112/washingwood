@@ -9,6 +9,7 @@ The site-data contract is the interface between the **pipeline** (Python: archiv
 | `site-data.schema.json` | The JSON Schema (draft 2020-12). Every field has a `description`, so this file is the field reference. |
 | `examples/league.json` | Example league summary |
 | `examples/trophy-shelf.json` | Example trophy shelf |
+| `examples/owners.json`, `examples/owners/<slug>.json` | Example Owner index and Owner documents, derived from the other examples by `tests/owner_examples.py` (re-run it after changing them) |
 | `examples/seasons/2018.json` | Example 10-team Season: 4 playoff teams, two-week playoff rounds, a tie, one manual score adjustment, and a Last place who wins a consolation Matchup |
 | `examples/seasons/2020.json` | Example 12-team Season: 6 playoff teams, first-round byes, the Third-place game and a 5th-place Matchup |
 
@@ -22,6 +23,8 @@ The schema has one entry point per document under `$defs`:
 | --- | --- | --- |
 | League summary | `#/$defs/league` | `league.json` |
 | Trophy shelf | `#/$defs/trophyShelf` | `trophy-shelf.json` |
+| Owner index | `#/$defs/ownerIndex` | `owners.json` |
+| Owner | `#/$defs/owner` | `owners/<slug>.json` |
 | Season | `#/$defs/season` | `seasons/<year>.json` |
 
 ## Conventions
@@ -37,7 +40,8 @@ The schema has one entry point per document under `$defs`:
 - **Every Season section is required.** The pipeline exports them all (#7 to #10).
 
 The schema can't express a few rules, and the exporter has to guarantee them:
-- the trophy shelf is ordered by titles, then runner-ups (both descending), then name
+- the trophy shelf and the Owner index are ordered by titles, then runner-ups (both descending), then name
+- every Owner in the index has an Owner document, named by its slug
 - `standings` has one entry per Franchise and is ordered by `rank`
 - the Champion in the league summary matches the latest Season's Podium
 
@@ -47,7 +51,8 @@ The schema can't express a few rules, and the exporter has to guarantee them:
 
 ```python
 from washingwood.contract import validate, ContractError
-validate(doc, "season")  # kinds: "league", "trophyShelf", "season"
+
+validate(doc, "season")  # kinds: "league", "trophyShelf", "ownerIndex", "owner", "season"
 ```
 
 `ContractError.errors` lists every violation as `"/json/pointer: message"`.

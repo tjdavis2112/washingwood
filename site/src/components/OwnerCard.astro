@@ -1,0 +1,47 @@
+---
+// One Owner on the Owners index: name, Current team name, Season span, titles and runner-ups as
+// small trophies (gold and silver, the only metal on the card) and career regular-season record.
+import { formatRecord, formatSpan, type OwnerIndexEntry } from "../data/site-data";
+import Trophy from "./Trophy.astro";
+
+interface Props { entry: OwnerIndexEntry }
+const { entry: e } = Astro.props;
+---
+<a
+  href={`/owners/${e.owner.slug}/`}
+  class="flex h-full flex-col rounded-2xl border border-line bg-panel p-5 transition hover:-translate-y-1 hover:border-brand"
+>
+  <div class="flex items-start justify-between gap-3">
+    <div class="min-w-0">
+      <h3 class:list={["truncate text-lg font-black", e.isFormer ? "text-muted" : "text-paper"]}>{e.owner.name}</h3>
+      <p class="truncate text-sm text-muted">{e.currentTeamName}</p>
+    </div>
+    <p class="shrink-0 text-xs font-semibold tabular-nums uppercase tracking-widest text-muted">
+      {formatSpan(e.firstSeason, e.lastSeason)}
+    </p>
+  </div>
+  <div class="mt-5 flex items-end justify-between gap-3">
+    <p>
+      <span class="block text-2xl font-black tabular-nums">{formatRecord(e.regularSeason)}</span>
+      <span class="block text-[0.7rem] font-semibold uppercase tracking-widest text-muted">Regular season</span>
+    </p>
+    <div class="flex items-end gap-2">
+      <ul aria-label="Titles" class="flex items-end gap-1">
+        {e.titles.map((y) => (
+          <li class="flex flex-col items-center">
+            <Trophy metal="gold" class="size-6" />
+            <span class="mt-0.5 text-[0.65rem] tabular-nums text-muted">{y}</span>
+          </li>
+        ))}
+      </ul>
+      <ul aria-label="Runner-up finishes" class="flex items-end gap-1">
+        {e.runnerUps.map((y) => (
+          <li class="flex flex-col items-center">
+            <Trophy metal="silver" class="size-5" />
+            <span class="mt-0.5 text-[0.65rem] tabular-nums text-muted">{y}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</a>

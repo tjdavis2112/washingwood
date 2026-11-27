@@ -59,6 +59,7 @@ def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list
         docs = {
             "league.json": (export.league_summary(conn), "league"),
             "trophy-shelf.json": (export.trophy_shelf(conn), "trophyShelf"),
+            "owners.json": (export.owner_index(conn), "ownerIndex"),
         }
         for d in season_dirs:
             docs[f"seasons/{d.name}.json"] = (export.season_document(conn, int(d.name)), "season")

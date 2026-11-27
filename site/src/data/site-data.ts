@@ -15,7 +15,7 @@ export type League = {
   champion: { owner: OwnerRef; teamName: string; year: number };
 };
 
-type Kind = "league" | "trophyShelf" | "season";
+type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season";
 
 let ajv: Ajv2020 | undefined;
 let schemaId = "";
@@ -141,3 +141,24 @@ export function getTrophyShelf(): ShelfEntry[] {
   shelf ??= load<{ owners: ShelfEntry[] }>("trophy-shelf.json", "trophyShelf").owners;
   return shelf;
 }
+
+export type OwnerIndexEntry = {
+  owner: OwnerRef;
+  currentTeamName: string;
+  firstSeason: number;
+  lastSeason: number;
+  isFormer: boolean;
+  titles: number[];
+  runnerUps: number[];
+  regularSeason: WinLossTie;
+};
+
+let ownerIndex: OwnerIndexEntry[] | undefined;
+/** Every Owner for the Owners index, in trophy-shelf order (the pipeline's order). */
+export function getOwnerIndex(): OwnerIndexEntry[] {
+  ownerIndex ??= load<{ owners: OwnerIndexEntry[] }>("owners.json", "ownerIndex").owners;
+  return ownerIndex;
+}
+
+/** "2018–2025", or "2020" for a single Season. */
+export const formatSpan = (first: number, last: number) => (first === last ? String(first) : `${first}–${last}`);
