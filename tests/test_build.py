@@ -807,3 +807,27 @@ def test_last_place_who_wins_a_consolation_game_is_still_flagged_last_place(arch
 
     assert row("jory-paxton") == (12, 11, True, [2020])
     assert row("cass-imber") == (11, 12, False, [])
+
+
+# --- Head-to-head (#16) ---
+
+
+def test_head_to_head_includes_former_owners_and_leaves_out_owners_who_never_met(archive, owners, tmp_path, pg_dsn):
+    # 2019 (10 teams) includes Wren; in 2020 Nell takes Wren's slot and Wren leaves.
+    # Wren never played Nell, Cass or Jory (all 2020 only).
+    Season2018Style(2019, [team(k) for k in SEED_ORDER[:10]]).write(archive)
+    season(2020, overrides={"wren": team("nell")}).write(archive)
+    out = tmp_path / "export"
+
+    build(archive_dir=archive, owners_file=owners, out_dir=out, dsn=pg_dsn)
+
+    def opponents(slug):
+        doc = json.loads((out / "owners" / f"{slug}.json").read_text(encoding="utf-8"))
+        return {h["opponent"]["slug"]: h for h in doc["headToHead"]}
+
+    quinn, wren = opponents("quinn-harrow"), opponents("wren-solano")
+    assert "wren-solano" in quinn  # a former Owner keeps their rows
+    assert quinn["wren-solano"]["meetings"] == wren["quinn-harrow"]["meetings"] > 0
+    assert not {"nell-ashgrove", "cass-imber", "jory-paxton"} & set(wren)
+    assert "wren-solano" not in opponents("nell-ashgrove")
+    assert "quinn-harrow" not in quinn  # never their own opponent

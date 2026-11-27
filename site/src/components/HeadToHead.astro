@@ -1,0 +1,45 @@
+---
+// An Owner's head-to-head record against every Owner they've played, former Owners included,
+// ordered by meetings (the pipeline's order). Regular season and playoffs are kept apart
+// (GLOSSARY: Playoff record). Each opponent links to their Owner page. Four short columns fit a
+// phone (headers shorten there); the scroll box only catches very long names.
+import type { HeadToHeadRow, WinLossTie } from "../data/site-data";
+
+interface Props { rows: HeadToHeadRow[] }
+const { rows } = Astro.props;
+// Always W-L-T here, matching the column headers
+const record = (r: WinLossTie) => `${r.wins}-${r.losses}-${r.ties}`;
+---
+<section aria-labelledby="h2h-heading">
+  <div class="flex items-baseline justify-between gap-4">
+    <h2 id="h2h-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Head-to-head</h2>
+  </div>
+  {rows.length === 0 ? (
+    <p class="mt-4 text-muted">No Matchups played yet.</p>
+  ) : (
+    <div data-testid="h2h-scroll" class="mt-4 overflow-x-auto rounded-2xl border border-line">
+      <table aria-labelledby="h2h-heading" class="w-full border-collapse text-sm">
+        <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+          <tr>
+            <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Opponent</th>
+            <th scope="col" class="px-3 py-3 text-right"><span class="md:hidden">Met</span><span class="hidden md:inline">Meetings</span></th>
+            <th scope="col" class="px-3 py-3 text-right"><span class="md:hidden">Reg.</span><span class="hidden md:inline">Regular season</span></th>
+            <th scope="col" class="px-3 py-3 text-right">Playoffs</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr class="border-t border-line odd:bg-ink even:bg-panel/40">
+              <th scope="row" class="sticky left-0 bg-inherit px-3 py-2.5 text-left font-semibold">
+                <a href={`/owners/${r.opponent.slug}/`} class="underline decoration-line underline-offset-4 transition-colors hover:text-brand hover:decoration-brand">{r.opponent.name}</a>
+              </th>
+              <td class="px-3 py-2.5 text-right tabular-nums">{r.meetings}</td>
+              <td class="px-3 py-2.5 text-right font-semibold tabular-nums">{record(r.regularSeason)}</td>
+              <td class="px-3 py-2.5 text-right tabular-nums text-muted">{record(r.playoffs)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</section>
