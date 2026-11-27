@@ -201,5 +201,94 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2018,
+      "teamName": "Solano Sparks",
+      "slot": 7,
+      "picks": [
+        {
+          "overall": 7,
+          "round": 1,
+          "roundPick": 7,
+          "player": {
+            "name": "Hale Larkspur",
+            "position": "WR",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 14,
+          "round": 2,
+          "roundPick": 4,
+          "player": {
+            "name": "Otto Whitlock",
+            "position": "RB",
+            "nflTeam": "SF"
+          }
+        },
+        {
+          "overall": 27,
+          "round": 3,
+          "roundPick": 7,
+          "player": {
+            "name": "Dax Quarrington",
+            "position": "RB",
+            "nflTeam": "HOU"
+          }
+        },
+        {
+          "overall": 34,
+          "round": 4,
+          "roundPick": 4,
+          "player": {
+            "name": "Kip Dunmore",
+            "position": "WR",
+            "nflTeam": "DEN"
+          }
+        },
+        {
+          "overall": 47,
+          "round": 5,
+          "roundPick": 7,
+          "player": {
+            "name": "Zane Underhill",
+            "position": "WR",
+            "nflTeam": "TB"
+          }
+        },
+        {
+          "overall": 54,
+          "round": 6,
+          "roundPick": 4,
+          "player": {
+            "name": "Gus Ironwood",
+            "position": "RB",
+            "nflTeam": "ATL"
+          }
+        },
+        {
+          "overall": 67,
+          "round": 7,
+          "roundPick": 7,
+          "player": {
+            "name": "Bengals D/ST",
+            "position": "D/ST",
+            "nflTeam": "CIN"
+          }
+        },
+        {
+          "overall": 74,
+          "round": 8,
+          "roundPick": 4,
+          "player": {
+            "name": "Cael Northcott",
+            "position": "K",
+            "nflTeam": "LAC"
+          }
+        }
+      ]
+    }
   ]
 }

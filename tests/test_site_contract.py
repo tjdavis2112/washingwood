@@ -554,3 +554,12 @@ def test_example_2018_draft_is_offline_with_an_unrecorded_pick_and_2020_has_a_ds
     assert d2020["note"] is None
     assert all(p["player"] is not None for p in d2020["picks"])
     assert {"D/ST", "K"} <= {p["player"]["position"] for p in d2020["picks"]}
+
+
+def test_owner_example_drafts_start_with_the_round_1_pick_at_their_draft_slot():
+    for slug, doc in example_owners().items():
+        assert [d["year"] for d in doc["draft"]] == [s["year"] for s in doc["seasons"]], slug
+        for d in doc["draft"]:
+            first = d["picks"][0]
+            assert (first["round"], first["roundPick"]) == (1, d["slot"]), (slug, d["year"])
+            assert [p["round"] for p in d["picks"]] == sorted(p["round"] for p in d["picks"]), (slug, d["year"])

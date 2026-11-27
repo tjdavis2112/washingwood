@@ -265,5 +265,177 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Brask Bruisers",
+      "slot": 6,
+      "picks": [
+        {
+          "overall": 6,
+          "round": 1,
+          "roundPick": 6,
+          "player": {
+            "name": "Jett Varnell",
+            "position": "RB",
+            "nflTeam": "JAX"
+          }
+        },
+        {
+          "overall": 19,
+          "round": 2,
+          "roundPick": 7,
+          "player": {
+            "name": "Yates Oakhurst",
+            "position": "WR",
+            "nflTeam": "LAR"
+          }
+        },
+        {
+          "overall": 30,
+          "round": 3,
+          "roundPick": 6,
+          "player": {
+            "name": "Jett Whitlock",
+            "position": "TE",
+            "nflTeam": "JAX"
+          }
+        },
+        {
+          "overall": 43,
+          "round": 4,
+          "roundPick": 7,
+          "player": {
+            "name": "Yates Pemberly",
+            "position": "WR",
+            "nflTeam": "LAR"
+          }
+        },
+        {
+          "overall": 54,
+          "round": 5,
+          "roundPick": 6,
+          "player": {
+            "name": "Jett Yarrowby",
+            "position": "QB",
+            "nflTeam": "JAX"
+          }
+        },
+        {
+          "overall": 67,
+          "round": 6,
+          "roundPick": 7,
+          "player": {
+            "name": "Yates Quarrington",
+            "position": "RB",
+            "nflTeam": "LAR"
+          }
+        },
+        {
+          "overall": 78,
+          "round": 7,
+          "roundPick": 6,
+          "player": {
+            "name": "Dolphins D/ST",
+            "position": "D/ST",
+            "nflTeam": "MIA"
+          }
+        },
+        {
+          "overall": 91,
+          "round": 8,
+          "roundPick": 7,
+          "player": {
+            "name": "Yates Rookwood",
+            "position": "K",
+            "nflTeam": "LAR"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamName": "Brask Bruisers",
+      "slot": 3,
+      "picks": [
+        {
+          "overall": 3,
+          "round": 1,
+          "roundPick": 3,
+          "player": {
+            "name": "Dax Pemberly",
+            "position": "WR",
+            "nflTeam": "HOU"
+          }
+        },
+        {
+          "overall": 18,
+          "round": 2,
+          "roundPick": 8,
+          "player": {
+            "name": "Tobin Stonebrook",
+            "position": "RB",
+            "nflTeam": "CIN"
+          }
+        },
+        {
+          "overall": 23,
+          "round": 3,
+          "roundPick": 3,
+          "player": {
+            "name": "Zane Thistlewood",
+            "position": "TE",
+            "nflTeam": "TB"
+          }
+        },
+        {
+          "overall": 38,
+          "round": 4,
+          "roundPick": 8,
+          "player": {
+            "name": "Otto Yarrowby",
+            "position": "RB",
+            "nflTeam": "SF"
+          }
+        },
+        {
+          "overall": 43,
+          "round": 5,
+          "roundPick": 3,
+          "player": {
+            "name": "Upton Ashwick",
+            "position": "QB",
+            "nflTeam": "NO"
+          }
+        },
+        {
+          "overall": 58,
+          "round": 6,
+          "roundPick": 8,
+          "player": {
+            "name": "Kip Elderby",
+            "position": "WR",
+            "nflTeam": "DEN"
+          }
+        },
+        {
+          "overall": 63,
+          "round": 7,
+          "roundPick": 3,
+          "player": {
+            "name": "49ers D/ST",
+            "position": "D/ST",
+            "nflTeam": "SF"
+          }
+        },
+        {
+          "overall": 78,
+          "round": 8,
+          "roundPick": 8,
+          "player": null
+        }
+      ]
+    }
   ]
 }

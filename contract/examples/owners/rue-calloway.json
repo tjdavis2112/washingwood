@@ -271,5 +271,181 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Calloway Comets",
+      "slot": 11,
+      "picks": [
+        {
+          "overall": 11,
+          "round": 1,
+          "roundPick": 11,
+          "player": {
+            "name": "Otto Whitlock",
+            "position": "WR",
+            "nflTeam": "SF"
+          }
+        },
+        {
+          "overall": 14,
+          "round": 2,
+          "roundPick": 2,
+          "player": {
+            "name": "Sully Northcott",
+            "position": "RB",
+            "nflTeam": "IND"
+          }
+        },
+        {
+          "overall": 35,
+          "round": 3,
+          "roundPick": 11,
+          "player": {
+            "name": "Otto Yarrowby",
+            "position": "WR",
+            "nflTeam": "SF"
+          }
+        },
+        {
+          "overall": 38,
+          "round": 4,
+          "roundPick": 2,
+          "player": {
+            "name": "Sully Oakhurst",
+            "position": "RB",
+            "nflTeam": "IND"
+          }
+        },
+        {
+          "overall": 59,
+          "round": 5,
+          "roundPick": 11,
+          "player": {
+            "name": "Otto Ashwick",
+            "position": "TE",
+            "nflTeam": "SF"
+          }
+        },
+        {
+          "overall": 62,
+          "round": 6,
+          "roundPick": 2,
+          "player": {
+            "name": "Sully Pemberly",
+            "position": "WR",
+            "nflTeam": "IND"
+          }
+        },
+        {
+          "overall": 83,
+          "round": 7,
+          "roundPick": 11,
+          "player": {
+            "name": "Rams D/ST",
+            "position": "D/ST",
+            "nflTeam": "LAR"
+          }
+        },
+        {
+          "overall": 86,
+          "round": 8,
+          "roundPick": 2,
+          "player": {
+            "name": "Sully Quarrington",
+            "position": "K",
+            "nflTeam": "IND"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamName": "Calloway Comets",
+      "slot": 8,
+      "picks": [
+        {
+          "overall": 8,
+          "round": 1,
+          "roundPick": 8,
+          "player": {
+            "name": "Ivo Quarrington",
+            "position": "RB",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 13,
+          "round": 2,
+          "roundPick": 3,
+          "player": {
+            "name": "Nico Rookwood",
+            "position": "WR",
+            "nflTeam": "NYJ"
+          }
+        },
+        {
+          "overall": 28,
+          "round": 3,
+          "roundPick": 8,
+          "player": {
+            "name": "Ezra Varnell",
+            "position": "WR",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 33,
+          "round": 4,
+          "roundPick": 3,
+          "player": {
+            "name": "Jett Whitlock",
+            "position": "QB",
+            "nflTeam": "JAX"
+          }
+        },
+        {
+          "overall": 48,
+          "round": 5,
+          "roundPick": 8,
+          "player": {
+            "name": "Arlo Cindergate",
+            "position": "TE",
+            "nflTeam": "KC"
+          }
+        },
+        {
+          "overall": 53,
+          "round": 6,
+          "roundPick": 3,
+          "player": {
+            "name": "Fenn Dunmore",
+            "position": "QB",
+            "nflTeam": "MIN"
+          }
+        },
+        {
+          "overall": 68,
+          "round": 7,
+          "roundPick": 8,
+          "player": {
+            "name": "Ravens D/ST",
+            "position": "D/ST",
+            "nflTeam": "BAL"
+          }
+        },
+        {
+          "overall": 73,
+          "round": 8,
+          "roundPick": 3,
+          "player": {
+            "name": "Bram Ironwood",
+            "position": "K",
+            "nflTeam": "BAL"
+          }
+        }
+      ]
+    }
   ]
 }

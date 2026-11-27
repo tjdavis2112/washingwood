@@ -4,21 +4,13 @@
 // Phone: a list grouped by round, Picks in order. Cells are tinted by position (muted, non-metallic
 // tokens in global.css); the position is always written out too, so the tint is never the only signal.
 import OwnerLink from "./OwnerLink.astro";
+import { POSITION_TINTS, pickStyle } from "../data/positions";
 import { formatPick, type Draft, type DraftPick } from "../data/site-data";
 
 interface Props { draft: Draft }
 const { draft } = Astro.props;
 
-const TINTS: Record<string, string> = {
-  QB: "var(--color-pos-qb)",
-  RB: "var(--color-pos-rb)",
-  WR: "var(--color-pos-wr)",
-  TE: "var(--color-pos-te)",
-  K: "var(--color-pos-k)",
-  "D/ST": "var(--color-pos-dst)",
-};
-const tint = (p: DraftPick) => (p.player ? (TINTS[p.player.position] ?? "var(--color-pos-other)") : "transparent");
-const LEGEND = Object.keys(TINTS);
+const LEGEND = Object.keys(POSITION_TINTS);
 
 const rounds = Array.from({ length: draft.rounds }, (_, i) => i + 1);
 const slotOf = new Map(draft.order.map((o) => [o.owner.slug, o.slot]));
@@ -37,7 +29,7 @@ const grid = rounds.map((r) => {
     <ul aria-label="Position colors" class="flex flex-wrap gap-2 text-xs text-muted">
       {LEGEND.map((pos) => (
         <li class="flex items-center gap-1.5">
-          <span aria-hidden="true" class="inline-block size-3 rounded-sm" style={`background:${TINTS[pos]}`}></span>{pos}
+          <span aria-hidden="true" class="inline-block size-3 rounded-sm" style={`background:${POSITION_TINTS[pos]}`}></span>{pos}
         </li>
       ))}
     </ul>
@@ -71,7 +63,7 @@ const grid = rounds.map((r) => {
                   data-testid="draft-cell"
                   data-overall={p.overall}
                   class:list={["h-full rounded-lg border-l-4 px-2 py-1.5", p.player ? "" : "border-line bg-panel/40"]}
-                  style={p.player ? `border-color:${tint(p)};background:color-mix(in srgb, ${tint(p)} 35%, transparent)` : ""}
+                  style={pickStyle(p.player)}
                 >
                   <div class="flex items-baseline justify-between gap-1 text-[0.7rem] tabular-nums text-muted">
                     <span>{formatPick(p)}</span><span>#{p.overall}</span>
@@ -104,7 +96,7 @@ const grid = rounds.map((r) => {
               data-testid="draft-row"
               data-overall={p.overall}
               class:list={["flex items-center gap-3 rounded-lg border-l-4 px-3 py-2", p.player ? "" : "border-line bg-panel/40"]}
-              style={p.player ? `border-color:${tint(p)};background:color-mix(in srgb, ${tint(p)} 35%, transparent)` : ""}
+              style={pickStyle(p.player)}
             >
               <span class="w-10 shrink-0 text-xs tabular-nums text-muted">{formatPick(p)}</span>
               <span class="min-w-0 flex-1">

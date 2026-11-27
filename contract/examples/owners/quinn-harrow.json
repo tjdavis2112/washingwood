@@ -271,5 +271,181 @@
       },
       "meetings": 2
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Harrow Hammers",
+      "slot": 1,
+      "picks": [
+        {
+          "overall": 1,
+          "round": 1,
+          "roundPick": 1,
+          "player": {
+            "name": "Ezra Underhill",
+            "position": "WR",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 24,
+          "round": 2,
+          "roundPick": 12,
+          "player": {
+            "name": "Dax Quarrington",
+            "position": "RB",
+            "nflTeam": "HOU"
+          }
+        },
+        {
+          "overall": 25,
+          "round": 3,
+          "roundPick": 1,
+          "player": {
+            "name": "Ezra Varnell",
+            "position": "RB",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 48,
+          "round": 4,
+          "roundPick": 12,
+          "player": {
+            "name": "Dax Rookwood",
+            "position": "QB",
+            "nflTeam": "HOU"
+          }
+        },
+        {
+          "overall": 49,
+          "round": 5,
+          "roundPick": 1,
+          "player": {
+            "name": "Ezra Whitlock",
+            "position": "WR",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 72,
+          "round": 6,
+          "roundPick": 12,
+          "player": {
+            "name": "Dax Stonebrook",
+            "position": "QB",
+            "nflTeam": "HOU"
+          }
+        },
+        {
+          "overall": 73,
+          "round": 7,
+          "roundPick": 1,
+          "player": {
+            "name": "Chiefs D/ST",
+            "position": "D/ST",
+            "nflTeam": "KC"
+          }
+        },
+        {
+          "overall": 96,
+          "round": 8,
+          "roundPick": 12,
+          "player": {
+            "name": "Dax Thistlewood",
+            "position": "K",
+            "nflTeam": "HOU"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamName": "Harrow Hammers",
+      "slot": 10,
+      "picks": [
+        {
+          "overall": 10,
+          "round": 1,
+          "roundPick": 10,
+          "player": {
+            "name": "Kip Cindergate",
+            "position": "RB",
+            "nflTeam": "DEN"
+          }
+        },
+        {
+          "overall": 11,
+          "round": 2,
+          "roundPick": 1,
+          "player": {
+            "name": "Lark Hollowell",
+            "position": "WR",
+            "nflTeam": "MIA"
+          }
+        },
+        {
+          "overall": 30,
+          "round": 3,
+          "roundPick": 10,
+          "player": {
+            "name": "Gus Hollowell",
+            "position": "RB",
+            "nflTeam": "ATL"
+          }
+        },
+        {
+          "overall": 31,
+          "round": 4,
+          "roundPick": 1,
+          "player": {
+            "name": "Hale Merriweather",
+            "position": "WR",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 50,
+          "round": 5,
+          "roundPick": 10,
+          "player": {
+            "name": "Cael Merriweather",
+            "position": "WR",
+            "nflTeam": "LAC"
+          }
+        },
+        {
+          "overall": 51,
+          "round": 6,
+          "roundPick": 1,
+          "player": {
+            "name": "Dax Rookwood",
+            "position": "RB",
+            "nflTeam": "HOU"
+          }
+        },
+        {
+          "overall": 70,
+          "round": 7,
+          "roundPick": 10,
+          "player": {
+            "name": "Packers D/ST",
+            "position": "D/ST",
+            "nflTeam": "GB"
+          }
+        },
+        {
+          "overall": 71,
+          "round": 8,
+          "roundPick": 1,
+          "player": {
+            "name": "Zane Varnell",
+            "position": "K",
+            "nflTeam": "TB"
+          }
+        }
+      ]
+    }
   ]
 }

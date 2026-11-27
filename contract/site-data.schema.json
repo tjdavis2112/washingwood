@@ -109,7 +109,7 @@
       "description": "Everything one Owner's page shows. Exported as owners/<slug>.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["owner", "currentTeamName", "firstSeason", "lastSeason", "isFormer", "trophies", "career", "seasons", "headToHead"],
+      "required": ["owner", "currentTeamName", "firstSeason", "lastSeason", "isFormer", "trophies", "career", "seasons", "headToHead", "draft"],
       "properties": {
         "owner": { "description": "The Owner. The file name is its slug.", "$ref": "#/$defs/ownerRef" },
         "currentTeamName": { "description": "Current team name: the team name of the Owner's most recent Franchise.", "$ref": "#/$defs/teamName" },
@@ -159,6 +159,79 @@
               "finalRank": { "description": "Final place that Season, as in that Season's standings.", "type": "integer", "minimum": 1 },
               "podiumPlace": { "description": "1, 2 or 3 for a Podium finish, otherwise null.", "enum": [1, 2, 3, null] },
               "isLastPlace": { "description": "True if the Owner was that Season's Last place.", "type": "boolean" }
+            }
+          }
+        },
+        "draft": {
+          "description": "The Owner's Picks, one entry per Season they played, newest first.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "year",
+              "teamName",
+              "slot",
+              "picks"
+            ],
+            "properties": {
+              "year": {
+                "description": "The Season.",
+                "$ref": "#/$defs/year"
+              },
+              "teamName": {
+                "description": "The Owner's team name that Season.",
+                "$ref": "#/$defs/teamName"
+              },
+              "slot": {
+                "description": "The Owner's Draft slot that Season (their round-1 pick number).",
+                "type": "integer",
+                "minimum": 1
+              },
+              "picks": {
+                "description": "The Owner's Picks that Season, in pick order. The first is their round-1 Pick.",
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "overall",
+                    "round",
+                    "roundPick",
+                    "player"
+                  ],
+                  "properties": {
+                    "overall": {
+                      "description": "Overall pick number, from 1.",
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "round": {
+                      "description": "Round, from 1.",
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "roundPick": {
+                      "description": "Pick within the round, from 1.",
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "player": {
+                      "description": "The Player taken, or null when no Player was recorded for the Pick.",
+                      "oneOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "$ref": "#/$defs/draftPlayer"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
             }
           }
         },

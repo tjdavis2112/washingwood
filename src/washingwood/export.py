@@ -147,9 +147,16 @@ def owner_documents(conn: Connection) -> dict[str, dict]:
             }
         )
 
+    drafts = _owner_drafts(conn, head)
+
     docs = {}
     for owner_id, (name, team, first, last, is_former, titles, runner_ups) in head.items():
         rows = seasons[owner_id]
+        drafted = [d["year"] for d in drafts[owner_id]]
+        if drafted != [r["year"] for r in rows]:
+            raise ExportError(
+                f"Owner {name}: Draft Picks for Seasons {drafted}, but played {[r['year'] for r in rows]}"
+            )
         regular = {k: sum(r["record"][k] for r in rows) for k in ("wins", "losses", "ties")}
         games = sum(regular.values())
         if not games:
@@ -176,8 +183,29 @@ def owner_documents(conn: Connection) -> dict[str, dict]:
             },
             "seasons": rows,
             "headToHead": sorted(h2h[owner_id], key=lambda h: (-h["meetings"], h["opponent"]["name"])),
+            "draft": drafts[owner_id],
         }
     return dict(sorted(docs.items()))
+
+
+def _owner_drafts(conn: Connection, owners) -> dict[int, list[dict]]:
+    """owner_id -> one entry per Season, newest first, holding the Owner's Picks in pick order."""
+    drafts: dict[int, dict[int, dict]] = {owner_id: {} for owner_id in owners}
+    for owner_id, year, team, slot, overall, rnd, round_pick, name, position, nfl_team in conn.execute(
+        """SELECT owner_id, year, team_name, draft_slot, overall_pick, round, round_pick, player_name, position,
+                  nfl_team
+           FROM stats.draft_board ORDER BY year DESC, overall_pick"""
+    ).fetchall():
+        entry = drafts[owner_id].setdefault(year, {"year": year, "teamName": team, "slot": slot, "picks": []})
+        entry["picks"].append(
+            {
+                "overall": overall,
+                "round": rnd,
+                "roundPick": round_pick,
+                "player": None if name is None else {"name": name, "position": position, "nflTeam": nfl_team},
+            }
+        )
+    return {owner_id: list(by_year.values()) for owner_id, by_year in drafts.items()}
 
 
 def season_document(conn: Connection, year: int) -> dict:

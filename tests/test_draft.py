@@ -113,3 +113,31 @@ def test_every_picks_owner_holds_exactly_one_draft_slot(archive, owners, tmp_pat
     assert len(set(slugs)) == 12
     for p in draft["picks"]:
         assert p["owner"]["slug"] in slugs
+
+
+# --- Owner -> Draft tab (#26) ---
+
+
+def test_owner_document_lists_their_picks_per_season_newest_first(archive, owners, tmp_path, pg_dsn):
+    Season2018Style(2018, [team(k) for k in SEED_ORDER_10], draft_type="OFFLINE", unrecorded_picks={30}).write(archive)
+    season(2021).write(archive)
+    out = tmp_path / "export"
+    build(archive_dir=archive, owners_file=owners, out_dir=out, dsn=pg_dsn)
+    doc = json.loads((out / "owners" / "quinn-harrow.json").read_text(encoding="utf-8"))
+    validate(doc, "owner")
+
+    # Quinn is the top seed, so picks last in round 1: slot 10 of 10 in 2018, slot 12 of 12 in 2021
+    assert [(d["year"], d["teamName"], d["slot"]) for d in doc["draft"]] == [
+        (2021, "Harrow Hammers", 12),
+        (2018, "Harrow Hammers", 10),
+    ]
+    assert [(p["overall"], p["round"], p["roundPick"]) for p in doc["draft"][0]["picks"]] == [
+        (12, 1, 12),
+        (13, 2, 1),
+        (36, 3, 12),
+    ]
+    assert doc["draft"][0]["picks"][0]["player"] == {"name": "Fixture Player 012", "position": "K", "nflTeam": "KC"}
+    # 2018: picks 10, 11, 30; the last one was never recorded
+    assert [p["overall"] for p in doc["draft"][1]["picks"]] == [10, 11, 30]
+    assert doc["draft"][1]["picks"][-1]["player"] is None
+    assert "owner" not in doc["draft"][0]["picks"][0]  # it's this Owner's page: no Owner per Pick

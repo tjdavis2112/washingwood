@@ -237,5 +237,94 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Imber Embers",
+      "slot": 12,
+      "picks": [
+        {
+          "overall": 12,
+          "round": 1,
+          "roundPick": 12,
+          "player": {
+            "name": "Pax Dunmore",
+            "position": "RB",
+            "nflTeam": "GB"
+          }
+        },
+        {
+          "overall": 13,
+          "round": 2,
+          "roundPick": 1,
+          "player": {
+            "name": "Rook Ironwood",
+            "position": "WR",
+            "nflTeam": "PIT"
+          }
+        },
+        {
+          "overall": 36,
+          "round": 3,
+          "roundPick": 12,
+          "player": {
+            "name": "Pax Elderby",
+            "position": "TE",
+            "nflTeam": "GB"
+          }
+        },
+        {
+          "overall": 37,
+          "round": 4,
+          "roundPick": 1,
+          "player": {
+            "name": "Rook Juniper",
+            "position": "WR",
+            "nflTeam": "PIT"
+          }
+        },
+        {
+          "overall": 60,
+          "round": 5,
+          "roundPick": 12,
+          "player": {
+            "name": "Pax Foxhallow",
+            "position": "QB",
+            "nflTeam": "GB"
+          }
+        },
+        {
+          "overall": 61,
+          "round": 6,
+          "roundPick": 1,
+          "player": {
+            "name": "Rook Kettleby",
+            "position": "RB",
+            "nflTeam": "PIT"
+          }
+        },
+        {
+          "overall": 84,
+          "round": 7,
+          "roundPick": 12,
+          "player": {
+            "name": "Vikings D/ST",
+            "position": "D/ST",
+            "nflTeam": "MIN"
+          }
+        },
+        {
+          "overall": 85,
+          "round": 8,
+          "roundPick": 1,
+          "player": {
+            "name": "Rook Larkspur",
+            "position": "K",
+            "nflTeam": "PIT"
+          }
+        }
+      ]
+    }
   ]
 }
