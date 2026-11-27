@@ -2,7 +2,6 @@
 export const NAV = ["Home", "Seasons", "Owners", "Matchups", "Record Book", "Hall of Fame", "Draft", "Transactions", "League Rules"];
 
 export const COMING_SOON: Record<string, string> = {
-  "/matchups/": "Matchups",
   "/record-book/": "Record Book",
   "/hall-of-fame/": "Hall of Fame",
   "/transactions/": "Transactions",
@@ -19,5 +18,6 @@ export const ALL_PAGES = [
   "/owners/quinn-harrow/",
   "/owners/wren-solano/",
   "/draft/",
+  "/matchups/",
   ...Object.keys(COMING_SOON),
 ];

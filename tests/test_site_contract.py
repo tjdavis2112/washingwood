@@ -634,3 +634,22 @@ def test_value_fields_are_required_on_every_pick():
         del doc["draft"]["picks"][0][key]
         with pytest.raises(ContractError, match=key):
             validate(doc, "season")
+
+
+# --- Matchups (#37) ---
+
+
+def test_matchups_example_validates_and_agrees_with_the_season_examples():
+    from matchup_examples import derive
+
+    doc = load_example("matchups.json")
+    validate(doc, "matchups")
+    assert doc == derive()
+    assert [c["year"] for c in doc["championships"]] == sorted(example_seasons(), reverse=True)
+
+
+def test_a_championship_margin_cannot_be_negative():
+    doc = load_example("matchups.json")
+    doc["championships"][0]["margin"] = -1
+    with pytest.raises(ContractError, match="margin"):
+        validate(doc, "matchups")

@@ -1,0 +1,57 @@
+{
+  "championships": [
+    {
+      "year": 2020,
+      "matchupPeriod": 17,
+      "weeks": [
+        17
+      ],
+      "champion": {
+        "seed": 5,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "score": 87.46
+      },
+      "runnerUp": {
+        "seed": 2,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets",
+        "score": 78.47
+      },
+      "margin": 8.99
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 15,
+      "weeks": [
+        16,
+        17
+      ],
+      "champion": {
+        "seed": 1,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "score": 265.56
+      },
+      "runnerUp": {
+        "seed": 3,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets",
+        "score": 210.67
+      },
+      "margin": 54.89
+    }
+  ]
+}

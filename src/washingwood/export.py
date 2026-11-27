@@ -352,6 +352,33 @@ def _draft_grades(conn: Connection, year: int, by_franchise: dict[int, list[dict
     return sorted(grades, key=lambda g: (g["rank"], g["owner"]["name"]))
 
 
+def matchups_document(conn: Connection) -> dict:
+    """The Matchups section. Championship cards come from each Season's bracket final, so they always
+    agree with the Season pages."""
+    years = [y for (y,) in conn.execute("SELECT year FROM core.seasons ORDER BY year DESC").fetchall()]
+    if not years:
+        raise ExportError("no Seasons loaded")
+    return {"championships": [_championship(conn, year) for year in years]}
+
+
+def _championship(conn: Connection, year: int) -> dict:
+    final_round = _bracket(conn, year)["rounds"][-1]
+    (final,) = final_round["matchups"]
+    if final["winner"] not in ("home", "away"):
+        raise ExportError(f"Season {year}: the championship has no winner")
+    champion, runner_up = (
+        (final["home"], final["away"]) if final["winner"] == "home" else (final["away"], final["home"])
+    )
+    return {
+        "year": year,
+        "matchupPeriod": final_round["matchupPeriod"],
+        "weeks": final_round["weeks"],
+        "champion": champion,
+        "runnerUp": runner_up,
+        "margin": round(champion["score"] - runner_up["score"], 2),
+    }
+
+
 def draft_history(conn: Connection) -> dict:
     """The Draft section: every Season's first round, newest first (stats.draft_board)."""
     seasons: dict[int, dict] = {}

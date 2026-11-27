@@ -15,7 +15,7 @@ export type League = {
   champion: { owner: OwnerRef; teamName: string; year: number };
 };
 
-type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft";
+type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups";
 
 let ajv: Ajv2020 | undefined;
 let schemaId = "";
@@ -276,3 +276,20 @@ export const ordinal = (n: number) => {
   const tail = n % 100 >= 11 && n % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[n % 10] ?? "th";
   return `${n}${tail}`;
 };
+
+export type Championship = {
+  year: number;
+  matchupPeriod: number;
+  weeks: number[];
+  champion: BracketSide;
+  runnerUp: BracketSide;
+  margin: number;
+};
+export type MatchupsDoc = { championships: Championship[] };
+
+let matchupsDoc: MatchupsDoc | undefined;
+/** matchups.json: the Matchups section (championship cards, newest first). */
+export function getMatchups(): MatchupsDoc {
+  matchupsDoc ??= load<MatchupsDoc>("matchups.json", "matchups");
+  return matchupsDoc;
+}

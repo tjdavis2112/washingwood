@@ -61,6 +61,7 @@ def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list
             "trophy-shelf.json": (export.trophy_shelf(conn), "trophyShelf"),
             "owners.json": (export.owner_index(conn), "ownerIndex"),
             "draft.json": (export.draft_history(conn), "draft"),
+            "matchups.json": (export.matchups_document(conn), "matchups"),
         }
         for slug, doc in export.owner_documents(conn).items():
             docs[f"owners/{slug}.json"] = (doc, "owner")
