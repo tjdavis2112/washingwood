@@ -3,7 +3,7 @@
 The contract is the interface between the pipeline (Python) and the site (Astro).
 The schema has one entry point per document kind under `$defs`; see contract/README.md.
 
-    from site_contract import validate
+    from washingwood.contract import validate
     validate(doc, "season")  # raises ContractError listing every violation
 """
 
@@ -15,7 +15,8 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-CONTRACT_DIR = Path(__file__).resolve().parent.parent / "contract"
+# src/washingwood/contract.py -> repo root/contract
+CONTRACT_DIR = Path(__file__).resolve().parents[2] / "contract"
 SCHEMA_PATH = CONTRACT_DIR / "site-data.schema.json"
 EXAMPLES_DIR = CONTRACT_DIR / "examples"
 

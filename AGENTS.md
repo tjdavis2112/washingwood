@@ -7,8 +7,9 @@ Read `docs/GAMEPLAN.md` for scope, v1 definition, design direction and roadmap b
 ## Layout
 
 - `scripts/archive_espn.py`: pulls raw ESPN JSON to `archive/<league>/<year>/`
+- `src/washingwood/`: pipeline package. `build` (archive → Postgres → site data), `loader`, `owners`, `export`, `contract`
 - `db/schema.sql`: Postgres schema, three layers `raw` → `core` → `stats`
-- `contract/`: site-data contract (JSON Schema + invented example fixtures) between pipeline and site; `scripts/site_contract.py` validates against it
+- `contract/`: site-data contract (JSON Schema + invented example fixtures) between pipeline and site; `washingwood.contract` validates against it
 - `docs/GAMEPLAN.md`: scope, v1, design direction, ESPN API notes, gotchas
 - `docs/adr/`: decisions already made. Read the relevant ones before changing architecture.
 - `GLOSSARY.md`: domain terms. Use these words in code, issues and tests.
@@ -21,6 +22,7 @@ Read `docs/GAMEPLAN.md` for scope, v1 definition, design direction and roadmap b
 - `uv run pytest`: run tests
 - `uv run ruff check .` / `uv run ruff format .`: lint and format
 - `uv run python scripts/archive_espn.py --help`: archiver usage
+- `uv run python -m washingwood.build --help`: build site data (see `docs/guides/build-site-data.md`). Postgres-backed tests need Docker Desktop running.
 
 ## Rules
 

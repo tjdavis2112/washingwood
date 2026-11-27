@@ -1,21 +1,14 @@
-"""Tests for the site-data contract (scripts/site_contract.py + contract/).
+"""Tests for the site-data contract (washingwood.contract + contract/).
 
 All Owners and team names here are invented (ADR-0007).
 """
 
 import copy
-import importlib.util
 import json
-from pathlib import Path
 
 import pytest
 
-# scripts/ is not a package, so load the module by path
-_spec = importlib.util.spec_from_file_location(
-    "site_contract", Path(__file__).parent.parent / "scripts" / "site_contract.py"
-)
-site_contract = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(site_contract)
+from washingwood import contract as site_contract
 
 ContractError = site_contract.ContractError
 validate = site_contract.validate

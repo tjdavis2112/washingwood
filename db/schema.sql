@@ -304,6 +304,15 @@ CROSS JOIN LATERAL (VALUES
 ) AS side(franchise_id, opponent_id, points, opp_points)
 WHERE side.franchise_id IS NOT NULL AND m.away_franchise_id IS NOT NULL;
 
+-- Champion per season: winner of the championship Matchup, with its primary owner
+CREATE VIEW stats.champions AS
+SELECT s.year, f.franchise_id, f.team_name, fo.owner_id, fo.display_name
+FROM core.matchups m
+JOIN core.seasons s           ON s.season_id = m.season_id
+JOIN core.franchises f        ON f.franchise_id = m.winner_franchise_id
+JOIN stats.franchise_owner fo ON fo.franchise_id = f.franchise_id
+WHERE m.is_championship;
+
 -- Podium per season
 CREATE VIEW stats.podium AS
 SELECT s.year, f.final_rank, f.team_name, fo.display_name AS owner

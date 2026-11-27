@@ -1,0 +1,229 @@
+"""Load one Season of the ESPN archive into core.* (field paths: docs/research/espn-api.md).
+
+Idempotent per Season: re-loading a Season replaces its Franchises and Matchups (ADR-0001).
+ESPN IDs never become core keys: member IDs go to core.owner_external_ids, the league ID to
+core.league_platforms (ADR-0002).
+"""
+
+from __future__ import annotations
+
+import json
+from dataclasses import dataclass
+from pathlib import Path
+
+from psycopg import Connection
+from psycopg.types.json import Jsonb
+
+from washingwood.owners import OwnerMap, OwnerMappingError
+
+PLATFORM = "espn"
+
+# playoffTierType -> core.matchups.bracket (espn-api.md §3)
+BRACKETS = {
+    "NONE": None,
+    "WINNERS_BRACKET": "winners",
+    "WINNERS_CONSOLATION_LADDER": "consolation",
+    "LOSERS_CONSOLATION_LADDER": "toilet",
+}
+
+# lineupSlotId -> slot label (espn-api.md §5)
+SLOTS = {"0": "QB", "1": "TQB", "2": "RB", "3": "RB/WR", "4": "WR", "5": "WR/TE", "6": "TE", "7": "OP",
+         "16": "D/ST", "17": "K", "20": "BE", "21": "IR", "23": "FLEX"}  # fmt: skip
+
+STAT_PASS_TD, STAT_RECEPTION = 4, 53
+POSITION_WR, POSITION_TE = "3", "4"  # defaultPositionId keys of pointsOverrides
+
+
+class LoadError(ValueError):
+    """The archive doesn't have the shape the loader relies on."""
+
+
+@dataclass(frozen=True)
+class SeasonFiles:
+    year: int
+    settings: dict
+    teams: dict
+    matchups: dict
+    has_lineups: bool
+
+    @classmethod
+    def read(cls, season_dir: Path) -> SeasonFiles:
+        def load(name):
+            path = season_dir / f"{name}.json"
+            if not path.exists():
+                raise LoadError(f"Season {season_dir.name}: missing {path.name}")
+            return json.loads(path.read_text(encoding="utf-8"))
+
+        return cls(
+            year=int(season_dir.name),
+            settings=load("league_mSettings"),
+            teams=load("league_mTeam"),
+            matchups=load("league_mMatchupScore"),
+            has_lineups=_has_lineups(season_dir / "boxscore_w01.json"),
+        )
+
+
+def _has_lineups(boxscore: Path) -> bool:
+    """Data tier: full when week-1 box scores carry lineups (espn-api.md §4, §9)."""
+    if not boxscore.exists():
+        return False
+    doc = json.loads(boxscore.read_text(encoding="utf-8"))
+    return any(
+        side.get("rosterForCurrentScoringPeriod", {}).get("entries")
+        for m in doc.get("schedule", [])
+        for side in (m.get("home") or {}, m.get("away") or {})
+    )
+
+
+def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> None:
+    """Replace one Season's rows in core.* inside the caller's transaction."""
+    franchise_owners = _map_owners(files, owner_map)  # fail before touching the database
+    league_id = _upsert_league(conn, files)
+    season_id = _upsert_season(conn, league_id, files)
+
+    conn.execute(
+        "DELETE FROM core.franchise_owners WHERE franchise_id IN "
+        "(SELECT franchise_id FROM core.franchises WHERE season_id = %s)",
+        (season_id,),
+    )
+    conn.execute("DELETE FROM core.matchups WHERE season_id = %s", (season_id,))
+    conn.execute("DELETE FROM core.franchises WHERE season_id = %s", (season_id,))
+
+    franchise_ids = {}
+    for t in sorted(files.teams["teams"], key=lambda t: t["id"]):
+        rec = t["record"]["overall"]
+        franchise_ids[t["id"]] = conn.execute(
+            """INSERT INTO core.franchises (season_id, platform_team_id, team_name, abbrev, wins, losses, ties,
+                   points_for, points_against, playoff_seed, final_rank)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING franchise_id""",
+            (season_id, str(t["id"]), t["name"], t.get("abbrev"), rec["wins"], rec["losses"], rec["ties"],
+             rec["pointsFor"], rec["pointsAgainst"], t["playoffSeed"], t["rankCalculatedFinal"]),
+        ).fetchone()[0]  # fmt: skip
+        for owner, is_primary in franchise_owners[t["id"]]:
+            conn.execute(
+                "INSERT INTO core.franchise_owners (franchise_id, owner_id, is_primary) VALUES (%s, %s, %s)",
+                (franchise_ids[t["id"]], _upsert_owner(conn, owner), is_primary),
+            )
+
+    _matchups(conn, season_id, files, franchise_ids)
+
+
+def _map_owners(files: SeasonFiles, owner_map: OwnerMap):
+    """team id -> [(Owner, is_primary)]. Any unmapped member fails the build (ADR-0005)."""
+    result = {}
+    for t in files.teams["teams"]:
+        members = t.get("owners") or []
+        if not members:
+            raise OwnerMappingError(f"Season {files.year}: team {t['id']} ({t['name']}) has no ESPN members")
+        primary: dict = {}  # Owner -> is primary; one entry per Owner even if several of their accounts are listed
+        for member in members:
+            owner = owner_map.for_member(member)
+            if owner is None:
+                raise OwnerMappingError(
+                    f"Season {files.year}: team {t['id']} ({t['name']}) is not mapped. "
+                    f"Add ESPN member {member} to an Owner in owners.yaml."
+                )
+            primary[owner] = primary.get(owner, False) or member == t.get("primaryOwner")
+        mapped = list(primary.items())
+        if not any(p for _, p in mapped):
+            mapped[0] = (mapped[0][0], True)
+        result[t["id"]] = mapped
+    return result
+
+
+def _upsert_league(conn: Connection, files: SeasonFiles) -> int:
+    ext_id, name = str(files.settings["id"]), files.settings["settings"]["name"]
+    row = conn.execute(
+        "SELECT league_id FROM core.league_platforms WHERE platform = %s AND external_id = %s", (PLATFORM, ext_id)
+    ).fetchone()
+    if row:
+        return row[0]
+    league_id = conn.execute("INSERT INTO core.leagues (name) VALUES (%s) RETURNING league_id", (name,)).fetchone()[0]
+    conn.execute(
+        "INSERT INTO core.league_platforms (league_id, platform, external_id) VALUES (%s, %s, %s)",
+        (league_id, PLATFORM, ext_id),
+    )
+    return league_id
+
+
+def _upsert_season(conn: Connection, league_id: int, files: SeasonFiles) -> int:
+    s = files.settings["settings"]
+    sched = s["scheduleSettings"]
+    regular = sched["matchupPeriodCount"]
+    first_playoff = sched["matchupPeriods"].get(str(regular + 1))
+    items = {i["statId"]: i for i in s["scoringSettings"]["scoringItems"]}
+    reception = _points_for(items.get(STAT_RECEPTION), POSITION_WR)
+    te = _points_for(items.get(STAT_RECEPTION), POSITION_TE)
+    slots = {
+        SLOTS.get(k, k): v
+        for k, v in sorted(s["rosterSettings"]["lineupSlotCounts"].items(), key=lambda kv: int(kv[0]))
+        if v
+    }
+    pass_td = items.get(STAT_PASS_TD, {}).get("points")
+
+    return conn.execute(
+        """INSERT INTO core.seasons (league_id, year, platform, data_tier, team_count, regular_season_weeks,
+               playoff_team_count, playoff_start_week, reception_points, te_premium, pass_td_points, roster_slots)
+           VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+           ON CONFLICT (league_id, year) DO UPDATE SET
+               platform = EXCLUDED.platform, data_tier = EXCLUDED.data_tier, team_count = EXCLUDED.team_count,
+               regular_season_weeks = EXCLUDED.regular_season_weeks, playoff_team_count = EXCLUDED.playoff_team_count,
+               playoff_start_week = EXCLUDED.playoff_start_week, reception_points = EXCLUDED.reception_points,
+               te_premium = EXCLUDED.te_premium, pass_td_points = EXCLUDED.pass_td_points,
+               roster_slots = EXCLUDED.roster_slots
+           RETURNING season_id""",
+        (league_id, files.year, PLATFORM, "full" if files.has_lineups else "partial", s["size"],
+         max(sched["matchupPeriods"][str(regular)]), sched["playoffTeamCount"],
+         min(first_playoff) if first_playoff else None, reception,
+         (te - reception) if te is not None and reception is not None else 0, pass_td, Jsonb(slots)),
+    ).fetchone()[0]  # fmt: skip
+
+
+def _points_for(item: dict | None, position: str) -> float | None:
+    """Points for a stat at a position: the override if present, else the base (espn-api.md §1)."""
+    if item is None:
+        return None
+    return item.get("pointsOverrides", {}).get(position, item["points"])
+
+
+def _upsert_owner(conn: Connection, owner) -> int:
+    owner_id = conn.execute(
+        """INSERT INTO core.owners (display_name) VALUES (%s)
+           ON CONFLICT (display_name) DO UPDATE SET display_name = EXCLUDED.display_name RETURNING owner_id""",
+        (owner.name,),
+    ).fetchone()[0]
+    for member in owner.espn_members:
+        conn.execute(
+            """INSERT INTO core.owner_external_ids (owner_id, platform, external_id) VALUES (%s, %s, %s)
+               ON CONFLICT (platform, external_id) DO UPDATE SET owner_id = EXCLUDED.owner_id""",
+            (owner_id, PLATFORM, member),
+        )
+    return owner_id
+
+
+def _matchups(conn: Connection, season_id: int, files: SeasonFiles, franchise_ids: dict[int, int]) -> None:
+    periods = files.settings["settings"]["scheduleSettings"]["matchupPeriods"]
+    schedule = sorted(files.matchups["schedule"], key=lambda m: (m["matchupPeriodId"], m["id"]))
+    last = max(m["matchupPeriodId"] for m in schedule)
+    finals = [m for m in schedule if m["matchupPeriodId"] == last and m["playoffTierType"] == "WINNERS_BRACKET"]
+    if len(finals) != 1:
+        raise LoadError(
+            f"Season {files.year}: expected one WINNERS_BRACKET Matchup in period {last}, found {len(finals)}"
+        )
+
+    for m in schedule:
+        weeks = periods[str(m["matchupPeriodId"])]
+        home, away = m["home"], m.get("away")
+        winner = {"HOME": home, "AWAY": away}.get(m["winner"])
+        is_final = m is finals[0]
+        conn.execute(
+            """INSERT INTO core.matchups (season_id, matchup_period, first_week, last_week, home_franchise_id,
+                   away_franchise_id, home_points, away_points, winner_franchise_id, is_playoff, bracket,
+                   playoff_round, is_championship)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+            (season_id, m["matchupPeriodId"], min(weeks), max(weeks), franchise_ids[home["teamId"]],
+             franchise_ids[away["teamId"]] if away else None,
+             home["totalPoints"], away["totalPoints"] if away else None,
+             franchise_ids[winner["teamId"]] if winner else None, m["playoffTierType"] != "NONE",
+             BRACKETS[m["playoffTierType"]], "final" if is_final else None, is_final),
+        )  # fmt: skip

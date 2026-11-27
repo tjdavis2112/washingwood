@@ -45,7 +45,7 @@ The schema can't express a few rules, and the exporter has to guarantee them:
 **Python** (pipeline tests, exporter):
 
 ```python
-from site_contract import validate, ContractError  # scripts/site_contract.py
+from washingwood.contract import validate, ContractError
 validate(doc, "season")  # kinds: "league", "trophyShelf", "season"
 ```
 
