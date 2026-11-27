@@ -497,6 +497,62 @@
       }
     },
 
+    "matchups": {
+      "title": "Matchups document",
+      "description": "The Matchups section: championship cards (later also leaderboards and the rivalry grid). Exported as matchups.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "championships"
+      ],
+      "properties": {
+        "championships": {
+          "description": "One card per Season's championship Matchup, newest first. Each matches that Season's bracket.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "year",
+              "matchupPeriod",
+              "weeks",
+              "champion",
+              "runnerUp",
+              "margin"
+            ],
+            "properties": {
+              "year": {
+                "description": "The Season.",
+                "$ref": "#/$defs/year"
+              },
+              "matchupPeriod": {
+                "description": "The championship's Matchup period.",
+                "$ref": "#/$defs/matchupPeriod"
+              },
+              "weeks": {
+                "description": "The NFL Weeks it spans; two for a two-week final, whose scores are combined.",
+                "$ref": "#/$defs/weeks"
+              },
+              "champion": {
+                "description": "The Champion's side.",
+                "$ref": "#/$defs/bracketSide"
+              },
+              "runnerUp": {
+                "description": "The runner-up's side.",
+                "$ref": "#/$defs/bracketSide"
+              },
+              "margin": {
+                "description": "Margin: the Champion's score minus the runner-up's, rounded to 2 decimals.",
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          }
+        }
+      }
+    },
+
     "season": {
       "title": "Season document",
       "description": "Everything the Season page shows for one Season. Exported as seasons/<year>.json.",

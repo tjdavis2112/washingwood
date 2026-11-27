@@ -6,7 +6,7 @@ export const SECTIONS: Section[] = [
   { label: "Home", href: "/", built: true, blurb: "" },
   { label: "Seasons", href: "/seasons/", built: true, blurb: "" },
   { label: "Owners", href: "/owners/", built: true, blurb: "Every Owner's trophy case, career record and rivalries." },
-  { label: "Matchups", href: "/matchups/", built: false, blurb: "Every Matchup, bracket history, blowouts and upsets." },
+  { label: "Matchups", href: "/matchups/", built: true, blurb: "Every championship, the biggest blowouts and upsets, and every rivalry." },
   { label: "Record Book", href: "/record-book/", built: false, blurb: "Single-week, season and all-time records." },
   { label: "Hall of Fame", href: "/hall-of-fame/", built: false, blurb: "The league's legendary player seasons." },
   { label: "Draft", href: "/draft/", built: true, blurb: "Every Season's first round, and links to each draft board." },

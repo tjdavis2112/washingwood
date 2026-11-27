@@ -1,0 +1,53 @@
+---
+// The Matchups section (#36). This slice (#37): championship cards, one per Season's final, newest
+// first, each linking to that Season's bracket. Rivalries (#39) and Leaderboards (#38) join below.
+// Gold appears only on the trophy glyph (GAMEPLAN: metals only on trophies and medals).
+import OwnerLink from "../../components/OwnerLink.astro";
+import Trophy from "../../components/Trophy.astro";
+import { formatPoints, formatWeeks, getMatchups } from "../../data/site-data";
+import Base from "../../layouts/Base.astro";
+
+const { championships } = getMatchups();
+---
+<Base title="Matchups">
+  <header class="mb-8">
+    <h1 class="text-3xl font-black md:text-5xl">Matchups</h1>
+    <p class="mt-2 text-muted">Every championship game, newest first. Open a Season for its full bracket.</p>
+  </header>
+
+  <section aria-labelledby="championships-heading">
+    <h2 id="championships-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Championships</h2>
+    <ol class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {championships.map((c) => (
+        <li data-testid="championship" data-year={c.year} class="relative flex flex-col rounded-2xl border border-line bg-panel/60 p-5 transition-transform hover:-translate-y-0.5">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <a href={`/seasons/${c.year}/`} class="text-3xl font-black tabular-nums transition-colors hover:text-brand">{c.year}</a>
+              <p class="text-xs text-muted">{formatWeeks(c.weeks)}</p>
+            </div>
+            <Trophy class="size-10 shrink-0" />
+          </div>
+          <div class="mt-4 space-y-2">
+            <div class="flex items-baseline justify-between gap-3">
+              <span class="min-w-0">
+                <span class="mr-1 text-[0.65rem] font-semibold uppercase tracking-wider text-brand">Champion</span>
+                <OwnerLink owner={c.champion.owner} class="block truncate text-lg font-bold" />
+                <span class="block truncate text-xs text-muted">{c.champion.teamName} · seed {c.champion.seed}</span>
+              </span>
+              <span class="text-xl font-black tabular-nums">{formatPoints(c.champion.score!)}</span>
+            </div>
+            <div class="flex items-baseline justify-between gap-3 text-muted">
+              <span class="min-w-0">
+                <span class="mr-1 text-[0.65rem] font-semibold uppercase tracking-wider">Runner-up</span>
+                <OwnerLink owner={c.runnerUp.owner} class="block truncate font-semibold text-paper/80" />
+                <span class="block truncate text-xs">{c.runnerUp.teamName} · seed {c.runnerUp.seed}</span>
+              </span>
+              <span class="tabular-nums">{formatPoints(c.runnerUp.score!)}</span>
+            </div>
+          </div>
+          <p class="mt-4 border-t border-line pt-3 text-xs text-muted">Won by <span class="font-semibold text-paper">{formatPoints(c.margin)}</span></p>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Base>
