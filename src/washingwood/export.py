@@ -36,6 +36,30 @@ def league_summary(conn: Connection) -> dict:
     }
 
 
+def trophy_shelf(conn: Connection) -> dict:
+    """Every Owner, former Owners included, ordered by titles, then runner-ups (both descending), then name."""
+    rows = conn.execute(
+        """SELECT display_name, current_team_name, title_seasons, runner_up_seasons,
+                  first_season, last_season, is_former
+           FROM stats.trophy_shelf
+           ORDER BY cardinality(title_seasons) DESC, cardinality(runner_up_seasons) DESC, display_name"""
+    ).fetchall()
+    return {
+        "owners": [
+            {
+                "owner": _owner_ref(name),
+                "currentTeamName": team,
+                "titles": list(titles),
+                "runnerUps": list(runner_ups),
+                "firstSeason": first,
+                "lastSeason": last,
+                "isFormer": is_former,
+            }
+            for name, team, titles, runner_ups, first, last, is_former in rows
+        ]
+    }
+
+
 def season_document(conn: Connection, year: int) -> dict:
     """One Season's document. The bracket and weekly results join in #9 and #10."""
     team_count, data_tier = conn.execute(

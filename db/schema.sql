@@ -350,10 +350,36 @@ SELECT fo.owner_id, fo.display_name,
        sum(f.points_for)                                   AS points_for,
        count(*) FILTER (WHERE f.final_rank = 1)            AS titles,
        count(*) FILTER (WHERE f.final_rank = 2)            AS runner_ups,
-       count(*) FILTER (WHERE f.playoff_seed IS NOT NULL)  AS playoff_apps
+       -- Every Franchise has a seed (1..n); only seeds within the playoff field made the playoffs
+       count(*) FILTER (WHERE f.playoff_seed <= s.playoff_team_count) AS playoff_apps
 FROM core.franchises f
+JOIN core.seasons s ON s.season_id = f.season_id
 JOIN stats.franchise_owner fo ON fo.franchise_id = f.franchise_id
 GROUP BY fo.owner_id, fo.display_name;
+
+-- Trophy shelf: every Owner's titles and runner-up finishes (Season years), first and last Season,
+-- Current team name (their most recent Franchise's name) and whether they've left (no Franchise in
+-- the latest Season). Every Owner of a Franchise shares its honours, co-owners included, so this
+-- reads core.franchise_owners rather than the primary-owner view. Final places come from
+-- rankCalculatedFinal; the loader stops the build if they disagree with the championship Matchups.
+CREATE VIEW stats.trophy_shelf AS
+WITH owner_franchises AS (
+    SELECT o.owner_id, o.display_name, s.year, f.franchise_id, f.team_name, f.final_rank
+    FROM core.franchises f
+    JOIN core.seasons s           ON s.season_id = f.season_id
+    JOIN core.franchise_owners fo ON fo.franchise_id = f.franchise_id
+    JOIN core.owners o            ON o.owner_id = fo.owner_id
+)
+SELECT ofr.owner_id, ofr.display_name,
+       coalesce(array_agg(ofr.year ORDER BY ofr.year) FILTER (WHERE ofr.final_rank = 1), '{}') AS title_seasons,
+       coalesce(array_agg(ofr.year ORDER BY ofr.year) FILTER (WHERE ofr.final_rank = 2), '{}') AS runner_up_seasons,
+       min(ofr.year) AS first_season,
+       max(ofr.year) AS last_season,
+       -- Most recent Franchise; the best final rank breaks a tie if an Owner had two that Season
+       (array_agg(ofr.team_name ORDER BY ofr.year DESC, ofr.final_rank, ofr.franchise_id))[1] AS current_team_name,
+       max(ofr.year) < (SELECT max(year) FROM core.seasons) AS is_former
+FROM owner_franchises ofr
+GROUP BY ofr.owner_id, ofr.display_name;
 
 -- Head-to-head between owners
 CREATE VIEW stats.head_to_head AS

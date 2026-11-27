@@ -44,7 +44,10 @@ def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list
         for d in season_dirs:
             with conn.transaction():
                 load_season(conn, SeasonFiles.read(d), owner_map)
-        docs = {"league.json": (export.league_summary(conn), "league")}
+        docs = {
+            "league.json": (export.league_summary(conn), "league"),
+            "trophy-shelf.json": (export.trophy_shelf(conn), "trophyShelf"),
+        }
         for d in season_dirs:
             docs[f"seasons/{d.name}.json"] = (export.season_document(conn, int(d.name)), "season")
 
@@ -65,7 +68,7 @@ def _ensure_schema(conn: psycopg.Connection) -> None:
     if conn.execute("SELECT to_regclass('core.seasons')").fetchone()[0] is None:
         conn.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
         conn.commit()
-    elif conn.execute("SELECT to_regclass('stats.standings')").fetchone()[0] is None:  # newest view
+    elif conn.execute("SELECT to_regclass('stats.trophy_shelf')").fetchone()[0] is None:  # newest view
         raise BuildError("the database's schema predates db/schema.sql: drop and recreate the database, then re-run")
 
 

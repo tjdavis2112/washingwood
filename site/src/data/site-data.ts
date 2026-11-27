@@ -124,3 +124,20 @@ export function getSeason(year: number): Season {
 
 /** "9-5", or "8-5-1" when there were ties. */
 export const formatRecord = (r: WinLossTie) => (r.ties ? `${r.wins}-${r.losses}-${r.ties}` : `${r.wins}-${r.losses}`);
+
+export type ShelfEntry = {
+  owner: OwnerRef;
+  currentTeamName: string;
+  titles: number[];
+  runnerUps: number[];
+  firstSeason: number;
+  lastSeason: number;
+  isFormer: boolean;
+};
+
+let shelf: ShelfEntry[] | undefined;
+/** Every Owner, ordered by titles, then runner-ups, then name (the pipeline's order). */
+export function getTrophyShelf(): ShelfEntry[] {
+  shelf ??= load<{ owners: ShelfEntry[] }>("trophy-shelf.json", "trophyShelf").owners;
+  return shelf;
+}

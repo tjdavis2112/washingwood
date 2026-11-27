@@ -1,0 +1,49 @@
+---
+// The trophy shelf: one glass cabinet with a nameplate per Owner on its shelves (not cards).
+// Each title is a small gold trophy and each runner-up finish a silver one, labelled with its year.
+// Former Owners stay on the shelf, marked with their active years. Order comes from the pipeline:
+// titles, then runner-ups, then name.
+import { getTrophyShelf } from "../data/site-data";
+import Trophy from "./Trophy.astro";
+
+const owners = getTrophyShelf();
+const active = (first: number, last: number) => (first === last ? String(first) : `${first}–${last}`);
+---
+<section aria-labelledby="shelf-heading" class="relative overflow-hidden rounded-3xl border border-line bg-gradient-to-b from-panel/80 to-ink">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-white/[0.04] to-transparent"></div>
+  <h2 id="shelf-heading" class="px-5 pt-6 text-xs font-semibold uppercase tracking-[0.3em] text-muted md:px-8">Trophy shelf</h2>
+  <ul class="mt-2 grid sm:grid-cols-2 lg:grid-cols-3">
+    {owners.map((e) => (
+      <li class="flex items-end justify-between gap-4 border-b border-line/70 px-5 pb-3 pt-5 shadow-[inset_0_-3px_0_rgba(255,255,255,0.03)] md:px-8">
+        <div class="min-w-0">
+          <h3 class:list={["truncate text-base font-black", e.isFormer ? "text-muted" : "text-paper"]}>{e.owner.name}</h3>
+          <p class="truncate text-xs text-muted">{e.currentTeamName}</p>
+          {e.isFormer && (
+            <p class="mt-1 text-[0.7rem] font-semibold uppercase tracking-widest text-muted">
+              Former · {active(e.firstSeason, e.lastSeason)}
+            </p>
+          )}
+        </div>
+        <div class="flex shrink-0 items-end gap-2">
+          <ul aria-label="Titles" class="flex items-end gap-1.5">
+            {e.titles.map((y) => (
+              <li class="flex flex-col items-center">
+                <Trophy metal="gold" class="size-7 drop-shadow-[0_0_8px_color-mix(in_srgb,var(--color-gold)_35%,transparent)]" />
+                <span class="mt-0.5 text-[0.65rem] tabular-nums text-muted">{y}</span>
+              </li>
+            ))}
+          </ul>
+          <ul aria-label="Runner-up finishes" class="flex items-end gap-1.5">
+            {e.runnerUps.map((y) => (
+              <li class="flex flex-col items-center">
+                <Trophy metal="silver" class="size-5" />
+                <span class="mt-0.5 text-[0.65rem] tabular-nums text-muted">{y}</span>
+              </li>
+            ))}
+          </ul>
+          {e.titles.length + e.runnerUps.length === 0 && <span aria-hidden="true" class="pb-1 text-xs text-line">—</span>}
+        </div>
+      </li>
+    ))}
+  </ul>
+</section>

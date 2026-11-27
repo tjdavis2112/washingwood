@@ -7,7 +7,12 @@ How to turn the private archive into the JSON the site renders. This runs on you
 1. The build reads `owners.yaml`, which says which ESPN accounts belong to which **Owner**.
 2. It reads each Season folder in the archive (2018 onward): `league_mSettings.json`, `league_mTeam.json`, `league_mMatchupScore.json`.
 3. It loads them into Postgres `core.*`. Re-running replaces each Season's rows, so a re-run is always safe.
-4. It writes `export/league.json` and checks it against `contract/site-data.schema.json` before writing.
+4. It writes the site data to `export/`:
+   - `league.json`: the league summary and the current Champion
+   - `trophy-shelf.json`: every Owner's titles and runner-ups
+   - `seasons/<year>.json`: one per Season (Podium, Last place, standings, Scoring format, bracket, weekly results)
+
+   Every document is checked against `contract/site-data.schema.json` before any file is written.
 
 The build stops, writing nothing, if any team's ESPN account isn't in `owners.yaml`. The error names the Season and the team.
 
@@ -55,7 +60,7 @@ uv run --env-file .env python -m washingwood.build --archive archive/<league-id>
 - `--owners archive/owners.yaml`: the Owner mapping.
 - `--out export`: the output folder (gitignored).
 
-On success it prints `wrote export\league.json`. On failure it prints `build failed: ...` and exits 1.
+On success it prints a `wrote ...` line for each file. On failure it prints `build failed: ...`, writes nothing, and exits 1.
 
 ## Tests
 

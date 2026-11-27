@@ -313,6 +313,8 @@ PEOPLE = {
     "wren": ("Wren Solano", "Solano Sparks", "{00000000-0000-4000-8000-000000000010}"),
     "cass": ("Cass Imber", "Imber Embers", "{00000000-0000-4000-8000-000000000011}"),
     "jory": ("Jory Paxton", "Paxton Pistons", "{00000000-0000-4000-8000-000000000012}"),
+    # A 13th Owner, for Seasons where someone joins and someone else leaves
+    "nell": ("Nell Ashgrove", "Ashgrove Aces", "{00000000-0000-4000-8000-000000000013}"),
 }
 
 

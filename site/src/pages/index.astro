@@ -2,6 +2,7 @@
 import ChampionBanner from "../components/ChampionBanner";
 import SeasonGrid from "../components/SeasonGrid.astro";
 import Trophy from "../components/Trophy.astro";
+import TrophyShelf from "../components/TrophyShelf.astro";
 import { getLeague } from "../data/site-data";
 import Base from "../layouts/Base.astro";
 
@@ -13,6 +14,8 @@ const { champion } = league;
   <ChampionBanner client:visible ownerName={champion.owner.name} teamName={champion.teamName} year={champion.year}>
     <Trophy metal="gold" class="size-full" />
   </ChampionBanner>
+
+  <div class="mt-10"><TrophyShelf /></div>
 
   <section aria-labelledby="seasons-heading" class="mt-12">
     <h2 id="seasons-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Seasons</h2>
