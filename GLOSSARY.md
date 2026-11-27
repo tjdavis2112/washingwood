@@ -56,6 +56,12 @@ _Avoid_: Game, box score (a box score is the detailed view of a Matchup)
 **Lineup entry**:
 One **Player** on one **Franchise** in one **Week**, in a lineup slot. A starter unless the slot is bench or IR.
 
+**Box score**:
+The detailed view of one played **Matchup**: each side's **Lineup entries** with points and projections, and the totals. A two-week round shows each **Week**'s lineup.
+
+**Projected score**:
+The sum of a **Franchise**'s starters' platform projections for a **Week**, as the platform projected them before the games.
+
 **Champion**:
 The **Franchise** that wins a **Season**'s championship **Matchup**. Its **Owner** earns a title.
 _Avoid_: Winner (ambiguous with a weekly Matchup winner)
@@ -69,6 +75,21 @@ _Avoid_: Postseason record
 
 **Playoff appearance**:
 A **Season** in which a **Franchise**'s seed is within that Season's playoff field. A first-round bye counts.
+
+**Counted Matchup**:
+A regular-season **Matchup**, or a championship-bracket Matchup actually played, that spans a single **Week**. The set Matchup leaderboards draw from. Byes, the **Third-place game**, consolation Matchups and two-week rounds aren't counted.
+
+**Margin**:
+The winner's score minus the loser's in a played **Matchup**.
+
+**Playoff upset**:
+A championship-bracket **Matchup** won by the worse seed.
+
+**Projection upset**:
+A **Counted Matchup** won by the **Franchise** with the lower **Projected score**. Ranked by how far behind the winner was projected.
+
+**Rivalry**:
+Two **Owners**' head-to-head history: their records against each other (regular season and **Playoff record** rules) and every Matchup they've played, consolation games included but not counted.
 
 **Podium**:
 A **Season**'s **Champion**, runner-up and **Third-place game** winner.
