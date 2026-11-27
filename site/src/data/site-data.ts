@@ -15,7 +15,7 @@ export type League = {
   champion: { owner: OwnerRef; teamName: string; year: number };
 };
 
-type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season";
+type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft";
 
 let ajv: Ajv2020 | undefined;
 let schemaId = "";
@@ -218,4 +218,14 @@ const ownerDocs = new Map<string, OwnerDoc>();
 export function getOwner(slug: string): OwnerDoc {
   if (!ownerDocs.has(slug)) ownerDocs.set(slug, load<OwnerDoc>(`owners/${slug}.json`, "owner"));
   return ownerDocs.get(slug)!;
+}
+
+export type FirstRoundPick = { overall: number; owner: OwnerRef; teamName: string; player: DraftPlayer | null };
+export type DraftHistorySeason = { year: number; teamCount: number; type: "snake" | "offline"; firstRound: FirstRoundPick[] };
+
+let draftHistory: DraftHistorySeason[] | undefined;
+/** Every Season's first round, newest first (the pipeline's order). */
+export function getDraftHistory(): DraftHistorySeason[] {
+  draftHistory ??= load<{ seasons: DraftHistorySeason[] }>("draft.json", "draft").seasons;
+  return draftHistory;
 }

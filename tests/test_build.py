@@ -118,7 +118,15 @@ def test_rerunning_on_the_same_input_gives_byte_identical_output(archive, owners
 
     owner_files = [f"owners/{slugify(PEOPLE[k][0])}.json" for k in SEED_ORDER]
     assert sorted(first) == sorted(
-        ["league.json", "owners.json", "seasons/2020.json", "seasons/2021.json", "trophy-shelf.json", *owner_files]
+        [
+            "draft.json",
+            "league.json",
+            "owners.json",
+            "seasons/2020.json",
+            "seasons/2021.json",
+            "trophy-shelf.json",
+            *owner_files,
+        ]
     )
     assert snapshot() == first
 

@@ -1,0 +1,304 @@
+{
+  "seasons": [
+    {
+      "year": 2020,
+      "teamCount": 12,
+      "type": "snake",
+      "firstRound": [
+        {
+          "overall": 1,
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "player": {
+            "name": "Ezra Underhill",
+            "position": "WR",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 2,
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "teamName": "Ashgrove Aces",
+          "player": {
+            "name": "Fenn Barrowell",
+            "position": "RB",
+            "nflTeam": "MIN"
+          }
+        },
+        {
+          "overall": 3,
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "player": {
+            "name": "Gus Grimsby",
+            "position": "WR",
+            "nflTeam": "ATL"
+          }
+        },
+        {
+          "overall": 4,
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          },
+          "teamName": "Paxton Pistons",
+          "player": {
+            "name": "Hale Larkspur",
+            "position": "RB",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 5,
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "teamName": "Trice Tritons",
+          "player": {
+            "name": "Ivo Quarrington",
+            "position": "WR",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 6,
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "player": {
+            "name": "Jett Varnell",
+            "position": "RB",
+            "nflTeam": "JAX"
+          }
+        },
+        {
+          "overall": 7,
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vortex",
+          "player": {
+            "name": "Kip Cindergate",
+            "position": "WR",
+            "nflTeam": "DEN"
+          }
+        },
+        {
+          "overall": 8,
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "player": {
+            "name": "Lark Hollowell",
+            "position": "RB",
+            "nflTeam": "MIA"
+          }
+        },
+        {
+          "overall": 9,
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Fog",
+          "player": {
+            "name": "Moss Merriweather",
+            "position": "WR",
+            "nflTeam": "SEA"
+          }
+        },
+        {
+          "overall": 10,
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "player": {
+            "name": "Nico Rookwood",
+            "position": "RB",
+            "nflTeam": "NYJ"
+          }
+        },
+        {
+          "overall": 11,
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "player": {
+            "name": "Otto Whitlock",
+            "position": "WR",
+            "nflTeam": "SF"
+          }
+        },
+        {
+          "overall": 12,
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "player": {
+            "name": "Pax Dunmore",
+            "position": "RB",
+            "nflTeam": "GB"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamCount": 10,
+      "type": "offline",
+      "firstRound": [
+        {
+          "overall": 1,
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "player": {
+            "name": "Bram Foxhallow",
+            "position": "WR",
+            "nflTeam": "BAL"
+          }
+        },
+        {
+          "overall": 2,
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "teamName": "Trice Tritons",
+          "player": {
+            "name": "Cael Kettleby",
+            "position": "RB",
+            "nflTeam": "LAC"
+          }
+        },
+        {
+          "overall": 3,
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "player": {
+            "name": "Dax Pemberly",
+            "position": "WR",
+            "nflTeam": "HOU"
+          }
+        },
+        {
+          "overall": 4,
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "player": {
+            "name": "Ezra Underhill",
+            "position": "RB",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 5,
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "player": {
+            "name": "Fenn Barrowell",
+            "position": "WR",
+            "nflTeam": "MIN"
+          }
+        },
+        {
+          "overall": 6,
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Foxes",
+          "player": {
+            "name": "Gus Grimsby",
+            "position": "RB",
+            "nflTeam": "ATL"
+          }
+        },
+        {
+          "overall": 7,
+          "owner": {
+            "slug": "wren-solano",
+            "name": "Wren Solano"
+          },
+          "teamName": "Solano Sparks",
+          "player": {
+            "name": "Hale Larkspur",
+            "position": "WR",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 8,
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "player": {
+            "name": "Ivo Quarrington",
+            "position": "RB",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 9,
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vipers",
+          "player": {
+            "name": "Jett Varnell",
+            "position": "WR",
+            "nflTeam": "JAX"
+          }
+        },
+        {
+          "overall": 10,
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "player": {
+            "name": "Kip Cindergate",
+            "position": "RB",
+            "nflTeam": "DEN"
+          }
+        }
+      ]
+    }
+  ]
+}

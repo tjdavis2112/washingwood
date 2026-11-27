@@ -141,3 +141,31 @@ def test_owner_document_lists_their_picks_per_season_newest_first(archive, owner
     assert [p["overall"] for p in doc["draft"][1]["picks"]] == [10, 11, 30]
     assert doc["draft"][1]["picks"][-1]["player"] is None
     assert "owner" not in doc["draft"][0]["picks"][0]  # it's this Owner's page: no Owner per Pick
+
+
+# --- Draft section: first-round history (#27) ---
+
+
+def test_draft_history_lists_each_seasons_first_round_newest_first(archive, owners, tmp_path, pg_dsn):
+    Season2018Style(2018, [team(k) for k in SEED_ORDER_10], draft_type="OFFLINE", unrecorded_picks={30}).write(archive)
+    season(2021).write(archive)
+    out = tmp_path / "export"
+    build(archive_dir=archive, owners_file=owners, out_dir=out, dsn=pg_dsn)
+    doc = json.loads((out / "draft.json").read_text(encoding="utf-8"))
+    validate(doc, "draft")
+
+    assert [(s["year"], s["teamCount"], s["type"]) for s in doc["seasons"]] == [
+        (2021, 12, "snake"),
+        (2018, 10, "offline"),
+    ]
+    first_2021 = doc["seasons"][0]["firstRound"]
+    assert [p["overall"] for p in first_2021] == list(range(1, 13))
+    # Worst seed picks first in the fixture
+    assert first_2021[0] == {
+        "overall": 1,
+        "owner": owner("jory"),
+        "teamName": PEOPLE["jory"][1],
+        "player": {"name": "Fixture Player 001", "position": "RB", "nflTeam": "ATL"},
+    }
+    assert first_2021[-1]["owner"] == owner("quinn")
+    assert len(doc["seasons"][1]["firstRound"]) == 10
