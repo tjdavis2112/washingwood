@@ -1,0 +1,400 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://washingwood.xyz/contract/site-data.schema.json",
+  "title": "Washingwood site-data contract",
+  "description": "The interface between the pipeline and the site. Each document kind is an entry point under $defs: league, trophyShelf, season.",
+  "$defs": {
+    "league": {
+      "title": "League summary",
+      "description": "Site-wide facts shown on Home and in navigation. Exported as league.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["leagueName", "seasons", "champion"],
+      "properties": {
+        "leagueName": {
+          "description": "Display name of the League.",
+          "type": "string",
+          "minLength": 1
+        },
+        "seasons": {
+          "description": "Every Season with a Season document, oldest first.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["year", "teamCount"],
+            "properties": {
+              "year": { "description": "The Season's year.", "$ref": "#/$defs/year" },
+              "teamCount": { "description": "Number of Franchises in the Season.", "$ref": "#/$defs/teamCount" }
+            }
+          }
+        },
+        "champion": {
+          "description": "The Champion of the most recent Season.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["owner", "teamName", "year"],
+          "properties": {
+            "owner": { "description": "The Champion's Owner.", "$ref": "#/$defs/ownerRef" },
+            "teamName": { "description": "The Champion Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+            "year": { "description": "The Season the title was won.", "$ref": "#/$defs/year" }
+          }
+        }
+      }
+    },
+
+    "trophyShelf": {
+      "title": "Trophy shelf",
+      "description": "Every Owner's career honours, shown on Home. Exported as trophy-shelf.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owners"],
+      "properties": {
+        "owners": {
+          "description": "One entry per Owner, former Owners included. Ordered by title count, then runner-up count (both descending), then name.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["owner", "currentTeamName", "titles", "runnerUps", "firstSeason", "lastSeason", "isFormer"],
+            "properties": {
+              "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+              "currentTeamName": {
+                "description": "Current team name: the team name of the Owner's most recent Franchise.",
+                "$ref": "#/$defs/teamName"
+              },
+              "titles": { "description": "Seasons the Owner was Champion, oldest first.", "$ref": "#/$defs/yearList" },
+              "runnerUps": { "description": "Seasons the Owner lost the championship Matchup, oldest first.", "$ref": "#/$defs/yearList" },
+              "firstSeason": { "description": "The Owner's first Season in the League.", "$ref": "#/$defs/year" },
+              "lastSeason": { "description": "The Owner's most recent Season in the League.", "$ref": "#/$defs/year" },
+              "isFormer": { "description": "True if the Owner has no Franchise in the most recent Season.", "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+
+    "season": {
+      "title": "Season document",
+      "description": "Everything the Season page shows for one Season. Exported as seasons/<year>.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year", "teamCount", "dataTier", "scoringFormat", "podium", "lastPlace", "standings", "bracket", "weeklyResults"],
+      "properties": {
+        "year": { "description": "The Season's year.", "$ref": "#/$defs/year" },
+        "teamCount": { "description": "Number of Franchises in the Season.", "$ref": "#/$defs/teamCount" },
+        "dataTier": {
+          "description": "Data tier: how much detail survives for the Season. full = lineups, player stats, transactions; partial = league-level results, some detail missing.",
+          "enum": ["full", "partial"]
+        },
+        "scoringFormat": {
+          "description": "The Season's Scoring format.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["label", "receptionPoints", "tePremium", "keyValues", "rosterSlots"],
+          "properties": {
+            "label": { "description": "Headline format, e.g. \"PPR\", \"Half PPR\", \"Standard\", \"PPR + TE premium\".", "type": "string", "minLength": 1 },
+            "receptionPoints": { "description": "Points per reception for non-TE positions.", "type": "number" },
+            "tePremium": { "description": "Extra points per reception for a TE, on top of receptionPoints. 0 when there is no TE premium.", "type": "number", "minimum": 0 },
+            "keyValues": {
+              "description": "Headline scoring values to display, in display order.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["label", "points"],
+                "properties": {
+                  "label": { "description": "What is scored, with its unit, e.g. \"Passing TD\" or \"Rushing yard\".", "type": "string", "minLength": 1 },
+                  "points": { "description": "Points awarded for one unit (negative for penalties).", "type": "number" }
+                }
+              }
+            },
+            "rosterSlots": {
+              "description": "Lineup slots, in display order. Slots with a count of 0 are omitted.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["slot", "count"],
+                "properties": {
+                  "slot": { "description": "Slot label: QB, RB, WR, TE, FLEX, D/ST, K, BE or IR.", "type": "string", "minLength": 1 },
+                  "count": { "description": "How many of this slot a Franchise has.", "type": "integer", "minimum": 1 }
+                }
+              }
+            }
+          }
+        },
+        "podium": {
+          "description": "The Podium: Champion, runner-up and Third-place game winner, in that order.",
+          "type": "array",
+          "prefixItems": [
+            { "allOf": [{ "$ref": "#/$defs/podiumEntry" }, { "properties": { "place": { "const": 1 } } }] },
+            { "allOf": [{ "$ref": "#/$defs/podiumEntry" }, { "properties": { "place": { "const": 2 } } }] },
+            { "allOf": [{ "$ref": "#/$defs/podiumEntry" }, { "properties": { "place": { "const": 3 } } }] }
+          ],
+          "minItems": 3,
+          "items": false
+        },
+        "lastPlace": {
+          "description": "Last place: the Franchise with the highest playoffSeed (worst regular-season standing). Not derived from final rank.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["owner", "teamName", "record", "punishment"],
+          "properties": {
+            "owner": { "description": "The Last place Owner.", "$ref": "#/$defs/ownerRef" },
+            "teamName": { "description": "The Last place Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+            "record": { "description": "The Franchise's regular-season record.", "$ref": "#/$defs/record" },
+            "punishment": {
+              "description": "The Season's Punishment. Always null in v1; the site shows \"Punishment details coming soon\".",
+              "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/punishment" }]
+            }
+          }
+        },
+        "standings": {
+          "description": "Final standings, one entry per Franchise, ordered by rank.",
+          "type": "array",
+          "minItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["rank", "owner", "teamName", "record", "pointsFor", "pointsAgainst", "playoffSeed"],
+            "properties": {
+              "rank": { "description": "Final finish, 1 = Champion. Includes playoff and consolation results.", "type": "integer", "minimum": 1 },
+              "owner": { "description": "The Franchise's Owner.", "$ref": "#/$defs/ownerRef" },
+              "teamName": { "description": "The Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+              "record": { "description": "Regular-season record.", "$ref": "#/$defs/record" },
+              "pointsFor": { "description": "Regular-season points scored, including manual score adjustments (matches ESPN).", "type": "number" },
+              "pointsAgainst": { "description": "Regular-season points scored against the Franchise.", "type": "number" },
+              "playoffSeed": { "description": "Regular-season rank 1..teamCount with ESPN tiebreakers applied. The highest seed is Last place.", "type": "integer", "minimum": 1 }
+            }
+          }
+        },
+        "bracket": {
+          "description": "The winners' playoff bracket.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["rounds", "thirdPlaceGame"],
+          "properties": {
+            "rounds": {
+              "description": "Playoff rounds in order; the last is the championship, holding exactly one Matchup.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["name", "matchupPeriod", "weeks", "matchups"],
+                "properties": {
+                  "name": { "description": "Round name for display, e.g. \"Quarterfinals\", \"Semifinals\", \"Championship\".", "type": "string", "minLength": 1 },
+                  "matchupPeriod": { "description": "The Matchup period the round is played in.", "$ref": "#/$defs/matchupPeriod" },
+                  "weeks": { "description": "The NFL Weeks the round spans. Two Weeks for a two-week round, whose scores are combined.", "$ref": "#/$defs/weeks" },
+                  "matchups": {
+                    "description": "The round's Matchups, including first-round byes.",
+                    "type": "array",
+                    "minItems": 1,
+                    "items": { "$ref": "#/$defs/bracketMatchup" }
+                  }
+                }
+              }
+            },
+            "thirdPlaceGame": {
+              "description": "The Third-place game: the two semifinal losers. Its winner takes 3rd.",
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["matchupPeriod", "weeks", "matchup"],
+              "properties": {
+                "matchupPeriod": { "description": "The Matchup period it is played in (the championship's period).", "$ref": "#/$defs/matchupPeriod" },
+                "weeks": { "description": "The NFL Weeks it spans.", "$ref": "#/$defs/weeks" },
+                "matchup": {
+                  "description": "The Matchup itself. Never a bye.",
+                  "allOf": [{ "$ref": "#/$defs/bracketMatchup" }, { "properties": { "isBye": { "const": false } } }]
+                }
+              }
+            }
+          }
+        },
+        "weeklyResults": {
+          "description": "Every Matchup period in the Season, regular season and playoffs, in order.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["matchupPeriod", "weeks", "matchups"],
+            "properties": {
+              "matchupPeriod": { "description": "The Matchup period.", "$ref": "#/$defs/matchupPeriod" },
+              "weeks": { "description": "The NFL Weeks the Matchup period spans.", "$ref": "#/$defs/weeks" },
+              "matchups": {
+                "description": "Every Matchup in the period, consolation Matchups and byes included.",
+                "type": "array",
+                "minItems": 1,
+                "items": { "$ref": "#/$defs/weeklyMatchup" }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "podiumEntry": {
+      "description": "One Podium spot.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["place", "owner", "teamName", "record"],
+      "properties": {
+        "place": { "description": "1 = Champion, 2 = runner-up, 3 = Third-place game winner.", "type": "integer", "minimum": 1, "maximum": 3 },
+        "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+        "teamName": { "description": "The Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+        "record": { "description": "The Franchise's regular-season record.", "$ref": "#/$defs/record" }
+      }
+    },
+    "punishment": {
+      "description": "A filled-in Punishment. Not produced in v1.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "description", "image"],
+      "properties": {
+        "title": { "description": "Short title of the Punishment.", "type": "string", "minLength": 1 },
+        "description": { "description": "What the Owner had to do.", "type": "string" },
+        "image": { "description": "Site path of the picture, or null if there is none. Served behind the passphrase like everything else.", "type": ["string", "null"] }
+      }
+    },
+    "record": {
+      "description": "A win-loss-tie record.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wins", "losses", "ties"],
+      "properties": {
+        "wins": { "description": "Matchups won.", "type": "integer", "minimum": 0 },
+        "losses": { "description": "Matchups lost.", "type": "integer", "minimum": 0 },
+        "ties": { "description": "Matchups tied.", "type": "integer", "minimum": 0 }
+      }
+    },
+    "matchupPeriod": {
+      "description": "A Matchup period number, starting at 1.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "weeks": {
+      "description": "NFL Week numbers, ascending, no repeats.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "type": "integer", "minimum": 1 }
+    },
+    "weeklySide": {
+      "description": "One Franchise's side of a Matchup in weekly results.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "teamName", "score"],
+      "properties": {
+        "owner": { "description": "The Franchise's Owner.", "$ref": "#/$defs/ownerRef" },
+        "teamName": { "description": "The Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+        "score": { "description": "Points scored over the Matchup period, without manual adjustments (as ESPN shows them). Null only on a bye.", "type": ["number", "null"] }
+      }
+    },
+    "bracketSide": {
+      "description": "One Franchise's side of a playoff bracket Matchup.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["seed", "owner", "teamName", "score"],
+      "properties": {
+        "seed": { "description": "The Franchise's playoffSeed.", "type": "integer", "minimum": 1 },
+        "owner": { "description": "The Franchise's Owner.", "$ref": "#/$defs/ownerRef" },
+        "teamName": { "description": "The Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+        "score": { "description": "Points scored over the round, combined across both Weeks of a two-week round. Null only on a bye.", "type": ["number", "null"] }
+      }
+    },
+    "matchupRules": {
+      "description": "Consistency rules shared by every Matchup. A bye has no away side, no winner and is not a tie. Otherwise both sides have a score; a tie has no winner; anything else names its winner.",
+      "allOf": [
+        {
+          "if": { "properties": { "isBye": { "const": true } } },
+          "then": { "properties": { "away": { "type": "null" }, "winner": { "type": "null" }, "isTie": { "const": false } } },
+          "else": {
+            "properties": {
+              "home": { "properties": { "score": { "type": "number" } } },
+              "away": { "not": { "type": "null" }, "properties": { "score": { "type": "number" } } }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "isTie": { "const": true } } },
+          "then": { "properties": { "winner": { "type": "null" } } }
+        },
+        {
+          "if": { "properties": { "isBye": { "const": false }, "isTie": { "const": false } } },
+          "then": { "properties": { "winner": { "enum": ["home", "away"] } } }
+        }
+      ]
+    },
+    "weeklyMatchup": {
+      "description": "One Matchup in weekly results.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["home", "away", "winner", "isTie", "isBye"],
+      "properties": {
+        "home": { "description": "The home side. On a bye, the Franchise on the bye.", "$ref": "#/$defs/weeklySide" },
+        "away": { "description": "The away side; null on a bye.", "oneOf": [{ "$ref": "#/$defs/weeklySide" }, { "type": "null" }] },
+        "winner": { "description": "Which side won: \"home\", \"away\", or null for a tie or bye.", "enum": ["home", "away", null] },
+        "isTie": { "description": "True if both sides scored the same.", "type": "boolean" },
+        "isBye": { "description": "True if the home Franchise had no opponent.", "type": "boolean" }
+      },
+      "allOf": [{ "$ref": "#/$defs/matchupRules" }]
+    },
+    "bracketMatchup": {
+      "description": "One Matchup in the playoff bracket.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["home", "away", "winner", "isTie", "isBye"],
+      "properties": {
+        "home": { "description": "The home side (the higher seed). On a bye, the Franchise on the bye.", "$ref": "#/$defs/bracketSide" },
+        "away": { "description": "The away side; null on a bye.", "oneOf": [{ "$ref": "#/$defs/bracketSide" }, { "type": "null" }] },
+        "winner": { "description": "Which side advanced: \"home\" or \"away\". Null on a bye (the home Franchise advances without playing) or a tie.", "enum": ["home", "away", null] },
+        "isTie": { "description": "True if both sides scored the same. ESPN breaks playoff ties, so the exporter should rarely set this.", "type": "boolean" },
+        "isBye": { "description": "True for a first-round bye.", "type": "boolean" }
+      },
+      "allOf": [{ "$ref": "#/$defs/matchupRules" }]
+    },
+
+    "yearList": {
+      "description": "A set of Season years, oldest first, no repeats.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/year" }
+    },
+    "ownerRef": {
+      "description": "A reference to an Owner: a stable slug plus display name. The same slug always carries the same name.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "name"],
+      "properties": {
+        "slug": {
+          "description": "Stable, URL-safe identifier for the Owner. Lowercase words joined by hyphens. Never an ESPN ID (ADR-0002).",
+          "type": "string",
+          "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+        },
+        "name": {
+          "description": "The Owner's display name.",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "teamName": {
+      "description": "A Franchise's team name.",
+      "type": "string",
+      "minLength": 1
+    },
+    "year": {
+      "description": "A Season's year. Recorded history starts in 2018.",
+      "type": "integer",
+      "minimum": 2018
+    },
+    "teamCount": {
+      "description": "Number of Franchises in a Season.",
+      "type": "integer",
+      "minimum": 2
+    }
+  }
+}

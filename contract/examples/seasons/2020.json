@@ -1,0 +1,2822 @@
+{
+  "year": 2020,
+  "teamCount": 12,
+  "dataTier": "full",
+  "scoringFormat": {
+    "label": "PPR + TE premium",
+    "receptionPoints": 1,
+    "tePremium": 0.5,
+    "keyValues": [
+      {
+        "label": "Passing yard",
+        "points": 0.04
+      },
+      {
+        "label": "Passing TD",
+        "points": 4
+      },
+      {
+        "label": "Interception thrown",
+        "points": -2
+      },
+      {
+        "label": "Rushing yard",
+        "points": 0.1
+      },
+      {
+        "label": "Rushing TD",
+        "points": 6
+      },
+      {
+        "label": "Reception",
+        "points": 1
+      },
+      {
+        "label": "Receiving yard",
+        "points": 0.1
+      },
+      {
+        "label": "Receiving TD",
+        "points": 6
+      },
+      {
+        "label": "Fumble lost",
+        "points": -2
+      }
+    ],
+    "rosterSlots": [
+      {
+        "slot": "QB",
+        "count": 1
+      },
+      {
+        "slot": "RB",
+        "count": 2
+      },
+      {
+        "slot": "WR",
+        "count": 2
+      },
+      {
+        "slot": "TE",
+        "count": 1
+      },
+      {
+        "slot": "FLEX",
+        "count": 1
+      },
+      {
+        "slot": "D/ST",
+        "count": 1
+      },
+      {
+        "slot": "K",
+        "count": 1
+      },
+      {
+        "slot": "BE",
+        "count": 7
+      }
+    ]
+  },
+  "podium": [
+    {
+      "place": 1,
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "teamName": "Dorrow Drakes",
+      "record": {
+        "wins": 8,
+        "losses": 6,
+        "ties": 0
+      }
+    },
+    {
+      "place": 2,
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "teamName": "Calloway Comets",
+      "record": {
+        "wins": 10,
+        "losses": 4,
+        "ties": 0
+      }
+    },
+    {
+      "place": 3,
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "teamName": "Imber Embers",
+      "record": {
+        "wins": 10,
+        "losses": 4,
+        "ties": 0
+      }
+    }
+  ],
+  "lastPlace": {
+    "owner": {
+      "slug": "quinn-harrow",
+      "name": "Quinn Harrow"
+    },
+    "teamName": "Harrow Hammers",
+    "record": {
+      "wins": 3,
+      "losses": 11,
+      "ties": 0
+    },
+    "punishment": null
+  },
+  "standings": [
+    {
+      "rank": 1,
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "teamName": "Dorrow Drakes",
+      "record": {
+        "wins": 8,
+        "losses": 6,
+        "ties": 0
+      },
+      "pointsFor": 1585.77,
+      "pointsAgainst": 1648.45,
+      "playoffSeed": 5
+    },
+    {
+      "rank": 2,
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "teamName": "Calloway Comets",
+      "record": {
+        "wins": 10,
+        "losses": 4,
+        "ties": 0
+      },
+      "pointsFor": 1639.5,
+      "pointsAgainst": 1491.2,
+      "playoffSeed": 2
+    },
+    {
+      "rank": 3,
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "teamName": "Imber Embers",
+      "record": {
+        "wins": 10,
+        "losses": 4,
+        "ties": 0
+      },
+      "pointsFor": 1738.66,
+      "pointsAgainst": 1535.83,
+      "playoffSeed": 1
+    },
+    {
+      "rank": 4,
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "teamName": "Quist Quakes",
+      "record": {
+        "wins": 9,
+        "losses": 5,
+        "ties": 0
+      },
+      "pointsFor": 1753.12,
+      "pointsAgainst": 1522.21,
+      "playoffSeed": 3
+    },
+    {
+      "rank": 5,
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "teamName": "Vantor Vortex",
+      "record": {
+        "wins": 8,
+        "losses": 6,
+        "ties": 0
+      },
+      "pointsFor": 1543.99,
+      "pointsAgainst": 1507.96,
+      "playoffSeed": 6
+    },
+    {
+      "rank": 6,
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "teamName": "Fenwick Fog",
+      "record": {
+        "wins": 9,
+        "losses": 5,
+        "ties": 0
+      },
+      "pointsFor": 1626.25,
+      "pointsAgainst": 1545.76,
+      "playoffSeed": 4
+    },
+    {
+      "rank": 7,
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "teamName": "Brask Bruisers",
+      "record": {
+        "wins": 7,
+        "losses": 7,
+        "ties": 0
+      },
+      "pointsFor": 1637.51,
+      "pointsAgainst": 1535.73,
+      "playoffSeed": 7
+    },
+    {
+      "rank": 8,
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "teamName": "Trice Tritons",
+      "record": {
+        "wins": 6,
+        "losses": 8,
+        "ties": 0
+      },
+      "pointsFor": 1670.6,
+      "pointsAgainst": 1572.11,
+      "playoffSeed": 8
+    },
+    {
+      "rank": 9,
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "teamName": "Paxton Pistons",
+      "record": {
+        "wins": 6,
+        "losses": 8,
+        "ties": 0
+      },
+      "pointsFor": 1555.2,
+      "pointsAgainst": 1579.2,
+      "playoffSeed": 9
+    },
+    {
+      "rank": 10,
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "teamName": "Oake Oracles",
+      "record": {
+        "wins": 4,
+        "losses": 10,
+        "ties": 0
+      },
+      "pointsFor": 1467.52,
+      "pointsAgainst": 1782.86,
+      "playoffSeed": 10
+    },
+    {
+      "rank": 11,
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "teamName": "Ashgrove Aces",
+      "record": {
+        "wins": 4,
+        "losses": 10,
+        "ties": 0
+      },
+      "pointsFor": 1443.06,
+      "pointsAgainst": 1694.07,
+      "playoffSeed": 11
+    },
+    {
+      "rank": 12,
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "teamName": "Harrow Hammers",
+      "record": {
+        "wins": 3,
+        "losses": 11,
+        "ties": 0
+      },
+      "pointsFor": 1516.03,
+      "pointsAgainst": 1761.83,
+      "playoffSeed": 12
+    }
+  ],
+  "bracket": {
+    "rounds": [
+      {
+        "name": "Quarterfinals",
+        "matchupPeriod": 15,
+        "weeks": [
+          15
+        ],
+        "matchups": [
+          {
+            "home": {
+              "seed": 1,
+              "owner": {
+                "slug": "cass-imber",
+                "name": "Cass Imber"
+              },
+              "teamName": "Imber Embers",
+              "score": null
+            },
+            "away": null,
+            "winner": null,
+            "isTie": false,
+            "isBye": true
+          },
+          {
+            "home": {
+              "seed": 2,
+              "owner": {
+                "slug": "rue-calloway",
+                "name": "Rue Calloway"
+              },
+              "teamName": "Calloway Comets",
+              "score": null
+            },
+            "away": null,
+            "winner": null,
+            "isTie": false,
+            "isBye": true
+          },
+          {
+            "home": {
+              "seed": 3,
+              "owner": {
+                "slug": "marlo-quist",
+                "name": "Marlo Quist"
+              },
+              "teamName": "Quist Quakes",
+              "score": 97.33
+            },
+            "away": {
+              "seed": 6,
+              "owner": {
+                "slug": "pell-vantor",
+                "name": "Pell Vantor"
+              },
+              "teamName": "Vantor Vortex",
+              "score": 77.98
+            },
+            "winner": "home",
+            "isTie": false,
+            "isBye": false
+          },
+          {
+            "home": {
+              "seed": 4,
+              "owner": {
+                "slug": "lyle-fenwick",
+                "name": "Lyle Fenwick"
+              },
+              "teamName": "Fenwick Fog",
+              "score": 96.96
+            },
+            "away": {
+              "seed": 5,
+              "owner": {
+                "slug": "ines-dorrow",
+                "name": "Ines Dorrow"
+              },
+              "teamName": "Dorrow Drakes",
+              "score": 157.9
+            },
+            "winner": "away",
+            "isTie": false,
+            "isBye": false
+          }
+        ]
+      },
+      {
+        "name": "Semifinals",
+        "matchupPeriod": 16,
+        "weeks": [
+          16
+        ],
+        "matchups": [
+          {
+            "home": {
+              "seed": 1,
+              "owner": {
+                "slug": "cass-imber",
+                "name": "Cass Imber"
+              },
+              "teamName": "Imber Embers",
+              "score": 110.71
+            },
+            "away": {
+              "seed": 5,
+              "owner": {
+                "slug": "ines-dorrow",
+                "name": "Ines Dorrow"
+              },
+              "teamName": "Dorrow Drakes",
+              "score": 120.86
+            },
+            "winner": "away",
+            "isTie": false,
+            "isBye": false
+          },
+          {
+            "home": {
+              "seed": 2,
+              "owner": {
+                "slug": "rue-calloway",
+                "name": "Rue Calloway"
+              },
+              "teamName": "Calloway Comets",
+              "score": 152.63
+            },
+            "away": {
+              "seed": 3,
+              "owner": {
+                "slug": "marlo-quist",
+                "name": "Marlo Quist"
+              },
+              "teamName": "Quist Quakes",
+              "score": 83.32
+            },
+            "winner": "home",
+            "isTie": false,
+            "isBye": false
+          }
+        ]
+      },
+      {
+        "name": "Championship",
+        "matchupPeriod": 17,
+        "weeks": [
+          17
+        ],
+        "matchups": [
+          {
+            "home": {
+              "seed": 2,
+              "owner": {
+                "slug": "rue-calloway",
+                "name": "Rue Calloway"
+              },
+              "teamName": "Calloway Comets",
+              "score": 78.47
+            },
+            "away": {
+              "seed": 5,
+              "owner": {
+                "slug": "ines-dorrow",
+                "name": "Ines Dorrow"
+              },
+              "teamName": "Dorrow Drakes",
+              "score": 87.46
+            },
+            "winner": "away",
+            "isTie": false,
+            "isBye": false
+          }
+        ]
+      }
+    ],
+    "thirdPlaceGame": {
+      "matchupPeriod": 17,
+      "weeks": [
+        17
+      ],
+      "matchup": {
+        "home": {
+          "seed": 1,
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "score": 135.37
+        },
+        "away": {
+          "seed": 3,
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "score": 71.06
+        },
+        "winner": "home",
+        "isTie": false,
+        "isBye": false
+      }
+    }
+  },
+  "weeklyResults": [
+    {
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 114.05
+          },
+          "away": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 111.15
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 73.28
+          },
+          "away": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 80.4
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 143.98
+          },
+          "away": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 153.1
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 84.03
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 79.73
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 123.84
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 145.25
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 156.49
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 141.86
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 124.25
+          },
+          "away": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 115.77
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 98.21
+          },
+          "away": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 157.35
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 81.78
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 139.62
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 144.9
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 87.62
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 82.13
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 138.13
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 116.15
+          },
+          "away": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 143.17
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 78.32
+          },
+          "away": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 134.49
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 117.76
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 92.64
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 95.94
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 129.83
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 72.22
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 129.42
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 111.58
+          },
+          "away": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 106.19
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 73.56
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 74.04
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 4,
+      "weeks": [
+        4
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 108.41
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 135.41
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 126.6
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 123.93
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 89.14
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 155.36
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 81.37
+          },
+          "away": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 115.82
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 116.63
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 85.38
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 80.82
+          },
+          "away": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 112.34
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 5,
+      "weeks": [
+        5
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 112.1
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 134.39
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 86.07
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 111.52
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 124.23
+          },
+          "away": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 118.1
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 130.8
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 132.54
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 109.44
+          },
+          "away": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 124.92
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 138.37
+          },
+          "away": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 129.05
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 6,
+      "weeks": [
+        6
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 108.74
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 159.7
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 131.9
+          },
+          "away": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 127.27
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 147.0
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 77.19
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 79.07
+          },
+          "away": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 110.59
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 73.18
+          },
+          "away": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 99.95
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 72.71
+          },
+          "away": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 118.01
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 7,
+      "weeks": [
+        7
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 84.54
+          },
+          "away": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 85.33
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 120.96
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 72.5
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 147.06
+          },
+          "away": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 111.73
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 93.63
+          },
+          "away": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 114.15
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 73.87
+          },
+          "away": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 120.39
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 137.2
+          },
+          "away": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 143.93
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 8,
+      "weeks": [
+        8
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 132.85
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 91.22
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 92.92
+          },
+          "away": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 122.92
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 85.83
+          },
+          "away": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 157.88
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 98.1
+          },
+          "away": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 81.04
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 136.23
+          },
+          "away": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 110.76
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 137.57
+          },
+          "away": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 89.02
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 9,
+      "weeks": [
+        9
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 76.82
+          },
+          "away": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 118.41
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 134.98
+          },
+          "away": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 93.61
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 72.97
+          },
+          "away": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 114.69
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 104.92
+          },
+          "away": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 112.22
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 77.32
+          },
+          "away": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 130.94
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 131.11
+          },
+          "away": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 82.75
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 10,
+      "weeks": [
+        10
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 145.61
+          },
+          "away": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 148.2
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 132.5
+          },
+          "away": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 120.09
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 101.85
+          },
+          "away": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 137.01
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 108.97
+          },
+          "away": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 75.98
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 115.91
+          },
+          "away": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 112.04
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 82.51
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 131.18
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 11,
+      "weeks": [
+        11
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 109.2
+          },
+          "away": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 126.48
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 118.91
+          },
+          "away": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 70.26
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 156.38
+          },
+          "away": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 84.72
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 83.6
+          },
+          "away": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 145.73
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 140.24
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 110.23
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 121.64
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 96.49
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 94.84
+          },
+          "away": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 95.52
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 80.28
+          },
+          "away": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 128.91
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 92.38
+          },
+          "away": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 113.91
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 151.16
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 144.98
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 131.73
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 105.94
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 127.3
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 122.46
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 104.23
+          },
+          "away": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 147.24
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 108.22
+          },
+          "away": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 139.43
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 155.71
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 150.27
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 113.22
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 124.72
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 103.97
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 139.85
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 118.97
+          },
+          "away": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 135.49
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 14,
+      "weeks": [
+        14
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 122.07
+          },
+          "away": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 158.52
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 154.14
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 92.5
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 96.32
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 100.71
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 145.02
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 105.56
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 88.88
+          },
+          "away": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 95.99
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 154.86
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 123.53
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 15,
+      "weeks": [
+        15
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": null
+          },
+          "away": null,
+          "winner": null,
+          "isTie": false,
+          "isBye": true
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": null
+          },
+          "away": null,
+          "winner": null,
+          "isTie": false,
+          "isBye": true
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 97.33
+          },
+          "away": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 77.98
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 96.96
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 157.9
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 105.36
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 92.32
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 117.98
+          },
+          "away": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 144.85
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 94.58
+          },
+          "away": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 160.0
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 16,
+      "weeks": [
+        16
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 110.71
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 120.86
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 152.63
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 83.32
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 100.79
+          },
+          "away": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 117.75
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 153.69
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 109.22
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 148.84
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 101.86
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 155.38
+          },
+          "away": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 71.87
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    },
+    {
+      "matchupPeriod": 17,
+      "weeks": [
+        17
+      ],
+      "matchups": [
+        {
+          "home": {
+            "owner": {
+              "slug": "rue-calloway",
+              "name": "Rue Calloway"
+            },
+            "teamName": "Calloway Comets",
+            "score": 78.47
+          },
+          "away": {
+            "owner": {
+              "slug": "ines-dorrow",
+              "name": "Ines Dorrow"
+            },
+            "teamName": "Dorrow Drakes",
+            "score": 87.46
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "cass-imber",
+              "name": "Cass Imber"
+            },
+            "teamName": "Imber Embers",
+            "score": 135.37
+          },
+          "away": {
+            "owner": {
+              "slug": "marlo-quist",
+              "name": "Marlo Quist"
+            },
+            "teamName": "Quist Quakes",
+            "score": 71.06
+          },
+          "winner": "home",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "lyle-fenwick",
+              "name": "Lyle Fenwick"
+            },
+            "teamName": "Fenwick Fog",
+            "score": 85.08
+          },
+          "away": {
+            "owner": {
+              "slug": "pell-vantor",
+              "name": "Pell Vantor"
+            },
+            "teamName": "Vantor Vortex",
+            "score": 121.58
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "odie-brask",
+              "name": "Odie Brask"
+            },
+            "teamName": "Brask Bruisers",
+            "score": 87.39
+          },
+          "away": {
+            "owner": {
+              "slug": "abel-trice",
+              "name": "Abel Trice"
+            },
+            "teamName": "Trice Tritons",
+            "score": 97.25
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "jory-paxton",
+              "name": "Jory Paxton"
+            },
+            "teamName": "Paxton Pistons",
+            "score": 111.47
+          },
+          "away": {
+            "owner": {
+              "slug": "tamsin-oake",
+              "name": "Tamsin Oake"
+            },
+            "teamName": "Oake Oracles",
+            "score": 153.3
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        },
+        {
+          "home": {
+            "owner": {
+              "slug": "nell-ashgrove",
+              "name": "Nell Ashgrove"
+            },
+            "teamName": "Ashgrove Aces",
+            "score": 114.4
+          },
+          "away": {
+            "owner": {
+              "slug": "quinn-harrow",
+              "name": "Quinn Harrow"
+            },
+            "teamName": "Harrow Hammers",
+            "score": 115.9
+          },
+          "winner": "away",
+          "isTie": false,
+          "isBye": false
+        }
+      ]
+    }
+  ]
+}

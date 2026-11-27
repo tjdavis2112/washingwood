@@ -8,6 +8,7 @@ Read `docs/GAMEPLAN.md` for scope, v1 definition, design direction and roadmap b
 
 - `scripts/archive_espn.py`: pulls raw ESPN JSON to `archive/<league>/<year>/`
 - `db/schema.sql`: Postgres schema, three layers `raw` → `core` → `stats`
+- `contract/`: site-data contract (JSON Schema + invented example fixtures) between pipeline and site; `scripts/site_contract.py` validates against it
 - `docs/GAMEPLAN.md`: scope, v1, design direction, ESPN API notes, gotchas
 - `docs/adr/`: decisions already made. Read the relevant ones before changing architecture.
 - `GLOSSARY.md`: domain terms. Use these words in code, issues and tests.

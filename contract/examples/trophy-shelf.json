@@ -1,0 +1,167 @@
+{
+  "owners": [
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "currentTeamName": "Dorrow Drakes",
+      "titles": [
+        2020
+      ],
+      "runnerUps": [],
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "currentTeamName": "Harrow Hammers",
+      "titles": [
+        2018
+      ],
+      "runnerUps": [],
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "currentTeamName": "Calloway Comets",
+      "titles": [],
+      "runnerUps": [
+        2018,
+        2020
+      ],
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "currentTeamName": "Trice Tritons",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "currentTeamName": "Imber Embers",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2020,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "currentTeamName": "Paxton Pistons",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2020,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "currentTeamName": "Fenwick Fog",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "currentTeamName": "Quist Quakes",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "currentTeamName": "Ashgrove Aces",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2020,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "currentTeamName": "Brask Bruisers",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "currentTeamName": "Vantor Vortex",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "currentTeamName": "Oake Oracles",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2018,
+      "lastSeason": 2020,
+      "isFormer": false
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "currentTeamName": "Solano Sparks",
+      "titles": [],
+      "runnerUps": [],
+      "firstSeason": 2018,
+      "lastSeason": 2018,
+      "isFormer": true
+    }
+  ]
+}

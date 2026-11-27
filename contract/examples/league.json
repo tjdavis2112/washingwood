@@ -1,0 +1,21 @@
+{
+  "leagueName": "Example Fantasy League",
+  "seasons": [
+    {
+      "year": 2018,
+      "teamCount": 10
+    },
+    {
+      "year": 2020,
+      "teamCount": 12
+    }
+  ],
+  "champion": {
+    "owner": {
+      "slug": "ines-dorrow",
+      "name": "Ines Dorrow"
+    },
+    "teamName": "Dorrow Drakes",
+    "year": 2020
+  }
+}
