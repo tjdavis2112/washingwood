@@ -764,3 +764,22 @@ def test_a_box_score_entry_needs_points_even_if_null():
     del doc["matchups"][0]["home"]["weeks"][0]["starters"][0]["points"]
     with pytest.raises(ContractError, match="points"):
         validate(doc, "boxScores")
+
+
+# --- Record Book (#50) ---
+
+
+def test_record_book_example_validates_and_agrees_with_the_season_examples():
+    from record_book_examples import derive
+
+    doc = load_example("record-book.json")
+    validate(doc, "recordBook")
+    assert doc == derive()
+    assert [r["year"] for r in doc["lastPlace"]["seasons"]] == sorted(example_seasons(), reverse=True)
+
+
+def test_a_last_place_tally_count_must_be_at_least_one():
+    doc = load_example("record-book.json")
+    doc["lastPlace"]["tally"][0]["count"] = 0
+    with pytest.raises(ContractError, match="count"):
+        validate(doc, "recordBook")

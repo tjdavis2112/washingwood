@@ -62,6 +62,7 @@ def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list
             "owners.json": (export.owner_index(conn), "ownerIndex"),
             "draft.json": (export.draft_history(conn), "draft"),
             "matchups.json": (export.matchups_document(conn), "matchups"),
+            "record-book.json": (export.record_book_document(conn), "recordBook"),
         }
         for slug, doc in export.owner_documents(conn).items():
             docs[f"owners/{slug}.json"] = (doc, "owner")

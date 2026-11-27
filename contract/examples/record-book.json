@@ -1,0 +1,58 @@
+{
+  "lastPlace": {
+    "seasons": [
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "record": {
+          "wins": 3,
+          "losses": 11,
+          "ties": 0
+        },
+        "pointsFor": 1516.03,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "record": {
+          "wins": 5,
+          "losses": 8,
+          "ties": 0
+        },
+        "pointsFor": 1440.63,
+        "scoringFormat": "PPR"
+      }
+    ],
+    "tally": [
+      {
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "count": 1,
+        "years": [
+          2018
+        ]
+      },
+      {
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "count": 1,
+        "years": [
+          2020
+        ]
+      }
+    ]
+  }
+}

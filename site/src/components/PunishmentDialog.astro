@@ -2,7 +2,8 @@
 // The Punishment button and its popup: a native <dialog> (modal, Escape closes it, focus handled by
 // the browser). An inline script wires the button as soon as the HTML is parsed, so there's no
 // window where a click does nothing. Slots for picture, title and description are always there;
-// until a Season's Punishment is filled in they show a placeholder.
+// until a Season's Punishment is filled in they show a placeholder. Linking to #punishment-<year>
+// opens it on arrival.
 import type { Punishment } from "../data/site-data";
 
 interface Props { ownerName: string; year: number; punishment: Punishment | null }
@@ -46,6 +47,11 @@ const id = `punishment-${year}`;
     if (opener) return document.getElementById(opener.dataset.openDialog)?.showModal();
     if (e.target instanceof HTMLDialogElement) e.target.close();
   });
+</script>
+
+<script is:inline define:vars={{ id }}>
+  // A link to #punishment-<year> (e.g. from the Record Book) opens this Season's popup on arrival
+  if (location.hash === `#${id}`) document.getElementById(id)?.showModal();
 </script>
 
 <style>

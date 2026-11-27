@@ -1824,6 +1824,56 @@
         "record": { "description": "The Franchise's regular-season record.", "$ref": "#/$defs/record" }
       }
     },
+    "recordBook": {
+      "title": "Record Book document",
+      "description": "The Record Book section: cross-Season records. Single-game extremes stay in matchups.json. Exported as record-book.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lastPlace"],
+      "properties": {
+        "lastPlace": {
+          "description": "Last place history: every Season's Last place and how often each Owner has finished there.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["seasons", "tally"],
+          "properties": {
+            "seasons": {
+              "description": "One row per Season, newest first. Each matches that Season document's lastPlace.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["year", "owner", "teamName", "record", "pointsFor", "scoringFormat"],
+                "properties": {
+                  "year": { "description": "The Season.", "$ref": "#/$defs/year" },
+                  "owner": { "description": "The Last place Owner.", "$ref": "#/$defs/ownerRef" },
+                  "teamName": { "description": "The Last place Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+                  "record": { "description": "The Franchise's regular-season record.", "$ref": "#/$defs/record" },
+                  "pointsFor": { "description": "Regular-season points scored, as in that Season's standings.", "type": "number" },
+                  "scoringFormat": { "description": "The Season's Scoring format label (e.g. PPR, PPR + TE premium).", "type": "string", "minLength": 1 }
+                }
+              }
+            },
+            "tally": {
+              "description": "Every Owner with at least one Last place, ordered by count (descending), then name.",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["owner", "count", "years"],
+                "properties": {
+                  "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+                  "count": { "description": "How many Seasons they finished Last place.", "type": "integer", "minimum": 1 },
+                  "years": { "description": "Those Seasons, oldest first.", "$ref": "#/$defs/yearList" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "punishment": {
       "description": "A filled-in Punishment. Not produced in v1.",
       "type": "object",

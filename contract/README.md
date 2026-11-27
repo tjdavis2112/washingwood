@@ -12,6 +12,7 @@ The site-data contract is the interface between the **pipeline** (Python: archiv
 | `examples/owners.json`, `examples/owners/<slug>.json` | Example Owner index and Owner documents, derived from the other examples by `tests/owner_examples.py` (re-run it after changing them) |
 | `examples/matchups.json`, `examples/rivalries/<a>-vs-<b>.json` | Example Matchups document and Rivalry documents, derived from the Season examples and `owners.json` by `tests/matchup_examples.py` (re-run it after changing them) |
 | `examples/box-scores/<year>.json` | Example Box scores, invented (deterministically) from the Season examples by `tests/box_score_examples.py`: lineups use each Owner's example draft, and starters add up to each score (re-run it after changing the Season examples) |
+| `examples/record-book.json` | Example Record Book, derived from the Season examples by `tests/record_book_examples.py` (re-run it after changing them) |
 | `examples/draft.json` | Example Draft history, derived from the Season examples by `tests/draft_examples.py` (re-run it after changing them) |
 | `examples/seasons/2018.json` | Example 10-team Season: 4 playoff teams, two-week playoff rounds, a tie, one manual score adjustment, a Last place who wins a consolation Matchup, and an offline Draft with three Picks not recorded |
 | `examples/seasons/2020.json` | Example 12-team Season: 6 playoff teams, first-round byes, the Third-place game, a 5th-place Matchup, and a snake Draft |
@@ -33,6 +34,7 @@ The schema has one entry point per document under `$defs`:
 | Matchups | `#/$defs/matchups` | `matchups.json` |
 | Rivalry | `#/$defs/rivalry` | `rivalries/<a>-vs-<b>.json` |
 | Box scores | `#/$defs/boxScores` | `box-scores/<year>.json` |
+| Record Book | `#/$defs/recordBook` | `record-book.json` |
 
 ## Conventions
 
@@ -53,6 +55,7 @@ The schema can't express a few rules, and the exporter has to guarantee them:
 - `matchups.json` championships are newest first and match each Season's bracket final
 - `box-scores/<year>.json` exists for every Season with lineups and holds every played Matchup; each side's starters add up to its score
 - every pair in `rivalryGrid.records` has a Rivalry document (slugs in alphabetical order), and its records match both Owners' `headToHead` rows
+- `record-book.json` `lastPlace.seasons` is newest first, one row per Season, matching each Season's `lastPlace`; the tally is ordered by count (descending), then name
 - `draft.json` lists every Season newest first, and each `firstRound` is that Season's round-1 Picks in order
 - `standings` has one entry per Franchise and is ordered by `rank`
 - the Champion in the league summary matches the latest Season's Podium
@@ -67,7 +70,7 @@ from washingwood.contract import validate, ContractError
 
 validate(
     doc, "season"
-)  # kinds: "league", "trophyShelf", "ownerIndex", "owner", "season", "draft", "matchups", "rivalry", "boxScores"
+)  # kinds: "league", "trophyShelf", "ownerIndex", "owner", "season", "draft", "matchups", "rivalry", "boxScores", "recordBook"
 ```
 
 `ContractError.errors` lists every violation as `"/json/pointer: message"`.

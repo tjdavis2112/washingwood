@@ -15,7 +15,7 @@ export type League = {
   champion: { owner: OwnerRef; teamName: string; year: number };
 };
 
-type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups" | "rivalry" | "boxScores";
+type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups" | "rivalry" | "boxScores" | "recordBook";
 
 let ajv: Ajv2020 | undefined;
 let schemaId = "";
@@ -368,4 +368,15 @@ const boxScores = new Map<number, BoxScore[]>();
 export function getBoxScores(year: number): BoxScore[] {
   if (!boxScores.has(year)) boxScores.set(year, load<{ year: number; matchups: BoxScore[] }>(`box-scores/${year}.json`, "boxScores").matchups);
   return boxScores.get(year)!;
+}
+
+export type LastPlaceRow = { year: number; owner: OwnerRef; teamName: string; record: WinLossTie; pointsFor: number; scoringFormat: string };
+export type LastPlaceTally = { owner: OwnerRef; count: number; years: number[] };
+export type RecordBookDoc = { lastPlace: { seasons: LastPlaceRow[]; tally: LastPlaceTally[] } };
+
+let recordBookDoc: RecordBookDoc | undefined;
+/** record-book.json: the Record Book section (Last place history and tally). */
+export function getRecordBook(): RecordBookDoc {
+  recordBookDoc ??= load<RecordBookDoc>("record-book.json", "recordBook");
+  return recordBookDoc;
 }
