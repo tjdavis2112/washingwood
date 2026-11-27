@@ -459,3 +459,79 @@ def test_2018_style_two_week_rounds_show_combined_scores(archive, owners, tmp_pa
     third = doc["bracket"]["thirdPlaceGame"]
     assert (third["matchupPeriod"], third["weeks"]) == (15, [16, 17])
     assert third["matchup"] == bgame(bside(3, "odie", 120.5), bside(4, "rue", 101.25), "home")
+
+
+# --- Weekly results (#10) ---
+
+
+def wside(key, score):
+    name, team_name, _ = PEOPLE[key]
+    return {"owner": {"slug": slugify(name), "name": name}, "teamName": team_name, "score": score}
+
+
+def test_weekly_results_cover_every_matchup_period_in_order(archive, owners, tmp_path, pg_dsn):
+    season(2020).write(archive)
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2020)
+
+    validate(doc, "season")
+    periods = doc["weeklyResults"]
+    assert [(p["matchupPeriod"], p["weeks"]) for p in periods] == [(n, [n]) for n in range(1, 18)]
+    # Every Franchise appears exactly once in every period: 6 regular-season Matchups, and in the
+    # playoff periods byes, bracket, 5th-place and losers' ladder Matchups together
+    assert [len(p["matchups"]) for p in periods] == [6] * 14 + [7, 6, 6]
+    for p in periods:
+        slugs = [s["owner"]["slug"] for m in p["matchups"] for s in (m["home"], m["away"]) if s]
+        assert len(slugs) == len(set(slugs)) == 12, p["matchupPeriod"]
+
+
+def test_weekly_results_flag_byes_and_ties(archive, owners, tmp_path, pg_dsn):
+    # Period 3's first Matchup is a 110-110 tie; seeds 1 and 2 have byes in period 15
+    season(2020, tie_period=3).write(archive)
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2020)
+
+    by_period = {p["matchupPeriod"]: p["matchups"] for p in doc["weeklyResults"]}
+    ties = [m for m in by_period[3] if m["isTie"]]
+    assert len(ties) == 1
+    assert (ties[0]["winner"], ties[0]["home"]["score"], ties[0]["away"]["score"]) == (None, 110.0, 110.0)
+    assert not any(m["isTie"] for p, ms in by_period.items() if p != 3 for m in ms)
+
+    byes = [m for m in by_period[15] if m["isBye"]]
+    assert byes == [
+        # The bye team's score that Week, as ESPN records it (the bracket shows no score: no game)
+        {"home": wside("quinn", 110.25), "away": None, "winner": None, "isTie": False, "isBye": True},
+        {"home": wside("pell", 110.25), "away": None, "winner": None, "isTie": False, "isBye": True},
+    ]
+
+
+def test_weekly_scores_exclude_manual_adjustments_and_two_week_periods_combine(archive, owners, tmp_path, pg_dsn):
+    # Odie has a +2.5 manual adjustment on his period-4 Matchup. Points for includes it;
+    # the Matchup score must not (it's shown as ESPN shows it).
+    s = Season2018Style(2018, [team(k) for k in SEED_ORDER[:10]], adjustments={"odie": 2.5})
+    s.write(archive)
+    # Odie's raw score in that Matchup, straight from the ESPN-shaped fixture
+    period4 = [m for m in s.matchups()["schedule"] if m["matchupPeriodId"] == 4]
+    raw = next(m[side]["totalPoints"] for m in period4 for side in ("home", "away") if m[side]["adjustment"])
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2018)
+
+    exported4 = next(p for p in doc["weeklyResults"] if p["matchupPeriod"] == 4)["matchups"]
+    odie = next(g[side] for g in exported4 for side in ("home", "away") if g[side]["owner"]["slug"] == "odie-brask")
+    assert odie["score"] == raw  # 120.5 or 101.25, never with the 2.5 added
+    assert [(p["matchupPeriod"], p["weeks"]) for p in doc["weeklyResults"]][-2:] == [(14, [14, 15]), (15, [16, 17])]
+    final = next(g for g in doc["weeklyResults"][-1]["matchups"] if g["home"]["owner"]["slug"] == "quinn-harrow")
+    assert final["home"]["score"] == 120.5  # the two-week total, not one Week's 60.25
+
+
+def test_an_unplayed_matchup_fails_the_build(archive, owners, tmp_path, pg_dsn):
+    # Only finished Seasons are loaded, so a played Matchup must have a result: HOME, AWAY or TIE.
+    # (That's what lets "no winner" mean exactly "tie".)
+    season(2020).write(archive)
+    path = archive / "2020" / "league_mMatchupScore.json"
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    doc["schedule"][0]["winner"] = "UNDECIDED"
+    path.write_text(json.dumps(doc), encoding="utf-8")
+
+    with pytest.raises(LoadError, match="Season 2020.*no result"):
+        run_season(archive, owners, tmp_path, pg_dsn, 2020)

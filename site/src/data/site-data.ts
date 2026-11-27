@@ -68,7 +68,17 @@ export type Season = {
   scoringFormat: ScoringFormat;
   standings: StandingsRow[];
   bracket: Bracket;
+  weeklyResults: WeeklyPeriod[];
 };
+export type WeeklySide = { owner: OwnerRef; teamName: string; score: number | null };
+export type WeeklyMatchup = {
+  home: WeeklySide;
+  away: WeeklySide | null;
+  winner: "home" | "away" | null;
+  isTie: boolean;
+  isBye: boolean;
+};
+export type WeeklyPeriod = { matchupPeriod: number; weeks: number[]; matchups: WeeklyMatchup[] };
 export type BracketSide = { seed: number; owner: OwnerRef; teamName: string; score: number | null };
 export type BracketMatchup = {
   home: BracketSide;

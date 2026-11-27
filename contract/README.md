@@ -29,12 +29,12 @@ The schema has one entry point per document under `$defs`:
 - **Owners** are always `{"slug", "name"}`. The slug is stable and URL-safe, and is never an ESPN ID (ADR-0002). A given slug carries the same name in every document.
 - **Unknown fields are rejected** (`additionalProperties: false` everywhere). To add a field, change the schema first.
 - **Matchups** share one rule set:
-  - A bye has `away: null`, `winner: null`, `isTie: false`, and its home score may be null.
+  - A bye has `away: null`, `winner: null` and `isTie: false`. In weekly results its home score is what ESPN recorded for that Week; in the bracket it's null (no game was played).
   - Otherwise both scores are numbers. A tie has `winner: null`, and anything else has `winner` set to `"home"` or `"away"`.
 - **Two-week rounds** list both Weeks in `weeks`, and their scores are combined.
 - **Last place** is the highest `playoffSeed`, not the bottom of `standings`.
 - **`punishment`** is always present and is `null` in v1.
-- **Season sections join as they're exported.** A Season document must have `year`, `teamCount`, `dataTier`, `podium`, `lastPlace`, `scoringFormat`, `standings` and `bracket`. `weeklyResults` is validated when present, and becomes required when #10 exports it. The example fixtures already have them all.
+- **Every Season section is required.** The pipeline exports them all (#7 to #10).
 
 The schema can't express a few rules, and the exporter has to guarantee them:
 - the trophy shelf is ordered by titles, then runner-ups (both descending), then name

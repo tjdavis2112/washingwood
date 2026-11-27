@@ -77,11 +77,10 @@
 
     "season": {
       "title": "Season document",
-      "description": "Everything the Season page shows for one Season. Exported as seasons/<year>.json. Sections not yet exported by the pipeline may be absent; the site shows them as Coming soon.",
+      "description": "Everything the Season page shows for one Season. Exported as seasons/<year>.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["year", "teamCount", "dataTier", "podium", "lastPlace", "scoringFormat", "standings", "bracket"],
-      "$comment": "weeklyResults joins `required` when #10 exports it.",
+      "required": ["year", "teamCount", "dataTier", "podium", "lastPlace", "scoringFormat", "standings", "bracket", "weeklyResults"],
       "properties": {
         "year": { "description": "The Season's year.", "$ref": "#/$defs/year" },
         "teamCount": { "description": "Number of Franchises in the Season.", "$ref": "#/$defs/teamCount" },
@@ -291,7 +290,7 @@
       "properties": {
         "owner": { "description": "The Franchise's Owner.", "$ref": "#/$defs/ownerRef" },
         "teamName": { "description": "The Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
-        "score": { "description": "Points scored over the Matchup period, without manual adjustments (as ESPN shows them). Null only on a bye.", "type": ["number", "null"] }
+        "score": { "description": "Points scored over the Matchup period, without manual adjustments (as ESPN shows them). On a bye, the points ESPN recorded for the Franchise that Week, or null if none.", "type": ["number", "null"] }
       }
     },
     "bracketSide": {
@@ -307,7 +306,7 @@
       }
     },
     "matchupRules": {
-      "description": "Consistency rules shared by every Matchup. A bye has no away side, no winner and is not a tie. Otherwise both sides have a score; a tie has no winner; anything else names its winner.",
+      "description": "Consistency rules shared by every Matchup. A bye has no away side, no winner and is not a tie (its one score is optional). Otherwise both sides have a score; a tie has no winner; anything else names its winner.",
       "allOf": [
         {
           "if": { "properties": { "isBye": { "const": true } } },

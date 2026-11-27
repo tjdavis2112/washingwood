@@ -5,6 +5,8 @@ Output is deterministic: stable ordering, no timestamps.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+
 from psycopg import Connection
 
 from washingwood.loader import THIRD_PLACE
@@ -72,7 +74,102 @@ def season_document(conn: Connection, year: int) -> dict:
         "scoringFormat": _scoring_format(conn, year),
         "standings": standings,
         "bracket": _bracket(conn, year),
+        "weeklyResults": _weekly_results(conn, year),
     }
+
+
+@dataclass(frozen=True)
+class MatchupRow:
+    """One core.matchups row, as the bracket and weekly results read it."""
+
+    period: int
+    weeks: list[int]
+    playoff_round: str | None
+    home_id: int
+    away_id: int | None
+    home_points: float | None
+    away_points: float | None
+    winner_id: int | None
+
+    @property
+    def is_bye(self) -> bool:
+        return self.away_id is None
+
+    @property
+    def is_tie(self) -> bool:
+        # The loader refuses unplayed Matchups, so a played one with no winner is a tie
+        return not self.is_bye and self.winner_id is None
+
+
+def _matchup_rows(conn: Connection, year: int, only_bracket: bool = False) -> list[MatchupRow]:
+    """Matchups in ESPN's order. With only_bracket, the winners' bracket and the Third-place game."""
+    where = "AND (m.bracket = 'winners' OR m.playoff_round = %s)" if only_bracket else ""
+    params = (year, THIRD_PLACE) if only_bracket else (year,)
+    rows = conn.execute(
+        f"""SELECT m.matchup_period, m.first_week, m.last_week, m.playoff_round, m.home_franchise_id,
+                   m.away_franchise_id, m.home_points, m.away_points, m.winner_franchise_id
+            FROM core.matchups m JOIN core.seasons s USING (season_id)
+            WHERE s.year = %s {where} ORDER BY m.matchup_period, m.matchup_id""",
+        params,
+    ).fetchall()
+    return [
+        MatchupRow(p, list(range(first, last + 1)), r, h, a, hp, ap, w) for p, first, last, r, h, a, hp, ap, w in rows
+    ]
+
+
+@dataclass(frozen=True)
+class FranchiseInfo:
+    seed: int
+    owner: str
+    team_name: str
+
+
+def _franchises(conn: Connection, year: int) -> dict[int, FranchiseInfo]:
+    """franchise_id -> seed, Owner and team name (via stats.standings, so through franchise_owners)."""
+    rows = conn.execute(
+        "SELECT franchise_id, playoff_seed, owner, team_name FROM stats.standings WHERE year = %s", (year,)
+    ).fetchall()
+    return {fid: FranchiseInfo(seed, owner, team) for fid, seed, owner, team in rows}
+
+
+def _matchup_doc(row: MatchupRow, franchises: dict[int, FranchiseInfo], *, in_bracket: bool) -> dict:
+    """A Matchup in the contract's shape. In the bracket, sides carry seeds, the better seed is listed
+    first, and a bye shows no score (no game). In weekly results ESPN's order and bye score are kept."""
+    sides = [(row.home_id, row.home_points), (row.away_id, row.away_points)]
+    if in_bracket and not row.is_bye and franchises[row.away_id].seed < franchises[row.home_id].seed:
+        sides.reverse()  # the better seed is listed first, whichever side ESPN called home
+    (home_id, home_pts), (away_id, away_pts) = sides
+    if in_bracket and row.is_bye:
+        home_pts = None
+
+    def side(fid, points):
+        f = franchises[fid]
+        doc = {
+            "owner": _owner_ref(f.owner),
+            "teamName": f.team_name,
+            "score": None if points is None else float(points),
+        }
+        return {"seed": f.seed, **doc} if in_bracket else doc
+
+    return {
+        "home": side(home_id, home_pts),
+        "away": None if row.is_bye else side(away_id, away_pts),
+        "winner": None if row.is_bye or row.is_tie else ("home" if row.winner_id == home_id else "away"),
+        "isTie": row.is_tie,
+        "isBye": row.is_bye,
+    }
+
+
+def _weekly_results(conn: Connection, year: int) -> list[dict]:
+    """Every Matchup period in order, each with all of its Matchups (regular season, playoffs and
+    consolation games) in ESPN's order. Scores are ESPN's Matchup totals: no manual adjustments.
+    A team on a bye shows the points ESPN recorded for it that Week."""
+    franchises = _franchises(conn, year)
+    periods: dict[int, dict] = {}
+    for row in _matchup_rows(conn, year):
+        p = periods.setdefault(row.period, {"matchupPeriod": row.period, "weeks": row.weeks, "matchups": []})
+        p["matchups"].append(_matchup_doc(row, franchises, in_bracket=False))
+    return [periods[p] for p in sorted(periods)]
 
 
 # core.matchups.playoff_round -> round name shown on the site
@@ -83,59 +180,24 @@ def _bracket(conn: Connection, year: int) -> dict:
     """Winners' bracket rounds plus the Third-place game. Consolation games (5th place and the
     losers' ladder) aren't part of it. Scores are ESPN's Matchup totals, so a two-week round
     shows its combined score."""
-    rows = conn.execute(
-        """SELECT m.matchup_period, m.first_week, m.last_week, m.playoff_round,
-                  m.home_franchise_id, m.away_franchise_id, m.home_points, m.away_points, m.winner_franchise_id
-           FROM core.matchups m JOIN core.seasons s USING (season_id)
-           WHERE s.year = %s AND (m.bracket = 'winners' OR m.playoff_round = %s)
-           ORDER BY m.matchup_period""",
-        (year, THIRD_PLACE),
-    ).fetchall()
-    standing_by_franchise = {
-        fid: (seed, owner, team)
-        for fid, seed, owner, team in conn.execute(
-            "SELECT franchise_id, playoff_seed, owner, team_name FROM stats.standings WHERE year = %s", (year,)
-        ).fetchall()
-    }
-
-    def side(fid, points, is_bye):
-        seed, owner, team = standing_by_franchise[fid]
-        return {"seed": seed, "owner": _owner_ref(owner), "teamName": team, "score": None if is_bye else float(points)}
-
-    def matchup(home_id, away_id, home_pts, away_pts, winner_id):
-        is_bye = away_id is None
-        sides = [(home_id, home_pts), (away_id, away_pts)]
-        if not is_bye and standing_by_franchise[away_id][0] < standing_by_franchise[home_id][0]:
-            sides.reverse()  # the better seed is listed first, whichever side ESPN called home
-        (h_id, h_pts), (a_id, a_pts) = sides
-        is_tie = not is_bye and winner_id is None
-        winner = None if is_bye or is_tie else ("home" if winner_id == h_id else "away")
-        return {
-            "home": side(h_id, h_pts, is_bye),
-            "away": None if is_bye else side(a_id, a_pts, False),
-            "winner": winner,
-            "isTie": is_tie,
-            "isBye": is_bye,
-        }
-
+    franchises = _franchises(conn, year)
     rounds: dict[int, dict] = {}
     third = None
-    for period, first, last, label, home_id, away_id, home_pts, away_pts, winner_id in rows:
-        weeks = list(range(first, last + 1))
-        game = matchup(home_id, away_id, home_pts, away_pts, winner_id)
-        if label == THIRD_PLACE:
-            third = {"matchupPeriod": period, "weeks": weeks, "matchup": game}
+    for row in _matchup_rows(conn, year, only_bracket=True):
+        matchup = _matchup_doc(row, franchises, in_bracket=True)
+        if row.playoff_round == THIRD_PLACE:
+            third = {"matchupPeriod": row.period, "weeks": row.weeks, "matchup": matchup}
             continue
-        name = ROUND_NAMES.get(label) or (label or "Playoffs").title()
-        rounds.setdefault(period, {"name": name, "matchupPeriod": period, "weeks": weeks, "matchups": []})
-        rounds[period]["matchups"].append(game)
+        name = ROUND_NAMES.get(row.playoff_round) or (row.playoff_round or "Playoffs").title()
+        rounds.setdefault(row.period, {"name": name, "matchupPeriod": row.period, "weeks": row.weeks, "matchups": []})
+        rounds[row.period]["matchups"].append(matchup)
     if third is None or not rounds:
         raise ExportError(f"Season {year}: the bracket has no rounds or no Third-place game")
     final = rounds[max(rounds)]
     if len(final["matchups"]) != 1:
         raise ExportError(f"Season {year}: the championship round has {len(final['matchups'])} Matchups, not 1")
     for r in rounds.values():
-        r["matchups"].sort(key=lambda g: g["home"]["seed"])
+        r["matchups"].sort(key=lambda m: m["home"]["seed"])
     return {"rounds": [rounds[p] for p in sorted(rounds)], "thirdPlaceGame": third}
 
 

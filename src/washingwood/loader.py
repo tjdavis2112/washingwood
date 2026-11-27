@@ -221,6 +221,13 @@ def _upsert_owner(conn: Connection, owner) -> int:
 def _matchups(conn: Connection, season_id: int, files: SeasonFiles, franchise_ids: dict[int, int]) -> None:
     periods = files.settings["settings"]["scheduleSettings"]["matchupPeriods"]
     schedule = sorted(files.matchups["schedule"], key=lambda m: (m["matchupPeriodId"], m["id"]))
+    unplayed = [m for m in schedule if m.get("away") and m["winner"] not in ("HOME", "AWAY", "TIE")]
+    if unplayed:
+        m = unplayed[0]
+        raise LoadError(
+            f"Season {files.year}: {len(unplayed)} Matchup(s) have no result, e.g. period {m['matchupPeriodId']} "
+            f"({m['winner']}). Only finished Seasons can be loaded."
+        )
     final = _championship(files, schedule)
     third = _third_place_game(files, schedule)
     _check_against_espn_places(files, final, third)

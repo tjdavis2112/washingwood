@@ -23,6 +23,8 @@ import yaml
 
 LEAGUE_ID = "999001"  # invented
 WB, WCL, LCL = "WINNERS_BRACKET", "WINNERS_CONSOLATION_LADDER", "LOSERS_CONSOLATION_LADDER"
+# ESPN records what a team on a playoff bye scored that Week (the real archive has 62-204)
+BYE_POINTS = 110.25
 
 # Headline scoring items (statId -> base points), espn-api.md §5 statId
 BASE_SCORING = {3: 0.04, 4: 4.0, 20: -2.0, 24: 0.1, 25: 6.0, 42: 0.1, 43: 6.0, 72: -2.0}
@@ -51,6 +53,8 @@ class FixtureSeason:
     te_premium: bool = False
     # Manual score adjustments by team key: in points for, not in Matchup scores (espn-api.md §3)
     adjustments: dict[str, float] = field(default_factory=dict)
+    # Regular-season period whose first Matchup ends in a tie (both sides 110.0, winner TIE)
+    tie_period: int | None = None
 
     TEAMS = 0
     REGULAR_PERIODS = 0
@@ -82,6 +86,12 @@ class FixtureSeason:
             m = next(m for m in self._schedule if m["matchupPeriodId"] == 4 and self._ids[key] in self._team_ids(m))
             side = m["home"] if m["home"]["teamId"] == self._ids[key] else m["away"]
             side["adjustment"] = amount
+        if self.tie_period is not None:
+            m = next(m for m in self._schedule if m["matchupPeriodId"] == self.tie_period)
+            for side in (m["home"], m["away"]):
+                side["totalPoints"] = 110.0
+                side["pointsByScoringPeriod"] = {str(self.tie_period): 110.0}
+            m["winner"] = "TIE"
 
     def _playoffs(self):
         raise NotImplementedError
@@ -108,7 +118,7 @@ class FixtureSeason:
             "id": len(self._schedule) + 1,
             "matchupPeriodId": period,
             "playoffTierType": tier,
-            "home": self._side(home, hp if away else 0.0, period),
+            "home": self._side(home, hp if away else BYE_POINTS, period),
             "winner": "UNDECIDED" if away is None else ("HOME" if home_wins else "AWAY"),
         }
         if away is not None:
