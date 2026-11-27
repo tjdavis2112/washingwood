@@ -1,0 +1,84 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Oake Oracles",
+            "score": 93.83
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 144.47
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 50.64
+      }
+    }
+  ],
+  "meetings": 1,
+  "games": [
+    {
+      "year": 2018,
+      "matchupPeriod": 8,
+      "weeks": [
+        8
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Oake Oracles",
+          "score": 93.83
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 144.47
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 50.64
+    }
+  ]
+}

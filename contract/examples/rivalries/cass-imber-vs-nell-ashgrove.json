@@ -1,0 +1,106 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Imber Embers",
+            "score": 157.35
+          },
+          {
+            "teamName": "Ashgrove Aces",
+            "score": 98.21
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 59.14
+      }
+    },
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Imber Embers",
+          "score": 139.43
+        },
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 108.22
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 31.21
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Imber Embers",
+          "score": 157.35
+        },
+        {
+          "teamName": "Ashgrove Aces",
+          "score": 98.21
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 59.14
+    }
+  ]
+}

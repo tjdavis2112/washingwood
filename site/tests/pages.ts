@@ -19,5 +19,6 @@ export const ALL_PAGES = [
   "/owners/wren-solano/",
   "/draft/",
   "/matchups/",
+  "/matchups/abel-trice-vs-cass-imber/",
   ...Object.keys(COMING_SOON),
 ];

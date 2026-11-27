@@ -1,0 +1,150 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 5,
+        "weeks": [
+          5
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 72.16
+          },
+          {
+            "teamName": "Brask Bruisers",
+            "score": 132.79
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 60.63
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 17,
+      "weeks": [
+        17
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 97.25
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 87.39
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 9.86
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 16,
+      "weeks": [
+        16
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 109.22
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 153.69
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 44.47
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 7,
+      "weeks": [
+        7
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 93.63
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 114.15
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 20.52
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 5,
+      "weeks": [
+        5
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 72.16
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 132.79
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 60.63
+    }
+  ]
+}

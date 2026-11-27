@@ -660,3 +660,37 @@ def test_every_leaderboard_row_must_carry_its_scoring_format():
     del doc["leaderboards"]["blowouts"][0]["scoringFormat"]
     with pytest.raises(ContractError, match="scoringFormat"):
         validate(doc, "matchups")
+
+
+# --- Rivalries (#39) ---
+
+
+def test_rivalry_examples_validate_and_agree_with_the_season_examples():
+    from matchup_examples import derive_rivalries
+
+    files = {p.stem: load_example(f"rivalries/{p.name}") for p in sorted((EXAMPLES / "rivalries").glob("*.json"))}
+    assert files == derive_rivalries()
+    for name, doc in files.items():
+        validate(doc, "rivalry")
+        a, b = (s["owner"]["slug"] for s in doc["sides"])
+        assert name == f"{a}-vs-{b}" and a < b
+
+
+def test_rivalry_examples_match_the_owner_examples_head_to_head():
+    owners = example_owners()
+    for p in (EXAMPLES / "rivalries").glob("*.json"):
+        doc = load_example(f"rivalries/{p.name}")
+        for me, them in (doc["sides"], doc["sides"][::-1]):
+            row = next(r for r in owners[me["owner"]["slug"]]["headToHead"] if r["opponent"] == them["owner"])
+            assert (me["regularSeason"], me["playoffs"], doc["meetings"]) == (
+                row["regularSeason"],
+                row["playoffs"],
+                row["meetings"],
+            ), p.name
+
+
+def test_a_rivalry_game_winner_is_a_side_index_or_null():
+    doc = load_example(f"rivalries/{next((EXAMPLES / 'rivalries').glob('*.json')).name}")
+    doc["games"][0]["winner"] = 2
+    with pytest.raises(ContractError, match="winner"):
+        validate(doc, "rivalry")

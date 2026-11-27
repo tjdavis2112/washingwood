@@ -1,0 +1,171 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 14,
+        "weeks": [
+          14
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Calloway Comets",
+            "score": 154.86
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 123.53
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 31.33
+      }
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Calloway Comets",
+            "score": 110.12
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 126.36
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 16.24
+      }
+    }
+  ],
+  "meetings": 4,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 14,
+      "weeks": [
+        14
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Calloway Comets",
+          "score": 154.86
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 123.53
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 31.33
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Calloway Comets",
+          "score": 73.56
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 74.04
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 0.48
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 11,
+      "weeks": [
+        11
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Calloway Comets",
+          "score": 110.12
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 126.36
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 16.24
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Calloway Comets",
+          "score": 157.31
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 131.6
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 25.71
+    }
+  ]
+}

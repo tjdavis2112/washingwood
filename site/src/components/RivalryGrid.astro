@@ -1,0 +1,103 @@
+---
+// The rivalry grid (#39): every Owner against every other, records under the head-to-head rules
+// (regular season plus playoffs). Desktop: a matrix, rows = Owner, columns = opponent, each cell the
+// row Owner's W-L linking to the Rivalry page, tinted by win rate in neutral greys (the Draft
+// steal/bust colors aren't reused). Phone: an Owner picker showing that Owner's row as a list.
+import OwnerLink from "./OwnerLink.astro";
+import { rivalryPath, type RivalryGrid } from "../data/site-data";
+
+interface Props { grid: RivalryGrid }
+const { grid } = Astro.props;
+
+const key = (a: string, b: string) => `${a}|${b}`;
+const records = new Map(grid.records.map((r) => [key(r.owner, r.opponent), r]));
+const recordText = (r: { wins: number; losses: number; ties: number }) => (r.ties ? `${r.wins}-${r.losses}-${r.ties}` : `${r.wins}-${r.losses}`);
+const winRate = (r: { wins: number; losses: number; ties: number }) => (r.wins + r.ties / 2) / (r.wins + r.losses + r.ties);
+// Neutral grey tint: stronger for a better record
+const tint = (rate: number) => `background:rgb(255 255 255 / ${(0.03 + rate * 0.27).toFixed(3)})`;
+const short = (name: string) => {
+  const [first, ...rest] = name.split(" ");
+  return rest.length ? `${first} ${rest[rest.length - 1][0]}.` : first;
+};
+---
+<section aria-labelledby="rivalries-heading" data-testid="rivalry-grid" data-rivalry-grid>
+  <h2 id="rivalries-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Rivalries</h2>
+  <p class="mt-2 text-xs text-muted">
+    Each Owner's record against every other: regular season plus playoff games (not the third-place or consolation
+    games). Lighter cells are better records. Open a pair for every game they've played.
+  </p>
+
+  <!-- Desktop: the matrix -->
+  <div class="mt-4 hidden overflow-x-auto rounded-2xl border border-line md:block">
+    <table aria-label="Rivalry grid" class="border-collapse text-xs">
+      <thead class="bg-panel text-muted">
+        <tr>
+          <th scope="col" class="sticky left-0 z-10 bg-panel px-3 py-2 text-left">Owner ↓ vs →</th>
+          {grid.owners.map((o) => (
+            <th scope="col" class="min-w-[4.5rem] px-1 py-2 text-center font-semibold" title={o.name}>{short(o.name)}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {grid.owners.map((row) => (
+          <tr class="border-t border-line">
+            <th scope="row" class="sticky left-0 z-10 bg-ink px-3 py-1.5 text-left whitespace-nowrap"><OwnerLink owner={row} class="font-semibold" /></th>
+            {grid.owners.map((col) => {
+              if (row.slug === col.slug) return <td class="p-0.5 text-center text-muted" aria-label="Same Owner">—</td>;
+              const r = records.get(key(row.slug, col.slug));
+              if (!r) return <td class="p-0.5" aria-label={`${row.name} and ${col.name} never met`}></td>;
+              return (
+                <td class="p-0.5">
+                  <a
+                    href={rivalryPath(row.slug, col.slug)}
+                    data-testid="grid-cell"
+                    data-owner={row.slug}
+                    data-opponent={col.slug}
+                    aria-label={`${row.name} vs ${col.name}: ${recordText(r)}`}
+                    class="block rounded-md px-1 py-1.5 text-center font-semibold tabular-nums transition-colors hover:outline hover:outline-1 hover:outline-brand"
+                    style={tint(winRate(r))}
+                  >{recordText(r)}</a>
+                </td>
+              );
+            })}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Phone: pick an Owner, see their row -->
+  <div class="mt-4 md:hidden">
+    <label class="flex items-center gap-3 text-sm">
+      <span class="text-muted">Owner</span>
+      <select data-rivalry-picker class="min-w-0 flex-1 rounded-lg border border-line bg-panel px-3 py-2 text-paper">
+        {grid.owners.map((o) => <option value={o.slug}>{o.name}</option>)}
+      </select>
+    </label>
+    {grid.owners.map((row, i) => (
+      <ul data-rivalry-list={row.slug} data-testid="rivalry-list" aria-label={`${row.name}'s rivalries`} class="mt-3 space-y-1.5" hidden={i !== 0}>
+        {grid.owners.filter((o) => o.slug !== row.slug && records.has(key(row.slug, o.slug))).map((o) => {
+          const r = records.get(key(row.slug, o.slug))!;
+          return (
+            <li>
+              <a href={rivalryPath(row.slug, o.slug)} class="flex items-center justify-between gap-3 rounded-lg border border-line px-3 py-2" style={tint(winRate(r))}>
+                <span class="truncate">vs {o.name}</span>
+                <span class="font-semibold tabular-nums">{recordText(r)}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    ))}
+  </div>
+</section>
+
+<script is:inline>
+  // Phone picker: show only the chosen Owner's list
+  document.querySelectorAll("[data-rivalry-grid]").forEach((grid) => {
+    const picker = grid.querySelector("[data-rivalry-picker]");
+    picker?.addEventListener("change", () => {
+      grid.querySelectorAll("[data-rivalry-list]").forEach((ul) => { ul.hidden = ul.dataset.rivalryList !== picker.value; });
+    });
+  });
+</script>

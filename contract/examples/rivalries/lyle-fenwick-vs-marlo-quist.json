@@ -1,0 +1,151 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "regularSeason": {
+        "wins": 3,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 1,
+        "weeks": [
+          1
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Fog",
+            "score": 156.49
+          },
+          {
+            "teamName": "Quist Quakes",
+            "score": 141.86
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 14.63
+      }
+    },
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 3,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 127.3
+        },
+        {
+          "teamName": "Quist Quakes",
+          "score": 122.46
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 4.84
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 156.49
+        },
+        {
+          "teamName": "Quist Quakes",
+          "score": 141.86
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 14.63
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 15,
+      "weeks": [
+        16,
+        17
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 213.53
+        },
+        {
+          "teamName": "Quist Quakes",
+          "score": 257.97
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 44.44
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 9,
+      "weeks": [
+        9
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 104.92
+        },
+        {
+          "teamName": "Quist Quakes",
+          "score": 94.17
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 10.75
+    }
+  ]
+}

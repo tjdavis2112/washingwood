@@ -1,0 +1,171 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 7,
+        "weeks": [
+          7
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Foxes",
+            "score": 101.23
+          },
+          {
+            "teamName": "Vantor Vipers",
+            "score": 83.84
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 17.39
+      }
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 9,
+        "weeks": [
+          9
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Fog",
+            "score": 72.97
+          },
+          {
+            "teamName": "Vantor Vortex",
+            "score": 114.69
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 41.72
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 17,
+      "weeks": [
+        17
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 85.08
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 121.58
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 36.5
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 16,
+      "weeks": [
+        16
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 100.79
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 117.75
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 16.96
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 9,
+      "weeks": [
+        9
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 72.97
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 114.69
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 41.72
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 7,
+      "weeks": [
+        7
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 101.23
+        },
+        {
+          "teamName": "Vantor Vipers",
+          "score": 83.84
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 17.39
+    }
+  ]
+}

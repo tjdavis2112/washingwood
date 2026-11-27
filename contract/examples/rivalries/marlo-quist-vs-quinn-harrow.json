@@ -1,0 +1,149 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Quist Quakes",
+            "score": 159.7
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 108.74
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 50.96
+      }
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 13,
+        "weeks": [
+          13
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Quist Quakes",
+            "score": 92.51
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 126.6
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 34.09
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 6,
+      "weeks": [
+        6
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 159.7
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 108.74
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 50.96
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 92.51
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 126.6
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 34.09
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 4,
+      "weeks": [
+        4
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Quist Quakes",
+          "score": 102.46
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 98.85
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 3.61
+    }
+  ]
+}

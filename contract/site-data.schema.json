@@ -499,12 +499,13 @@
 
     "matchups": {
       "title": "Matchups document",
-      "description": "The Matchups section: championship cards and leaderboards (later also the rivalry grid). Exported as matchups.json.",
+      "description": "The Matchups section: championship cards, leaderboards and the rivalry grid. Exported as matchups.json.",
       "type": "object",
       "additionalProperties": false,
       "required": [
         "championships",
-        "leaderboards"
+        "leaderboards",
+        "rivalryGrid"
       ],
       "properties": {
         "championships": {
@@ -604,6 +605,220 @@
               }
             }
           }
+        },
+        "rivalryGrid": {
+          "description": "Every Owner against every other: the head-to-head record (regular season plus playoffs, head-to-head rules) of each pair that has played.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "owners",
+            "records"
+          ],
+          "properties": {
+            "owners": {
+              "description": "Rows and columns of the grid: every Owner, in Owner-index order.",
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "$ref": "#/$defs/ownerRef"
+              }
+            },
+            "records": {
+              "description": "One entry per ordered pair that has played (both directions), ordered like the grid. Pairs who never met have none.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "owner",
+                  "opponent",
+                  "wins",
+                  "losses",
+                  "ties"
+                ],
+                "properties": {
+                  "owner": {
+                    "description": "The row Owner's slug.",
+                    "type": "string",
+                    "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                  },
+                  "opponent": {
+                    "description": "The column Owner's slug.",
+                    "type": "string",
+                    "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+                  },
+                  "wins": {
+                    "description": "The row Owner's wins against the column Owner (regular season plus championship-bracket games).",
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "losses": {
+                    "description": "The row Owner's losses against the column Owner.",
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "ties": {
+                    "description": "Ties between them.",
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "rivalry": {
+      "title": "Rivalry document",
+      "description": "Two Owners' head-to-head history (GLOSSARY: Rivalry). Exported as rivalries/<a>-vs-<b>.json, slugs in alphabetical order, for every pair that has played.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sides",
+        "meetings",
+        "games"
+      ],
+      "properties": {
+        "sides": {
+          "description": "The two Owners, slugs in alphabetical order, each with their record against the other.",
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "owner",
+              "regularSeason",
+              "playoffs",
+              "biggestWin"
+            ],
+            "properties": {
+              "owner": {
+                "description": "The Owner.",
+                "$ref": "#/$defs/ownerRef"
+              },
+              "regularSeason": {
+                "description": "The Owner's regular-season record against the other.",
+                "$ref": "#/$defs/record"
+              },
+              "playoffs": {
+                "description": "The Owner's record against the other under the Playoff record rule.",
+                "$ref": "#/$defs/record"
+              },
+              "biggestWin": {
+                "description": "The Owner's in-record win over the other with the largest Margin (the earliest on a tie), or null if they never won one.",
+                "oneOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "$ref": "#/$defs/rivalryGame"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "meetings": {
+          "description": "Games in the record (regular season plus championship bracket). Never 0.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "games": {
+          "description": "Every game they've played, newest first, the Third-place game and consolation games included.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/rivalryGame"
+          }
+        }
+      }
+    },
+
+    "rivalryGame": {
+      "description": "One played Matchup between the two Owners of a Rivalry. Team and winner indexes follow the Rivalry's sides.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "matchupPeriod",
+        "weeks",
+        "kind",
+        "inRecord",
+        "teams",
+        "winner",
+        "isTie",
+        "margin"
+      ],
+      "properties": {
+        "year": {
+          "description": "The Season.",
+          "$ref": "#/$defs/year"
+        },
+        "matchupPeriod": {
+          "description": "The Matchup period.",
+          "$ref": "#/$defs/matchupPeriod"
+        },
+        "weeks": {
+          "description": "The NFL Weeks it spans; two for a two-week round, whose scores are combined.",
+          "$ref": "#/$defs/weeks"
+        },
+        "kind": {
+          "description": "regular season, playoff (championship bracket), the Third-place game, or a consolation game.",
+          "enum": [
+            "regular",
+            "playoff",
+            "thirdPlace",
+            "consolation"
+          ]
+        },
+        "inRecord": {
+          "description": "True if the game counts toward the head-to-head record (regular season and championship-bracket games). The Third-place game and consolation games are listed but not counted.",
+          "type": "boolean"
+        },
+        "teams": {
+          "description": "Each side's Franchise that Season: [sides[0]'s, sides[1]'s].",
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "teamName",
+              "score"
+            ],
+            "properties": {
+              "teamName": {
+                "description": "The Franchise's team name that Season.",
+                "$ref": "#/$defs/teamName"
+              },
+              "score": {
+                "description": "Points scored, as ESPN recorded them (combined over a two-week round).",
+                "type": "number"
+              }
+            }
+          }
+        },
+        "winner": {
+          "description": "Index of the winning side (0 or 1), or null on a tie.",
+          "enum": [
+            0,
+            1,
+            null
+          ]
+        },
+        "isTie": {
+          "description": "True if the game ended level.",
+          "type": "boolean"
+        },
+        "margin": {
+          "description": "Margin, rounded to 2 decimals (0 on a tie).",
+          "type": "number",
+          "minimum": 0
         }
       }
     },

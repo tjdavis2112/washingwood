@@ -1,0 +1,127 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 12,
+        "weeks": [
+          12
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Foxes",
+            "score": 147.07
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 123.57
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 23.5
+      }
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Foxes",
+            "score": 72.76
+          },
+          {
+            "teamName": "Solano Sparks",
+            "score": 147.08
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 74.32
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2018,
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 147.07
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 123.57
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 23.5
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 72.76
+        },
+        {
+          "teamName": "Solano Sparks",
+          "score": 147.08
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 74.32
+    }
+  ]
+}

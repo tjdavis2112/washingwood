@@ -96,15 +96,119 @@ def leaderboards(seasons: list[dict]) -> dict:
     }
 
 
-def derive() -> dict:
-    """Every Season's championship (newest first) and the leaderboards."""
-    seasons = [
+def _seasons() -> list[dict]:
+    return [
         json.loads(p.read_text(encoding="utf-8")) for p in sorted((EXAMPLES / "seasons").glob("*.json"), reverse=True)
     ]
-    return {"championships": [championship(s) for s in seasons], "leaderboards": leaderboards(seasons)}
+
+
+def _pair_key(m: dict) -> frozenset:
+    return frozenset((m["home"]["owner"]["slug"], m["away"]["owner"]["slug"]))
+
+
+def rivalries(seasons: list[dict]) -> dict[str, dict]:
+    """Rivalry documents keyed "<a>-vs-<b>": every played game between two Owners, newest first, classed
+    from the weekly results (regular season before the first bracket round; then bracket, Third-place
+    game or consolation). Records follow the head-to-head rules: regular season plus bracket games."""
+    pairs: dict[tuple[str, str], dict] = {}
+    for season in sorted(seasons, key=lambda x: x["year"], reverse=True):
+        first_round = season["bracket"]["rounds"][0]["matchupPeriod"]
+        bracket = {
+            (r["matchupPeriod"], _pair_key(m))
+            for r in season["bracket"]["rounds"]
+            for m in r["matchups"]
+            if not m["isBye"]
+        }
+        third = season["bracket"]["thirdPlaceGame"]
+        third_key = (third["matchupPeriod"], _pair_key(third["matchup"]))
+        for period in sorted(season["weeklyResults"], key=lambda p: p["matchupPeriod"], reverse=True):
+            for m in period["matchups"]:
+                if m["isBye"]:
+                    continue
+                key = (period["matchupPeriod"], _pair_key(m))
+                if period["matchupPeriod"] < first_round:
+                    kind = "regular"
+                elif key in bracket:
+                    kind = "playoff"
+                elif key == third_key:
+                    kind = "thirdPlace"
+                else:
+                    kind = "consolation"
+                ordered = sorted(["home", "away"], key=lambda k: m[k]["owner"]["slug"])
+                refs = [m[k]["owner"] for k in ordered]
+                doc = pairs.setdefault((refs[0]["slug"], refs[1]["slug"]), {"owners": refs, "games": []})
+                scores = [m[k]["score"] for k in ordered]
+                doc["games"].append(
+                    {
+                        "year": season["year"],
+                        "matchupPeriod": period["matchupPeriod"],
+                        "weeks": period["weeks"],
+                        "kind": kind,
+                        "inRecord": kind in ("regular", "playoff"),
+                        "teams": [{"teamName": m[k]["teamName"], "score": m[k]["score"]} for k in ordered],
+                        "winner": None if m["isTie"] else ordered.index(m["winner"]),
+                        "isTie": m["isTie"],
+                        "margin": round(abs(scores[0] - scores[1]), 2),
+                    }
+                )
+    docs = {}
+    for (a, b), doc in sorted(pairs.items()):
+        games, sides = doc["games"], []
+        for i, ref in enumerate(doc["owners"]):
+            regular = {"wins": 0, "losses": 0, "ties": 0}
+            playoffs = {"wins": 0, "losses": 0, "ties": 0}
+            for g in games:
+                if g["inRecord"]:
+                    rec = regular if g["kind"] == "regular" else playoffs
+                    rec["ties" if g["isTie"] else "wins" if g["winner"] == i else "losses"] += 1
+            wins = [g for g in games if g["inRecord"] and g["winner"] == i]
+            best = min(wins, key=lambda g: (-g["margin"], g["year"], g["matchupPeriod"])) if wins else None
+            sides.append({"owner": ref, "regularSeason": regular, "playoffs": playoffs, "biggestWin": best})
+        meetings = sum(g["inRecord"] for g in games)
+        if meetings:
+            docs[f"{a}-vs-{b}"] = {"sides": sides, "meetings": meetings, "games": games}
+    return docs
+
+
+def rivalry_grid(docs: dict[str, dict]) -> dict:
+    """Owners in Owner-index order (owners.json) and every pair's combined record, both directions."""
+    owners = [e["owner"] for e in json.loads((EXAMPLES / "owners.json").read_text(encoding="utf-8"))["owners"]]
+    order = {o["slug"]: i for i, o in enumerate(owners)}
+    records = []
+    for doc in docs.values():
+        for i in (0, 1):
+            me, them = doc["sides"][i], doc["sides"][1 - i]
+            rs, po = me["regularSeason"], me["playoffs"]
+            totals = {k: rs[k] + po[k] for k in ("wins", "losses", "ties")}
+            records.append({"owner": me["owner"]["slug"], "opponent": them["owner"]["slug"], **totals})
+    records.sort(key=lambda r: (order[r["owner"]], order[r["opponent"]]))
+    return {"owners": owners, "records": records}
+
+
+def derive() -> dict:
+    """matchups.json: every Season's championship (newest first), the leaderboards and the rivalry grid."""
+    seasons = _seasons()
+    return {
+        "championships": [championship(s) for s in seasons],
+        "leaderboards": leaderboards(seasons),
+        "rivalryGrid": rivalry_grid(rivalries(seasons)),
+    }
+
+
+def derive_rivalries() -> dict[str, dict]:
+    return rivalries(_seasons())
 
 
 if __name__ == "__main__":
     out = EXAMPLES / "matchups.json"
     out.write_text(json.dumps(derive(), indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
-    print(f"wrote {out.name}")
+    folder = EXAMPLES / "rivalries"
+    folder.mkdir(exist_ok=True)
+    for old in folder.glob("*.json"):
+        old.unlink()
+    docs = derive_rivalries()
+    for pair, doc in docs.items():
+        (folder / f"{pair}.json").write_text(
+            json.dumps(doc, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n"
+        )
+    print(f"wrote {out.name} and {len(docs)} Rivalry documents")

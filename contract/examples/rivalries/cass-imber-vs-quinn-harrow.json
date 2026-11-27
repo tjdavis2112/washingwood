@@ -1,0 +1,106 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 3,
+        "weeks": [
+          3
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Imber Embers",
+            "score": 134.49
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 78.32
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 56.17
+      }
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 14,
+      "weeks": [
+        14
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Imber Embers",
+          "score": 158.52
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 122.07
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 36.45
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Imber Embers",
+          "score": 134.49
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 78.32
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 56.17
+    }
+  ]
+}

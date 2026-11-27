@@ -1,0 +1,173 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 10,
+        "weeks": [
+          10
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 131.18
+          },
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 82.51
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 48.67
+      }
+    },
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 7,
+        "weeks": [
+          7
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 94.94
+          },
+          {
+            "teamName": "Dorrow Drakes",
+            "score": 114.02
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 19.08
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 10,
+      "weeks": [
+        10
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 131.18
+        },
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 82.51
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 48.67
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 15,
+      "weeks": [
+        16,
+        17
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 193.62
+        },
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 271.89
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 78.27
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 14,
+      "weeks": [
+        14,
+        15
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 238.66
+        },
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 202.25
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 36.41
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 7,
+      "weeks": [
+        7
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 94.94
+        },
+        {
+          "teamName": "Dorrow Drakes",
+          "score": 114.02
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 19.08
+    }
+  ]
+}

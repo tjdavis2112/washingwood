@@ -36,7 +36,7 @@ const TABS = [
       <OwnerTrophyCase trophies={owner.trophies} />
       <CareerSummary career={owner.career} seasonCount={owner.seasons.length} />
       <OwnerSeasons rows={owner.seasons} />
-      <HeadToHead rows={owner.headToHead} />
+      <HeadToHead rows={owner.headToHead} ownerSlug={owner.owner.slug} />
     </div>
     <ComingSoon slot="rosters" level={2} title="Rosters" blurb="This Owner's roster every Season." />
     <OwnerDraft slot="draft" seasons={owner.draft} />

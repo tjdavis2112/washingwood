@@ -1,0 +1,128 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 3,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "regularSeason": {
+        "wins": 3,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 9,
+        "weeks": [
+          9
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 84.23
+          },
+          {
+            "teamName": "Calloway Comets",
+            "score": 159.35
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 75.12
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 12,
+      "weeks": [
+        12
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 144.98
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 151.16
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 6.18
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 79.73
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 84.03
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 4.3
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 9,
+      "weeks": [
+        9
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 84.23
+        },
+        {
+          "teamName": "Calloway Comets",
+          "score": 159.35
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 75.12
+    }
+  ]
+}

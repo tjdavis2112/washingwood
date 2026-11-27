@@ -1,0 +1,128 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 14,
+        "weeks": [
+          14
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 92.5
+          },
+          {
+            "teamName": "Paxton Pistons",
+            "score": 154.14
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 61.64
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 15,
+      "weeks": [
+        15
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 117.98
+        },
+        {
+          "teamName": "Paxton Pistons",
+          "score": 144.85
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 26.87
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 14,
+      "weeks": [
+        14
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 92.5
+        },
+        {
+          "teamName": "Paxton Pistons",
+          "score": 154.14
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 61.64
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 92.64
+        },
+        {
+          "teamName": "Paxton Pistons",
+          "score": 117.76
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 25.12
+    }
+  ]
+}

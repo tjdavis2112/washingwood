@@ -1,0 +1,171 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 139.62
+          },
+          {
+            "teamName": "Vantor Vortex",
+            "score": 81.78
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 57.84
+      }
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 1,
+        "weeks": [
+          1
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 139.72
+          },
+          {
+            "teamName": "Vantor Vipers",
+            "score": 157.02
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 17.3
+      }
+    }
+  ],
+  "meetings": 4,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 150.27
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 155.71
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 5.44
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 139.62
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 81.78
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 57.84
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 10,
+      "weeks": [
+        10
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 156.52
+        },
+        {
+          "teamName": "Vantor Vipers",
+          "score": 143.61
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 12.91
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 139.72
+        },
+        {
+          "teamName": "Vantor Vipers",
+          "score": 157.02
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 17.3
+    }
+  ]
+}

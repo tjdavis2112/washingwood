@@ -421,6 +421,28 @@ WHERE m.away_franchise_id IS NOT NULL
   AND m.first_week = m.last_week
   AND (NOT m.is_playoff OR m.bracket = 'winners');
 
+-- Every played Matchup between two Owners (byes have no opponent), for Rivalry pages. kind: regular,
+-- playoff (championship bracket), thirdPlace or consolation. in_record follows the head-to-head rules
+-- (owner_games): regular season and championship-bracket games, two-week rounds included once; the
+-- Third-place game and consolation games are listed but not in the record.
+CREATE VIEW stats.owner_pair_games AS
+SELECT s.year, m.matchup_period, m.first_week, m.last_week,
+       CASE WHEN NOT m.is_playoff THEN 'regular'
+            WHEN m.bracket = 'winners' THEN 'playoff'
+            WHEN m.playoff_round = '3rd place' THEN 'thirdPlace'
+            ELSE 'consolation' END                        AS kind,
+       (NOT m.is_playoff OR m.bracket = 'winners')        AS in_record,
+       ho.owner_id AS home_owner_id, ho.display_name AS home_owner, hf.team_name AS home_team, m.home_points,
+       ao.owner_id AS away_owner_id, ao.display_name AS away_owner, af.team_name AS away_team, m.away_points,
+       CASE WHEN m.winner_franchise_id = m.home_franchise_id THEN 'home'
+            WHEN m.winner_franchise_id = m.away_franchise_id THEN 'away' END AS winner
+FROM core.matchups m
+JOIN core.seasons s           ON s.season_id = m.season_id
+JOIN core.franchises hf       ON hf.franchise_id = m.home_franchise_id
+JOIN core.franchises af       ON af.franchise_id = m.away_franchise_id
+JOIN stats.franchise_owner ho ON ho.franchise_id = m.home_franchise_id
+JOIN stats.franchise_owner ao ON ao.franchise_id = m.away_franchise_id;
+
 -- Head-to-head between Owners, regular season and playoffs apart (same rules as owner_games).
 -- Only pairs who have met at least once have a row.
 CREATE VIEW stats.head_to_head AS

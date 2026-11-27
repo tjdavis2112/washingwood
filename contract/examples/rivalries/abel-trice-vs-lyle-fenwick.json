@@ -1,0 +1,127 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 156.0
+          },
+          {
+            "teamName": "Fenwick Foxes",
+            "score": 116.47
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 39.53
+      }
+    },
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 11,
+        "weeks": [
+          11
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 110.23
+          },
+          {
+            "teamName": "Fenwick Fog",
+            "score": 140.24
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 30.01
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 11,
+      "weeks": [
+        11
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 110.23
+        },
+        {
+          "teamName": "Fenwick Fog",
+          "score": 140.24
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 30.01
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 8,
+      "weeks": [
+        8
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 156.0
+        },
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 116.47
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 39.53
+    }
+  ]
+}

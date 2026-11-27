@@ -1,0 +1,171 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "regularSeason": {
+        "wins": 3,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Fog",
+            "score": 143.17
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 116.15
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 27.02
+      }
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 3,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 10,
+        "weeks": [
+          10
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Foxes",
+            "score": 84.85
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 119.63
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 34.78
+      }
+    }
+  ],
+  "meetings": 4,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 135.49
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 118.97
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 16.52
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 143.17
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 116.15
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 27.02
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 10,
+      "weeks": [
+        10
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 84.85
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 119.63
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 34.78
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 1,
+      "weeks": [
+        1
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 115.28
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 90.43
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 24.85
+    }
+  ]
+}

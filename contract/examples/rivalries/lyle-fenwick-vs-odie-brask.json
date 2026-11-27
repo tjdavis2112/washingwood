@@ -1,0 +1,194 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 3,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 14,
+        "weeks": [
+          14
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Fog",
+            "score": 95.99
+          },
+          {
+            "teamName": "Brask Bruisers",
+            "score": 88.88
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 7.11
+      }
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "regularSeason": {
+        "wins": 3,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 2,
+        "weeks": [
+          2
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Fenwick Foxes",
+            "score": 111.38
+          },
+          {
+            "teamName": "Brask Bruisers",
+            "score": 140.4
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 29.02
+      }
+    }
+  ],
+  "meetings": 4,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 14,
+      "weeks": [
+        14
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 95.99
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 88.88
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 7.11
+    },
+    {
+      "year": 2020,
+      "matchupPeriod": 3,
+      "weeks": [
+        3
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Fog",
+          "score": 106.19
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 111.58
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 5.39
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 14,
+      "weeks": [
+        14,
+        15
+      ],
+      "kind": "consolation",
+      "inRecord": false,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 216.59
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 190.94
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 25.65
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 11,
+      "weeks": [
+        11
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 144.41
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 145.67
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 1.26
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 2,
+      "weeks": [
+        2
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Fenwick Foxes",
+          "score": 111.38
+        },
+        {
+          "teamName": "Brask Bruisers",
+          "score": 140.4
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 29.02
+    }
+  ]
+}

@@ -1295,5 +1295,1113 @@
         "seedGap": 1
       }
     ]
+  },
+  "rivalryGrid": {
+    "owners": [
+      {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      }
+    ],
+    "records": [
+      {
+        "owner": "ines-dorrow",
+        "opponent": "quinn-harrow",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "rue-calloway",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "abel-trice",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "cass-imber",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "jory-paxton",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "lyle-fenwick",
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "marlo-quist",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "nell-ashgrove",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "odie-brask",
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "pell-vantor",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "tamsin-oake",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "ines-dorrow",
+        "opponent": "wren-solano",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "ines-dorrow",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "rue-calloway",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "abel-trice",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "cass-imber",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "jory-paxton",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "lyle-fenwick",
+        "wins": 0,
+        "losses": 1,
+        "ties": 1
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "marlo-quist",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "nell-ashgrove",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "odie-brask",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "pell-vantor",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "tamsin-oake",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "quinn-harrow",
+        "opponent": "wren-solano",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "ines-dorrow",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "quinn-harrow",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "abel-trice",
+        "wins": 3,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "cass-imber",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "jory-paxton",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "lyle-fenwick",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "marlo-quist",
+        "wins": 2,
+        "losses": 3,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "nell-ashgrove",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "odie-brask",
+        "wins": 3,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "pell-vantor",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "tamsin-oake",
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "rue-calloway",
+        "opponent": "wren-solano",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "ines-dorrow",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "quinn-harrow",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "rue-calloway",
+        "wins": 0,
+        "losses": 3,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "cass-imber",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "jory-paxton",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "lyle-fenwick",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "marlo-quist",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "nell-ashgrove",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "odie-brask",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "pell-vantor",
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "tamsin-oake",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "abel-trice",
+        "opponent": "wren-solano",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "ines-dorrow",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "quinn-harrow",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "rue-calloway",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "abel-trice",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "jory-paxton",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "lyle-fenwick",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "marlo-quist",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "nell-ashgrove",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "odie-brask",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "pell-vantor",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "cass-imber",
+        "opponent": "tamsin-oake",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "ines-dorrow",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "quinn-harrow",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "rue-calloway",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "abel-trice",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "cass-imber",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "lyle-fenwick",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "marlo-quist",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "nell-ashgrove",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "odie-brask",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "pell-vantor",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "jory-paxton",
+        "opponent": "tamsin-oake",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "ines-dorrow",
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "quinn-harrow",
+        "wins": 1,
+        "losses": 0,
+        "ties": 1
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "rue-calloway",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "abel-trice",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "cass-imber",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "jory-paxton",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "marlo-quist",
+        "wins": 3,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "nell-ashgrove",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "odie-brask",
+        "wins": 1,
+        "losses": 3,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "pell-vantor",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "tamsin-oake",
+        "wins": 3,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "lyle-fenwick",
+        "opponent": "wren-solano",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "ines-dorrow",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "quinn-harrow",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "rue-calloway",
+        "wins": 3,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "abel-trice",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "cass-imber",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "jory-paxton",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "lyle-fenwick",
+        "wins": 0,
+        "losses": 3,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "nell-ashgrove",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "odie-brask",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "pell-vantor",
+        "wins": 3,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "tamsin-oake",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "marlo-quist",
+        "opponent": "wren-solano",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "ines-dorrow",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "quinn-harrow",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "rue-calloway",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "abel-trice",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "cass-imber",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "jory-paxton",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "lyle-fenwick",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "marlo-quist",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "odie-brask",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "pell-vantor",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "nell-ashgrove",
+        "opponent": "tamsin-oake",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "ines-dorrow",
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "quinn-harrow",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "rue-calloway",
+        "wins": 0,
+        "losses": 3,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "abel-trice",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "cass-imber",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "jory-paxton",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "lyle-fenwick",
+        "wins": 3,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "marlo-quist",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "nell-ashgrove",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "pell-vantor",
+        "wins": 0,
+        "losses": 3,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "tamsin-oake",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "odie-brask",
+        "opponent": "wren-solano",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "ines-dorrow",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "quinn-harrow",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "rue-calloway",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "abel-trice",
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "cass-imber",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "jory-paxton",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "lyle-fenwick",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "marlo-quist",
+        "wins": 2,
+        "losses": 3,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "nell-ashgrove",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "odie-brask",
+        "wins": 3,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "tamsin-oake",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "pell-vantor",
+        "opponent": "wren-solano",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "ines-dorrow",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "quinn-harrow",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "rue-calloway",
+        "wins": 2,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "abel-trice",
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "cass-imber",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "jory-paxton",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "lyle-fenwick",
+        "wins": 1,
+        "losses": 3,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "marlo-quist",
+        "wins": 0,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "nell-ashgrove",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "odie-brask",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "pell-vantor",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "tamsin-oake",
+        "opponent": "wren-solano",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "wren-solano",
+        "opponent": "ines-dorrow",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "wren-solano",
+        "opponent": "quinn-harrow",
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      {
+        "owner": "wren-solano",
+        "opponent": "rue-calloway",
+        "wins": 2,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "wren-solano",
+        "opponent": "abel-trice",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "wren-solano",
+        "opponent": "lyle-fenwick",
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "wren-solano",
+        "opponent": "marlo-quist",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      },
+      {
+        "owner": "wren-solano",
+        "opponent": "odie-brask",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "wren-solano",
+        "opponent": "pell-vantor",
+        "wins": 0,
+        "losses": 1,
+        "ties": 0
+      },
+      {
+        "owner": "wren-solano",
+        "opponent": "tamsin-oake",
+        "wins": 1,
+        "losses": 0,
+        "ties": 0
+      }
+    ]
   }
 }

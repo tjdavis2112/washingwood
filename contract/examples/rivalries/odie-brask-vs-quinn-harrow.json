@@ -1,0 +1,127 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 10,
+        "weeks": [
+          10
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Brask Bruisers",
+            "score": 148.2
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 145.61
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 2.59
+      }
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 8,
+        "weeks": [
+          8
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Brask Bruisers",
+            "score": 110.27
+          },
+          {
+            "teamName": "Harrow Hammers",
+            "score": 147.38
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 37.11
+      }
+    }
+  ],
+  "meetings": 2,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 10,
+      "weeks": [
+        10
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 148.2
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 145.61
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 2.59
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 8,
+      "weeks": [
+        8
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 110.27
+        },
+        {
+          "teamName": "Harrow Hammers",
+          "score": 147.38
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 37.11
+    }
+  ]
+}

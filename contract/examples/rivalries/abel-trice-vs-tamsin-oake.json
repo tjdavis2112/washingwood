@@ -1,0 +1,149 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "regularSeason": {
+        "wins": 1,
+        "losses": 2,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2020,
+        "matchupPeriod": 6,
+        "weeks": [
+          6
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 147.0
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 77.19
+          }
+        ],
+        "winner": 0,
+        "isTie": false,
+        "margin": 69.81
+      }
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "regularSeason": {
+        "wins": 2,
+        "losses": 1,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 4,
+        "weeks": [
+          4
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Trice Tritons",
+            "score": 80.03
+          },
+          {
+            "teamName": "Oake Oracles",
+            "score": 137.96
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 57.93
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 6,
+      "weeks": [
+        6
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 147.0
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 77.19
+        }
+      ],
+      "winner": 0,
+      "isTie": false,
+      "margin": 69.81
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 129.97
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 145.67
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 15.7
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 4,
+      "weeks": [
+        4
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Trice Tritons",
+          "score": 80.03
+        },
+        {
+          "teamName": "Oake Oracles",
+          "score": 137.96
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 57.93
+    }
+  ]
+}

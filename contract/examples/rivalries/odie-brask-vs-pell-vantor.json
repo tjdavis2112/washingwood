@@ -1,0 +1,128 @@
+{
+  "sides": [
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "regularSeason": {
+        "wins": 0,
+        "losses": 3,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": null
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "regularSeason": {
+        "wins": 3,
+        "losses": 0,
+        "ties": 0
+      },
+      "playoffs": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 0
+      },
+      "biggestWin": {
+        "year": 2018,
+        "matchupPeriod": 13,
+        "weeks": [
+          13
+        ],
+        "kind": "regular",
+        "inRecord": true,
+        "teams": [
+          {
+            "teamName": "Brask Bruisers",
+            "score": 108.95
+          },
+          {
+            "teamName": "Vantor Vipers",
+            "score": 146.25
+          }
+        ],
+        "winner": 1,
+        "isTie": false,
+        "margin": 37.3
+      }
+    }
+  ],
+  "meetings": 3,
+  "games": [
+    {
+      "year": 2020,
+      "matchupPeriod": 5,
+      "weeks": [
+        5
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 129.05
+        },
+        {
+          "teamName": "Vantor Vortex",
+          "score": 138.37
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 9.32
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 13,
+      "weeks": [
+        13
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 108.95
+        },
+        {
+          "teamName": "Vantor Vipers",
+          "score": 146.25
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 37.3
+    },
+    {
+      "year": 2018,
+      "matchupPeriod": 4,
+      "weeks": [
+        4
+      ],
+      "kind": "regular",
+      "inRecord": true,
+      "teams": [
+        {
+          "teamName": "Brask Bruisers",
+          "score": 100.85
+        },
+        {
+          "teamName": "Vantor Vipers",
+          "score": 118.34
+        }
+      ],
+      "winner": 1,
+      "isTie": false,
+      "margin": 17.49
+    }
+  ]
+}
