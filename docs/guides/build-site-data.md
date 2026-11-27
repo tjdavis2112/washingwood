@@ -10,11 +10,17 @@ How to turn the private archive into the JSON the site renders. This runs on you
 4. It writes the site data to `export/`:
    - `league.json`: the league summary and the current Champion
    - `trophy-shelf.json`: every Owner's titles and runner-ups
+   - `owners.json`: the Owners index (every Owner, with their career regular-season record)
+   - `owners/<slug>.json`: one per Owner (trophy case, career summary, every Season, head-to-head)
    - `seasons/<year>.json`: one per Season (Podium, Last place, standings, Scoring format, bracket, weekly results)
 
    Every document is checked against `contract/site-data.schema.json` before any file is written.
 
-The build stops, writing nothing, if any team's ESPN account isn't in `owners.yaml`. The error names the Season and the team.
+The build stops, writing nothing, if:
+- any team's ESPN account isn't in `owners.yaml`
+- any team's ESPN accounts map to more than one Owner (a **Franchise** has exactly one Owner; see `GLOSSARY.md`). Several accounts belonging to the same Owner are fine.
+
+Either error names the Season and the team. Fix `owners.yaml` and run the build again.
 
 ## One-time setup
 
@@ -46,7 +52,8 @@ owners:
 
 - One entry per real person. An Owner who switched ESPN accounts lists every account.
 - Member IDs are in `league_mTeam.json` under `teams[].owners[]`.
-- The Owner's URL slug comes from the name (`Quinn Harrow` → `quinn-harrow`). Renaming an Owner changes their slug.
+- The name is shown on the site exactly as written, capitals included.
+- The Owner's URL slug comes from the name (`Quinn Harrow` → `quinn-harrow`). Changing only capitals keeps the slug; any other rename changes it.
 
 ## Run it
 
@@ -68,5 +75,13 @@ On success it prints a `wrote ...` line for each file. On failure it prints `bui
 
 ## Known limits (v1)
 
-- An existing database keeps its schema. After `db/schema.sql` changes, drop and recreate the container's database.
+- An existing database keeps its schema. After `db/schema.sql` changes, the build stops and says the database's schema predates it. Recreate the container, then run the build again:
+  ```powershell
+  docker rm -f washingwood-pg
+  ```
+  - `docker rm -f`: stop and delete the container, along with its database. Nothing is lost: every build reloads it from the archive.
+  ```powershell
+  docker run -d --name washingwood-pg -e POSTGRES_PASSWORD=localonly -p 5432:5432 postgres:16-alpine
+  ```
+  - The same command as in **One-time setup**. Give Postgres a few seconds to start.
 - `raw.responses` isn't filled. The archive files on disk are the raw source (ADR-0001).

@@ -20,6 +20,7 @@ Layout whiteboard: https://claude.ai/artifact/UviRRz54BkANGtVgwRpZ68
 | Loader (raw → core) | Done: `src/washingwood/loader.py` |
 | Export (stats → JSON) | Done: `src/washingwood/export.py`, validated against `contract/` |
 | Frontend (v1) | Done: `site/` (Home, Season pages, Coming soon sections) |
+| Owners section | Done: Owners index and Owner pages (trophy case, career, every Season, head-to-head), Owner names linked site-wide (#12) |
 | Passphrase gate + deploy | Gate done; deploy command done (`washingwood.deploy`); first deploy **next** |
 
 ---
@@ -107,7 +108,7 @@ ESPN API ──(archiver, needs cookies)──▶ archive/ (private repo)
 
 Kept from the original plan; build in roughly this order.
 
-- **Owners hub**: trophy case, career W-L, playoff appearances, roster per season, draft grades, trades, H2H vs every owner, badges
+- **Owners hub**: first slice done (#12): trophy case, career W-L, playoff appearances, season-by-season, H2H vs every owner. Still to come: roster per season, draft grades, trades, badges (they need lineups, draft and transactions loaded)
 - **Matchups**: every matchup with box score cards; bracket history; championship feature cards; rivalry grid; closest games, blowouts, upsets
 - **Record Book**: single week / season / all-time leaderboards, stat picker, team records, streaks, luck index, bench points, last-place history. Always show or filter by Scoring format.
 - **Draft**: full board per year colored by Value over slot, grades, best/worst picks
@@ -147,7 +148,7 @@ The activity feed (`/communication/`) returns 404 for every season. Transactions
 - `raw.responses`: platform, league, season, resource, week, url, params, sha256, payload (deduped by hash)
 - Identity: `core.leagues`, `league_platforms`, `owners`, `owner_external_ids`, `players`, `player_external_ids`
 - Seasons/rules: `core.seasons` (data_tier, reception_points, te_premium, generated `scoring_label`, `scoring_rules` jsonb, `roster_slots` jsonb), `core.rule_changes`
-- Teams: `core.franchises` (team in one season + final results), `core.franchise_owners` (franchise → person, supports co-owners)
+- Teams: `core.franchises` (team in one season + final results), `core.franchise_owners` (franchise → person; exactly one Owner per Franchise, enforced by the loader)
 - Games: `core.matchups` (playoff/bracket/championship flags, multi-week periods), `core.lineup_entries`, `core.player_week_stats`, `core.stat_definitions`
 - Draft/txns: `core.draft_picks`, `core.transactions`, `core.transaction_items`
 - Curated: `core.achievements`, `core.owner_achievements`, `core.hall_of_fame`
