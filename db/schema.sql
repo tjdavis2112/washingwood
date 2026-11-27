@@ -408,6 +408,19 @@ JOIN stats.franchise_owner a  ON a.franchise_id = g.franchise_id
 JOIN stats.franchise_owner b  ON b.franchise_id = g.opponent_id
 WHERE NOT g.is_playoff OR g.bracket = 'winners';
 
+-- Counted Matchups (GLOSSARY): regular-season Matchups plus championship-bracket Matchups actually
+-- played that span a single Week. Byes, the Third-place game and consolation Matchups (bracket
+-- 'consolation' / 'toilet') and two-week rounds aren't counted. Matchup leaderboards draw from it.
+CREATE VIEW stats.counted_matchups AS
+SELECT m.matchup_id, m.season_id, s.year, s.scoring_label, m.matchup_period, m.first_week AS week,
+       m.is_playoff, m.home_franchise_id, m.away_franchise_id, m.home_points, m.away_points,
+       m.winner_franchise_id
+FROM core.matchups m
+JOIN core.seasons s ON s.season_id = m.season_id
+WHERE m.away_franchise_id IS NOT NULL
+  AND m.first_week = m.last_week
+  AND (NOT m.is_playoff OR m.bracket = 'winners');
+
 -- Head-to-head between Owners, regular season and playoffs apart (same rules as owner_games).
 -- Only pairs who have met at least once have a row.
 CREATE VIEW stats.head_to_head AS

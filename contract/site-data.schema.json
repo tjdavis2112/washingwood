@@ -499,11 +499,12 @@
 
     "matchups": {
       "title": "Matchups document",
-      "description": "The Matchups section: championship cards (later also leaderboards and the rivalry grid). Exported as matchups.json.",
+      "description": "The Matchups section: championship cards and leaderboards (later also the rivalry grid). Exported as matchups.json.",
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "championships"
+        "championships",
+        "leaderboards"
       ],
       "properties": {
         "championships": {
@@ -549,6 +550,278 @@
               }
             }
           }
+        },
+        "leaderboards": {
+          "description": "Top-10 lists over the Counted Matchups (GLOSSARY). Ties are ordered by Season, then Week, then Owner name (the winner's, or the team's on the score lists).",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "blowouts",
+            "closestGames",
+            "highestScores",
+            "lowestScores",
+            "playoffUpsets"
+          ],
+          "properties": {
+            "blowouts": {
+              "description": "Largest Margins first.",
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "$ref": "#/$defs/leaderboardGame"
+              }
+            },
+            "closestGames": {
+              "description": "Smallest Margins first; ties (Margin 0) lead.",
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "$ref": "#/$defs/leaderboardGame"
+              }
+            },
+            "highestScores": {
+              "description": "Highest single-side scores first. Each side counts on its own, so one Matchup can appear twice.",
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "$ref": "#/$defs/leaderboardScore"
+              }
+            },
+            "lowestScores": {
+              "description": "Lowest single-side scores first. Each side counts on its own.",
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "$ref": "#/$defs/leaderboardScore"
+              }
+            },
+            "playoffUpsets": {
+              "description": "Playoff upsets by seed gap (largest first), then Margin.",
+              "type": "array",
+              "maxItems": 10,
+              "items": {
+                "$ref": "#/$defs/leaderboardUpset"
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "leaderboardSide": {
+      "description": "One Franchise's side of a Counted Matchup on a leaderboard.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "owner",
+        "teamName",
+        "score",
+        "seed"
+      ],
+      "properties": {
+        "owner": {
+          "description": "The Franchise's Owner.",
+          "$ref": "#/$defs/ownerRef"
+        },
+        "teamName": {
+          "description": "The Franchise's team name that Season.",
+          "$ref": "#/$defs/teamName"
+        },
+        "score": {
+          "description": "Points scored in the Matchup, as ESPN recorded them (manual adjustments excluded).",
+          "type": "number"
+        },
+        "seed": {
+          "description": "The Franchise's playoff seed in a playoff Matchup; null in the regular season.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        }
+      }
+    },
+
+    "leaderboardGame": {
+      "description": "A Counted Matchup on the blowouts or closest-games leaderboard.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "matchupPeriod",
+        "weeks",
+        "kind",
+        "winner",
+        "loser",
+        "isTie",
+        "margin",
+        "scoringFormat"
+      ],
+      "properties": {
+        "year": {
+          "description": "The Season.",
+          "$ref": "#/$defs/year"
+        },
+        "matchupPeriod": {
+          "description": "The Matchup period.",
+          "$ref": "#/$defs/matchupPeriod"
+        },
+        "weeks": {
+          "description": "The single NFL Week it was played in (two-week rounds aren't Counted Matchups).",
+          "$ref": "#/$defs/weeks"
+        },
+        "kind": {
+          "description": "regular = regular season; playoff = a championship-bracket Matchup.",
+          "enum": [
+            "regular",
+            "playoff"
+          ]
+        },
+        "winner": {
+          "description": "The winning side; on a tie, the home side.",
+          "$ref": "#/$defs/leaderboardSide"
+        },
+        "loser": {
+          "description": "The losing side; on a tie, the away side.",
+          "$ref": "#/$defs/leaderboardSide"
+        },
+        "isTie": {
+          "description": "True if the Matchup ended level.",
+          "type": "boolean"
+        },
+        "margin": {
+          "description": "Margin: the winner's score minus the loser's, rounded to 2 decimals (0 on a tie).",
+          "type": "number",
+          "minimum": 0
+        },
+        "scoringFormat": {
+          "description": "The Season's Scoring format label (e.g. PPR, Standard + TE premium). Scores across formats aren't comparable.",
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+
+    "leaderboardUpset": {
+      "description": "A Playoff upset: a championship-bracket Counted Matchup won by the worse seed.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "matchupPeriod",
+        "weeks",
+        "kind",
+        "winner",
+        "loser",
+        "isTie",
+        "margin",
+        "scoringFormat",
+        "seedGap"
+      ],
+      "properties": {
+        "year": {
+          "description": "The Season.",
+          "$ref": "#/$defs/year"
+        },
+        "matchupPeriod": {
+          "description": "The Matchup period.",
+          "$ref": "#/$defs/matchupPeriod"
+        },
+        "weeks": {
+          "description": "The single NFL Week it was played in (two-week rounds aren't Counted Matchups).",
+          "$ref": "#/$defs/weeks"
+        },
+        "kind": {
+          "description": "regular = regular season; playoff = a championship-bracket Matchup.",
+          "enum": [
+            "regular",
+            "playoff"
+          ]
+        },
+        "winner": {
+          "description": "The winning side; on a tie, the home side.",
+          "$ref": "#/$defs/leaderboardSide"
+        },
+        "loser": {
+          "description": "The losing side; on a tie, the away side.",
+          "$ref": "#/$defs/leaderboardSide"
+        },
+        "isTie": {
+          "description": "True if the Matchup ended level.",
+          "type": "boolean"
+        },
+        "margin": {
+          "description": "Margin: the winner's score minus the loser's, rounded to 2 decimals (0 on a tie).",
+          "type": "number",
+          "minimum": 0
+        },
+        "scoringFormat": {
+          "description": "The Season's Scoring format label (e.g. PPR, Standard + TE premium). Scores across formats aren't comparable.",
+          "type": "string",
+          "minLength": 1
+        },
+        "seedGap": {
+          "description": "The winner's seed minus the loser's.",
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+
+    "leaderboardScore": {
+      "description": "One side's score in a Counted Matchup, on the highest- or lowest-score leaderboard.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "year",
+        "matchupPeriod",
+        "weeks",
+        "kind",
+        "team",
+        "opponent",
+        "result",
+        "scoringFormat"
+      ],
+      "properties": {
+        "year": {
+          "description": "The Season.",
+          "$ref": "#/$defs/year"
+        },
+        "matchupPeriod": {
+          "description": "The Matchup period.",
+          "$ref": "#/$defs/matchupPeriod"
+        },
+        "weeks": {
+          "description": "The single NFL Week it was played in (two-week rounds aren't Counted Matchups).",
+          "$ref": "#/$defs/weeks"
+        },
+        "kind": {
+          "description": "regular = regular season; playoff = a championship-bracket Matchup.",
+          "enum": [
+            "regular",
+            "playoff"
+          ]
+        },
+        "team": {
+          "description": "The side whose score this row is about.",
+          "$ref": "#/$defs/leaderboardSide"
+        },
+        "opponent": {
+          "description": "The other side.",
+          "$ref": "#/$defs/leaderboardSide"
+        },
+        "result": {
+          "description": "The team's result.",
+          "enum": [
+            "win",
+            "loss",
+            "tie"
+          ]
+        },
+        "scoringFormat": {
+          "description": "The Season's Scoring format label (e.g. PPR, Standard + TE premium). Scores across formats aren't comparable.",
+          "type": "string",
+          "minLength": 1
         }
       }
     },

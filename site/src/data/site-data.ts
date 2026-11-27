@@ -285,7 +285,19 @@ export type Championship = {
   runnerUp: BracketSide;
   margin: number;
 };
-export type MatchupsDoc = { championships: Championship[] };
+export type LeaderboardSide = { owner: OwnerRef; teamName: string; score: number; seed: number | null };
+type LeaderboardBase = { year: number; matchupPeriod: number; weeks: number[]; kind: "regular" | "playoff"; scoringFormat: string };
+export type LeaderboardGame = LeaderboardBase & { winner: LeaderboardSide; loser: LeaderboardSide; isTie: boolean; margin: number };
+export type LeaderboardUpset = LeaderboardGame & { seedGap: number };
+export type LeaderboardScore = LeaderboardBase & { team: LeaderboardSide; opponent: LeaderboardSide; result: "win" | "loss" | "tie" };
+export type Leaderboards = {
+  blowouts: LeaderboardGame[];
+  closestGames: LeaderboardGame[];
+  highestScores: LeaderboardScore[];
+  lowestScores: LeaderboardScore[];
+  playoffUpsets: LeaderboardUpset[];
+};
+export type MatchupsDoc = { championships: Championship[]; leaderboards: Leaderboards };
 
 let matchupsDoc: MatchupsDoc | undefined;
 /** matchups.json: the Matchups section (championship cards, newest first). */

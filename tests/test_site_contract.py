@@ -653,3 +653,10 @@ def test_a_championship_margin_cannot_be_negative():
     doc["championships"][0]["margin"] = -1
     with pytest.raises(ContractError, match="margin"):
         validate(doc, "matchups")
+
+
+def test_every_leaderboard_row_must_carry_its_scoring_format():
+    doc = load_example("matchups.json")
+    del doc["leaderboards"]["blowouts"][0]["scoringFormat"]
+    with pytest.raises(ContractError, match="scoringFormat"):
+        validate(doc, "matchups")

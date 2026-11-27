@@ -358,7 +358,71 @@ def matchups_document(conn: Connection) -> dict:
     years = [y for (y,) in conn.execute("SELECT year FROM core.seasons ORDER BY year DESC").fetchall()]
     if not years:
         raise ExportError("no Seasons loaded")
-    return {"championships": [_championship(conn, year) for year in years]}
+    return {
+        "championships": [_championship(conn, year) for year in years],
+        "leaderboards": _leaderboards(conn),
+    }
+
+
+LEADERBOARD_SIZE = 10
+
+
+def _leaderboards(conn: Connection) -> dict:
+    """Top-10 lists over the Counted Matchups (stats.counted_matchups). Ties go by Season, Week, then
+    Owner name. Every row carries its Season's Scoring format, since scores across formats aren't
+    comparable (GAMEPLAN)."""
+    # franchise_id -> (Owner, team name, playoff seed), through franchise_owners (stats.standings)
+    info = {
+        fid: (owner, team, seed)
+        for fid, owner, team, seed in conn.execute(
+            "SELECT franchise_id, owner, team_name, playoff_seed FROM stats.standings"
+        ).fetchall()
+    }
+    games, sides = [], []
+    for year, label, period, week, is_playoff, home, away, hp, ap, winner in conn.execute(
+        """SELECT year, scoring_label, matchup_period, week, is_playoff, home_franchise_id, away_franchise_id,
+                  home_points, away_points, winner_franchise_id
+           FROM stats.counted_matchups"""
+    ).fetchall():
+        kind = "playoff" if is_playoff else "regular"
+
+        def side(fid, pts, is_playoff=is_playoff):
+            owner, team, seed = info[fid]
+            return {
+                "owner": _owner_ref(owner),
+                "teamName": team,
+                "score": float(pts),
+                "seed": seed if is_playoff else None,
+            }
+
+        home_side, away_side = side(home, hp), side(away, ap)
+        is_tie = winner is None
+        win, lose = (away_side, home_side) if winner == away else (home_side, away_side)
+        base = {"year": year, "matchupPeriod": period, "weeks": [week], "kind": kind}
+        games.append(
+            {**base, "winner": win, "loser": lose, "isTie": is_tie,
+             "margin": round(win["score"] - lose["score"], 2), "scoringFormat": label}
+        )  # fmt: skip
+        for team, opp in ((home_side, away_side), (away_side, home_side)):
+            result = "tie" if is_tie else ("win" if team is win else "loss")
+            sides.append({**base, "team": team, "opponent": opp, "result": result, "scoringFormat": label})
+
+    def when(r, who):
+        return (r["year"], r["matchupPeriod"], r[who]["owner"]["name"])
+
+    upsets = [
+        {**g, "seedGap": g["winner"]["seed"] - g["loser"]["seed"]}
+        for g in games
+        if g["kind"] == "playoff" and not g["isTie"] and g["winner"]["seed"] > g["loser"]["seed"]
+    ]
+    n = LEADERBOARD_SIZE
+    return {
+        "blowouts": sorted(games, key=lambda g: (-g["margin"], *when(g, "winner")))[:n],
+        "closestGames": sorted(games, key=lambda g: (g["margin"], *when(g, "winner")))[:n],
+        "highestScores": sorted(sides, key=lambda r: (-r["team"]["score"], *when(r, "team")))[:n],
+        "lowestScores": sorted(sides, key=lambda r: (r["team"]["score"], *when(r, "team")))[:n],
+        "playoffUpsets": sorted(upsets, key=lambda g: (-g["seedGap"], -g["margin"], *when(g, "winner")))[:n],
+    }
 
 
 def _championship(conn: Connection, year: int) -> dict:

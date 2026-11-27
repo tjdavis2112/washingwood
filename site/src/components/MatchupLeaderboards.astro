@@ -1,0 +1,121 @@
+---
+// Matchup leaderboards (#38): one tab per list, top 10 each, over the Counted Matchups (GLOSSARY:
+// regular season plus single-Week championship-bracket games played). Every row shows its Scoring
+// format, because scores across formats aren't comparable (GAMEPLAN). Tables scroll inside their own
+// box on phones, with the first column pinned.
+import OwnerLink from "./OwnerLink.astro";
+import Tabs from "./Tabs.astro";
+import { formatPoints, formatWeeks, type LeaderboardGame, type LeaderboardScore, type Leaderboards } from "../data/site-data";
+
+interface Props { boards: Leaderboards }
+const { boards } = Astro.props;
+
+const TABS = [
+  { id: "blowouts", label: "Blowouts" },
+  { id: "closest", label: "Closest games" },
+  { id: "highest", label: "Highest scores" },
+  { id: "lowest", label: "Lowest scores" },
+  { id: "upsets", label: "Playoff upsets" },
+];
+const GAME_TABS: { id: string; title: string; rows: LeaderboardGame[]; upsets?: boolean }[] = [
+  { id: "blowouts", title: "Biggest blowouts", rows: boards.blowouts },
+  { id: "closest", title: "Closest games", rows: boards.closestGames },
+  { id: "upsets", title: "Playoff upsets", rows: boards.playoffUpsets, upsets: true },
+];
+const SCORE_TABS: { id: string; title: string; rows: LeaderboardScore[] }[] = [
+  { id: "highest", title: "Highest scores", rows: boards.highestScores },
+  { id: "lowest", title: "Lowest scores", rows: boards.lowestScores },
+];
+const when = (r: { year: number; weeks: number[]; kind: string }) => `${formatWeeks(r.weeks)}${r.kind === "playoff" ? " · Playoffs" : ""}`;
+const seed = (s: { seed: number | null }) => (s.seed ? ` (${s.seed})` : "");
+const RESULT = { win: "W", loss: "L", tie: "T" } as const;
+---
+<section aria-labelledby="leaderboards-heading" data-testid="leaderboards">
+  <h2 id="leaderboards-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Leaderboards</h2>
+  <p class="mt-2 text-xs text-muted">
+    Top 10 across every Season: regular-season games and playoff games played (byes, consolation games, the
+    third-place game and 2018's two-week rounds aren't counted). Scoring formats differ by Season, so each row
+    shows its own.
+  </p>
+  <div class="mt-4">
+    <Tabs label="Leaderboards" tabs={TABS}>
+      {GAME_TABS.map((t) => (
+        <div slot={t.id} data-testid={`board-${t.id}`}>
+          {t.rows.length === 0 ? (
+            <p class="text-sm text-muted">None yet.</p>
+          ) : (
+            <div class="overflow-x-auto rounded-2xl border border-line">
+              <table aria-label={t.title} class="w-full min-w-[42rem] border-collapse text-sm">
+                <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+                  <tr>
+                    <th scope="col" class="px-3 py-3 text-right">#</th>
+                    <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Season</th>
+                    <th scope="col" class="px-3 py-3">{t.upsets ? "Winner (seed)" : "Winner"}</th>
+                    <th scope="col" class="px-3 py-3">{t.upsets ? "Loser (seed)" : "Loser"}</th>
+                    <th scope="col" class="px-3 py-3 text-right">Score</th>
+                    <th scope="col" class="px-3 py-3 text-right">{t.upsets ? "Seed gap" : "Margin"}</th>
+                    <th scope="col" class="px-3 py-3">Format</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {t.rows.map((r, i) => (
+                    <tr data-testid="leaderboard-row" class="border-t border-line odd:bg-ink even:bg-panel/40">
+                      <td class="px-3 py-2.5 text-right font-bold tabular-nums">{i + 1}</td>
+                      <td class="sticky left-0 bg-inherit px-3 py-2.5 whitespace-nowrap">
+                        <a href={`/seasons/${r.year}/`} class="font-semibold transition-colors hover:text-brand">{r.year}</a>
+                        <span class="block text-xs text-muted">{when(r)}</span>
+                      </td>
+                      <td class="px-3 py-2.5 whitespace-nowrap"><OwnerLink owner={r.winner.owner} class="font-semibold" />{t.upsets && <span class="text-muted">{seed(r.winner)}</span>}<span class="block text-xs text-muted">{r.winner.teamName}</span></td>
+                      <td class="px-3 py-2.5 whitespace-nowrap"><OwnerLink owner={r.loser.owner} />{t.upsets && <span class="text-muted">{seed(r.loser)}</span>}<span class="block text-xs text-muted">{r.loser.teamName}</span></td>
+                      <td class="px-3 py-2.5 text-right whitespace-nowrap tabular-nums">{formatPoints(r.winner.score)}–{formatPoints(r.loser.score)}{r.isTie && <span class="ml-1 text-xs text-muted">tie</span>}</td>
+                      <td class="px-3 py-2.5 text-right font-bold tabular-nums">{t.upsets ? (r as LeaderboardGame & { seedGap: number }).seedGap : formatPoints(r.margin)}</td>
+                      <td class="px-3 py-2.5"><span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{r.scoringFormat}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      ))}
+      {SCORE_TABS.map((t) => (
+        <div slot={t.id} data-testid={`board-${t.id}`}>
+          <div class="overflow-x-auto rounded-2xl border border-line">
+            <table aria-label={t.title} class="w-full min-w-[40rem] border-collapse text-sm">
+              <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+                <tr>
+                  <th scope="col" class="px-3 py-3 text-right">#</th>
+                  <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Season</th>
+                  <th scope="col" class="px-3 py-3">Owner</th>
+                  <th scope="col" class="px-3 py-3 text-right">Score</th>
+                  <th scope="col" class="px-3 py-3 text-center">Result</th>
+                  <th scope="col" class="px-3 py-3">Against</th>
+                  <th scope="col" class="px-3 py-3">Format</th>
+                </tr>
+              </thead>
+              <tbody>
+                {t.rows.map((r, i) => (
+                  <tr data-testid="leaderboard-row" class="border-t border-line odd:bg-ink even:bg-panel/40">
+                    <td class="px-3 py-2.5 text-right font-bold tabular-nums">{i + 1}</td>
+                    <td class="sticky left-0 bg-inherit px-3 py-2.5 whitespace-nowrap">
+                      <a href={`/seasons/${r.year}/`} class="font-semibold transition-colors hover:text-brand">{r.year}</a>
+                      <span class="block text-xs text-muted">{when(r)}</span>
+                    </td>
+                    <td class="px-3 py-2.5 whitespace-nowrap"><OwnerLink owner={r.team.owner} class="font-semibold" /><span class="block text-xs text-muted">{r.team.teamName}</span></td>
+                    <td class="px-3 py-2.5 text-right font-bold tabular-nums">{formatPoints(r.team.score)}</td>
+                    <td class="px-3 py-2.5 text-center font-semibold">{RESULT[r.result]}</td>
+                    <td class="px-3 py-2.5 whitespace-nowrap">
+                      <OwnerLink owner={r.opponent.owner} />
+                      <span class="ml-1 tabular-nums text-muted">{formatPoints(r.opponent.score)}</span>
+                    </td>
+                    <td class="px-3 py-2.5"><span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{r.scoringFormat}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ))}
+    </Tabs>
+  </div>
+</section>
