@@ -9,12 +9,12 @@ import subprocess
 import sys
 
 import pytest
-from espn_fixture import Season2018Style, Season2020Style, default_owners, team, write_owners
+from espn_fixture import PEOPLE, Season2018Style, Season2020Style, default_owners, team, write_owners
 
 from washingwood.build import build
 from washingwood.contract import validate
 from washingwood.loader import LoadError
-from washingwood.owners import OwnerMappingError
+from washingwood.owners import OwnerMappingError, slugify
 
 SEED_ORDER = ["quinn", "pell", "odie", "rue", "tamsin", "lyle", "marlo", "ines", "abel", "wren", "cass", "jory"]
 
@@ -364,3 +364,98 @@ def test_scoring_format_without_overrides_is_plain_ppr(archive, owners, tmp_path
     doc = run_season(archive, owners, tmp_path, pg_dsn, 2020)
 
     assert (doc["scoringFormat"]["label"], doc["scoringFormat"]["tePremium"]) == ("PPR", 0)
+
+
+# --- Playoff bracket (#9) ---
+# Fixture scores: the ESPN home side scores 120.5 when it wins and 99.75 when it loses;
+# the away side scores 101.25 or 118.0. The bracket lists the better seed first.
+
+
+def bside(seed, key, score):
+    name, team_name, _ = PEOPLE[key]
+    return {"seed": seed, "owner": {"slug": slugify(name), "name": name}, "teamName": team_name, "score": score}
+
+
+def bgame(home, away, winner, *, bye=False):
+    return {"home": home, "away": away, "winner": winner, "isTie": False, "isBye": bye}
+
+
+def test_12_team_bracket_has_byes_rounds_in_order_and_the_third_place_game(archive, owners, tmp_path, pg_dsn):
+    # Seed 5 (Tamsin) beats 4, then 1, then 2. Seed 1 (Quinn) wins the Third-place game over 3 (Odie).
+    # Seeds 4 (Rue) and 6 (Lyle) play the 5th-place game in the same tier and period: it isn't in the bracket.
+    season(2020, upsets={"tamsin"}).write(archive)
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2020)
+
+    validate(doc, "season")
+    assert doc["bracket"] == {
+        "rounds": [
+            {
+                "name": "Quarterfinals",
+                "matchupPeriod": 15,
+                "weeks": [15],
+                "matchups": [
+                    bgame(bside(1, "quinn", None), None, None, bye=True),
+                    bgame(bside(2, "pell", None), None, None, bye=True),
+                    bgame(bside(3, "odie", 120.5), bside(6, "lyle", 101.25), "home"),
+                    bgame(bside(4, "rue", 99.75), bside(5, "tamsin", 118.0), "away"),
+                ],
+            },
+            {
+                "name": "Semifinals",
+                "matchupPeriod": 16,
+                "weeks": [16],
+                "matchups": [
+                    bgame(bside(1, "quinn", 99.75), bside(5, "tamsin", 118.0), "away"),
+                    bgame(bside(2, "pell", 120.5), bside(3, "odie", 101.25), "home"),
+                ],
+            },
+            {
+                "name": "Championship",
+                "matchupPeriod": 17,
+                "weeks": [17],
+                "matchups": [bgame(bside(2, "pell", 99.75), bside(5, "tamsin", 118.0), "away")],
+            },
+        ],
+        "thirdPlaceGame": {
+            "matchupPeriod": 17,
+            "weeks": [17],
+            "matchup": bgame(bside(1, "quinn", 120.5), bside(3, "odie", 101.25), "home"),
+        },
+    }
+
+
+def test_better_seed_is_listed_first_even_when_espn_calls_it_away(archive, owners, tmp_path, pg_dsn):
+    s = season(2020)
+    # Swap ESPN's home and away on the 3 v 6 quarterfinal (seed 3 wins)
+    m = next(m for m in s.matchups()["schedule"] if m["matchupPeriodId"] == 15 and "away" in m)
+    m["home"], m["away"] = m["away"], m["home"]
+    m["winner"] = "AWAY"
+    s.write(archive)
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2020)
+
+    qf = doc["bracket"]["rounds"][0]["matchups"]
+    three_six = next(g for g in qf if not g["isBye"] and g["home"]["seed"] == 3)
+    assert (three_six["away"]["seed"], three_six["winner"], three_six["home"]["score"]) == (6, "home", 120.5)
+
+
+def test_2018_style_two_week_rounds_show_combined_scores(archive, owners, tmp_path, pg_dsn):
+    # Periods 14 (Weeks 14-15) and 15 (Weeks 16-17). Each side's score is the two-week total
+    # (the fixture splits it evenly across the two Weeks).
+    Season2018Style(2018, [team(k) for k in SEED_ORDER[:10]]).write(archive)
+
+    doc = run_season(archive, owners, tmp_path, pg_dsn, 2018)
+
+    rounds = doc["bracket"]["rounds"]
+    assert [(r["name"], r["matchupPeriod"], r["weeks"]) for r in rounds] == [
+        ("Semifinals", 14, [14, 15]),
+        ("Championship", 15, [16, 17]),
+    ]
+    assert rounds[0]["matchups"] == [
+        bgame(bside(1, "quinn", 120.5), bside(4, "rue", 101.25), "home"),
+        bgame(bside(2, "pell", 120.5), bside(3, "odie", 101.25), "home"),
+    ]
+    third = doc["bracket"]["thirdPlaceGame"]
+    assert (third["matchupPeriod"], third["weeks"]) == (15, [16, 17])
+    assert third["matchup"] == bgame(bside(3, "odie", 120.5), bside(4, "rue", 101.25), "home")

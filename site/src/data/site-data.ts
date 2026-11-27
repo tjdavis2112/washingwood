@@ -67,7 +67,24 @@ export type Season = {
   lastPlace: { owner: OwnerRef; teamName: string; record: WinLossTie; punishment: Punishment | null };
   scoringFormat: ScoringFormat;
   standings: StandingsRow[];
+  bracket: Bracket;
 };
+export type BracketSide = { seed: number; owner: OwnerRef; teamName: string; score: number | null };
+export type BracketMatchup = {
+  home: BracketSide;
+  away: BracketSide | null;
+  winner: "home" | "away" | null;
+  isTie: boolean;
+  isBye: boolean;
+};
+export type BracketRound = { name: string; matchupPeriod: number; weeks: number[]; matchups: BracketMatchup[] };
+export type Bracket = {
+  rounds: BracketRound[];
+  thirdPlaceGame: { matchupPeriod: number; weeks: number[]; matchup: BracketMatchup };
+};
+
+/** "Week 15", or "Weeks 14–15" for a two-week round. */
+export const formatWeeks = (w: number[]) => (w.length > 1 ? `Weeks ${w[0]}–${w[w.length - 1]}` : `Week ${w[0]}`);
 export type ScoringFormat = {
   label: string;
   receptionPoints: number;

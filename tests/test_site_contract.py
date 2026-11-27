@@ -389,15 +389,14 @@ def test_example_last_place_is_highest_seed_even_when_it_finishes_above_another_
 
 
 def test_season_sections_from_later_tickets_are_optional_until_exported():
-    # #9 and #10 add the bracket and weekly results to the export; until then they're optional
+    # #10 adds weekly results to the export; until then they're optional
     doc = season()
-    for key in ("bracket", "weeklyResults"):
-        del doc[key]
+    del doc["weeklyResults"]
     validate(doc, "season")
 
 
 def test_season_requires_every_section_exported_so_far():
-    for key in ("year", "teamCount", "dataTier", "podium", "lastPlace", "scoringFormat", "standings"):
+    for key in ("year", "teamCount", "dataTier", "podium", "lastPlace", "scoringFormat", "standings", "bracket"):
         doc = season()
         del doc[key]
         with pytest.raises(ContractError, match=key):

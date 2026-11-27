@@ -1,0 +1,52 @@
+---
+// The playoff bracket: winners' bracket rounds left to right on desktop (stacked on phones),
+// with the Third-place game under the championship. Consolation games aren't part of it.
+import { type Bracket, formatWeeks } from "../data/site-data";
+import BracketMatchup from "./BracketMatchup.astro";
+
+interface Props { bracket: Bracket }
+const { bracket } = Astro.props;
+const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+---
+<section aria-labelledby="bracket-heading">
+  <h2 id="bracket-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Playoff bracket</h2>
+  <div
+    class="mt-4 grid gap-6 md:gap-4"
+    style={`grid-template-columns: repeat(var(--cols, 1), minmax(0, 1fr)); --md-cols: ${bracket.rounds.length}`}
+    data-bracket-grid
+  >
+    {bracket.rounds.map((round, i) => {
+      const id = `round-${slug(round.name)}`;
+      const last = i === bracket.rounds.length - 1;
+      return (
+        <div class="flex flex-col gap-6">
+          <div role="group" aria-labelledby={id} class="flex flex-1 flex-col">
+            <div class="mb-3 flex items-baseline justify-between gap-2 md:block">
+              <h3 id={id} class:list={["text-sm font-bold uppercase tracking-widest", last ? "text-brand" : "text-paper"]}>{round.name}</h3>
+              <p class="text-xs text-muted">{formatWeeks(round.weeks)}</p>
+            </div>
+            <ul class="flex flex-1 flex-col justify-around gap-3">
+              {round.matchups.map((game) => <BracketMatchup game={game} />)}
+            </ul>
+          </div>
+          {last && (
+            <div role="group" aria-labelledby="round-third-place" class="flex flex-col">
+              <div class="mb-3 flex items-baseline justify-between gap-2 md:block">
+                <h3 id="round-third-place" class="text-sm font-bold uppercase tracking-widest text-paper">Third-place game</h3>
+                <p class="text-xs text-muted">{formatWeeks(bracket.thirdPlaceGame.weeks)}</p>
+              </div>
+              <ul><BracketMatchup game={bracket.thirdPlaceGame.matchup} /></ul>
+            </div>
+          )}
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<style>
+  /* One column per round from tablet width up; a single stacked column on phones */
+  @media (min-width: 48rem) {
+    [data-bracket-grid] { --cols: var(--md-cols); }
+  }
+</style>

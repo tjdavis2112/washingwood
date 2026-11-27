@@ -224,7 +224,7 @@ def _matchups(conn: Connection, season_id: int, files: SeasonFiles, franchise_id
     final = _championship(files, schedule)
     third = _third_place_game(files, schedule)
     _check_against_espn_places(files, final, third)
-    rounds = {id(final): "final", id(third): "3rd place"}
+    rounds = {**_winners_bracket_rounds(schedule), id(third): THIRD_PLACE}
 
     for m in schedule:
         weeks = periods[str(m["matchupPeriodId"])]
@@ -252,6 +252,21 @@ def _winner(m: dict) -> int | None:
 def _loser(m: dict) -> int | None:
     side = {"HOME": m.get("away"), "AWAY": m["home"]}.get(m["winner"])
     return side["teamId"] if side else None
+
+
+# core.matchups.playoff_round values. Winners' bracket rounds are counted back from the championship.
+ROUND_LABELS = ["final", "semifinal", "quarterfinal"]
+THIRD_PLACE = "3rd place"
+
+
+def _winners_bracket_rounds(schedule: list[dict]) -> dict[int, str]:
+    """id(matchup) -> playoff_round for every WINNERS_BRACKET Matchup, byes included."""
+    wb = [m for m in schedule if m["playoffTierType"] == "WINNERS_BRACKET"]
+    periods = sorted({m["matchupPeriodId"] for m in wb}, reverse=True)
+    label = {
+        p: ROUND_LABELS[i] if i < len(ROUND_LABELS) else f"round {len(periods) - i}" for i, p in enumerate(periods)
+    }
+    return {id(m): label[m["matchupPeriodId"]] for m in wb}
 
 
 def _championship(files: SeasonFiles, schedule: list[dict]) -> dict:

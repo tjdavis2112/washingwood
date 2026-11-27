@@ -1,0 +1,34 @@
+---
+// One playoff Matchup: the better seed on top. The winner is highlighted (and announced as
+// "Winner" to screen readers); a bye shows the team advancing without a game.
+import { type BracketMatchup, type BracketSide, formatPoints } from "../data/site-data";
+
+interface Props { game: BracketMatchup }
+const { game } = Astro.props;
+const sides: { side: BracketSide; won: boolean }[] = [{ side: game.home, won: game.winner === "home" }];
+if (game.away) sides.push({ side: game.away, won: game.winner === "away" });
+---
+<li class="overflow-hidden rounded-2xl border border-line bg-panel">
+  {sides.map(({ side, won }, i) => (
+    <div
+      data-testid="bracket-side"
+      class:list={[
+        "flex items-center gap-3 px-3 py-2.5",
+        { "border-t border-line": i > 0, "bg-brand/10": won },
+      ]}
+    >
+      <span class="w-5 shrink-0 text-right text-xs tabular-nums text-muted">{side.seed}</span>
+      <span class="min-w-0 flex-1">
+        <span class:list={["block truncate text-sm", won ? "font-bold text-paper" : "font-medium text-muted"]}>{side.owner.name}</span>
+        <span class="block truncate text-xs text-muted">{side.teamName}</span>
+      </span>
+      {won && <span class="sr-only">Winner</span>}
+      {side.score !== null && (
+        <span class:list={["shrink-0 text-sm tabular-nums", won ? "font-bold text-paper" : "text-muted"]}>{formatPoints(side.score)}</span>
+      )}
+    </div>
+  ))}
+  {game.isBye && (
+    <div class="border-t border-dashed border-line px-3 py-2 text-xs font-semibold uppercase tracking-widest text-muted">Bye</div>
+  )}
+</li>
