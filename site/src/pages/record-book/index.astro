@@ -1,0 +1,97 @@
+---
+// The Record Book (#49): cross-Season records. Single-game extremes stay on /matchups/. One tab per
+// scope; this tracer (#50) fills Last place, and #51-#54 fill the rest. Every row shows its Scoring
+// format, and the intro names the rule changes the badge can't show (GAMEPLAN: formats aren't
+// comparable).
+import OwnerLink from "../../components/OwnerLink.astro";
+import Tabs from "../../components/Tabs.astro";
+import { formatPoints, formatRecord, getRecordBook } from "../../data/site-data";
+import Base from "../../layouts/Base.astro";
+
+const { lastPlace } = getRecordBook();
+const TABS = [
+  { id: "week", label: "Week" },
+  { id: "season", label: "Season" },
+  { id: "all-time", label: "All-time" },
+  { id: "streaks", label: "Streaks" },
+  { id: "last-place", label: "Last place" },
+];
+const LATER = TABS.slice(0, 4);
+---
+<Base title="Record Book">
+  <header class="mb-8">
+    <h1 class="text-3xl font-black md:text-5xl">Record Book</h1>
+    <p class="mt-2 text-muted">
+      The League's records across every Season: single Weeks, whole Seasons and careers, streaks, luck,
+      and who finished last. The biggest blowouts, closest games and upsets are on <a href="/matchups/" class="font-semibold text-paper underline decoration-brand underline-offset-4 hover:text-brand">Matchups</a>.
+    </p>
+  </header>
+
+  <aside data-testid="rule-change-note" class="mb-8 rounded-2xl border border-line bg-panel/60 p-4 text-sm text-muted">
+    <p>
+      <span class="font-semibold text-paper">Comparing Seasons:</span> each row shows its Scoring format, but the
+      badge doesn't show every rule change. D/ST and field-goal scoring changed in 2020, and a second FLEX
+      starter was added in 2023, so scores run higher in later Seasons.
+    </p>
+  </aside>
+
+  <Tabs label="Record Book" tabs={TABS}>
+    {LATER.map((t) => (
+      <div slot={t.id}><p class="text-sm text-muted">Coming in a later update.</p></div>
+    ))}
+
+    <div slot="last-place" data-testid="last-place" class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start">
+      <div class="min-w-0">
+        <p class="mb-4 text-xs text-muted">Last place is the worst regular-season record. Playoff and consolation results don't change it.</p>
+        <div class="overflow-x-auto rounded-2xl border border-line">
+          <table aria-label="Last place by Season" class="w-full min-w-[38rem] border-collapse text-sm">
+            <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+              <tr>
+                <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Season</th>
+                <th scope="col" class="px-3 py-3">Owner</th>
+                <th scope="col" class="px-3 py-3 text-right">Record</th>
+                <th scope="col" class="px-3 py-3 text-right">Points for</th>
+                <th scope="col" class="px-3 py-3">Format</th>
+                <th scope="col" class="px-3 py-3"><span class="sr-only">Punishment</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              {lastPlace.seasons.map((r) => (
+                <tr data-testid="last-place-row" data-year={r.year} class="border-t border-line">
+                  <th scope="row" class="sticky left-0 bg-ink px-3 py-2.5 text-left font-bold tabular-nums">
+                    <a href={`/seasons/${r.year}/`} class="hover:text-brand">{r.year}</a>
+                  </th>
+                  <td class="px-3 py-2.5">
+                    <OwnerLink owner={r.owner} class="font-semibold" />
+                    <span class="block text-xs text-muted">{r.teamName}</span>
+                  </td>
+                  <td class="px-3 py-2.5 text-right tabular-nums">{formatRecord(r.record)}</td>
+                  <td class="px-3 py-2.5 text-right tabular-nums">{formatPoints(r.pointsFor)}</td>
+                  <td class="px-3 py-2.5"><span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{r.scoringFormat}</span></td>
+                  <td class="px-3 py-2.5 text-right">
+                    <a data-testid="punishment-link" href={`/seasons/${r.year}/#punishment-${r.year}`} class="whitespace-nowrap text-xs font-bold uppercase tracking-widest text-brand hover:text-paper">Punishment</a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <section data-testid="last-place-tally" aria-labelledby="tally-heading" class="rounded-2xl border border-line bg-panel/60 p-5">
+        <h2 id="tally-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Most Last places</h2>
+        <ol class="mt-4 space-y-3">
+          {lastPlace.tally.map((t) => (
+            <li data-testid="tally-row" class="flex items-baseline justify-between gap-3">
+              <span class="min-w-0">
+                <OwnerLink owner={t.owner} class="block truncate font-semibold" />
+                <span class="block text-xs text-muted">{t.years.join(", ")}</span>
+              </span>
+              <span class="text-xl font-black tabular-nums">{t.count}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </div>
+  </Tabs>
+</Base>

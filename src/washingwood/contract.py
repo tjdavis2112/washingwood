@@ -21,7 +21,18 @@ SCHEMA_PATH = CONTRACT_DIR / "site-data.schema.json"
 EXAMPLES_DIR = CONTRACT_DIR / "examples"
 
 # Document kinds: each is an entry point under the schema's $defs
-KINDS = ("league", "trophyShelf", "ownerIndex", "owner", "season", "draft", "matchups", "rivalry", "boxScores")
+KINDS = (
+    "league",
+    "trophyShelf",
+    "ownerIndex",
+    "owner",
+    "season",
+    "draft",
+    "matchups",
+    "rivalry",
+    "boxScores",
+    "recordBook",
+)
 
 
 class ContractError(ValueError):

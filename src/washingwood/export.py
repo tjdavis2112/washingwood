@@ -485,6 +485,44 @@ def matchups_document(conn: Connection) -> dict:
     }
 
 
+def record_book_document(conn: Connection) -> dict:
+    """The Record Book section. Last place comes from stats.last_place, the same source as the Season
+    pages, so the two always agree."""
+    rows = conn.execute(
+        """SELECT lp.year, lp.owner, lp.team_name, lp.wins, lp.losses, lp.ties, st.points_for, s.scoring_label
+           FROM stats.last_place lp
+           JOIN stats.standings st ON st.franchise_id = lp.franchise_id
+           JOIN core.seasons s ON s.year = lp.year
+           ORDER BY lp.year DESC"""
+    ).fetchall()
+    if not rows:
+        raise ExportError("no Seasons loaded")
+    seasons = [
+        {
+            "year": year,
+            "owner": _owner_ref(owner),
+            "teamName": team,
+            "record": _record(w, lost, tied),
+            "pointsFor": float(pf),
+            "scoringFormat": label,
+        }
+        for year, owner, team, w, lost, tied, pf, label in rows
+    ]
+    tally: dict[str, dict] = {}
+    for row in seasons:
+        entry = tally.setdefault(row["owner"]["slug"], {"owner": row["owner"], "count": 0, "years": []})
+        entry["count"] += 1
+        entry["years"].append(row["year"])
+    for entry in tally.values():
+        entry["years"].sort()
+    return {
+        "lastPlace": {
+            "seasons": seasons,
+            "tally": sorted(tally.values(), key=lambda e: (-e["count"], e["owner"]["name"])),
+        }
+    }
+
+
 def rivalry_documents(conn: Connection) -> dict[str, dict]:
     """One Rivalry document per pair of Owners who have played, keyed "<a>-vs-<b>" (slugs in alphabetical
     order). Records follow the Owner page's head-to-head rules; every game is listed, newest first."""

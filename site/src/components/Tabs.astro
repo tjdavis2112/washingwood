@@ -56,6 +56,12 @@ const panels = await Promise.all(tabs.map((t) => Astro.slots.render(t.id)));
     });
     // Open the tab named in the URL (e.g. #scoring)
     const linked = tabs.find((t) => `#${t.dataset.tab}` === location.hash);
-    if (linked) select(linked, { updateHash: false });
+    if (linked) {
+      select(linked, { updateHash: false });
+      // On a phone the tab strip scrolls sideways: bring a linked tab past the right edge into view
+      const bar = root.firstElementChild.getBoundingClientRect();
+      const edge = linked.getBoundingClientRect().right - bar.right;
+      if (edge > 0) root.firstElementChild.scrollLeft += Math.ceil(edge) + 16;
+    }
   })();
 </script>
