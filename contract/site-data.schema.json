@@ -185,7 +185,7 @@
       "description": "Everything the Season page shows for one Season. Exported as seasons/<year>.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["year", "teamCount", "dataTier", "podium", "lastPlace", "scoringFormat", "standings", "bracket", "weeklyResults"],
+      "required": ["year", "teamCount", "dataTier", "podium", "lastPlace", "scoringFormat", "standings", "bracket", "weeklyResults", "draft"],
       "properties": {
         "year": { "description": "The Season's year.", "$ref": "#/$defs/year" },
         "teamCount": { "description": "Number of Franchises in the Season.", "$ref": "#/$defs/teamCount" },
@@ -227,6 +227,77 @@
                   "count": { "description": "How many of this slot a Franchise has.", "type": "integer", "minimum": 1 }
                 }
               }
+            }
+          }
+        },
+        "draft": {
+          "description": "The Season's Draft: its order and every Pick, in pick order.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "type",
+            "rounds",
+            "order",
+            "picks",
+            "note"
+          ],
+          "properties": {
+            "type": {
+              "description": "How the Draft was run: snake (the order reverses each round) or offline (run off the platform and entered by hand afterwards, still in snake order).",
+              "enum": [
+                "snake",
+                "offline"
+              ]
+            },
+            "rounds": {
+              "description": "Number of rounds.",
+              "type": "integer",
+              "minimum": 1
+            },
+            "order": {
+              "description": "The round-1 order: one entry per Franchise, by Draft slot.",
+              "type": "array",
+              "minItems": 2,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "slot",
+                  "owner",
+                  "teamName"
+                ],
+                "properties": {
+                  "slot": {
+                    "description": "Draft slot: the Franchise's pick number in round 1, 1..teamCount.",
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "owner": {
+                    "description": "The Franchise's Owner.",
+                    "$ref": "#/$defs/ownerRef"
+                  },
+                  "teamName": {
+                    "description": "The Franchise's team name that Season.",
+                    "$ref": "#/$defs/teamName"
+                  }
+                }
+              }
+            },
+            "picks": {
+              "description": "Every Pick, ordered by overall pick number (1..teamCount x rounds).",
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "$ref": "#/$defs/draftPick"
+              }
+            },
+            "note": {
+              "description": "A caveat shown with the board, e.g. for an offline Draft with Picks not recorded. Null when there is nothing to say.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "minLength": 1
             }
           }
         },
@@ -337,6 +408,81 @@
               }
             }
           }
+        }
+      }
+    },
+
+    "draftPick": {
+      "description": "One Pick in a Draft.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "overall",
+        "round",
+        "roundPick",
+        "owner",
+        "player"
+      ],
+      "properties": {
+        "overall": {
+          "description": "Overall pick number, from 1.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "round": {
+          "description": "Round, from 1.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "roundPick": {
+          "description": "Pick within the round, from 1. Shown as round.pick, e.g. 3.07.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "owner": {
+          "description": "The Owner of the Franchise that made the Pick.",
+          "$ref": "#/$defs/ownerRef"
+        },
+        "player": {
+          "description": "The Player taken, or null when no Player was recorded for the Pick.",
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/$defs/draftPlayer"
+            }
+          ]
+        }
+      }
+    },
+    "draftPlayer": {
+      "description": "A drafted Player, as of that Season.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "position",
+        "nflTeam"
+      ],
+      "properties": {
+        "name": {
+          "description": "The Player's name.",
+          "type": "string",
+          "minLength": 1
+        },
+        "position": {
+          "description": "Position: QB, RB, WR, TE, K, D/ST (others are possible but rare).",
+          "type": "string",
+          "minLength": 1
+        },
+        "nflTeam": {
+          "description": "NFL team abbreviation that Season, e.g. KC. One value per Season, so not necessarily the team on draft day. Null for a free agent.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 2
         }
       }
     },

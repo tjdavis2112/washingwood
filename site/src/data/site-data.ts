@@ -69,7 +69,20 @@ export type Season = {
   standings: StandingsRow[];
   bracket: Bracket;
   weeklyResults: WeeklyPeriod[];
+  draft: Draft;
 };
+export type DraftPlayer = { name: string; position: string; nflTeam: string | null };
+export type DraftPick = { overall: number; round: number; roundPick: number; owner: OwnerRef; player: DraftPlayer | null };
+export type Draft = {
+  type: "snake" | "offline";
+  rounds: number;
+  order: { slot: number; owner: OwnerRef; teamName: string }[];
+  picks: DraftPick[];
+  note: string | null;
+};
+
+/** A Pick as round.pick: "3.07". */
+export const formatPick = (p: { round: number; roundPick: number }) => `${p.round}.${String(p.roundPick).padStart(2, "0")}`;
 export type WeeklySide = { owner: OwnerRef; teamName: string; score: number | null };
 export type WeeklyMatchup = {
   home: WeeklySide;

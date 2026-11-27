@@ -24,16 +24,6 @@ def season(year, *, upsets=(), order=SEED_ORDER, overrides=None, **options):
     return Season2020Style(year, [overrides.get(k) or team(k) for k in order], upsets=set(upsets), **options)
 
 
-@pytest.fixture
-def archive(tmp_path):
-    return tmp_path / "archive" / "999001"
-
-
-@pytest.fixture
-def owners(tmp_path):
-    return write_owners(tmp_path / "owners.yaml", default_owners())
-
-
 def run(archive, owners, tmp_path, pg_dsn):
     out = tmp_path / "export"
     build(archive_dir=archive, owners_file=owners, out_dir=out, dsn=pg_dsn)

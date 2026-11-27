@@ -5,6 +5,7 @@ import uuid
 
 import psycopg
 import pytest
+from espn_fixture import default_owners, write_owners
 
 
 def _docker_reachable() -> bool:
@@ -35,3 +36,15 @@ def pg_dsn(pg_server):
     with psycopg.connect(admin, autocommit=True) as conn:
         conn.execute(f'CREATE DATABASE "{name}"')
     yield admin.rsplit("/", 1)[0] + f"/{name}"
+
+
+@pytest.fixture
+def archive(tmp_path):
+    """Where a test writes its fixture Seasons (archive/<league-id>/<year>/)."""
+    return tmp_path / "archive" / "999001"
+
+
+@pytest.fixture
+def owners(tmp_path):
+    """owners.yaml mapping every invented person to their member ID."""
+    return write_owners(tmp_path / "owners.yaml", default_owners())

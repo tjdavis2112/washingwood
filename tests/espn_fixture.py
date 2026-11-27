@@ -31,6 +31,49 @@ BASE_SCORING = {3: 0.04, 4: 4.0, 20: -2.0, 24: 0.1, 25: 6.0, 42: 0.1, 43: 6.0, 7
 # lineupSlotId -> count (espn-api.md §5): QB, RB x2, WR x2, TE, FLEX, D/ST, K, BE x7, IR 0
 LINEUP_SLOTS = {"0": 1, "2": 2, "4": 2, "6": 1, "23": 1, "16": 1, "17": 1, "20": 7, "21": 0}
 
+# Draft: 3 rounds keeps fixtures small. Fixture Players are a pure function of the overall pick, so the
+# same pick number drafts the same Player in every Season (one Player across Seasons).
+DRAFT_ROUNDS = 3
+# defaultPositionId by (overall - 1) % 6: RB, WR, QB, TE, D/ST, K (espn-api.md §5)
+POSITION_CYCLE = [2, 3, 1, 4, 16, 5]
+# proTeamId (espn-api.md §5): ATL, BUF, CHI, ..., HOU; 0 = free agent, used for the undrafted Player
+PRO_TEAMS = [i for i in range(1, 35) if i not in (31, 32)]
+UNDRAFTED_PLAYER_ID = 9999
+
+
+def fixture_player_id(overall: int) -> int:
+    """ESPN-style ID: D/ST IDs are negative (-16000 - proTeamId), everyone else positive."""
+    if POSITION_CYCLE[(overall - 1) % 6] == 16:
+        return -16000 - PRO_TEAMS[(overall - 1) % len(PRO_TEAMS)]
+    return 5000 + overall
+
+
+def _overall_of(pid: int) -> int | None:
+    if pid == UNDRAFTED_PLAYER_ID:
+        return None
+    if pid < 0:
+        return next(o for o in range(1, 400) if fixture_player_id(o) == pid)
+    return pid - 5000
+
+
+def fixture_player_position(pid: int) -> int:
+    overall = _overall_of(pid)
+    return 3 if overall is None else POSITION_CYCLE[(overall - 1) % 6]
+
+
+def fixture_player_pro_team(pid: int) -> int:
+    overall = _overall_of(pid)
+    return 0 if overall is None else PRO_TEAMS[(overall - 1) % len(PRO_TEAMS)]
+
+
+def fixture_player_name(pid: int) -> str:
+    overall = _overall_of(pid)
+    if overall is None:
+        return "Undrafted Fixture"
+    if fixture_player_position(pid) == 16:
+        return f"Team{fixture_player_pro_team(pid)} D/ST"
+    return f"Fixture Player {overall:03d}"
+
 
 @dataclass
 class Team:
@@ -55,6 +98,16 @@ class FixtureSeason:
     adjustments: dict[str, float] = field(default_factory=dict)
     # Regular-season period whose first Matchup ends in a tie (both sides 110.0, winner TIE)
     tie_period: int | None = None
+    # Draft (espn-api.md §6): "SNAKE" or "OFFLINE". Overall picks listed in unrecorded_picks have
+    # playerId -1 and lineupSlotId -1, as in the real 2018 offline draft.
+    draft_type: str = "SNAKE"
+    unrecorded_picks: set[int] = field(default_factory=set)
+    # playerId -> fullName, to rename a fixture Player in one Season
+    player_names: dict[int, str] = field(default_factory=dict)
+    # Overall picks to leave out of draftDetail.picks (to break the pick count)
+    missing_picks: set[int] = field(default_factory=set)
+    # playerIds to leave out of players.json
+    unlisted_players: set[int] = field(default_factory=set)
 
     TEAMS = 0
     REGULAR_PERIODS = 0
@@ -166,6 +219,7 @@ class FixtureSeason:
                 },
                 "scoringSettings": {"scoringType": "H2H_POINTS", "scoringItems": items},
                 "rosterSettings": {"lineupSlotCounts": dict(LINEUP_SLOTS)},
+                "draftSettings": {"type": self.draft_type, "pickOrder": self.pick_order(), "keeperCount": 0},
             },
         }
 
@@ -205,13 +259,74 @@ class FixtureSeason:
     def matchups(self) -> dict:
         return {"id": int(LEAGUE_ID), "seasonId": self.year, "schedule": self._schedule}
 
+    def pick_order(self) -> list[int]:
+        """Round-1 order: worst seed first."""
+        return [self._ids[t.key] for t in reversed(self.teams_by_seed)]
+
+    def _picks(self) -> list[dict]:
+        order = self.pick_order()
+        picks = []
+        for rnd in range(1, DRAFT_ROUNDS + 1):
+            seq = order if rnd % 2 else list(reversed(order))  # snake (espn-api.md §6)
+            for i, team_id in enumerate(seq):
+                overall = (rnd - 1) * self.TEAMS + i + 1
+                unrecorded = overall in self.unrecorded_picks
+                picks.append(
+                    {
+                        "id": overall,
+                        "overallPickNumber": overall,
+                        "roundId": rnd,
+                        "roundPickNumber": i + 1,
+                        "teamId": team_id,
+                        "playerId": -1 if unrecorded else fixture_player_id(overall),
+                        "lineupSlotId": -1 if unrecorded else 20,
+                        "autoDraftTypeId": 0,
+                        "memberId": f"{{MEMBER-{team_id:04d}}}",  # personal in the real data: never exported
+                        "bidAmount": 0,
+                        "nominatingTeamId": 0,
+                        "keeper": False,
+                        "reservedForKeeper": False,
+                        "tradeLocked": False,
+                    }
+                )
+        return [p for p in picks if p["overallPickNumber"] not in self.missing_picks]
+
+    def draft(self) -> dict:
+        return {
+            "id": int(LEAGUE_ID),
+            "seasonId": self.year,
+            "draftDetail": {"drafted": True, "inProgress": False, "picks": self._picks()},
+        }
+
+    def players(self) -> list[dict]:
+        """players.json: every drafted Player plus one undrafted one (espn-api.md §5)."""
+        ids = [p["playerId"] for p in self._picks() if p["playerId"] != -1] + [UNDRAFTED_PLAYER_ID]
+        return [
+            {
+                "id": pid,
+                "fullName": self.player_names.get(pid, fixture_player_name(pid)),
+                "firstName": "X",
+                "lastName": "Y",
+                "defaultPositionId": fixture_player_position(pid),
+                "proTeamId": fixture_player_pro_team(pid),
+                "eligibleSlots": [],
+                "droppable": True,
+                "ownership": {"percentOwned": 50.0},
+                "universeId": 0,
+            }
+            for pid in ids
+            if pid not in self.unlisted_players
+        ]
+
     def write(self, archive: Path) -> None:
         d = archive / str(self.year)
         d.mkdir(parents=True, exist_ok=True)
+        (d / "players.json").write_text(json.dumps(self.players(), indent=1), encoding="utf-8")
         for name, doc in (
             ("league_mSettings", self.settings()),
             ("league_mTeam", self.teams()),
             ("league_mMatchupScore", self.matchups()),
+            ("league_mDraftDetail", self.draft()),
         ):
             (d / f"{name}.json").write_text(json.dumps(doc, indent=1), encoding="utf-8")
 

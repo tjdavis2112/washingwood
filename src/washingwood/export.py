@@ -219,7 +219,48 @@ def season_document(conn: Connection, year: int) -> dict:
         "standings": standings,
         "bracket": _bracket(conn, year),
         "weeklyResults": _weekly_results(conn, year),
+        "draft": _draft(conn, year),
     }
+
+
+def _draft(conn: Connection, year: int) -> dict:
+    """The Season's Draft: round-1 order by Draft slot and every Pick in order (stats.draft_board)."""
+    draft_type = conn.execute("SELECT draft_type FROM core.seasons WHERE year = %s", (year,)).fetchone()[0]
+    rows = conn.execute(
+        """SELECT overall_pick, round, round_pick, owner, team_name, draft_slot, player_name, position, nfl_team
+           FROM stats.draft_board WHERE year = %s ORDER BY overall_pick""",
+        (year,),
+    ).fetchall()
+    if not rows:
+        raise ExportError(f"Season {year}: no Draft picks loaded")
+    order = sorted({(slot, owner, team) for _, rnd, _, owner, team, slot, *_ in rows if rnd == 1})
+    picks = [
+        {
+            "overall": overall,
+            "round": rnd,
+            "roundPick": round_pick,
+            "owner": _owner_ref(owner),
+            "player": None if name is None else {"name": name, "position": position, "nflTeam": nfl_team},
+        }
+        for overall, rnd, round_pick, owner, _, _, name, position, nfl_team in rows
+    ]
+    return {
+        "type": draft_type,
+        "rounds": max(p["round"] for p in picks),
+        "order": [{"slot": slot, "owner": _owner_ref(owner), "teamName": team} for slot, owner, team in order],
+        "picks": picks,
+        "note": _draft_note(draft_type, sum(p["player"] is None for p in picks)),
+    }
+
+
+def _draft_note(draft_type: str, unrecorded: int) -> str | None:
+    parts = []
+    if draft_type == "offline":
+        parts.append("Drafted offline and entered by hand.")
+    if unrecorded:
+        picks = "pick wasn't" if unrecorded == 1 else "picks weren't"
+        parts.append(f"{unrecorded} {picks} recorded.")
+    return " ".join(parts) or None
 
 
 @dataclass(frozen=True)
