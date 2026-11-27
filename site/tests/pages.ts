@@ -5,7 +5,6 @@ export const COMING_SOON: Record<string, string> = {
   "/matchups/": "Matchups",
   "/record-book/": "Record Book",
   "/hall-of-fame/": "Hall of Fame",
-  "/draft/": "Draft",
   "/transactions/": "Transactions",
   "/league-rules/": "League Rules",
 };
@@ -19,5 +18,6 @@ export const ALL_PAGES = [
   "/owners/",
   "/owners/quinn-harrow/",
   "/owners/wren-solano/",
+  "/draft/",
   ...Object.keys(COMING_SOON),
 ];

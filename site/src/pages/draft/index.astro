@@ -1,0 +1,106 @@
+---
+// The Draft section (#27): every Season's first round, newest first, each linking to that Season's
+// full board. Desktop: a grid with one row per Season and one column per pick (10-team Seasons leave
+// the last columns empty); it scrolls inside its own box if needed. Phone: one list per Season.
+import OwnerLink from "../../components/OwnerLink.astro";
+import { POSITION_TINTS, pickStyle } from "../../data/positions";
+import { getDraftHistory, type DraftPlayer } from "../../data/site-data";
+import Base from "../../layouts/Base.astro";
+
+const seasons = getDraftHistory();
+const columns = Array.from({ length: Math.max(...seasons.map((s) => s.teamCount)) }, (_, i) => i + 1);
+const detail = (p: DraftPlayer) => `${p.position}${p.nflTeam ? ` · ${p.nflTeam}` : ""}`;
+const LEGEND = Object.keys(POSITION_TINTS);
+---
+<Base title="Draft">
+  <header class="mb-8">
+    <h1 class="text-3xl font-black md:text-5xl">Draft</h1>
+    <p class="mt-2 text-muted">Every Season's first round. Open a Season for its full board.</p>
+  </header>
+
+  <section aria-labelledby="first-rounds-heading">
+    <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2">
+      <h2 id="first-rounds-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">First rounds</h2>
+      <ul aria-label="Position colors" class="flex flex-wrap gap-2 text-xs text-muted">
+        {LEGEND.map((pos) => (
+          <li class="flex items-center gap-1.5">
+            <span aria-hidden="true" class="inline-block size-3 rounded-sm" style={`background:${POSITION_TINTS[pos]}`}></span>{pos}
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <!-- Desktop: Seasons x picks -->
+    <div data-testid="first-rounds-grid" class="mt-4 hidden overflow-x-auto rounded-2xl border border-line md:block">
+      <table aria-label="First rounds" class="border-collapse text-sm" style={`min-width:${5 + columns.length * 8.5}rem`}>
+        <thead class="bg-panel text-xs uppercase tracking-wider text-muted">
+          <tr>
+            <th scope="col" class="sticky left-0 z-10 w-20 bg-panel px-3 py-3 text-left">Season</th>
+            {columns.map((n) => <th scope="col" class="min-w-[8.5rem] px-2 py-3 text-left tabular-nums">Pick {n}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {seasons.map((s) => (
+            <tr data-testid="first-round-row" data-year={s.year} class="border-t border-line">
+              <th scope="row" class="sticky left-0 z-10 bg-ink px-3 text-left">
+                <a href={`/seasons/${s.year}/#draft`} class="text-lg font-black transition-colors hover:text-brand">{s.year}</a>
+                {s.type === "offline" && <span class="block text-[0.65rem] font-normal uppercase tracking-wider text-muted">Offline</span>}
+              </th>
+              {columns.map((n) => {
+                const p = s.firstRound[n - 1];
+                if (!p) return <td class="p-1"></td>;
+                return (
+                  <td class="p-1 align-top">
+                    <div data-testid="first-round-cell" data-overall={p.overall} class:list={["h-full rounded-lg border-l-4 px-2 py-1.5", p.player ? "" : "border-line bg-panel/40"]} style={pickStyle(p.player)}>
+                      {p.player ? (
+                        <>
+                          <div class="truncate font-semibold leading-tight">{p.player.name}</div>
+                          <div class="text-xs text-paper/80">{detail(p.player)}</div>
+                        </>
+                      ) : (
+                        <div class="text-xs italic text-muted">Not recorded</div>
+                      )}
+                      <OwnerLink owner={p.owner} class="mt-1 block truncate text-xs text-muted" />
+                    </div>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Phone: one list per Season -->
+    <div data-testid="first-rounds-list" class="mt-4 space-y-6 md:hidden">
+      {seasons.map((s) => (
+        <div role="group" aria-labelledby={`first-round-${s.year}`} data-testid="first-round-season" data-year={s.year}>
+          <h3 id={`first-round-${s.year}`} class="mb-2 flex items-baseline justify-between">
+            <a href={`/seasons/${s.year}/#draft`} class="text-lg font-black transition-colors hover:text-brand">{s.year}</a>
+            <a href={`/seasons/${s.year}/#draft`} class="text-xs text-muted transition-colors hover:text-brand">
+              {s.type === "offline" ? "Offline draft · " : ""}Full board <span aria-hidden="true">→</span>
+            </a>
+          </h3>
+          <ol class="space-y-1.5">
+            {s.firstRound.map((p) => (
+              <li data-testid="first-round-row-item" data-overall={p.overall} class:list={["flex items-center gap-3 rounded-lg border-l-4 px-3 py-2", p.player ? "" : "border-line bg-panel/40"]} style={pickStyle(p.player)}>
+                <span class="w-6 shrink-0 text-xs tabular-nums text-muted">{p.overall}</span>
+                <span class="min-w-0 flex-1">
+                  {p.player ? (
+                    <>
+                      <span class="block truncate font-semibold">{p.player.name}</span>
+                      <span class="block text-xs text-paper/80">{detail(p.player)}</span>
+                    </>
+                  ) : (
+                    <span class="block text-sm italic text-muted">Not recorded</span>
+                  )}
+                </span>
+                <OwnerLink owner={p.owner} class="max-w-[7rem] shrink-0 truncate text-right text-xs text-muted" />
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

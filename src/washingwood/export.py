@@ -281,6 +281,34 @@ def _draft(conn: Connection, year: int) -> dict:
     }
 
 
+def draft_history(conn: Connection) -> dict:
+    """The Draft section: every Season's first round, newest first (stats.draft_board)."""
+    seasons: dict[int, dict] = {}
+    for year, team_count, draft_type, overall, owner, team, name, position, nfl_team in conn.execute(
+        """SELECT b.year, s.team_count, s.draft_type, b.overall_pick, b.owner, b.team_name, b.player_name,
+                  b.position, b.nfl_team
+           FROM stats.draft_board b JOIN core.seasons s USING (year)
+           WHERE b.round = 1 ORDER BY b.year DESC, b.overall_pick"""
+    ).fetchall():
+        entry = seasons.setdefault(year, {"year": year, "teamCount": team_count, "type": draft_type, "firstRound": []})
+        entry["firstRound"].append(
+            {
+                "overall": overall,
+                "owner": _owner_ref(owner),
+                "teamName": team,
+                "player": None if name is None else {"name": name, "position": position, "nflTeam": nfl_team},
+            }
+        )
+    for entry in seasons.values():
+        if len(entry["firstRound"]) != entry["teamCount"]:
+            raise ExportError(
+                f"Season {entry['year']}: round 1 has {len(entry['firstRound'])} Picks for {entry['teamCount']} teams"
+            )
+    if not seasons:
+        raise ExportError("no Draft picks loaded")
+    return {"seasons": list(seasons.values())}
+
+
 def _draft_note(draft_type: str, unrecorded: int) -> str | None:
     parts = []
     if draft_type == "offline":

@@ -253,6 +253,91 @@
       }
     },
 
+    "draft": {
+      "title": "Draft history document",
+      "description": "The Draft section: every Season's first round. Exported as draft.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "seasons"
+      ],
+      "properties": {
+        "seasons": {
+          "description": "One entry per Season, newest first.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "year",
+              "teamCount",
+              "type",
+              "firstRound"
+            ],
+            "properties": {
+              "year": {
+                "description": "The Season. Its full board is on the Season page's Draft tab.",
+                "$ref": "#/$defs/year"
+              },
+              "teamCount": {
+                "description": "Number of Franchises, so the number of first-round Picks.",
+                "$ref": "#/$defs/teamCount"
+              },
+              "type": {
+                "description": "How the Draft was run, as in the Season document's draft.type.",
+                "enum": [
+                  "snake",
+                  "offline"
+                ]
+              },
+              "firstRound": {
+                "description": "The round-1 Picks in pick order: one per Franchise.",
+                "type": "array",
+                "minItems": 2,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "overall",
+                    "owner",
+                    "teamName",
+                    "player"
+                  ],
+                  "properties": {
+                    "overall": {
+                      "description": "Overall pick number, which in round 1 is also the Draft slot.",
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "owner": {
+                      "description": "The Owner of the Franchise that made the Pick.",
+                      "$ref": "#/$defs/ownerRef"
+                    },
+                    "teamName": {
+                      "description": "That Franchise's team name that Season.",
+                      "$ref": "#/$defs/teamName"
+                    },
+                    "player": {
+                      "description": "The Player taken, or null when no Player was recorded for the Pick.",
+                      "oneOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "$ref": "#/$defs/draftPlayer"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "season": {
       "title": "Season document",
       "description": "Everything the Season page shows for one Season. Exported as seasons/<year>.json.",

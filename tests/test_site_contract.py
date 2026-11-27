@@ -563,3 +563,24 @@ def test_owner_example_drafts_start_with_the_round_1_pick_at_their_draft_slot():
             first = d["picks"][0]
             assert (first["round"], first["roundPick"]) == (1, d["slot"]), (slug, d["year"])
             assert [p["round"] for p in d["picks"]] == sorted(p["round"] for p in d["picks"]), (slug, d["year"])
+
+
+# --- Draft history (#27) ---
+
+
+def test_draft_history_example_validates_and_agrees_with_the_season_examples():
+    from draft_examples import derive
+
+    doc = load_example("draft.json")
+    validate(doc, "draft")
+    assert doc == derive()
+    assert [s["year"] for s in doc["seasons"]] == sorted(example_seasons(), reverse=True)
+    for s in doc["seasons"]:
+        assert len(s["firstRound"]) == s["teamCount"], s["year"]
+
+
+def test_draft_history_rejects_unknown_fields_on_a_pick():
+    doc = load_example("draft.json")
+    doc["seasons"][0]["firstRound"][0]["memberId"] = "{X}"
+    with pytest.raises(ContractError, match="memberId"):
+        validate(doc, "draft")
