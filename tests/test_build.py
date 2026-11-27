@@ -773,3 +773,37 @@ def test_head_to_head_splits_regular_season_and_playoffs_and_skips_the_third_pla
             assert row["regularSeason"]["wins"] == back["regularSeason"]["losses"]
         meetings = [row["meetings"] for row in doc["headToHead"]]
         assert meetings == sorted(meetings, reverse=True)
+
+
+# --- Owner season rows (#15) ---
+
+
+def test_owner_season_rows_keep_each_seasons_team_name(archive, owners, tmp_path, pg_dsn):
+    season(2019, overrides={"jory": team("jory", name="Paxton Pioneers")}).write(archive)
+    season(2020).write(archive)
+    out = tmp_path / "export"
+
+    build(archive_dir=archive, owners_file=owners, out_dir=out, dsn=pg_dsn)
+
+    jory = json.loads((out / "owners" / "jory-paxton.json").read_text(encoding="utf-8"))
+    assert [(s["year"], s["teamName"]) for s in jory["seasons"]] == [
+        (2020, "Paxton Pistons"),
+        (2019, "Paxton Pioneers"),
+    ]
+    assert jory["currentTeamName"] == "Paxton Pistons"
+
+
+def test_last_place_who_wins_a_consolation_game_is_still_flagged_last_place(archive, owners, tmp_path, pg_dsn):
+    # Seed 12 Jory wins the last consolation game and finishes 11th, above seed 11 Cass
+    season(2020, last_place_climbs=True).write(archive)
+    out = tmp_path / "export"
+
+    build(archive_dir=archive, owners_file=owners, out_dir=out, dsn=pg_dsn)
+
+    def row(slug):
+        doc = json.loads((out / "owners" / f"{slug}.json").read_text(encoding="utf-8"))
+        s = doc["seasons"][0]
+        return s["playoffSeed"], s["finalRank"], s["isLastPlace"], doc["career"]["lastPlaces"]
+
+    assert row("jory-paxton") == (12, 11, True, [2020])
+    assert row("cass-imber") == (11, 12, False, [])

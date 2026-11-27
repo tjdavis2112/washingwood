@@ -1,0 +1,74 @@
+---
+// An Owner's season-by-season table, newest first. The year links to that Season's page. Podium
+// finishes get a medal (metal colours only on medals); Last place gets a red marker. On phones the
+// table scrolls sideways inside its own box, with the Season column pinned.
+import { formatPoints, type OwnerSeasonRow } from "../data/site-data";
+import Trophy from "./Trophy.astro";
+
+interface Props { rows: OwnerSeasonRow[] }
+const { rows } = Astro.props;
+// Always W-L-T here, matching the column header
+const record = (r: OwnerSeasonRow["record"]) => `${r.wins}-${r.losses}-${r.ties}`;
+const ordinal = (n: number) => {
+  const tail = n % 100 >= 11 && n % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[n % 10] ?? "th";
+  return `${n}${tail}`;
+};
+const MEDAL = {
+  1: { metal: "gold", label: "Champion" },
+  2: { metal: "silver", label: "Runner-up" },
+  3: { metal: "bronze", label: "3rd place" },
+} as const;
+---
+<section aria-labelledby="owner-seasons-heading">
+  <div class="flex items-baseline justify-between gap-4">
+    <h2 id="owner-seasons-heading" class="text-xs font-semibold uppercase tracking-[0.3em] text-muted">Season by season</h2>
+    <p aria-hidden="true" class="text-xs text-muted md:hidden">Swipe for more →</p>
+  </div>
+  <div data-testid="owner-seasons-scroll" class="mt-4 overflow-x-auto rounded-2xl border border-line">
+    <table aria-labelledby="owner-seasons-heading" class="w-full min-w-[42rem] border-collapse text-sm">
+      <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+        <tr>
+          <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Season</th>
+          <th scope="col" class="px-3 py-3">Team</th>
+          <th scope="col" class="px-3 py-3 text-right">W-L-T</th>
+          <th scope="col" class="px-3 py-3 text-right">PF</th>
+          <th scope="col" class="px-3 py-3 text-right">PA</th>
+          <th scope="col" class="px-3 py-3 text-right">Seed</th>
+          <th scope="col" class="px-3 py-3">Finish</th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r) => {
+          const medal = r.podiumPlace ? MEDAL[r.podiumPlace] : null;
+          return (
+            <tr class="border-t border-line odd:bg-ink even:bg-panel/40">
+              <th scope="row" class="sticky left-0 bg-inherit px-3 py-2.5 text-left">
+                <a href={`/seasons/${r.year}/`} class="font-black tabular-nums underline decoration-line underline-offset-4 transition-colors hover:text-brand hover:decoration-brand">{r.year}</a>
+              </th>
+              <td class="px-3 py-2.5 whitespace-nowrap text-muted">{r.teamName}</td>
+              <td class="px-3 py-2.5 text-right tabular-nums">{record(r.record)}</td>
+              <td class="px-3 py-2.5 text-right tabular-nums">{formatPoints(r.pointsFor)}</td>
+              <td class="px-3 py-2.5 text-right tabular-nums">{formatPoints(r.pointsAgainst)}</td>
+              <td class="px-3 py-2.5 text-right tabular-nums">{r.playoffSeed}</td>
+              <td class="px-3 py-2.5 whitespace-nowrap" data-finish>
+                {medal ? (
+                  <span class="inline-flex items-center gap-1.5 font-semibold">
+                    <Trophy metal={medal.metal} class="size-4" />
+                    {medal.label}
+                  </span>
+                ) : r.isLastPlace ? (
+                  <span class="inline-flex items-center gap-2">
+                    <span class="tabular-nums text-muted">{ordinal(r.finalRank)}</span>
+                    <span class="rounded-full bg-brand px-2 py-0.5 text-[0.65rem] font-semibold uppercase tracking-widest">Last place</span>
+                  </span>
+                ) : (
+                  <span class="tabular-nums text-muted">{ordinal(r.finalRank)}</span>
+                )}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+</section>
