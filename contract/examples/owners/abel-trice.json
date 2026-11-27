@@ -265,5 +265,177 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Trice Tritons",
+      "slot": 5,
+      "picks": [
+        {
+          "overall": 5,
+          "round": 1,
+          "roundPick": 5,
+          "player": {
+            "name": "Ivo Quarrington",
+            "position": "WR",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 20,
+          "round": 2,
+          "roundPick": 8,
+          "player": {
+            "name": "Zane Thistlewood",
+            "position": "RB",
+            "nflTeam": "TB"
+          }
+        },
+        {
+          "overall": 29,
+          "round": 3,
+          "roundPick": 5,
+          "player": {
+            "name": "Ivo Rookwood",
+            "position": "WR",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 44,
+          "round": 4,
+          "roundPick": 8,
+          "player": {
+            "name": "Zane Underhill",
+            "position": "RB",
+            "nflTeam": "TB"
+          }
+        },
+        {
+          "overall": 53,
+          "round": 5,
+          "roundPick": 5,
+          "player": {
+            "name": "Ivo Stonebrook",
+            "position": "TE",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 68,
+          "round": 6,
+          "roundPick": 8,
+          "player": {
+            "name": "Zane Varnell",
+            "position": "WR",
+            "nflTeam": "TB"
+          }
+        },
+        {
+          "overall": 77,
+          "round": 7,
+          "roundPick": 5,
+          "player": {
+            "name": "Eagles D/ST",
+            "position": "D/ST",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 92,
+          "round": 8,
+          "roundPick": 8,
+          "player": {
+            "name": "Zane Whitlock",
+            "position": "K",
+            "nflTeam": "TB"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamName": "Trice Tritons",
+      "slot": 2,
+      "picks": [
+        {
+          "overall": 2,
+          "round": 1,
+          "roundPick": 2,
+          "player": {
+            "name": "Cael Kettleby",
+            "position": "RB",
+            "nflTeam": "LAC"
+          }
+        },
+        {
+          "overall": 19,
+          "round": 2,
+          "roundPick": 9,
+          "player": {
+            "name": "Upton Yarrowby",
+            "position": "WR",
+            "nflTeam": "NO"
+          }
+        },
+        {
+          "overall": 22,
+          "round": 3,
+          "roundPick": 2,
+          "player": {
+            "name": "Yates Oakhurst",
+            "position": "WR",
+            "nflTeam": "LAR"
+          }
+        },
+        {
+          "overall": 39,
+          "round": 4,
+          "roundPick": 9,
+          "player": {
+            "name": "Pax Elderby",
+            "position": "QB",
+            "nflTeam": "GB"
+          }
+        },
+        {
+          "overall": 42,
+          "round": 5,
+          "roundPick": 2,
+          "player": {
+            "name": "Tobin Thistlewood",
+            "position": "TE",
+            "nflTeam": "CIN"
+          }
+        },
+        {
+          "overall": 59,
+          "round": 6,
+          "roundPick": 9,
+          "player": {
+            "name": "Lark Juniper",
+            "position": "QB",
+            "nflTeam": "MIA"
+          }
+        },
+        {
+          "overall": 62,
+          "round": 7,
+          "roundPick": 2,
+          "player": {
+            "name": "Bills D/ST",
+            "position": "D/ST",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 79,
+          "round": 8,
+          "roundPick": 9,
+          "player": null
+        }
+      ]
+    }
   ]
 }

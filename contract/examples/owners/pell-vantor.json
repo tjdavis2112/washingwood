@@ -270,5 +270,181 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Vantor Vortex",
+      "slot": 7,
+      "picks": [
+        {
+          "overall": 7,
+          "round": 1,
+          "roundPick": 7,
+          "player": {
+            "name": "Kip Cindergate",
+            "position": "WR",
+            "nflTeam": "DEN"
+          }
+        },
+        {
+          "overall": 18,
+          "round": 2,
+          "roundPick": 6,
+          "player": {
+            "name": "Wade Juniper",
+            "position": "RB",
+            "nflTeam": "DAL"
+          }
+        },
+        {
+          "overall": 31,
+          "round": 3,
+          "roundPick": 7,
+          "player": {
+            "name": "Kip Dunmore",
+            "position": "RB",
+            "nflTeam": "DEN"
+          }
+        },
+        {
+          "overall": 42,
+          "round": 4,
+          "roundPick": 6,
+          "player": {
+            "name": "Wade Kettleby",
+            "position": "QB",
+            "nflTeam": "DAL"
+          }
+        },
+        {
+          "overall": 55,
+          "round": 5,
+          "roundPick": 7,
+          "player": {
+            "name": "Kip Elderby",
+            "position": "WR",
+            "nflTeam": "DEN"
+          }
+        },
+        {
+          "overall": 66,
+          "round": 6,
+          "roundPick": 6,
+          "player": {
+            "name": "Wade Larkspur",
+            "position": "QB",
+            "nflTeam": "DAL"
+          }
+        },
+        {
+          "overall": 79,
+          "round": 7,
+          "roundPick": 7,
+          "player": {
+            "name": "Bengals D/ST",
+            "position": "D/ST",
+            "nflTeam": "CIN"
+          }
+        },
+        {
+          "overall": 90,
+          "round": 8,
+          "roundPick": 6,
+          "player": {
+            "name": "Wade Merriweather",
+            "position": "K",
+            "nflTeam": "DAL"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamName": "Vantor Vipers",
+      "slot": 9,
+      "picks": [
+        {
+          "overall": 9,
+          "round": 1,
+          "roundPick": 9,
+          "player": {
+            "name": "Jett Varnell",
+            "position": "WR",
+            "nflTeam": "JAX"
+          }
+        },
+        {
+          "overall": 12,
+          "round": 2,
+          "roundPick": 2,
+          "player": {
+            "name": "Moss Merriweather",
+            "position": "RB",
+            "nflTeam": "SEA"
+          }
+        },
+        {
+          "overall": 29,
+          "round": 3,
+          "roundPick": 9,
+          "player": {
+            "name": "Fenn Cindergate",
+            "position": "TE",
+            "nflTeam": "MIN"
+          }
+        },
+        {
+          "overall": 32,
+          "round": 4,
+          "roundPick": 2,
+          "player": {
+            "name": "Ivo Rookwood",
+            "position": "RB",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 49,
+          "round": 5,
+          "roundPick": 9,
+          "player": {
+            "name": "Bram Hollowell",
+            "position": "QB",
+            "nflTeam": "BAL"
+          }
+        },
+        {
+          "overall": 52,
+          "round": 6,
+          "roundPick": 2,
+          "player": {
+            "name": "Ezra Whitlock",
+            "position": "WR",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 69,
+          "round": 7,
+          "roundPick": 9,
+          "player": {
+            "name": "Lions D/ST",
+            "position": "D/ST",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 72,
+          "round": 8,
+          "roundPick": 2,
+          "player": {
+            "name": "Arlo Dunmore",
+            "position": "K",
+            "nflTeam": "KC"
+          }
+        }
+      ]
+    }
   ]
 }

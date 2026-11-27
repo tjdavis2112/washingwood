@@ -267,5 +267,181 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Quist Quakes",
+      "slot": 10,
+      "picks": [
+        {
+          "overall": 10,
+          "round": 1,
+          "roundPick": 10,
+          "player": {
+            "name": "Nico Rookwood",
+            "position": "RB",
+            "nflTeam": "NYJ"
+          }
+        },
+        {
+          "overall": 15,
+          "round": 2,
+          "roundPick": 3,
+          "player": {
+            "name": "Tobin Stonebrook",
+            "position": "WR",
+            "nflTeam": "CIN"
+          }
+        },
+        {
+          "overall": 34,
+          "round": 3,
+          "roundPick": 10,
+          "player": {
+            "name": "Nico Stonebrook",
+            "position": "RB",
+            "nflTeam": "NYJ"
+          }
+        },
+        {
+          "overall": 39,
+          "round": 4,
+          "roundPick": 3,
+          "player": {
+            "name": "Tobin Thistlewood",
+            "position": "QB",
+            "nflTeam": "CIN"
+          }
+        },
+        {
+          "overall": 58,
+          "round": 5,
+          "roundPick": 10,
+          "player": {
+            "name": "Nico Thistlewood",
+            "position": "WR",
+            "nflTeam": "NYJ"
+          }
+        },
+        {
+          "overall": 63,
+          "round": 6,
+          "roundPick": 3,
+          "player": {
+            "name": "Tobin Underhill",
+            "position": "QB",
+            "nflTeam": "CIN"
+          }
+        },
+        {
+          "overall": 82,
+          "round": 7,
+          "roundPick": 10,
+          "player": {
+            "name": "Packers D/ST",
+            "position": "D/ST",
+            "nflTeam": "GB"
+          }
+        },
+        {
+          "overall": 87,
+          "round": 8,
+          "roundPick": 3,
+          "player": {
+            "name": "Tobin Varnell",
+            "position": "K",
+            "nflTeam": "CIN"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamName": "Quist Quakes",
+      "slot": 5,
+      "picks": [
+        {
+          "overall": 5,
+          "round": 1,
+          "roundPick": 5,
+          "player": {
+            "name": "Fenn Barrowell",
+            "position": "WR",
+            "nflTeam": "MIN"
+          }
+        },
+        {
+          "overall": 16,
+          "round": 2,
+          "roundPick": 6,
+          "player": {
+            "name": "Rook Ironwood",
+            "position": "RB",
+            "nflTeam": "PIT"
+          }
+        },
+        {
+          "overall": 25,
+          "round": 3,
+          "roundPick": 5,
+          "player": {
+            "name": "Bram Grimsby",
+            "position": "WR",
+            "nflTeam": "BAL"
+          }
+        },
+        {
+          "overall": 36,
+          "round": 4,
+          "roundPick": 6,
+          "player": {
+            "name": "Moss Northcott",
+            "position": "QB",
+            "nflTeam": "SEA"
+          }
+        },
+        {
+          "overall": 45,
+          "round": 5,
+          "roundPick": 5,
+          "player": {
+            "name": "Wade Kettleby",
+            "position": "TE",
+            "nflTeam": "DAL"
+          }
+        },
+        {
+          "overall": 56,
+          "round": 6,
+          "roundPick": 6,
+          "player": {
+            "name": "Ivo Stonebrook",
+            "position": "QB",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 65,
+          "round": 7,
+          "roundPick": 5,
+          "player": {
+            "name": "Eagles D/ST",
+            "position": "D/ST",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 76,
+          "round": 8,
+          "roundPick": 6,
+          "player": {
+            "name": "Ezra Yarrowby",
+            "position": "K",
+            "nflTeam": "PHI"
+          }
+        }
+      ]
+    }
   ]
 }

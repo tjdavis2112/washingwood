@@ -205,6 +205,13 @@ export type OwnerDoc = {
   };
   seasons: OwnerSeasonRow[];
   headToHead: HeadToHeadRow[];
+  draft: OwnerDraftSeason[];
+};
+export type OwnerDraftSeason = {
+  year: number;
+  teamName: string;
+  slot: number;
+  picks: { overall: number; round: number; roundPick: number; player: DraftPlayer | null }[];
 };
 
 const ownerDocs = new Map<string, OwnerDoc>();

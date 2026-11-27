@@ -56,6 +56,7 @@ def derive() -> tuple[dict, dict[str, dict]]:
     thirds: dict[str, list[int]] = {s: [] for s in refs}
     last_places: dict[str, list[int]] = {s: [] for s in refs}
     h2h: dict[str, dict[str, dict]] = {s: {} for s in refs}
+    drafts: dict[str, list[dict]] = {s: [] for s in refs}
 
     def meeting(a: str, b: str) -> dict:
         return h2h[a].setdefault(b, {"regularSeason": _rec(), "playoffs": _rec()})
@@ -82,6 +83,15 @@ def derive() -> tuple[dict, dict[str, dict]]:
                     "isLastPlace": slug == last,
                 }
             )
+        # Draft: each Owner's Picks that Season, in pick order, with their Draft slot
+        for o in doc["draft"]["order"]:
+            slug = o["owner"]["slug"]
+            picks = [
+                {k: p[k] for k in ("overall", "round", "roundPick", "player")}
+                for p in doc["draft"]["picks"]
+                if p["owner"]["slug"] == slug
+            ]
+            drafts[slug].append({"year": year, "teamName": o["teamName"], "slot": o["slot"], "picks": picks})
         # Playoff appearance: any spot in the winners' bracket, a bye included
         bracket_games = [m for r in doc["bracket"]["rounds"] for m in r["matchups"]]
         in_bracket = {s["owner"]["slug"] for m in bracket_games for s in (m["home"], m["away"]) if s}
@@ -130,6 +140,7 @@ def derive() -> tuple[dict, dict[str, dict]]:
             },
             "seasons": mine,
             "headToHead": opponents,
+            "draft": sorted(drafts[slug], key=lambda d: d["year"], reverse=True),
         }
     return {"owners": index}, owners
 

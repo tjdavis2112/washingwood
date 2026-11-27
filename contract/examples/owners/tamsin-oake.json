@@ -265,5 +265,181 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Oake Oracles",
+      "slot": 3,
+      "picks": [
+        {
+          "overall": 3,
+          "round": 1,
+          "roundPick": 3,
+          "player": {
+            "name": "Gus Grimsby",
+            "position": "WR",
+            "nflTeam": "ATL"
+          }
+        },
+        {
+          "overall": 22,
+          "round": 2,
+          "roundPick": 10,
+          "player": {
+            "name": "Bram Grimsby",
+            "position": "RB",
+            "nflTeam": "BAL"
+          }
+        },
+        {
+          "overall": 27,
+          "round": 3,
+          "roundPick": 3,
+          "player": {
+            "name": "Gus Hollowell",
+            "position": "TE",
+            "nflTeam": "ATL"
+          }
+        },
+        {
+          "overall": 46,
+          "round": 4,
+          "roundPick": 10,
+          "player": {
+            "name": "Bram Hollowell",
+            "position": "WR",
+            "nflTeam": "BAL"
+          }
+        },
+        {
+          "overall": 51,
+          "round": 5,
+          "roundPick": 3,
+          "player": {
+            "name": "Gus Ironwood",
+            "position": "QB",
+            "nflTeam": "ATL"
+          }
+        },
+        {
+          "overall": 70,
+          "round": 6,
+          "roundPick": 10,
+          "player": {
+            "name": "Bram Ironwood",
+            "position": "RB",
+            "nflTeam": "BAL"
+          }
+        },
+        {
+          "overall": 75,
+          "round": 7,
+          "roundPick": 3,
+          "player": {
+            "name": "49ers D/ST",
+            "position": "D/ST",
+            "nflTeam": "SF"
+          }
+        },
+        {
+          "overall": 94,
+          "round": 8,
+          "roundPick": 10,
+          "player": {
+            "name": "Bram Juniper",
+            "position": "K",
+            "nflTeam": "BAL"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamName": "Oake Oracles",
+      "slot": 4,
+      "picks": [
+        {
+          "overall": 4,
+          "round": 1,
+          "roundPick": 4,
+          "player": {
+            "name": "Ezra Underhill",
+            "position": "RB",
+            "nflTeam": "PHI"
+          }
+        },
+        {
+          "overall": 17,
+          "round": 2,
+          "roundPick": 7,
+          "player": {
+            "name": "Sully Northcott",
+            "position": "WR",
+            "nflTeam": "IND"
+          }
+        },
+        {
+          "overall": 24,
+          "round": 3,
+          "roundPick": 4,
+          "player": {
+            "name": "Arlo Barrowell",
+            "position": "RB",
+            "nflTeam": "KC"
+          }
+        },
+        {
+          "overall": 37,
+          "round": 4,
+          "roundPick": 7,
+          "player": {
+            "name": "Nico Stonebrook",
+            "position": "WR",
+            "nflTeam": "NYJ"
+          }
+        },
+        {
+          "overall": 44,
+          "round": 5,
+          "roundPick": 4,
+          "player": {
+            "name": "Vale Foxhallow",
+            "position": "WR",
+            "nflTeam": "CLE"
+          }
+        },
+        {
+          "overall": 57,
+          "round": 6,
+          "roundPick": 7,
+          "player": {
+            "name": "Jett Yarrowby",
+            "position": "RB",
+            "nflTeam": "JAX"
+          }
+        },
+        {
+          "overall": 64,
+          "round": 7,
+          "roundPick": 4,
+          "player": {
+            "name": "Cowboys D/ST",
+            "position": "D/ST",
+            "nflTeam": "DAL"
+          }
+        },
+        {
+          "overall": 77,
+          "round": 8,
+          "roundPick": 7,
+          "player": {
+            "name": "Fenn Elderby",
+            "position": "K",
+            "nflTeam": "MIN"
+          }
+        }
+      ]
+    }
   ]
 }

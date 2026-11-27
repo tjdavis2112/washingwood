@@ -267,5 +267,181 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Fenwick Fog",
+      "slot": 9,
+      "picks": [
+        {
+          "overall": 9,
+          "round": 1,
+          "roundPick": 9,
+          "player": {
+            "name": "Moss Merriweather",
+            "position": "WR",
+            "nflTeam": "SEA"
+          }
+        },
+        {
+          "overall": 16,
+          "round": 2,
+          "roundPick": 4,
+          "player": {
+            "name": "Upton Yarrowby",
+            "position": "RB",
+            "nflTeam": "NO"
+          }
+        },
+        {
+          "overall": 33,
+          "round": 3,
+          "roundPick": 9,
+          "player": {
+            "name": "Moss Northcott",
+            "position": "TE",
+            "nflTeam": "SEA"
+          }
+        },
+        {
+          "overall": 40,
+          "round": 4,
+          "roundPick": 4,
+          "player": {
+            "name": "Upton Ashwick",
+            "position": "WR",
+            "nflTeam": "NO"
+          }
+        },
+        {
+          "overall": 57,
+          "round": 5,
+          "roundPick": 9,
+          "player": {
+            "name": "Moss Oakhurst",
+            "position": "QB",
+            "nflTeam": "SEA"
+          }
+        },
+        {
+          "overall": 64,
+          "round": 6,
+          "roundPick": 4,
+          "player": {
+            "name": "Upton Barrowell",
+            "position": "RB",
+            "nflTeam": "NO"
+          }
+        },
+        {
+          "overall": 81,
+          "round": 7,
+          "roundPick": 9,
+          "player": {
+            "name": "Lions D/ST",
+            "position": "D/ST",
+            "nflTeam": "DET"
+          }
+        },
+        {
+          "overall": 88,
+          "round": 8,
+          "roundPick": 4,
+          "player": {
+            "name": "Upton Cindergate",
+            "position": "K",
+            "nflTeam": "NO"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamName": "Fenwick Foxes",
+      "slot": 6,
+      "picks": [
+        {
+          "overall": 6,
+          "round": 1,
+          "roundPick": 6,
+          "player": {
+            "name": "Gus Grimsby",
+            "position": "RB",
+            "nflTeam": "ATL"
+          }
+        },
+        {
+          "overall": 15,
+          "round": 2,
+          "roundPick": 5,
+          "player": {
+            "name": "Pax Dunmore",
+            "position": "WR",
+            "nflTeam": "GB"
+          }
+        },
+        {
+          "overall": 26,
+          "round": 3,
+          "roundPick": 6,
+          "player": {
+            "name": "Cael Larkspur",
+            "position": "TE",
+            "nflTeam": "LAC"
+          }
+        },
+        {
+          "overall": 35,
+          "round": 4,
+          "roundPick": 5,
+          "player": {
+            "name": "Lark Ironwood",
+            "position": "RB",
+            "nflTeam": "MIA"
+          }
+        },
+        {
+          "overall": 46,
+          "round": 5,
+          "roundPick": 6,
+          "player": {
+            "name": "Yates Pemberly",
+            "position": "QB",
+            "nflTeam": "LAR"
+          }
+        },
+        {
+          "overall": 55,
+          "round": 6,
+          "roundPick": 5,
+          "player": {
+            "name": "Hale Northcott",
+            "position": "WR",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 66,
+          "round": 7,
+          "roundPick": 6,
+          "player": {
+            "name": "Dolphins D/ST",
+            "position": "D/ST",
+            "nflTeam": "MIA"
+          }
+        },
+        {
+          "overall": 75,
+          "round": 8,
+          "roundPick": 5,
+          "player": {
+            "name": "Dax Stonebrook",
+            "position": "K",
+            "nflTeam": "HOU"
+          }
+        }
+      ]
+    }
   ]
 }

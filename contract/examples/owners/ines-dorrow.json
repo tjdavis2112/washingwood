@@ -271,5 +271,177 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Dorrow Drakes",
+      "slot": 8,
+      "picks": [
+        {
+          "overall": 8,
+          "round": 1,
+          "roundPick": 8,
+          "player": {
+            "name": "Lark Hollowell",
+            "position": "RB",
+            "nflTeam": "MIA"
+          }
+        },
+        {
+          "overall": 17,
+          "round": 2,
+          "roundPick": 5,
+          "player": {
+            "name": "Vale Elderby",
+            "position": "WR",
+            "nflTeam": "CLE"
+          }
+        },
+        {
+          "overall": 32,
+          "round": 3,
+          "roundPick": 8,
+          "player": {
+            "name": "Lark Ironwood",
+            "position": "WR",
+            "nflTeam": "MIA"
+          }
+        },
+        {
+          "overall": 41,
+          "round": 4,
+          "roundPick": 5,
+          "player": {
+            "name": "Vale Foxhallow",
+            "position": "RB",
+            "nflTeam": "CLE"
+          }
+        },
+        {
+          "overall": 56,
+          "round": 5,
+          "roundPick": 8,
+          "player": {
+            "name": "Lark Juniper",
+            "position": "TE",
+            "nflTeam": "MIA"
+          }
+        },
+        {
+          "overall": 65,
+          "round": 6,
+          "roundPick": 5,
+          "player": {
+            "name": "Vale Grimsby",
+            "position": "WR",
+            "nflTeam": "CLE"
+          }
+        },
+        {
+          "overall": 80,
+          "round": 7,
+          "roundPick": 8,
+          "player": {
+            "name": "Ravens D/ST",
+            "position": "D/ST",
+            "nflTeam": "BAL"
+          }
+        },
+        {
+          "overall": 89,
+          "round": 8,
+          "roundPick": 5,
+          "player": {
+            "name": "Vale Hollowell",
+            "position": "K",
+            "nflTeam": "CLE"
+          }
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "teamName": "Dorrow Drakes",
+      "slot": 1,
+      "picks": [
+        {
+          "overall": 1,
+          "round": 1,
+          "roundPick": 1,
+          "player": {
+            "name": "Bram Foxhallow",
+            "position": "WR",
+            "nflTeam": "BAL"
+          }
+        },
+        {
+          "overall": 20,
+          "round": 2,
+          "roundPick": 10,
+          "player": {
+            "name": "Vale Elderby",
+            "position": "RB",
+            "nflTeam": "CLE"
+          }
+        },
+        {
+          "overall": 21,
+          "round": 3,
+          "roundPick": 1,
+          "player": {
+            "name": "Wade Juniper",
+            "position": "RB",
+            "nflTeam": "DAL"
+          }
+        },
+        {
+          "overall": 40,
+          "round": 4,
+          "roundPick": 10,
+          "player": {
+            "name": "Rook Juniper",
+            "position": "WR",
+            "nflTeam": "PIT"
+          }
+        },
+        {
+          "overall": 41,
+          "round": 5,
+          "roundPick": 1,
+          "player": {
+            "name": "Sully Oakhurst",
+            "position": "WR",
+            "nflTeam": "IND"
+          }
+        },
+        {
+          "overall": 60,
+          "round": 6,
+          "roundPick": 10,
+          "player": {
+            "name": "Moss Oakhurst",
+            "position": "RB",
+            "nflTeam": "SEA"
+          }
+        },
+        {
+          "overall": 61,
+          "round": 7,
+          "roundPick": 1,
+          "player": {
+            "name": "Chiefs D/ST",
+            "position": "D/ST",
+            "nflTeam": "KC"
+          }
+        },
+        {
+          "overall": 80,
+          "round": 8,
+          "roundPick": 10,
+          "player": null
+        }
+      ]
+    }
   ]
 }

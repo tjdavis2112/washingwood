@@ -1,10 +1,11 @@
 ---
 // One page per Owner, rendered from owners/<slug>.json. Career tab: trophy case, career summary,
 // the season-by-season table and head-to-head.
-// Rosters, Draft, Trades: Coming soon.
+// Draft tab: every Pick the Owner has made (#26). Rosters, Trades: Coming soon.
 import CareerSummary from "../../components/CareerSummary.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
 import HeadToHead from "../../components/HeadToHead.astro";
+import OwnerDraft from "../../components/OwnerDraft.astro";
 import OwnerSeasons from "../../components/OwnerSeasons.astro";
 import OwnerTrophyCase from "../../components/OwnerTrophyCase.astro";
 import Tabs from "../../components/Tabs.astro";
@@ -38,7 +39,7 @@ const TABS = [
       <HeadToHead rows={owner.headToHead} />
     </div>
     <ComingSoon slot="rosters" level={2} title="Rosters" blurb="This Owner's roster every Season." />
-    <ComingSoon slot="draft" level={2} title="Draft" blurb="Every pick this Owner has made, graded." />
+    <OwnerDraft slot="draft" seasons={owner.draft} />
     <ComingSoon slot="trades" level={2} title="Trades" blurb="Every trade this Owner has made, and who won it." />
   </Tabs>
 </Base>

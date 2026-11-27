@@ -233,5 +233,94 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Ashgrove Aces",
+      "slot": 2,
+      "picks": [
+        {
+          "overall": 2,
+          "round": 1,
+          "roundPick": 2,
+          "player": {
+            "name": "Fenn Barrowell",
+            "position": "RB",
+            "nflTeam": "MIN"
+          }
+        },
+        {
+          "overall": 23,
+          "round": 2,
+          "roundPick": 11,
+          "player": {
+            "name": "Cael Larkspur",
+            "position": "WR",
+            "nflTeam": "LAC"
+          }
+        },
+        {
+          "overall": 26,
+          "round": 3,
+          "roundPick": 2,
+          "player": {
+            "name": "Fenn Cindergate",
+            "position": "WR",
+            "nflTeam": "MIN"
+          }
+        },
+        {
+          "overall": 47,
+          "round": 4,
+          "roundPick": 11,
+          "player": {
+            "name": "Cael Merriweather",
+            "position": "RB",
+            "nflTeam": "LAC"
+          }
+        },
+        {
+          "overall": 50,
+          "round": 5,
+          "roundPick": 2,
+          "player": {
+            "name": "Fenn Dunmore",
+            "position": "TE",
+            "nflTeam": "MIN"
+          }
+        },
+        {
+          "overall": 71,
+          "round": 6,
+          "roundPick": 11,
+          "player": {
+            "name": "Cael Northcott",
+            "position": "WR",
+            "nflTeam": "LAC"
+          }
+        },
+        {
+          "overall": 74,
+          "round": 7,
+          "roundPick": 2,
+          "player": {
+            "name": "Bills D/ST",
+            "position": "D/ST",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 95,
+          "round": 8,
+          "roundPick": 11,
+          "player": {
+            "name": "Cael Oakhurst",
+            "position": "K",
+            "nflTeam": "LAC"
+          }
+        }
+      ]
+    }
   ]
 }

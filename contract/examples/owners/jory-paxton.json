@@ -233,5 +233,94 @@
       },
       "meetings": 1
     }
+  ],
+  "draft": [
+    {
+      "year": 2020,
+      "teamName": "Paxton Pistons",
+      "slot": 4,
+      "picks": [
+        {
+          "overall": 4,
+          "round": 1,
+          "roundPick": 4,
+          "player": {
+            "name": "Hale Larkspur",
+            "position": "RB",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 21,
+          "round": 2,
+          "roundPick": 9,
+          "player": {
+            "name": "Arlo Barrowell",
+            "position": "WR",
+            "nflTeam": "KC"
+          }
+        },
+        {
+          "overall": 28,
+          "round": 3,
+          "roundPick": 4,
+          "player": {
+            "name": "Hale Merriweather",
+            "position": "RB",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 45,
+          "round": 4,
+          "roundPick": 9,
+          "player": {
+            "name": "Arlo Cindergate",
+            "position": "QB",
+            "nflTeam": "KC"
+          }
+        },
+        {
+          "overall": 52,
+          "round": 5,
+          "roundPick": 4,
+          "player": {
+            "name": "Hale Northcott",
+            "position": "WR",
+            "nflTeam": "BUF"
+          }
+        },
+        {
+          "overall": 69,
+          "round": 6,
+          "roundPick": 9,
+          "player": {
+            "name": "Arlo Dunmore",
+            "position": "QB",
+            "nflTeam": "KC"
+          }
+        },
+        {
+          "overall": 76,
+          "round": 7,
+          "roundPick": 4,
+          "player": {
+            "name": "Cowboys D/ST",
+            "position": "D/ST",
+            "nflTeam": "DAL"
+          }
+        },
+        {
+          "overall": 93,
+          "round": 8,
+          "roundPick": 9,
+          "player": {
+            "name": "Arlo Elderby",
+            "position": "K",
+            "nflTeam": "KC"
+          }
+        }
+      ]
+    }
   ]
 }

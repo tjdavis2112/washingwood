@@ -1,4 +1,4 @@
-// The Owner page (#14): header, trophy case, career summary and Coming soon tabs. Expected values
+// The Owner page (#14): header, trophy case, career summary and Coming soon tabs (Draft since #26). Expected values
 // come from the invented fixture documents (contract/examples/owners/<slug>.json).
 import fs from "node:fs";
 import path from "node:path";
@@ -77,12 +77,12 @@ for (const o of OWNERS) {
   });
 }
 
-test("Rosters, Draft and Trades tabs say Coming soon, and tabs work from the keyboard", async ({ page }) => {
+test("Rosters and Trades tabs say Coming soon, and tabs work from the keyboard", async ({ page }) => {
   const o = OWNERS[0];
   await page.goto(`/owners/${o.owner.slug}/`);
   const tabs = page.getByRole("tablist", { name: `${o.owner.name} sections` }).getByRole("tab");
   await expect(tabs).toHaveText(["Career", "Rosters", "Draft", "Trades"]);
-  for (const name of ["Rosters", "Draft", "Trades"]) {
+  for (const name of ["Rosters", "Trades"]) {
     await tabs.filter({ hasText: name }).click();
     const panel = page.getByRole("tabpanel", { name });
     await expect(panel.getByRole("heading", { name })).toBeVisible();
