@@ -1,13 +1,15 @@
 ---
 // One page per Owner, rendered from owners/<slug>.json. Career tab: trophy case, career summary,
 // the season-by-season table and head-to-head.
-// Draft tab: every Pick the Owner has made (#26). Rosters, Trades: Coming soon.
+// Draft tab: every Pick the Owner has made (#26). Transactions tab: trade record, trades and top 5 Pickups
+// (#65). Rosters: Coming soon.
 import CareerSummary from "../../components/CareerSummary.astro";
 import ComingSoon from "../../components/ComingSoon.astro";
 import HeadToHead from "../../components/HeadToHead.astro";
 import OwnerDraft from "../../components/OwnerDraft.astro";
 import OwnerSeasons from "../../components/OwnerSeasons.astro";
 import OwnerTrophyCase from "../../components/OwnerTrophyCase.astro";
+import OwnerTransactions from "../../components/OwnerTransactions.astro";
 import Tabs from "../../components/Tabs.astro";
 import { formatSpan, getOwner, getOwnerIndex } from "../../data/site-data";
 import Base from "../../layouts/Base.astro";
@@ -20,7 +22,7 @@ const TABS = [
   { id: "career", label: "Career" },
   { id: "rosters", label: "Rosters" },
   { id: "draft", label: "Draft" },
-  { id: "trades", label: "Trades" },
+  { id: "transactions", label: "Transactions" },
 ];
 ---
 <Base title={owner.owner.name}>
@@ -40,6 +42,6 @@ const TABS = [
     </div>
     <ComingSoon slot="rosters" level={2} title="Rosters" blurb="This Owner's roster every Season." />
     <OwnerDraft slot="draft" seasons={owner.draft} />
-    <ComingSoon slot="trades" level={2} title="Trades" blurb="Every trade this Owner has made, and who won it." />
+    <div slot="transactions"><OwnerTransactions owner={owner.owner} /></div>
   </Tabs>
 </Base>

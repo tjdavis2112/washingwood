@@ -1,0 +1,40 @@
+---
+// The Owner page's Transactions tab (#65): the Owner's trade record and net points, their trades as cards
+// (newest first, filtered from transactions.json by Owner slug) and their top 5 Pickups of all time.
+import type { OwnerRef } from "../data/site-data";
+import { formatPoints, getTransactions } from "../data/site-data";
+import BestPickups from "./BestPickups.astro";
+import TradeCard from "./TradeCard.astro";
+
+interface Props { owner: OwnerRef }
+const { owner } = Astro.props;
+const { trades: all, tradeRecords, ownerPickups } = getTransactions();
+const trades = all.filter((t) => t.sides.some((s) => s.owner.slug === owner.slug)); // already newest first
+const record = tradeRecords.find((r) => r.owner.slug === owner.slug);
+const pickups = ownerPickups.find((e) => e.owner.slug === owner.slug)?.pickups ?? [];
+const signed = (n: number) => (n > 0 ? `+${formatPoints(n)}` : n < 0 ? `−${formatPoints(-n)}` : formatPoints(0));
+---
+<div class="space-y-10">
+  <section aria-labelledby="owner-trades-heading">
+    <h2 id="owner-trades-heading" class="mb-4 text-2xl font-black">Trades</h2>
+    {record ? (
+      <dl data-testid="trade-record" class="mb-6 grid max-w-md grid-cols-2 gap-3">
+        <div class="rounded-2xl border border-line bg-panel/60 p-4">
+          <dt class="text-xs uppercase tracking-wider text-muted">Record (W-L-T)</dt>
+          <dd data-testid="trade-record-wlt" class="mt-1 text-2xl font-black tabular-nums">{record.won}-{record.lost}-{record.tied}</dd>
+        </div>
+        <div class="rounded-2xl border border-line bg-panel/60 p-4">
+          <dt class="text-xs uppercase tracking-wider text-muted">Net points</dt>
+          <dd data-testid="trade-record-net" class:list={["mt-1 text-2xl font-black tabular-nums", record.netPoints > 0 && "text-brand"]}>{signed(record.netPoints)}</dd>
+        </div>
+      </dl>
+    ) : <p data-testid="no-trades" class="text-muted">No trades yet.</p>}
+    {trades.length > 0 && (
+      <>
+        <p class="mb-4 text-xs text-muted">Net points: what this Owner's received Players scored for them, minus what the other side's did, over every trade.</p>
+        <div class="grid gap-4">{trades.map((trade) => <TradeCard trade={trade} />)}</div>
+      </>
+    )}
+  </section>
+  <BestPickups pickups={pickups} />
+</div>

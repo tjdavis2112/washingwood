@@ -171,6 +171,7 @@ class Team:
     key: str  # test handle, e.g. "quinn"
     name: str  # team name that Season
     member: str  # invented ESPN member ID ("{...}" form)
+    extra_members: tuple[str, ...] = ()  # more ESPN accounts listed on the team (the same Owner's)
 
 
 @dataclass
@@ -368,7 +369,7 @@ class FixtureSeason:
                     "id": self._ids[t.key],
                     "name": t.name,
                     "abbrev": t.key[:4].upper(),
-                    "owners": [t.member],
+                    "owners": [t.member, *t.extra_members],
                     "primaryOwner": t.member,
                     "playoffSeed": seed,
                     "rankCalculatedFinal": self._final_rank[t.key],
