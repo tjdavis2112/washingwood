@@ -7,12 +7,19 @@ side's Player scores `10 + diff` a Week and the acceptor's scores 10, so the Mar
 
 import json
 
-from espn_fixture import FixtureMove, FixtureTrade, free_agent_id, lineup_player_id
-from test_build import season
+from espn_fixture import NO_REPLACEMENT, FixtureMove, FixtureTrade, free_agent_id, lineup_player_id
+from test_build import season as build_season
 from test_draft import owner
 
 from washingwood.build import build
 from washingwood.contract import validate
+
+
+def season(year, **options):
+    """A 2020-style Season whose Replacement points are 0 at every position, so Value added equals raw
+    starter points unless a test sets pool_points_by_position itself."""
+    options.setdefault("pool_points_by_position", NO_REPLACEMENT)
+    return build_season(year, **options)
 
 
 def transactions(archive, owners, tmp_path, pg_dsn) -> dict:

@@ -827,7 +827,7 @@ def test_best_pickups_are_ranked_and_their_owners_played_that_season():
     doc = load_example("transactions.json")
     pickups = doc["pickups"]
     assert len(pickups) == 10
-    keys = [(-p["points"], p["year"], p["week"], p["owner"]["name"], p["name"]) for p in pickups]
+    keys = [(-p["value"], p["year"], p["week"], p["owner"]["name"], p["name"]) for p in pickups]
     assert keys == sorted(keys)
     seasons = example_seasons()
     for p in pickups:
@@ -902,3 +902,19 @@ def test_most_active_lists_every_owner_and_agrees_with_the_trades():
     assert sum(a["trades"] for a in doc["activity"]) == 2 * len(doc["trades"])
     keys = [(-(a["trades"] + a["pickups"]), a["owner"]["name"]) for a in doc["activity"]]
     assert keys == sorted(keys)
+
+
+# --- Value added ---
+
+
+def test_example_trades_are_decided_on_value_added_not_raw_points():
+    trades = load_example("transactions.json")["trades"]
+    for t in trades:
+        a, b = t["sides"]
+        assert t["margin"] == round(a["total"] - b["total"], 2)
+        for side in (a, b):  # each Player's value is rounded on its own, so allow a cent per Player
+            assert abs(side["total"] - sum(p["value"] for p in side["players"])) <= 0.01 * len(side["players"])
+    # At least one example trade is won by the side with fewer raw points (a QB isn't worth more just for scoring more)
+    assert any(
+        t["sides"][0]["outcome"] == "won" and t["sides"][0]["rawTotal"] < t["sides"][1]["rawTotal"] for t in trades
+    )

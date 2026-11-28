@@ -1826,7 +1826,7 @@
     },
     "transactions": {
       "title": "Transactions document",
-      "description": "The Transactions section: every executed trade, scored by the starter points each side's received Players gave their new team. Season and Owner pages filter it at site build time. Exported as transactions.json.",
+      "description": "The Transactions section: every executed trade, scored by the Value added (GLOSSARY) of each side's received Players for their new team, with raw starter points alongside. Season and Owner pages filter it at site build time. Exported as transactions.json.",
       "type": "object",
       "additionalProperties": false,
       "required": ["trades", "pickups", "seasonPickups", "tradeRecords", "ownerPickups", "activity"],
@@ -1837,7 +1837,7 @@
           "items": { "$ref": "#/$defs/trade" }
         },
         "pickups": {
-          "description": "Best pickups: the top 10 Pickups of all time by starter points over the Stint. Ties go to the earlier Season, then Week, then Owner name, then Player name.",
+          "description": "Best pickups: the top 10 Pickups of all time by Value added over the Stint. Ties go to the earlier Season, then Week, then Owner name, then Player name.",
           "type": "array",
           "maxItems": 10,
           "items": { "$ref": "#/$defs/pickup" }
@@ -1875,7 +1875,7 @@
               "won": { "description": "Trades whose side score beat the other side's.", "type": "integer", "minimum": 0 },
               "lost": { "description": "Trades whose side score fell short of the other side's.", "type": "integer", "minimum": 0 },
               "tied": { "description": "Trades with equal side scores (neither won nor lost).", "type": "integer", "minimum": 0 },
-              "netPoints": { "description": "The sum over the Owner's trades of their side score minus the other side's.", "type": "number" }
+              "netPoints": { "description": "The sum over the Owner's trades of their side's Value added minus the other side's.", "type": "number" }
             }
           }
         },
@@ -1919,7 +1919,7 @@
       "description": "A Pickup (GLOSSARY): an executed waiver claim or free-agent add, scored for the acquiring Franchise over the Stint.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "position", "nflTeam", "owner", "teamName", "year", "week", "via", "points", "weeksStarted", "scoringFormat"],
+      "required": ["name", "position", "nflTeam", "owner", "teamName", "year", "week", "via", "points", "value", "weeksStarted", "scoringFormat"],
       "properties": {
         "name": { "description": "The Player's name.", "type": "string", "minLength": 1 },
         "position": { "description": "That Season's position: QB, RB, WR, TE, K, D/ST ...", "type": "string", "minLength": 1 },
@@ -1929,7 +1929,8 @@
         "year": { "description": "The Season.", "$ref": "#/$defs/year" },
         "week": { "description": "The Week the Player was added.", "type": "integer", "minimum": 1 },
         "via": { "description": "waiver (a processed waiver claim) or free_agent (added straight from free agency).", "enum": ["waiver", "free_agent"] },
-        "points": { "description": "Starter points for the acquiring Franchise during the Stint, playoff Weeks included. Bench Weeks score nothing.", "type": "number" },
+        "points": { "description": "Raw starter points for the acquiring Franchise during the Stint, playoff Weeks included. Bench Weeks score nothing.", "type": "number" },
+        "value": { "description": "Value added (GLOSSARY) for the acquiring Franchise during the Stint; Pickups are ranked by it. Can be negative.", "type": "number" },
         "weeksStarted": { "description": "Weeks the Player started for the acquiring Franchise during the Stint.", "type": "integer", "minimum": 0 },
         "scoringFormat": { "description": "That Season's Scoring format label, e.g. PPR.", "type": "string", "minLength": 1 }
       }
@@ -1943,7 +1944,7 @@
         "year": { "description": "The Season.", "$ref": "#/$defs/year" },
         "week": { "description": "The effective Week: the first Week the received Players were on their new rosters.", "type": "integer", "minimum": 1 },
         "scoringFormat": { "description": "That Season's Scoring format label, e.g. PPR.", "type": "string", "minLength": 1 },
-        "margin": { "description": "Margin (GLOSSARY): the winning side's total minus the losing side's. 0 for a tie.", "type": "number", "minimum": 0 },
+        "margin": { "description": "Margin (GLOSSARY): the winning side's Value added minus the losing side's. 0 for a tie.", "type": "number", "minimum": 0 },
         "fleeced": { "description": "Fleeced (GLOSSARY): one of the 5 largest Margins of all time (ties: earlier Season, then Week, then the winner's Owner name). Never a tie. Marked wherever the trade's card appears.", "type": "boolean" },
         "sides": {
           "description": "Both sides: the winner first; a tie orders them by Owner name.",
@@ -1958,14 +1959,15 @@
       "description": "What one Franchise received in a trade, and how it scored for them.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["owner", "teamName", "outcome", "total", "players"],
+      "required": ["owner", "teamName", "outcome", "total", "rawTotal", "players"],
       "properties": {
         "owner": { "description": "The Franchise's Owner.", "$ref": "#/$defs/ownerRef" },
         "teamName": { "description": "The Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
-        "outcome": { "description": "won, lost or tied: this side's total against the other's.", "enum": ["won", "lost", "tied"] },
-        "total": { "description": "The side score: the received Players' starter points over their Stints, playoff Weeks included.", "type": "number" },
+        "outcome": { "description": "won, lost or tied: this side's total (Value added) against the other's.", "enum": ["won", "lost", "tied"] },
+        "total": { "description": "The side score: the received Players' Value added over their Stints, playoff Weeks included. Can be negative.", "type": "number" },
+        "rawTotal": { "description": "The received Players' raw starter points over their Stints, for reference; it doesn't decide the trade.", "type": "number" },
         "players": {
-          "description": "The Players this side received, most points first, then by name.",
+          "description": "The Players this side received, most Value added first, then by name.",
           "type": "array",
           "minItems": 1,
           "items": { "$ref": "#/$defs/tradedPlayer" }
@@ -1976,12 +1978,13 @@
       "description": "A Player received in a trade, scored for the receiving Franchise over the Stint (GLOSSARY): from the trade's Week until the Player next left that team, to the end of the Season at most.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["name", "position", "nflTeam", "points", "weeksStarted"],
+      "required": ["name", "position", "nflTeam", "points", "value", "weeksStarted"],
       "properties": {
         "name": { "description": "The Player's name.", "type": "string", "minLength": 1 },
         "position": { "description": "That Season's position: QB, RB, WR, TE, K, D/ST ...", "type": "string", "minLength": 1 },
         "nflTeam": { "description": "That Season's NFL team abbreviation; null for a free agent.", "type": ["string", "null"] },
-        "points": { "description": "Starter points for the receiving Franchise during the Stint. Bench Weeks score nothing.", "type": "number" },
+        "points": { "description": "Raw starter points for the receiving Franchise during the Stint. Bench Weeks score nothing.", "type": "number" },
+        "value": { "description": "Value added (GLOSSARY) for the receiving Franchise during the Stint: each start's points minus the position's Replacement points per start that Season. Can be negative.", "type": "number" },
         "weeksStarted": { "description": "Weeks the Player started for the receiving Franchise during the Stint.", "type": "integer", "minimum": 0 }
       }
     },

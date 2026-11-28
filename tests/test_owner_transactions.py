@@ -8,14 +8,30 @@ what a Player scores each Week; every team has a lineup every Week, Weeks 1-17.
 import json
 from dataclasses import replace
 
-from espn_fixture import FixtureMove, FixtureTrade, default_owners, free_agent_id, lineup_player_id, team, write_owners
-from test_build import season
+from espn_fixture import (
+    NO_REPLACEMENT,
+    FixtureMove,
+    FixtureTrade,
+    default_owners,
+    free_agent_id,
+    lineup_player_id,
+    team,
+    write_owners,
+)
+from test_build import season as build_season
 from test_draft import owner
 
 from washingwood.build import build
 from washingwood.contract import validate
 
 SECOND_ACCOUNT = "{00000000-0000-4000-8000-0000000000b9}"  # invented: Quinn Harrow's second ESPN account
+
+
+def season(year, **options):
+    """A 2020-style Season whose Replacement points are 0 at every position, so Value added equals raw
+    starter points unless a test sets pool_points_by_position itself."""
+    options.setdefault("pool_points_by_position", NO_REPLACEMENT)
+    return build_season(year, **options)
 
 
 def transactions(archive, owners, tmp_path, pg_dsn) -> dict:

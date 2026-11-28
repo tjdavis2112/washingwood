@@ -80,7 +80,7 @@ A **Season** in which a **Franchise**'s seed is within that Season's playoff fie
 A regular-season **Matchup**, or a championship-bracket Matchup actually played, that spans a single **Week**. The set Matchup leaderboards draw from. Byes, the **Third-place game**, consolation Matchups and two-week rounds aren't counted.
 
 **Margin**:
-The winner's score minus the loser's in a played **Matchup**. For a **Trade**, the winning side's score minus the losing side's; 0 for a tied trade, which nobody won.
+The winner's score minus the loser's in a played **Matchup**. For a **Trade**, the winning side's **Value added** minus the losing side's; 0 for a tied trade, which nobody won.
 
 **Playoff upset**:
 A championship-bracket **Matchup** won by the worse seed.
@@ -166,16 +166,20 @@ A **Franchise**'s all-play win % times its regular-season games: the wins an ave
 A **Franchise**'s actual regular-season wins minus its **Expected wins**, to one decimal. Positive is lucky. An **Owner**'s all-time Luck index is the sum of their Seasons.
 
 **Acquisition impact**:
-Points a **Player** scored as a starter for the **Franchise** that acquired them during the **Stint**.
+Points a **Player** scored as a starter for the **Franchise** that acquired them during the **Stint** (raw points; **Value added** is what trades and Pickups are judged on).
+
+**Value added**:
+What an acquired **Player** gave a **Franchise** beyond a replacement-level starter at his position: over the **Stint**, each start's points minus that position's Replacement points per start that **Season** (Replacement points divided by the Season's **Weeks**, playoffs included; see **Replacement level**). A start below replacement counts negative, since it cost the team; bench Weeks don't count. Unlike **Points above replacement** (a drafted Player's whole Season, never below 0), it is per start and can be negative. It stops a QB winning a trade just because QBs score more than other positions.
+_Avoid_: Points above replacement (the Draft term)
 
 **Fleeced**:
-One of the 5 **Trades** with the largest **Margin** of all time, across every **Season**. Ties go to the earlier Season, then **Week**. A tied trade is never Fleeced.
+One of the 5 **Trades** with the largest **Margin** (in **Value added**) of all time, across every **Season**. Ties go to the earlier Season, then **Week**. A tied trade is never Fleeced.
 
 **Pickup**:
-An executed waiver claim or free-agent add: a **Player** joins a **Franchise** from free agency. It goes to the team the claim names, scores the starter points the Player gave that team over the **Stint**, and a re-add after a drop is a new Pickup. Cancelled, failed and pending claims, drops and **Trades** aren't Pickups.
+An executed waiver claim or free-agent add: a **Player** joins a **Franchise** from free agency. It goes to the team the claim names, is scored by the **Value added** the Player gave that team over the **Stint**, and a re-add after a drop is a new Pickup. Cancelled, failed and pending claims, drops and **Trades** aren't Pickups.
 
 **Stint**:
 The **Weeks** a **Player** spends with a **Franchise** after one acquisition: from the acquisition's Week until the Player next leaves that team (traded away or dropped), or the end of the **Season**, playoff Weeks included. Re-acquiring the Player starts a new Stint, so no Week counts twice.
 
 **Trade**:
-An executed swap of **Players** between two **Franchises**. Vetoed trades, proposals and declines aren't trades. Each side scores the starter points its received Players gave it over their **Stints**; the side with more wins by the **Margin**. Its **Week** is the effective Week: the first Week the received Players are on their new rosters.
+An executed swap of **Players** between two **Franchises**. Vetoed trades, proposals and declines aren't trades. Each side scores the **Value added** its received Players gave it over their **Stints**; the side with more wins by the **Margin**. Raw starter points are shown alongside but don't decide it. Its **Week** is the effective Week: the first Week the received Players are on their new rosters.

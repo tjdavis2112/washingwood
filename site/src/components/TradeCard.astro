@@ -1,11 +1,12 @@
 ---
 // One trade as a card (#62): Season and Week, both sides with the Players each received (position, NFL
-// team, starter points, Weeks started) and the side total, "won by N", and the winning side highlighted.
+// team, Value added with raw starter points beside it, Weeks started) and the side total, "won by N" (in
+// Value added), and the winning side highlighted.
 // Reused by the Season and Owner Transactions tabs, which filter transactions.json. A Fleeced trade (#66)
 // gets a gold border and a "Fleeced" label wherever it appears, plus a slow shine on hover: desktop widths
 // only, and never under prefers-reduced-motion. No tilt or flip (saved for the Hall of Fame).
 import type { Trade } from "../data/site-data";
-import { formatPoints } from "../data/site-data";
+import { formatPoints, formatSigned } from "../data/site-data";
 import OwnerLink from "./OwnerLink.astro";
 
 interface Props { trade: Trade }
@@ -45,7 +46,8 @@ const tied = first.outcome === "tied";
             <p class="truncate text-xs text-muted">{side.teamName} received</p>
           </div>
           <p class="shrink-0 text-right">
-            <span data-testid="side-total" class="block text-xl font-black tabular-nums">{formatPoints(side.total)}</span>
+            <span data-testid="side-total" class="block text-xl font-black tabular-nums">{formatSigned(side.total)}</span>
+            <span data-testid="side-raw" class="block text-[0.7rem] text-muted tabular-nums">{formatPoints(side.rawTotal)} raw</span>
             <span class="text-[0.7rem] uppercase tracking-wider text-muted">{side.outcome}</span>
           </p>
         </div>
@@ -57,8 +59,8 @@ const tied = first.outcome === "tied";
                 <span class="ml-1.5 whitespace-nowrap text-xs text-muted">{p.position}{p.nflTeam && ` · ${p.nflTeam}`}</span>
               </span>
               <span class="shrink-0 text-right tabular-nums">
-                {formatPoints(p.points)}
-                <span class="block text-[0.7rem] text-muted">{p.weeksStarted} {p.weeksStarted === 1 ? "start" : "starts"}</span>
+                <span data-testid="player-value" class="font-semibold">{formatSigned(p.value)}</span>
+                <span class="block text-[0.7rem] text-muted">{formatPoints(p.points)} raw · {p.weeksStarted} {p.weeksStarted === 1 ? "start" : "starts"}</span>
               </span>
             </li>
           ))}

@@ -8,6 +8,14 @@ const EXAMPLES = path.resolve(import.meta.dirname, "../../contract/examples");
 const SHOTS = path.resolve(import.meta.dirname, "../test-results/screenshots");
 const { trades, pickups } = JSON.parse(fs.readFileSync(path.join(EXAMPLES, "transactions.json"), "utf-8"));
 const pts = (n: number) => n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+// Value added is shown signed, with a true minus sign
+const signedValue = (n: number) => (n > 0 ? `+${pts(n)}` : n < 0 ? `−${pts(-n)}` : pts(0));
+
+test("the page explains Value added", async ({ page }) => {
+  await page.goto("/transactions/");
+  await expect(page.getByTestId("value-added-note")).toContainText("Value added");
+  await expect(page.getByTestId("value-added-note")).toContainText("replacement");
+});
 
 test("the Transactions nav link opens the section", async ({ page }) => {
   await page.goto("/");
@@ -45,14 +53,16 @@ test("every trade is a card, grouped by Season newest first, with both sides and
       await expect(side).toHaveAttribute("data-outcome", s.outcome);
       await expect(side.getByRole("link", { name: s.owner.name })).toHaveAttribute("href", `/owners/${s.owner.slug}/`);
       await expect(side).toContainText(s.teamName);
-      await expect(side.getByTestId("side-total")).toHaveText(pts(s.total));
+      await expect(side.getByTestId("side-total")).toHaveText(signedValue(s.total));
+      await expect(side.getByTestId("side-raw")).toHaveText(`${pts(s.rawTotal)} raw`);
       const players = side.getByTestId("traded-player");
       await expect(players).toHaveCount(s.players.length);
       for (const [k, p] of s.players.entries()) {
         await expect(players.nth(k)).toContainText(p.name);
         await expect(players.nth(k)).toContainText(p.position);
         if (p.nflTeam) await expect(players.nth(k)).toContainText(p.nflTeam);
-        await expect(players.nth(k)).toContainText(pts(p.points));
+        await expect(players.nth(k).getByTestId("player-value")).toHaveText(signedValue(p.value));
+        await expect(players.nth(k)).toContainText(`${pts(p.points)} raw`);
         await expect(players.nth(k)).toContainText(`${p.weeksStarted} start`);
       }
     }
@@ -90,7 +100,8 @@ test("Best pickups lists the top 10 with Owner, Season, Week, points and a Forma
     await expect(row.getByTestId("pickup-via")).toHaveText(p.via === "waiver" ? "via waivers" : "free agent");
     await expect(row.getByRole("link", { name: p.owner.name })).toHaveAttribute("href", `/owners/${p.owner.slug}/`);
     await expect(row).toContainText(p.teamName);
-    await expect(row).toContainText(pts(p.points));
+    await expect(row.getByTestId("pickup-value")).toHaveText(signedValue(p.value));
+    await expect(row).toContainText(`${pts(p.points)} raw`);
     await expect(row).toContainText(`${p.weeksStarted} start`);
     await expect(row.getByTestId("format-badge")).toHaveText(p.scoringFormat);
   }

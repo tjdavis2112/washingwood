@@ -5,14 +5,16 @@ invented (ADR-0007); Owners and team names come from the Season examples so link
 received Player has a Week-by-Week log for the receiving Owner: points as a starter, or None for a Week
 on the bench. The rules applied here are the ones the pipeline follows:
 
-- a side scores its received Players' starter points from the trade's Week to the end of the Season,
-  playoff Weeks included, but each Player's Stint ends when they next leave that Owner;
+- a side scores its received Players' Value added from the trade's Week to the end of the Season,
+  playoff Weeks included, but each Player's Stint ends when they next leave that Owner. Value added is
+  each start's points minus the position's Replacement points per start: the Season example's
+  draft.replacement points divided by the Season's Weeks. Raw starter points ride along;
 - Margin = winning total minus losing total; equal totals are a tie with no winner;
 - sides: winner first, a tie by Owner name; Players: most points first, then name;
 - trades: newest Season, then newest Week, then the first side's Owner name;
 - Pickups score the same way: an added Player's log holds only the Weeks they were in that Owner's
   lineup, and a Stint ends at that Owner's next acquisition of the Player, so a re-add is a new Pickup;
-- Best pickups: top 10 by points, ties by Season, then Week, then Owner name, then Player name; each
+- Best pickups: top 10 by Value added, ties by Season, then Week, then Owner name, then Player name; each
   Season also gets its own top 10 (seasonPickups, newest Season first), and each Owner a top 5;
 - trade records: won, lost, tied and net points per Owner who traded, highest net points first;
 - Fleeced: the 5 largest Margins, ties by Season, then Week, then the winner's name; never a tie;
@@ -63,19 +65,20 @@ TRADES = [
         ("odie-brask", [("Jem Corrow", "WR", "LV", _log(9, 17, 14.0))]),
         ("nell-ashgrove", [("Rook Tanner", "D/ST", "PIT", _log(9, 17, 7.0))]),
     ]),
-    # A tie: equal totals
+    # A tie: same position, equal points, so equal Value added
     (2020, 9, [
         ("jory-paxton", [("Lark Denholm", "TE", "MIA", _log(9, 17, 10.0))]),
-        ("abel-trice", [("Bram Okafor", "RB", "TEN", _log(9, 17, 10.0))]),
+        ("abel-trice", [("Bram Okafor", "TE", "TEN", _log(9, 17, 10.0))]),
     ]),
-    # Margin 9, the same as the Week-1 trade: the earlier Week keeps the 5th Fleeced place
+    # Same-position swaps, so Value added keeps the raw gap: Margin 24 in Week 6 and in Week 12. The earlier
+    # Week keeps the 5th Fleeced place
     (2020, 6, [
-        ("rue-calloway", [("Dace Morrow", "WR", "BUF", _log(6, 17, 8.75))]),
-        ("odie-brask", [("Ely Grant", "RB", "CIN", _log(6, 17, 8.0))]),
+        ("rue-calloway", [("Dace Morrow", "WR", "BUF", _log(6, 17, 10.0))]),
+        ("odie-brask", [("Ely Grant", "WR", "CIN", _log(6, 17, 8.0))]),
     ]),
     (2020, 12, [
-        ("tamsin-oake", [("Fitz Arden", "TE", "LAC", _log(12, 17, 6.0))]),
-        ("lyle-fenwick", [("Gil Sawyer", "QB", "NYJ", _log(12, 17, 5.0))]),
+        ("tamsin-oake", [("Fitz Arden", "TE", "LAC", _log(12, 17, 9.0))]),
+        ("lyle-fenwick", [("Gil Sawyer", "TE", "NYJ", _log(12, 17, 5.0))]),
     ]),
 ]  # fmt: skip
 
@@ -115,9 +118,9 @@ def best_pickups(teams, season: int | None = None, owner: str | None = None, lim
         team = teams[year, slug]
         rows.append({"name": name, "position": position, "nflTeam": nfl_team, "owner": team["owner"],
                      "teamName": team["teamName"], "year": year, "week": week, "via": via,
-                     "points": round(sum(stint), 2), "weeksStarted": len(stint),
-                     "scoringFormat": team["scoringFormat"]})  # fmt: skip
-    rows.sort(key=lambda r: (-r["points"], r["year"], r["week"], r["owner"]["name"], r["name"]))
+                     "points": round(sum(stint), 2), "value": round(_value(year, position, stint), 2),
+                     "weeksStarted": len(stint), "scoringFormat": team["scoringFormat"]})  # fmt: skip
+    rows.sort(key=lambda r: (-r["value"], r["year"], r["week"], r["owner"]["name"], r["name"]))
     return rows[:limit]
 
 
@@ -132,6 +135,26 @@ def trade_records(trades: list[dict]) -> list[dict]:
             r[side["outcome"]] += 1
             r["netPoints"] = round(r["netPoints"] + side["total"] - other["total"], 2)
     return sorted(out.values(), key=lambda r: (-r["netPoints"], r["owner"]["name"]))
+
+
+def _replacement_per_start() -> dict[tuple[int, str], float]:
+    """(year, position) -> Replacement points per start: the Season example's draft.replacement points over
+    the Season's Weeks (playoffs included)."""
+    out = {}
+    for path in (EXAMPLES / "seasons").glob("*.json"):
+        season = json.loads(path.read_text(encoding="utf-8"))
+        weeks = max(w for period in season["weeklyResults"] for w in period["weeks"])
+        for r in season["draft"]["replacement"]:
+            out[season["year"], r["position"]] = r["points"] / weeks
+    return out
+
+
+REPLACEMENT = _replacement_per_start()
+
+
+def _value(year: int, position: str, starts: list[float]) -> float:
+    """Value added over these starts, unrounded."""
+    return sum(starts) - len(starts) * REPLACEMENT.get((year, position), 0.0)
 
 
 def _teams() -> dict[tuple[int, str], dict]:
@@ -159,12 +182,15 @@ def _side(year: int, week: int, slug: str, players: list, teams) -> dict:
     scored = []
     for name, position, nfl_team, log in players:
         stint = [pts for w, pts in log.items() if week <= w < _left_week(year, week, name, slug) and pts is not None]
+        value = _value(year, position, stint)
         scored.append({"name": name, "position": position, "nflTeam": nfl_team, "points": round(sum(stint), 2),
-                       "weeksStarted": len(stint)})  # fmt: skip
-    scored.sort(key=lambda p: (-p["points"], p["name"]))
+                       "value": round(value, 2), "weeksStarted": len(stint), "_value": value,
+                       "_points": sum(stint)})  # fmt: skip
+    scored.sort(key=lambda p: (-p["value"], p["name"]))
     team = teams[year, slug]
-    return {"owner": team["owner"], "teamName": team["teamName"], "total": round(sum(p["points"] for p in scored), 2),
-            "players": scored}  # fmt: skip
+    total, raw = sum(p.pop("_value") for p in scored), sum(p.pop("_points") for p in scored)
+    return {"owner": team["owner"], "teamName": team["teamName"], "total": round(total, 2),
+            "rawTotal": round(raw, 2), "players": scored}  # fmt: skip
 
 
 def derive() -> dict:
@@ -181,7 +207,8 @@ def derive() -> dict:
             "scoringFormat": teams[year, sides[0][0]]["scoringFormat"],
             "margin": round(abs(a["total"] - b["total"]), 2),
             "fleeced": False,
-            "sides": [{k: s[k] for k in ("owner", "teamName", "outcome", "total", "players")} for s in pair],
+            "sides": [{k: s[k] for k in ("owner", "teamName", "outcome", "total", "rawTotal", "players")}
+                      for s in pair],
         })  # fmt: skip
     trades.sort(key=lambda t: (-t["year"], -t["week"], t["sides"][0]["owner"]["name"]))
     # Fleeced: the 5 largest Margins (ties: Season, Week, winner's name); a tie can't be Fleeced

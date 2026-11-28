@@ -604,12 +604,25 @@ JOIN stats.draft_value dv       ON dv.season_id = dp.season_id AND dv.overall_pi
 LEFT JOIN core.players p        ON p.player_id = dp.player_id
 LEFT JOIN core.player_seasons ps ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id;
 
+-- Replacement points per start (GLOSSARY: Value added): a position's Replacement points that Season spread
+-- over the Season's Weeks, playoffs included. A position with no Replacement points (no Player at it has
+-- Season points) counts 0.
+CREATE VIEW stats.weekly_replacement AS
+SELECT rl.season_id, rl.position,
+       coalesce(rl.replacement_points, 0) / w.weeks AS points_per_start
+FROM stats.replacement_level rl
+JOIN (SELECT season_id, max(last_week) AS weeks FROM core.matchups GROUP BY season_id) w
+  ON w.season_id = rl.season_id;
+
 -- Points each acquired Player scored as a starter for the new team during the Stint (GLOSSARY): from the
 -- acquisition's Week until the Player next leaves that team, playoff Weeks included. Lineups record where a
 -- Player is each Week, so the Stint counts the team's lineup Weeks up to (not including) its next
 -- acquisition of the same Player: after a trade-away or drop the Player is in no lineup of that team, and a
 -- re-acquisition starts a new Stint, so no Week counts twice. This also keeps the Week of a drop made after
 -- that Week's games. stint_end_week is that next acquisition's Week (NULL = none that Season).
+-- value_added (GLOSSARY: Value added) is the same starts, each minus the Player's position's Replacement
+-- points per start that Season; a start below replacement counts negative, and a start without a played
+-- game (NULL points) counts 0 minus replacement.
 CREATE VIEW stats.acquisition_impact AS
 WITH acquisitions AS (
     SELECT t.transaction_id, t.season_id, coalesce(t.week, 1) AS acquired_week, t.kind,
@@ -620,13 +633,19 @@ WITH acquisitions AS (
 ), stints AS (
     SELECT a.*,
            lead(a.acquired_week) OVER (PARTITION BY a.season_id, a.player_id, a.to_franchise_id
-                                       ORDER BY a.acquired_week, a.transaction_id) AS stint_end_week
+                                       ORDER BY a.acquired_week, a.transaction_id) AS stint_end_week,
+           coalesce((SELECT wr.points_per_start
+                     FROM core.player_seasons ps
+                     JOIN stats.weekly_replacement wr ON wr.season_id = ps.season_id AND wr.position = ps.position
+                     WHERE ps.season_id = a.season_id AND ps.player_id = a.player_id), 0) AS replacement_per_start
     FROM acquisitions a
 )
 SELECT st.transaction_id, st.season_id, st.acquired_week, st.kind,
        st.player_id, st.from_franchise_id, st.to_franchise_id, st.stint_end_week,
        coalesce(sum(le.points) FILTER (WHERE le.is_starter), 0) AS started_points_after,
-       count(le.*) FILTER (WHERE le.is_starter)                 AS weeks_started_after
+       count(le.*) FILTER (WHERE le.is_starter)                 AS weeks_started_after,
+       coalesce(sum(coalesce(le.points, 0) - st.replacement_per_start) FILTER (WHERE le.is_starter), 0)
+                                                                AS value_added
 FROM stints st
 LEFT JOIN core.lineup_entries le
        ON le.season_id = st.season_id
@@ -635,35 +654,36 @@ LEFT JOIN core.lineup_entries le
       AND le.week >= st.acquired_week
       AND (st.stint_end_week IS NULL OR le.week < st.stint_end_week)
 GROUP BY st.transaction_id, st.season_id, st.acquired_week, st.kind,
-         st.player_id, st.from_franchise_id, st.to_franchise_id, st.stint_end_week;
+         st.player_id, st.from_franchise_id, st.to_franchise_id, st.stint_end_week, st.replacement_per_start;
 
--- Pickups (GLOSSARY): executed waiver claims and free-agent adds, each scored over its Stint, with the
--- acquiring Franchise's primary Owner (through core.franchise_owners).
+-- Pickups (GLOSSARY): executed waiver claims and free-agent adds, each scored over its Stint (raw points and
+-- Value added), with the acquiring Franchise's primary Owner (through core.franchise_owners).
 CREATE VIEW stats.pickups AS
 SELECT ai.transaction_id, s.year, ai.acquired_week AS week, s.scoring_label, ai.kind AS via,
        ai.player_id, ai.to_franchise_id AS franchise_id, f.team_name, fo.owner_id, fo.display_name AS owner,
-       ai.started_points_after AS points, ai.weeks_started_after AS weeks_started
+       ai.started_points_after AS points, ai.value_added AS value, ai.weeks_started_after AS weeks_started
 FROM stats.acquisition_impact ai
 JOIN core.seasons s           ON s.season_id = ai.season_id
 JOIN core.franchises f        ON f.franchise_id = ai.to_franchise_id
 JOIN stats.franchise_owner fo ON fo.franchise_id = ai.to_franchise_id
 WHERE ai.kind IN ('waiver', 'free_agent');
 
--- Trade scorecard: each side's started points from what it received
+-- Trade scorecard: each side's raw starter points and Value added from what it received
 CREATE VIEW stats.trade_scorecard AS
 SELECT ai.transaction_id, ai.season_id, ai.to_franchise_id AS franchise_id,
-       sum(ai.started_points_after) AS points_received
+       sum(ai.started_points_after) AS points_received,
+       sum(ai.value_added)          AS value_received
 FROM stats.acquisition_impact ai
 WHERE ai.kind = 'trade'
 GROUP BY ai.transaction_id, ai.season_id, ai.to_franchise_id;
 
--- One row per trade: Margin (GLOSSARY) = the winning side's score minus the losing side's; the winner is
--- the side with more points, NULL for a tie.
+-- One row per trade: Margin (GLOSSARY) = the winning side's Value added minus the losing side's; the winner
+-- is the side with more Value added, NULL for a tie.
 CREATE VIEW stats.trade_results AS
 SELECT sc.transaction_id, sc.season_id, s.year, t.week, s.scoring_label,
-       max(sc.points_received) - min(sc.points_received)                         AS margin,
-       CASE WHEN max(sc.points_received) > min(sc.points_received)
-            THEN (array_agg(sc.franchise_id ORDER BY sc.points_received DESC))[1] END AS winner_franchise_id
+       max(sc.value_received) - min(sc.value_received)                           AS margin,
+       CASE WHEN max(sc.value_received) > min(sc.value_received)
+            THEN (array_agg(sc.franchise_id ORDER BY sc.value_received DESC))[1] END AS winner_franchise_id
 FROM stats.trade_scorecard sc
 JOIN core.transactions t ON t.transaction_id = sc.transaction_id
 JOIN core.seasons s      ON s.season_id = sc.season_id

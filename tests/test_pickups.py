@@ -7,12 +7,29 @@ team has a lineup every Week, byes included; `lineup_points` fixes what a Player
 
 import json
 
-from espn_fixture import PEOPLE, FixtureMove, FixtureTrade, Season2018Style, free_agent_id, lineup_player_id, team
-from test_build import SEED_ORDER, season
+from espn_fixture import (
+    NO_REPLACEMENT,
+    PEOPLE,
+    FixtureMove,
+    FixtureTrade,
+    Season2018Style,
+    free_agent_id,
+    lineup_player_id,
+    team,
+)
+from test_build import SEED_ORDER
+from test_build import season as build_season
 from test_draft import owner
 
 from washingwood.build import build
 from washingwood.contract import validate
+
+
+def season(year, **options):
+    """A 2020-style Season whose Replacement points are 0 at every position, so Value added equals raw
+    starter points unless a test sets pool_points_by_position itself."""
+    options.setdefault("pool_points_by_position", NO_REPLACEMENT)
+    return build_season(year, **options)
 
 
 def transactions(archive, owners, tmp_path, pg_dsn) -> dict:
@@ -34,13 +51,14 @@ def pickup(n, key, year, week, via, points, weeks, scoring="PPR"):
         "week": week,
         "via": via,
         "points": points,
+        "value": points,  # Replacement points 0 here
         "weeksStarted": weeks,
         "scoringFormat": scoring,
     }
 
 
 def test_2018_only_executed_claims_and_adds_load_and_the_item_names_the_team(archive, owners, tmp_path, pg_dsn):
-    s = Season2018Style(2018, [team(k) for k in SEED_ORDER[2:12]])
+    s = Season2018Style(2018, [team(k) for k in SEED_ORDER[2:12]], pool_points_by_position=NO_REPLACEMENT)
     s.moves = [
         # 2018: the row's teamId is often not the team the Player joined; the item's toTeamId is
         FixtureMove(week=3, team="odie", add=free_agent_id(1), row_team="rue"),
@@ -163,3 +181,20 @@ def test_each_season_has_its_own_top_ten_pickups_newest_season_first(archive, ow
     assert [p["points"] for p in top] == [15 * (20.0 - i) for i in range(9)] + [150.0]
     # Same Season, Week and points: the Owner name decides, so Cass Imber is in and Wren Solano is cut
     assert top[-1]["owner"]["name"] == "Cass Imber"
+
+
+def test_pickups_rank_by_value_added_over_their_positions_replacement(archive, owners, tmp_path, pg_dsn):
+    # Replacement points: QB 340 and WR 170 over 17 Weeks, so 20 and 10 a start
+    s = season(2020, pool_points_by_position={**NO_REPLACEMENT, 1: 340.0, 3: 170.0})
+    qb, wr = free_agent_id(1, position=1), free_agent_id(2, position=3)
+    s.moves = [
+        FixtureMove(week=2, team="abel", slot=0, add=qb, type="FREEAGENT"),
+        FixtureMove(week=2, team="cass", slot=3, add=wr, type="FREEAGENT"),
+    ]
+    s.lineup_points = {qb: 22.0, wr: 15.0}
+    s.write(archive)
+
+    pickups = transactions(archive, owners, tmp_path, pg_dsn)["pickups"]
+
+    # 16 starts each: the QB's 352 raw is worth 32; the WR's 240 raw is worth 80, so the WR ranks first
+    assert [(p["position"], p["points"], p["value"]) for p in pickups] == [("WR", 240.0, 80.0), ("QB", 352.0, 32.0)]

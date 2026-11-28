@@ -91,7 +91,7 @@ def _ensure_schema(conn: psycopg.Connection) -> None:
     if conn.execute("SELECT to_regclass('core.seasons')").fetchone()[0] is None:
         conn.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
         conn.commit()
-    elif conn.execute("SELECT to_regclass('stats.pickups')").fetchone()[0] is None:  # newest schema change: #63
+    elif conn.execute("SELECT to_regclass('stats.weekly_replacement')").fetchone()[0] is None:  # newest: Value added
         raise BuildError("the database's schema predates db/schema.sql: drop and recreate the database, then re-run")
 
 
