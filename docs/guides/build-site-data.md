@@ -13,7 +13,7 @@ How to turn the private archive into the JSON the site renders. This runs on you
    - `owners.json`: the Owners index (every Owner, with their career regular-season record)
    - `owners/<slug>.json`: one per Owner (trophy case, career summary, every Season, head-to-head)
    - `seasons/<year>.json`: one per Season (Podium, Last place, standings, Scoring format, bracket, weekly results)
-   - `hall-of-fame.json`: every Hall of Fame Inductee (Season and Owner pages filter it)
+   - `hall-of-fame.json`: every Hall of Fame Inductee, with its card back's moments and Owner's note (Season and Owner pages filter it)
 
    Every document is checked against `contract/site-data.schema.json` before any file is written.
 
@@ -22,6 +22,8 @@ The build stops, writing nothing, if:
 - any team's ESPN accounts map to more than one Owner (a **Franchise** has exactly one Owner; see `GLOSSARY.md`). Several accounts belonging to the same Owner are fine.
 
 Either error names the Season and the team. Fix `owners.yaml` and run the build again.
+
+With `--hall-of-fame`, it also stops if `hall_of_fame.yaml` is malformed or has a note that matches no Inductee. That error names the Season and the ESPN player ID.
 
 ## One-time setup
 
@@ -56,10 +58,31 @@ owners:
 - The name is shown on the site exactly as written, capitals included.
 - The Owner's URL slug comes from the name (`Quinn Harrow` → `quinn-harrow`). Changing only capitals keeps the slug; any other rename changes it.
 
+## hall_of_fame.yaml (optional)
+
+Each Hall of Fame card has an **Owner's note** on its back: a line or two from the Owner it's credited to. The notes live in `hall_of_fame.yaml` in the private archive repo. It holds ESPN player IDs, so it never goes in this repo (ADR-0007). Every value below is invented.
+
+```yaml
+notes:
+  - season: 2020                # the Season (year) the Player was inducted for
+    espn_player: 90000001       # the Player's ESPN ID
+    note: Traded for him in Week 7 and never looked back.
+  - season: 2018
+    espn_player: 90000002
+    note: Two-week rounds, two weeks of him. Title.
+```
+
+- One entry per Inductee, at most. A Player inducted for two Seasons gets an entry for each.
+- An Inductee with no entry shows "Owner's note coming soon". So does every card when you leave out `--hall-of-fame`.
+- The ESPN player ID is the `id` in `players.json` in that Season's archive folder. The build looks it up through the archive's player IDs, never by name.
+- The build stops, writing nothing, if:
+  - an entry matches no Inductee (a wrong Season, a wrong ID, or a Player who didn't clear a bar). The error names the Season and the ESPN player ID.
+  - an entry has no `note`, its `season` isn't a year, or the same Season and Player are listed twice.
+
 ## Run it
 
 ```powershell
-uv run --env-file .env python -m washingwood.build --archive archive/<league-id> --owners archive/owners.yaml --out export
+uv run --env-file .env python -m washingwood.build --archive archive/<league-id> --owners archive/owners.yaml --out export --hall-of-fame archive/hall_of_fame.yaml
 ```
 
 - `uv run --env-file .env`: run inside the project's environment, with `.env` loaded, so `WASHINGWOOD_PG` is set.
@@ -67,6 +90,7 @@ uv run --env-file .env python -m washingwood.build --archive archive/<league-id>
 - `--archive archive/<league-id>`: the league folder, which holds one folder per Season.
 - `--owners archive/owners.yaml`: the Owner mapping.
 - `--out export`: the output folder (gitignored).
+- `--hall-of-fame archive/hall_of_fame.yaml` (optional): the Owner's notes. Leave it out and every note is "coming soon".
 
 On success it prints a `wrote ...` line for each file. On failure it prints `build failed: ...`, writes nothing, and exits 1.
 

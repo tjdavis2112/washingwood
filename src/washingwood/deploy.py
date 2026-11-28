@@ -1,11 +1,11 @@
 """One command: archive -> site data -> static site -> Cloudflare Pages.
 
     uv run --env-file .env python -m washingwood.deploy --archive ../washingwood-archive/<league-id> \
-        --owners ../washingwood-archive/owners.yaml
+        --owners ../washingwood-archive/owners.yaml --hall-of-fame ../washingwood-archive/hall_of_fame.yaml
 
 Runs on the maintainer's machine only. League data never goes through the public repo or CI
 (ADR-0007): it is written to the gitignored export/ and site/dist/ folders and uploaded straight
-to Cloudflare by Wrangler. Needs no ESPN access.
+to Cloudflare by Wrangler. Needs no ESPN access. --hall-of-fame (Owner's notes) is optional.
 
 1. Build the site data (washingwood.build). This is also the real-archive invariant check: the
    build stops unless every Season has one Champion that agrees with ESPN's final places, a
@@ -56,13 +56,21 @@ def _run(cmd: list[str], *, env: dict | None = None) -> None:
         raise DeployError(f"{Path(cmd[0]).name} failed (see its output above)")
 
 
-def deploy(archive: Path, owners: Path, dsn: str, project: str, branch: str, dry_run: bool) -> None:
+def deploy(
+    archive: Path,
+    owners: Path,
+    dsn: str,
+    project: str,
+    branch: str,
+    dry_run: bool,
+    hall_of_fame_file: Path | None = None,
+) -> None:
     for path in (EXPORT, SITE / "dist"):
         _ensure_gitignored(path)
 
     print("1/3 Building site data from the archive (and checking every Season)...", flush=True)
     shutil.rmtree(EXPORT, ignore_errors=True)  # no stale Seasons from an earlier run
-    for path in site_data.build(archive, owners, EXPORT, dsn):
+    for path in site_data.build(archive, owners, EXPORT, dsn, hall_of_fame_file=hall_of_fame_file):
         print(f"  wrote {path.relative_to(REPO)}")
 
     print("2/3 Building the static site...", flush=True)
@@ -79,6 +87,7 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description="Build the site from the archive and deploy it to Cloudflare Pages.")
     p.add_argument("--archive", required=True, type=Path, help="archive/<league-id> folder")
     p.add_argument("--owners", required=True, type=Path, help="owners.yaml (private)")
+    p.add_argument("--hall-of-fame", type=Path, help="hall_of_fame.yaml, the Owner's notes (private; optional)")
     p.add_argument("--pg", default=os.environ.get("WASHINGWOOD_PG"), help="Postgres DSN; default $WASHINGWOOD_PG")
     p.add_argument("--project", default="washingwood", help="Cloudflare Pages project name")
     p.add_argument("--branch", default="main", help="Pages branch; main is production")
@@ -87,7 +96,15 @@ def main(argv: list[str] | None = None) -> int:
     if not args.pg:
         p.error("no Postgres DSN: pass --pg or set WASHINGWOOD_PG")
     try:
-        deploy(args.archive, args.owners, args.pg, args.project, args.branch, args.dry_run)
+        deploy(
+            args.archive,
+            args.owners,
+            args.pg,
+            args.project,
+            args.branch,
+            args.dry_run,
+            hall_of_fame_file=args.hall_of_fame,
+        )
     except (DeployError, *site_data.FAILURES) as e:
         print(f"deploy failed: {e}", file=sys.stderr)
         return 1

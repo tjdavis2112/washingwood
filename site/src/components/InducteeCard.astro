@@ -1,12 +1,15 @@
 ---
-// One Hall of Fame Inductee as a card front (#73, #74): the Player, position and NFL team, the Season
-// (linked) with its Scoring format badge, the credited Owner (linked) and team name, a badge and value per
-// lane cleared (in credit order; the other lanes' Owners go on the card back in #75), then Season points and
-// Positional finish. A plain gold border: gold is allowed because an Inductee is a trophy item
-// (docs/GAMEPLAN.md). The flip, tilt and shine come in #76. Reused by the Season and Owner pages, which
-// filter hall-of-fame.json (#78).
+// One Hall of Fame Inductee as a gold card (#73, #74, #75).
+// Front: the Player, position and NFL team, the Season (linked) with its Scoring format badge, the credited Owner
+// (linked) and team name, a badge and value per lane cleared (in credit order), then Season points and
+// Positional finish.
+// Back (#75): that Season's moments for the credited Owner's team (best Week, playoff and championship points,
+// the team's finish, Weeks started), the other lanes' Owners, and the Owner's note or "coming soon". For now the
+// back sits below the front; the flip, tilt and shine come in #76.
+// A plain gold border: gold is allowed because an Inductee is a trophy item (docs/GAMEPLAN.md). Reused by the
+// Season and Owner pages, which filter hall-of-fame.json (#78).
 import type { Inductee } from "../data/site-data";
-import { formatPoints } from "../data/site-data";
+import { formatPoints, ordinal } from "../data/site-data";
 import { formatValue } from "../data/positions";
 import OwnerLink from "./OwnerLink.astro";
 
@@ -18,41 +21,105 @@ const LANES = {
   overachiever: { label: "Overachiever", format: formatValue, measure: "over expected" },
   waiver_legend: { label: "Waiver legend", format: (v: number) => `+${formatPoints(v)}`, measure: "value added" },
 } as const;
+
+const m = i.moments;
+const best = m.bestWeek;
+const RESULT = { win: "a win over", loss: "a loss to", tie: "a tie with" } as const;
+const PODIUM: Record<number, string> = { 1: "Champion", 2: "Runner-up", 3: "3rd place" };
+const f = m.finish;
+const finish = PODIUM[f.finalRank]
+  ?? (f.madePlayoffs ? `Playoffs, No. ${f.playoffSeed} seed` : `Missed the playoffs, ${ordinal(f.playoffSeed)} in the regular season`);
+// Lanes crediting someone other than the card's Owner (e.g. drafted by one Owner, dominant for another)
+const others = i.lanes.filter((lane) => lane.owner.slug !== i.owner.slug);
 ---
 <article
   data-testid="inductee-card"
   data-year={i.year}
   class="flex min-w-0 flex-col rounded-3xl border-2 border-gold bg-panel/40 p-4 md:p-5"
 >
-  <header class="flex flex-wrap items-center justify-between gap-2">
-    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
-      <a href={`/seasons/${i.year}/`} class="transition-colors hover:text-brand">{i.year}</a>
+  <div data-testid="card-front">
+    <header class="flex flex-wrap items-center justify-between gap-2">
+      <p class="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
+        <a href={`/seasons/${i.year}/`} class="transition-colors hover:text-brand">{i.year}</a>
+      </p>
+      <span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{i.scoringFormat}</span>
+    </header>
+    <h3 data-testid="inductee-name" class="mt-3 text-2xl font-black leading-tight">{i.name}</h3>
+    <p data-testid="inductee-position" class="text-sm text-muted">{i.position}{i.nflTeam && ` · ${i.nflTeam}`}</p>
+    <p class="mt-3 text-sm">
+      <span class="font-bold"><OwnerLink owner={i.owner} /></span>
+      <span class="block truncate text-xs text-muted">{i.teamName}</span>
     </p>
-    <span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{i.scoringFormat}</span>
-  </header>
-  <h3 data-testid="inductee-name" class="mt-3 text-2xl font-black leading-tight">{i.name}</h3>
-  <p data-testid="inductee-position" class="text-sm text-muted">{i.position}{i.nflTeam && ` · ${i.nflTeam}`}</p>
-  <p class="mt-3 text-sm">
-    <span class="font-bold"><OwnerLink owner={i.owner} /></span>
-    <span class="block truncate text-xs text-muted">{i.teamName}</span>
-  </p>
-  <ul class="mt-4 flex flex-wrap gap-2">
-    {i.lanes.map((lane) => (
-      <li data-testid="inductee-lane" data-lane={lane.lane} class="rounded-2xl border border-gold/60 bg-gold/10 px-3 py-1.5">
-        <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">{LANES[lane.lane].label}</span>
-        <span data-testid="lane-value" class="text-sm font-bold tabular-nums">{LANES[lane.lane].format(lane.value)}</span>
-        <span class="text-xs text-muted"> {LANES[lane.lane].measure}</span>
-      </li>
-    ))}
-  </ul>
-  <dl class="mt-auto grid grid-cols-2 gap-3 pt-4 text-sm">
-    <div>
-      <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Season points</dt>
-      <dd data-testid="inductee-points" class="font-semibold tabular-nums">{i.points === null ? "—" : formatPoints(i.points)}</dd>
-    </div>
-    <div>
-      <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Finish</dt>
-      <dd data-testid="inductee-finish" class="font-semibold">{i.positionalFinish === null ? "—" : `${i.position}${i.positionalFinish}`}</dd>
-    </div>
-  </dl>
+    <ul class="mt-4 flex flex-wrap gap-2">
+      {i.lanes.map((lane) => (
+        <li data-testid="inductee-lane" data-lane={lane.lane} class="rounded-2xl border border-gold/60 bg-gold/10 px-3 py-1.5">
+          <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">{LANES[lane.lane].label}</span>
+          <span data-testid="lane-value" class="text-sm font-bold tabular-nums">{LANES[lane.lane].format(lane.value)}</span>
+          <span class="text-xs text-muted"> {LANES[lane.lane].measure}</span>
+        </li>
+      ))}
+    </ul>
+    <dl class="grid grid-cols-2 gap-3 pt-4 text-sm">
+      <div>
+        <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Season points</dt>
+        <dd data-testid="inductee-points" class="font-semibold tabular-nums">{i.points === null ? "—" : formatPoints(i.points)}</dd>
+      </div>
+      <div>
+        <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Finish</dt>
+        <dd data-testid="inductee-finish" class="font-semibold">{i.positionalFinish === null ? "—" : `${i.position}${i.positionalFinish}`}</dd>
+      </div>
+    </dl>
+  </div>
+
+  <section data-testid="card-back" aria-label={`${i.name}, ${i.year}: the Season`} class="mt-4 flex flex-1 flex-col border-t border-gold/40 pt-4">
+    <p class="text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">The Season with {i.owner.name}</p>
+    <dl class="mb-4 mt-3 grid gap-3 text-sm">
+      <div>
+        <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Best Week</dt>
+        <dd data-testid="moment-best-week" class="font-semibold">
+          {best === null ? "—" : (
+            <><span class="tabular-nums">{formatPoints(best.points)}</span> in Week {best.week}, {RESULT[best.result]} <OwnerLink owner={best.opponent} /></>
+          )}
+        </dd>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Playoff points</dt>
+          <dd data-testid="moment-playoffs" class="font-semibold tabular-nums">
+            {m.playoffPoints === null ? "—" : formatPoints(m.playoffPoints)}{m.championshipPoints !== null && (
+              <span class="font-normal text-muted"> ({formatPoints(m.championshipPoints)} in the final)</span>
+            )}
+          </dd>
+        </div>
+        <div>
+          <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Weeks started</dt>
+          <dd data-testid="moment-weeks-started" class="font-semibold tabular-nums">{m.weeksStarted}</dd>
+        </div>
+      </div>
+      <div>
+        <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Team finish</dt>
+        <dd data-testid="moment-finish" class="font-semibold">{finish}</dd>
+      </div>
+      {others.length > 0 && (
+        <div>
+          <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Also credited</dt>
+          <dd>
+            <ul>
+              {others.map((lane) => (
+                <li data-testid="other-owner" class="font-semibold">{LANES[lane.lane].label}: <OwnerLink owner={lane.owner} /></li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      )}
+    </dl>
+    {i.ownerNote === null ? (
+      <p data-testid="owner-note-placeholder" class="mt-auto text-sm italic text-muted">Owner's note coming soon</p>
+    ) : (
+      <figure data-testid="owner-note" class="mt-auto rounded-2xl border border-gold/40 bg-gold/5 px-3 py-2 text-sm">
+        <blockquote class="italic">“{i.ownerNote}”</blockquote>
+        <figcaption class="mt-1 text-xs text-muted">— {i.owner.name}</figcaption>
+      </figure>
+    )}
+  </section>
 </article>

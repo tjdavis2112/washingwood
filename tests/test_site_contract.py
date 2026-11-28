@@ -963,3 +963,34 @@ def test_an_inductee_needs_at_least_one_lane_and_a_known_lane():
     doc["inductees"][0]["lanes"][0]["lane"] = "legend"
     with pytest.raises(ContractError, match="lane"):
         validate(doc, "hallOfFame")
+
+
+# --- Hall of Fame card back (#75) ---
+
+
+def test_the_example_card_backs_cover_notes_two_week_rounds_and_an_owner_who_missed_the_playoffs():
+    inductees = load_example("hall-of-fame.json")["inductees"]
+    notes = [i["ownerNote"] for i in inductees]
+    assert any(n is None for n in notes) and any(n is not None for n in notes)
+    moments = [i["moments"] for i in inductees]
+    assert any(not m["finish"]["madePlayoffs"] and m["bestWeek"] is not None for m in moments)
+    assert any(m["bestWeek"] is None for m in moments)
+    assert any(m["finish"]["finalRank"] == 1 and m["championshipPoints"] for m in moments)
+    assert any(m["championshipPoints"] == 0 for m in moments)  # runner-up's Player didn't start in the final
+    # A two-week round: a 2018 Inductee with playoff points, his best Week outside the playoffs
+    assert any(i["year"] == 2018 and i["moments"]["playoffPoints"] for i in inductees)
+
+
+def test_every_example_best_week_is_a_counted_matchup_against_an_owner_in_that_season():
+    seasons = example_seasons()
+    for i in load_example("hall-of-fame.json")["inductees"]:
+        best = i["moments"]["bestWeek"]
+        if best is None:
+            continue
+        season = seasons[i["year"]]
+        period = next(p for p in season["weeklyResults"] if best["week"] in p["weeks"])
+        assert period["weeks"] == [best["week"]], "a two-week round is never a best Week"
+        assert any(r["owner"] == best["opponent"] for r in season["standings"])
+        assert best["opponent"] != i["owner"]
+        m = i["moments"]
+        assert m["finish"]["madePlayoffs"] == (m["playoffPoints"] is not None)
