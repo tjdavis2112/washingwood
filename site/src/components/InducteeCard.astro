@@ -1,16 +1,23 @@
 ---
-// One Hall of Fame Inductee as a card front (#73): the Player, position and NFL team, the Season (linked)
-// with its Scoring format badge, the credited Owner (linked) and team name, a badge and value per lane
-// cleared, then Season points and Positional finish. A plain gold border: gold is allowed because an
-// Inductee is a trophy item (docs/GAMEPLAN.md). The flip, tilt and shine come in #77.
-// Reused by the Season and Owner pages, which filter hall-of-fame.json (#75, #76).
+// One Hall of Fame Inductee as a card front (#73, #74): the Player, position and NFL team, the Season
+// (linked) with its Scoring format badge, the credited Owner (linked) and team name, a badge and value per
+// lane cleared (in credit order; the other lanes' Owners go on the card back in #75), then Season points and
+// Positional finish. A plain gold border: gold is allowed because an Inductee is a trophy item
+// (docs/GAMEPLAN.md). The flip, tilt and shine come in #76. Reused by the Season and Owner pages, which
+// filter hall-of-fame.json (#78).
 import type { Inductee } from "../data/site-data";
 import { formatPoints } from "../data/site-data";
+import { formatValue } from "../data/positions";
 import OwnerLink from "./OwnerLink.astro";
 
 interface Props { inductee: Inductee }
 const { inductee: i } = Astro.props;
-const LANES = { dominant: { label: "Dominant", measure: "above replacement" } } as const;
+// Badge label, how the value is written and what it measures, per Induction bar
+const LANES = {
+  dominant: { label: "Dominant", format: (v: number) => `+${formatPoints(v)}`, measure: "above replacement" },
+  overachiever: { label: "Overachiever", format: formatValue, measure: "over expected" },
+  waiver_legend: { label: "Waiver legend", format: (v: number) => `+${formatPoints(v)}`, measure: "value added" },
+} as const;
 ---
 <article
   data-testid="inductee-card"
@@ -33,7 +40,7 @@ const LANES = { dominant: { label: "Dominant", measure: "above replacement" } } 
     {i.lanes.map((lane) => (
       <li data-testid="inductee-lane" data-lane={lane.lane} class="rounded-2xl border border-gold/60 bg-gold/10 px-3 py-1.5">
         <span class="block text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-gold">{LANES[lane.lane].label}</span>
-        <span data-testid="lane-value" class="text-sm font-bold tabular-nums">+{formatPoints(lane.value)}</span>
+        <span data-testid="lane-value" class="text-sm font-bold tabular-nums">{LANES[lane.lane].format(lane.value)}</span>
         <span class="text-xs text-muted"> {LANES[lane.lane].measure}</span>
       </li>
     ))}
@@ -41,11 +48,11 @@ const LANES = { dominant: { label: "Dominant", measure: "above replacement" } } 
   <dl class="mt-auto grid grid-cols-2 gap-3 pt-4 text-sm">
     <div>
       <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Season points</dt>
-      <dd data-testid="inductee-points" class="font-semibold tabular-nums">{formatPoints(i.points)}</dd>
+      <dd data-testid="inductee-points" class="font-semibold tabular-nums">{i.points === null ? "—" : formatPoints(i.points)}</dd>
     </div>
     <div>
       <dt class="text-[0.7rem] uppercase tracking-wider text-muted">Finish</dt>
-      <dd data-testid="inductee-finish" class="font-semibold">{i.position}{i.positionalFinish}</dd>
+      <dd data-testid="inductee-finish" class="font-semibold">{i.positionalFinish === null ? "—" : `${i.position}${i.positionalFinish}`}</dd>
     </div>
   </dl>
 </article>

@@ -563,6 +563,11 @@ class FixtureSeason:
         """playerId of team `key`'s Pick in round `rnd`."""
         return next(p["playerId"] for p in self._picks() if p["teamId"] == self._ids[key] and p["roundId"] == rnd)
 
+    def pick(self, overall: int) -> tuple[str, int]:
+        """(team key, playerId) of the Pick at `overall`."""
+        p = next(p for p in self._picks() if p["overallPickNumber"] == overall)
+        return next(k for k, i in self._ids.items() if i == p["teamId"]), p["playerId"]
+
     def _replay(self) -> tuple[dict[int, dict[str, list[int]]], dict[int, list], dict[int, tuple]]:
         """Play the Season's trades and executed moves Week by Week (moves first within a Week).
 

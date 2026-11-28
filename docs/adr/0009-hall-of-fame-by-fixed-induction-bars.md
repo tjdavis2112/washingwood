@@ -6,9 +6,9 @@ The bars are calibrated once against the real **Archive** with a local-only repo
 
 | Bar | Lane | Value |
 |---|---|---|
-| `PAR_BAR` | Dominant | TBD (set in #74) |
-| `POE_BAR` | Overachiever | TBD |
-| `PICKUP_BAR` | Waiver legend | TBD |
+| `PAR_BAR` | Dominant | 225 |
+| `POE_BAR` | Overachiever | 150 |
+| `PICKUP_BAR` | Waiver legend | 100 |
 
 ## Considered Options
 

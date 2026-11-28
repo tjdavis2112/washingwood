@@ -440,10 +440,14 @@ export function getTransactions(): TransactionsDoc {
   return transactionsDoc;
 }
 
-export type InductionLane = { lane: "dominant"; value: number; owner: OwnerRef };
+/** dominant: Points above replacement; overachiever: Points over expected (whole points); waiver_legend: the best
+ * Pickup's Value added. Each lane names its own Owner, which can differ from the Inductee's credited one. */
+export type InductionLane = { lane: "dominant" | "overachiever" | "waiver_legend"; value: number; owner: OwnerRef };
 export type Inductee = {
   year: number; scoringFormat: string; name: string; position: string; nflTeam: string | null; owner: OwnerRef;
-  teamName: string; lanes: InductionLane[]; points: number; positionalFinish: number;
+  teamName: string; lanes: InductionLane[];
+  /** null when the Archive has no Season points for him (only a Waiver legend can be) */
+  points: number | null; positionalFinish: number | null;
 };
 export type HallOfFameDoc = { inductees: Inductee[] };
 

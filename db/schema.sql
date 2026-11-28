@@ -701,6 +701,25 @@ JOIN core.franchises f        ON f.franchise_id = ai.to_franchise_id
 JOIN stats.franchise_owner fo ON fo.franchise_id = ai.to_franchise_id
 WHERE ai.kind IN ('waiver', 'free_agent');
 
+-- Hall of Fame, Overachiever lane (GLOSSARY: Induction bar; ADR-0009): every recorded Pick with its Points
+-- over expected, credited to the drafting Franchise. The bar (POE_BAR) lives in washingwood.hall_of_fame.
+CREATE VIEW stats.overachiever_seasons AS
+SELECT dv.season_id, dv.player_id, dv.franchise_id, dv.points_over_expected
+FROM stats.draft_value dv
+WHERE dv.player_id IS NOT NULL AND dv.points_over_expected IS NOT NULL;
+
+-- Hall of Fame, Waiver legend lane: each Player season's best Pickup by Value added over its Stint, credited
+-- to the acquiring Franchise. A tie goes to the earlier Pickup. The bar (PICKUP_BAR) lives in
+-- washingwood.hall_of_fame.
+CREATE VIEW stats.waiver_legend_seasons AS
+SELECT season_id, player_id, franchise_id, value_added
+FROM (SELECT ai.season_id, ai.player_id, ai.to_franchise_id AS franchise_id, ai.value_added,
+             row_number() OVER (PARTITION BY ai.season_id, ai.player_id
+                                ORDER BY ai.value_added DESC, ai.acquired_week, ai.transaction_id) AS n
+      FROM stats.acquisition_impact ai
+      WHERE ai.kind IN ('waiver', 'free_agent')) best
+WHERE n = 1;
+
 -- Trade scorecard: each side's raw starter points and Value added from what it received
 CREATE VIEW stats.trade_scorecard AS
 SELECT ai.transaction_id, ai.season_id, ai.to_franchise_id AS franchise_id,

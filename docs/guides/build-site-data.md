@@ -72,7 +72,7 @@ On success it prints a `wrote ...` line for each file. On failure it prints `bui
 
 ## Hall of Fame calibration report
 
-The Hall of Fame inducts a Player season when it clears a fixed **Induction bar** (ADR-0009). The bars are constants in `src/washingwood/hall_of_fame.py` (`PAR_BAR` for Dominant). The report shows how many Player seasons each Season would induct at a range of candidate bars, so a bar can be chosen against the real archive.
+The Hall of Fame inducts a Player season when it clears a fixed **Induction bar** (ADR-0009). The bars are constants in `src/washingwood/hall_of_fame.py`: `PAR_BAR` (Dominant), `POE_BAR` (Overachiever) and `PICKUP_BAR` (Waiver legend). The report shows how many Player seasons each Season would induct at a range of candidate bars, so the bars can be chosen against the real archive.
 
 ```powershell
 uv run --env-file .env python -m washingwood.hall_of_fame --report --archive archive/<league-id> --owners archive/owners.yaml
@@ -81,8 +81,9 @@ uv run --env-file .env python -m washingwood.hall_of_fame --report --archive arc
 - `python -m washingwood.hall_of_fame`: the Hall of Fame module.
 - `--report`: print the calibration report.
 - `--archive`, `--owners`: the same as for the build. It loads the archive into Postgres the same way, and writes no files.
+- `--par`, `--poe`, `--pickup` (optional): try other Dominant, Overachiever and Waiver legend bars in the report without editing the constants. The last column of each lane's table and the totals table then use them.
 
-It prints one row per Season: the count at each candidate bar, then the count at the current bar. It prints counts only, never a Player or Owner name, so the output is safe to paste into an issue or PR.
+It prints one table per lane, with one row per Season: the count at each candidate bar, then the count at the current bar. A last table gives each Season's Inductees at the current bars, per lane and in total (a Player season clearing several lanes counts once in the total). It prints counts only, never a Player or Owner name, so the output is safe to paste into an issue or PR.
 
 ## Tests
 
