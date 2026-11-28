@@ -1829,7 +1829,7 @@
       "description": "The Transactions section: every executed trade, scored by the starter points each side's received Players gave their new team. Season and Owner pages filter it at site build time. Exported as transactions.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["trades", "pickups", "seasonPickups"],
+      "required": ["trades", "pickups", "seasonPickups", "tradeRecords", "ownerPickups"],
       "properties": {
         "trades": {
           "description": "Every executed trade (commissioner-vetoed trades are left out), newest Season first, then newest Week, then the first side's Owner name.",
@@ -1856,6 +1856,43 @@
                 "description": "That Season's top 10 Pickups, ordered like `pickups`.",
                 "type": "array",
                 "maxItems": 10,
+                "items": { "$ref": "#/$defs/pickup" }
+              }
+            }
+          }
+        },
+        "tradeRecords": {
+          "description": "Trade record per Owner who has traded, for Owner pages and the trade-record leaderboard: highest net points first, then name. Owner pages take their trades from `trades` by a side's Owner slug.",
+          "type": "array",
+          "items": {
+            "description": "One Owner's trade record across every Season.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["owner", "trades", "won", "lost", "tied", "netPoints"],
+            "properties": {
+              "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+              "trades": { "description": "Trades made: won + lost + tied.", "type": "integer", "minimum": 1 },
+              "won": { "description": "Trades whose side score beat the other side's.", "type": "integer", "minimum": 0 },
+              "lost": { "description": "Trades whose side score fell short of the other side's.", "type": "integer", "minimum": 0 },
+              "tied": { "description": "Trades with equal side scores (neither won nor lost).", "type": "integer", "minimum": 0 },
+              "netPoints": { "description": "The sum over the Owner's trades of their side score minus the other side's.", "type": "number" }
+            }
+          }
+        },
+        "ownerPickups": {
+          "description": "Every Owner's top 5 Pickups of all time, for their Owner page, ordered by Owner name; an empty list when they have none.",
+          "type": "array",
+          "items": {
+            "description": "One Owner's best Pickups.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["owner", "pickups"],
+            "properties": {
+              "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+              "pickups": {
+                "description": "Their top 5 Pickups, ordered like `pickups`.",
+                "type": "array",
+                "maxItems": 5,
                 "items": { "$ref": "#/$defs/pickup" }
               }
             }

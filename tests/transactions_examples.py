@@ -13,7 +13,8 @@ on the bench. The rules applied here are the ones the pipeline follows:
 - Pickups score the same way: an added Player's log holds only the Weeks they were in that Owner's
   lineup, and a Stint ends at that Owner's next acquisition of the Player, so a re-add is a new Pickup;
 - Best pickups: top 10 by points, ties by Season, then Week, then Owner name, then Player name; each
-  Season also gets its own top 10 (seasonPickups, newest Season first).
+  Season also gets its own top 10 (seasonPickups, newest Season first), and each Owner a top 5;
+- trade records: won, lost, tied and net points per Owner who traded, highest net points first.
 
 test_site_contract.py checks the example still equals derive().
 
@@ -88,11 +89,11 @@ PICKUPS = [
 ]
 
 
-def best_pickups(teams, season: int | None = None) -> list[dict]:
-    """The top 10 Pickups of all time, or of one Season."""
+def best_pickups(teams, season: int | None = None, owner: str | None = None, limit: int = 10) -> list[dict]:
+    """The top Pickups of all time, of one Season, or of one Owner (by slug)."""
     rows = []
     for year, week, slug, name, position, nfl_team, via, log in PICKUPS:
-        if season is not None and year != season:
+        if (season is not None and year != season) or (owner is not None and slug != owner):
             continue
         # The Stint ends at this Owner's next acquisition of the Player (a re-add or a trade)
         later = [w for y, w, o, n, *_ in PICKUPS if (y, o, n) == (year, slug, name) and w > week]
@@ -106,7 +107,20 @@ def best_pickups(teams, season: int | None = None) -> list[dict]:
                      "points": round(sum(stint), 2), "weeksStarted": len(stint),
                      "scoringFormat": team["scoringFormat"]})  # fmt: skip
     rows.sort(key=lambda r: (-r["points"], r["year"], r["week"], r["owner"]["name"], r["name"]))
-    return rows[:10]
+    return rows[:limit]
+
+
+def trade_records(trades: list[dict]) -> list[dict]:
+    """Per Owner who traded: won, lost, tied and net points (own side minus the other side, summed)."""
+    out: dict[str, dict] = {}
+    for t in trades:
+        for side, other in (t["sides"], t["sides"][::-1]):
+            r = out.setdefault(side["owner"]["slug"], {"owner": side["owner"], "trades": 0, "won": 0, "lost": 0,
+                                                        "tied": 0, "netPoints": 0.0})  # fmt: skip
+            r["trades"] += 1
+            r[side["outcome"]] += 1
+            r["netPoints"] = round(r["netPoints"] + side["total"] - other["total"], 2)
+    return sorted(out.values(), key=lambda r: (-r["netPoints"], r["owner"]["name"]))
 
 
 def _teams() -> dict[tuple[int, str], dict]:
@@ -163,6 +177,11 @@ def derive() -> dict:
         "trades": trades,
         "pickups": best_pickups(teams),
         "seasonPickups": [{"year": y, "pickups": best_pickups(teams, y)} for y in years],
+        "tradeRecords": trade_records(trades),
+        "ownerPickups": [
+            {"owner": o, "pickups": best_pickups(teams, owner=o["slug"], limit=5)}
+            for o in sorted({t["owner"]["slug"]: t["owner"] for t in teams.values()}.values(), key=lambda o: o["name"])
+        ],
     }
 
 

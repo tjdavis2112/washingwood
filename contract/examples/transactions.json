@@ -653,5 +653,428 @@
         }
       ]
     }
+  ],
+  "tradeRecords": [
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "trades": 1,
+      "won": 1,
+      "lost": 0,
+      "tied": 0,
+      "netPoints": 63.0
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "trades": 1,
+      "won": 1,
+      "lost": 0,
+      "tied": 0,
+      "netPoints": 42.75
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "trades": 1,
+      "won": 1,
+      "lost": 0,
+      "tied": 0,
+      "netPoints": 38.5
+    },
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "trades": 1,
+      "won": 1,
+      "lost": 0,
+      "tied": 0,
+      "netPoints": 36.0
+    },
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "trades": 1,
+      "won": 1,
+      "lost": 0,
+      "tied": 0,
+      "netPoints": 9.0
+    },
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "trades": 1,
+      "won": 0,
+      "lost": 0,
+      "tied": 1,
+      "netPoints": 0.0
+    },
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "trades": 1,
+      "won": 0,
+      "lost": 1,
+      "tied": 0,
+      "netPoints": -9.0
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "trades": 1,
+      "won": 0,
+      "lost": 1,
+      "tied": 0,
+      "netPoints": -38.5
+    },
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "trades": 2,
+      "won": 0,
+      "lost": 1,
+      "tied": 1,
+      "netPoints": -42.75
+    },
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "trades": 2,
+      "won": 0,
+      "lost": 2,
+      "tied": 0,
+      "netPoints": -99.0
+    }
+  ],
+  "ownerPickups": [
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "pickups": []
+    },
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "pickups": [
+        {
+          "name": "Orrin Vey",
+          "position": "WR",
+          "nflTeam": "TB",
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "year": 2020,
+          "week": 10,
+          "via": "free_agent",
+          "points": 72.0,
+          "weeksStarted": 8,
+          "scoringFormat": "PPR + TE premium"
+        }
+      ]
+    },
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "pickups": []
+    },
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "pickups": [
+        {
+          "name": "Cal Mercer",
+          "position": "RB",
+          "nflTeam": "NE",
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          },
+          "teamName": "Paxton Pistons",
+          "year": 2020,
+          "week": 4,
+          "via": "free_agent",
+          "points": 140.0,
+          "weeksStarted": 14,
+          "scoringFormat": "PPR + TE premium"
+        }
+      ]
+    },
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "pickups": [
+        {
+          "name": "Dov Kessling",
+          "position": "RB",
+          "nflTeam": "IND",
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Foxes",
+          "year": 2018,
+          "week": 2,
+          "via": "waiver",
+          "points": 165.0,
+          "weeksStarted": 15,
+          "scoringFormat": "PPR"
+        },
+        {
+          "name": "Wes Garland",
+          "position": "RB",
+          "nflTeam": "SF",
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Fog",
+          "year": 2020,
+          "week": 10,
+          "via": "waiver",
+          "points": 72.0,
+          "weeksStarted": 8,
+          "scoringFormat": "PPR + TE premium"
+        }
+      ]
+    },
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "pickups": [
+        {
+          "name": "Kip Tolland",
+          "position": "TE",
+          "nflTeam": "NYG",
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "year": 2018,
+          "week": 9,
+          "via": "waiver",
+          "points": 54.0,
+          "weeksStarted": 9,
+          "scoringFormat": "PPR"
+        }
+      ]
+    },
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "pickups": []
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "pickups": [
+        {
+          "name": "Rey Hatcher",
+          "position": "D/ST",
+          "nflTeam": "CLE",
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "year": 2018,
+          "week": 12,
+          "via": "free_agent",
+          "points": 48.0,
+          "weeksStarted": 6,
+          "scoringFormat": "PPR"
+        }
+      ]
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "pickups": [
+        {
+          "name": "Nico Strand",
+          "position": "WR",
+          "nflTeam": "DAL",
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vortex",
+          "year": 2020,
+          "week": 2,
+          "via": "waiver",
+          "points": 72.0,
+          "weeksStarted": 6,
+          "scoringFormat": "PPR + TE premium"
+        },
+        {
+          "name": "Nico Strand",
+          "position": "WR",
+          "nflTeam": "DAL",
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vortex",
+          "year": 2020,
+          "week": 12,
+          "via": "waiver",
+          "points": 72.0,
+          "weeksStarted": 6,
+          "scoringFormat": "PPR + TE premium"
+        }
+      ]
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "pickups": [
+        {
+          "name": "Juno Pratt",
+          "position": "TE",
+          "nflTeam": "ARI",
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "year": 2020,
+          "week": 7,
+          "via": "free_agent",
+          "points": 40.0,
+          "weeksStarted": 8,
+          "scoringFormat": "PPR + TE premium"
+        }
+      ]
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "pickups": [
+        {
+          "name": "Tobin Ashe",
+          "position": "K",
+          "nflTeam": "HOU",
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "year": 2020,
+          "week": 5,
+          "via": "waiver",
+          "points": 94.25,
+          "weeksStarted": 13,
+          "scoringFormat": "PPR + TE premium"
+        }
+      ]
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "pickups": [
+        {
+          "name": "Ivo Brennick",
+          "position": "QB",
+          "nflTeam": null,
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "year": 2018,
+          "week": 3,
+          "via": "free_agent",
+          "points": 28.0,
+          "weeksStarted": 2,
+          "scoringFormat": "PPR"
+        },
+        {
+          "name": "Hale Brook",
+          "position": "QB",
+          "nflTeam": "MIN",
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "year": 2020,
+          "week": 15,
+          "via": "free_agent",
+          "points": 9.0,
+          "weeksStarted": 3,
+          "scoringFormat": "PPR + TE premium"
+        }
+      ]
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "pickups": [
+        {
+          "name": "Ash Pelham",
+          "position": "WR",
+          "nflTeam": "GB",
+          "owner": {
+            "slug": "wren-solano",
+            "name": "Wren Solano"
+          },
+          "teamName": "Solano Sparks",
+          "year": 2018,
+          "week": 6,
+          "via": "free_agent",
+          "points": 114.0,
+          "weeksStarted": 12,
+          "scoringFormat": "PPR"
+        }
+      ]
+    }
   ]
 }

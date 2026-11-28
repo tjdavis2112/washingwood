@@ -860,3 +860,25 @@ def test_every_example_season_has_its_pickups_and_one_has_no_trades():
         assert len(entry["pickups"]) <= 10
     # The Season page's empty-Season line needs an example Season without trades
     assert set(years) - {t["year"] for t in doc["trades"]}
+
+
+# --- Owner page Transactions tab (#65) ---
+
+
+def test_trade_records_add_up_and_agree_with_the_trades():
+    doc = load_example("transactions.json")
+    for r in doc["tradeRecords"]:
+        mine = [t for t in doc["trades"] if r["owner"]["slug"] in {s["owner"]["slug"] for s in t["sides"]}]
+        assert r["trades"] == len(mine) == r["won"] + r["lost"] + r["tied"]
+    assert round(sum(r["netPoints"] for r in doc["tradeRecords"]), 2) == 0  # every trade's sides cancel out
+
+
+def test_every_example_owner_has_a_top_five_pickups_entry():
+    doc = load_example("transactions.json")
+    owners = {o["owner"]["slug"] for o in load_example("owners.json")["owners"]}
+    assert {e["owner"]["slug"] for e in doc["ownerPickups"]} == owners
+    for e in doc["ownerPickups"]:
+        assert len(e["pickups"]) <= 5
+        assert all(p["owner"]["slug"] == e["owner"]["slug"] for p in e["pickups"])
+    # The Owner page's no-trades line needs an example Owner without trades
+    assert owners - {r["owner"]["slug"] for r in doc["tradeRecords"]}

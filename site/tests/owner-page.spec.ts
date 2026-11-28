@@ -77,18 +77,18 @@ for (const o of OWNERS) {
   });
 }
 
-test("Rosters and Trades tabs say Coming soon, and tabs work from the keyboard", async ({ page }) => {
+test("the Rosters tab says Coming soon, and tabs work from the keyboard", async ({ page }) => {
   const o = OWNERS[0];
   await page.goto(`/owners/${o.owner.slug}/`);
   const tabs = page.getByRole("tablist", { name: `${o.owner.name} sections` }).getByRole("tab");
-  await expect(tabs).toHaveText(["Career", "Rosters", "Draft", "Trades"]);
-  for (const name of ["Rosters", "Trades"]) {
+  await expect(tabs).toHaveText(["Career", "Rosters", "Draft", "Transactions"]);
+  for (const name of ["Rosters"]) {
     await tabs.filter({ hasText: name }).click();
     const panel = page.getByRole("tabpanel", { name });
     await expect(panel.getByRole("heading", { name })).toBeVisible();
     await expect(panel.getByText("Coming soon", { exact: true })).toBeVisible();
   }
-  await tabs.filter({ hasText: "Trades" }).focus();
+  await tabs.filter({ hasText: "Transactions" }).focus();
   await page.keyboard.press("Home");
   await expect(page.getByRole("tabpanel", { name: "Career" })).toBeVisible();
 });

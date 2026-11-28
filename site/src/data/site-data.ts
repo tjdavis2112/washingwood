@@ -420,7 +420,11 @@ export type Pickup = {
   name: string; position: string; nflTeam: string | null; owner: OwnerRef; teamName: string; year: number; week: number;
   via: "waiver" | "free_agent"; points: number; weeksStarted: number; scoringFormat: string;
 };
-export type TransactionsDoc = { trades: Trade[]; pickups: Pickup[]; seasonPickups: { year: number; pickups: Pickup[] }[] };
+export type TradeRecord = { owner: OwnerRef; trades: number; won: number; lost: number; tied: number; netPoints: number };
+export type TransactionsDoc = {
+  trades: Trade[]; pickups: Pickup[]; seasonPickups: { year: number; pickups: Pickup[] }[];
+  tradeRecords: TradeRecord[]; ownerPickups: { owner: OwnerRef; pickups: Pickup[] }[];
+};
 
 let transactionsDoc: TransactionsDoc | undefined;
 /** transactions.json: every executed trade, newest first. Season and Owner pages filter it (one source). */

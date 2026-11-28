@@ -580,19 +580,47 @@ def transactions_document(conn: Connection) -> dict:
         )
     trades.sort(key=lambda t: (-t["year"], -t["week"], t["sides"][0]["owner"]["name"]))
     years = [y for (y,) in conn.execute("SELECT year FROM core.seasons ORDER BY year DESC")]
+    owners = [o for (o,) in conn.execute("SELECT DISTINCT display_name FROM stats.franchise_owner ORDER BY 1")]
     return {
         "trades": trades,
         "pickups": _best_pickups(conn),
-        "seasonPickups": [{"year": y, "pickups": _best_pickups(conn, y)} for y in years],
+        "seasonPickups": [{"year": y, "pickups": _best_pickups(conn, year=y)} for y in years],
+        "tradeRecords": _trade_records(trades),
+        "ownerPickups": [
+            {"owner": _owner_ref(o), "pickups": _best_pickups(conn, owner=o, limit=OWNER_PICKUPS)} for o in owners
+        ],
     }
+
+
+OWNER_PICKUPS = 5
+
+
+def _trade_records(trades: list[dict]) -> list[dict]:
+    """Trade record per Owner (each side's Owner comes through core.franchise_owners): trades won, lost and
+    tied, and net points = the sum over their trades of their side's score minus the other side's. Only
+    Owners who have traded; highest net points first, then name."""
+    records: dict[str, dict] = {}
+    for t in trades:
+        a, b = t["sides"]
+        for side, other in ((a, b), (b, a)):
+            r = records.setdefault(
+                side["owner"]["slug"],
+                {"owner": side["owner"], "trades": 0, "won": 0, "lost": 0, "tied": 0, "netPoints": 0.0},
+            )
+            r["trades"] += 1
+            r[side["outcome"]] += 1
+            r["netPoints"] = round(r["netPoints"] + side["total"] - other["total"], 2)
+    return sorted(records.values(), key=lambda r: (-r["netPoints"], r["owner"]["name"]))
 
 
 BEST_PICKUPS = 10
 
 
-def _best_pickups(conn: Connection, year: int | None = None) -> list[dict]:
-    """Best pickups: the top 10 Pickups of all time (or of one Season) by starter points over the Stint. Ties
-    go to the earlier Season, then Week, then Owner name, then Player name."""
+def _best_pickups(
+    conn: Connection, *, year: int | None = None, owner: str | None = None, limit: int = BEST_PICKUPS
+) -> list[dict]:
+    """Best pickups: the top Pickups of all time, of one Season or of one Owner, by starter points over the
+    Stint. Ties go to the earlier Season, then Week, then Owner name, then Player name."""
     rows = conn.execute(
         """SELECT p.full_name, coalesce(ps.position, p.position), ps.nfl_team, pk.owner, pk.team_name, pk.year,
                   pk.week, pk.via, pk.points, pk.weeks_started, pk.scoring_label
@@ -600,10 +628,10 @@ def _best_pickups(conn: Connection, year: int | None = None) -> list[dict]:
            JOIN core.seasons s              ON s.year = pk.year
            JOIN core.players p              ON p.player_id = pk.player_id
            LEFT JOIN core.player_seasons ps ON ps.season_id = s.season_id AND ps.player_id = pk.player_id
-           WHERE %(year)s::int IS NULL OR pk.year = %(year)s
+           WHERE (%(year)s::int IS NULL OR pk.year = %(year)s) AND (%(owner)s::text IS NULL OR pk.owner = %(owner)s)
            ORDER BY pk.points DESC, pk.year, pk.week, pk.owner, p.full_name
            LIMIT %(limit)s""",
-        {"year": year, "limit": BEST_PICKUPS},
+        {"year": year, "owner": owner, "limit": limit},
     ).fetchall()
     return [
         {
