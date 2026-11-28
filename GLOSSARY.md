@@ -184,6 +184,16 @@ The **Weeks** a **Player** spends with a **Franchise** after one acquisition: fr
 **Trade**:
 An executed swap of **Players** between two **Franchises**. Vetoed trades, proposals and declines aren't trades. Each side scores the **Value added** its received Players gave it over their **Stints**; the side with more wins by the **Margin**. Raw starter points are shown alongside but don't decide it. Its **Week** is the effective Week: the first Week the received Players are on their new rosters.
 
+## Rosters
+
+**Season roster**:
+Every **Player** on a **Franchise** at some point in a **Season**: each Player with a **Lineup entry** for it that Season, plus each Player it drafted who never reached a lineup. One row per Player, even across several spells. A Player added and dropped between two lineups never sat in one, so isn't on it.
+_Avoid_: Roster (unqualified), team
+
+**Roster move**:
+One arrival or departure on a **Season roster**: Drafted (with its round), **Pickup**, **Trade**, Commissioner, or dropped, each with its **Week**. A Player still on the Franchise at the end of its **Season** (in its last lineup) ends with "end".
+_Avoid_: Transaction (a Roster move can be a draft Pick)
+
 ## Hall of Fame
 
 **Hall of Fame**:
