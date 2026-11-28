@@ -134,6 +134,11 @@ class FixtureSeason:
     # (week, team key) -> points added to that side's QB projection, to make a projected favourite.
     # By default every projection is points + 2, so the winner is always the projected favourite.
     projection_bonus: dict[tuple[int, str], float] = field(default_factory=dict)
+    # (week, team key) -> points added to that side's first bench (BE) Player. Every bench Player scores
+    # 4.5 by default, so a side's Bench points are 6 x 4.5 = 27.0; the IR Player's 4.5 never counts.
+    bench_bonus: dict[tuple[int, str], float] = field(default_factory=dict)
+    # (week, team key) whose 2nd bench Player has no actual stat row (didn't play), so their points are NULL
+    bench_unplayed: tuple[int, str] | None = None
     # Manual score adjustments on a side's period-4 Matchup are set by `adjustments` (above)
 
     TEAMS = 0
@@ -460,6 +465,10 @@ class FixtureSeason:
         for i, ((slot, position), pts) in enumerate(zip(starters + bench, points + [4.5] * len(bench), strict=True)):
             pid = -16000 - team_id if position == 16 else 70000 + team_id * 100 + i
             played = not (self.quirks == (week, team_key) and i == 1)
+            if self.bench_unplayed == (week, team_key) and i == len(starters) + 1:
+                played = False
+            if i == len(starters):
+                pts = round(pts + self.bench_bonus.get((week, team_key), 0.0), 2)
             if self.quirks == (week, team_key) and i == len(starters):
                 pid = 99000 + team_id  # only in this box score
             bonus = self.projection_bonus.get((week, team_key), 0.0) if i == 0 else 0.0

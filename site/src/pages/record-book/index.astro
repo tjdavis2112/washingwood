@@ -1,16 +1,17 @@
 ---
 // The Record Book (#49): cross-Season records. Single-game extremes stay on /matchups/. One tab per
-// scope: Last place (#50), Season and All-time (#51); #52-#54 fill the rest. Every row shows its Scoring
+// scope: Last place (#50), Season and All-time (#51), Week (#52); #53-#54 fill the rest. Every row shows its Scoring
 // format, and the intro names the rule changes the badge can't show (GAMEPLAN: formats aren't
 // comparable).
 import AllTimeRecords from "../../components/AllTimeRecords.astro";
 import OwnerLink from "../../components/OwnerLink.astro";
 import SeasonRecords from "../../components/SeasonRecords.astro";
+import WeekRecords from "../../components/WeekRecords.astro";
 import Tabs from "../../components/Tabs.astro";
 import { formatPoints, formatRecord, getRecordBook } from "../../data/site-data";
 import Base from "../../layouts/Base.astro";
 
-const { season, allTime, lastPlace } = getRecordBook();
+const { week, season, allTime, lastPlace } = getRecordBook();
 const TABS = [
   { id: "week", label: "Week" },
   { id: "season", label: "Season" },
@@ -18,7 +19,7 @@ const TABS = [
   { id: "streaks", label: "Streaks" },
   { id: "last-place", label: "Last place" },
 ];
-const LATER = TABS.filter((t) => t.id === "week" || t.id === "streaks");
+const LATER = TABS.filter((t) => t.id === "streaks");
 ---
 <Base title="Record Book">
   <header class="mb-8">
@@ -41,6 +42,8 @@ const LATER = TABS.filter((t) => t.id === "week" || t.id === "streaks");
     {LATER.map((t) => (
       <div slot={t.id}><p class="text-sm text-muted">Coming in a later update.</p></div>
     ))}
+
+    <div slot="week" data-testid="week-records"><WeekRecords records={week} /></div>
 
     <div slot="season" data-testid="season-records"><SeasonRecords records={season} /></div>
 

@@ -516,6 +516,7 @@ def record_book_document(conn: Connection) -> dict:
     for entry in tally.values():
         entry["years"].sort()
     return {
+        "week": _week_records(conn),
         "season": _season_records(conn),
         "allTime": _all_time_records(conn),
         "lastPlace": {
@@ -533,7 +534,68 @@ SEASON_RECORDS = [
     ("mostPointsFor", "pointsPerGame", True),
     ("fewestPointsFor", "pointsPerGame", False),
     ("mostPointsAgainst", "pointsAgainstPerGame", True),
+    ("mostBenchPoints", "benchPoints", True),
 ]
+
+
+def _week_records(conn: Connection) -> dict:
+    """Top-10 Week records over the Counted Matchups (stats.counted_matchups): most points in a loss, fewest
+    points in a win and most Bench points. A tie is neither a win nor a loss. Ties in the ranking go by
+    Season, Week, then Owner name."""
+    info = {
+        fid: (owner, team, seed)
+        for fid, owner, team, seed in conn.execute(
+            "SELECT franchise_id, owner, team_name, playoff_seed FROM stats.standings"
+        ).fetchall()
+    }
+    bench = {
+        (sid, week, fid): float(pts)
+        for sid, week, fid, pts in conn.execute(
+            "SELECT season_id, week, franchise_id, bench_points FROM stats.week_bench_points"
+        ).fetchall()
+    }
+    rows = []
+    for sid, year, label, period, week, is_playoff, home, away, hp, ap, winner in conn.execute(
+        """SELECT season_id, year, scoring_label, matchup_period, week, is_playoff, home_franchise_id,
+                  away_franchise_id, home_points, away_points, winner_franchise_id
+           FROM stats.counted_matchups"""
+    ).fetchall():
+
+        def side(fid, pts, is_playoff=is_playoff):
+            owner, team, seed = info[fid]
+            return {
+                "owner": _owner_ref(owner),
+                "teamName": team,
+                "score": float(pts),
+                "seed": seed if is_playoff else None,
+            }
+
+        for fid, pts, opp, opp_pts in ((home, hp, away, ap), (away, ap, home, hp)):
+            rows.append(
+                {
+                    "year": year,
+                    "matchupPeriod": period,
+                    "week": week,
+                    "kind": "playoff" if is_playoff else "regular",
+                    "team": side(fid, pts),
+                    "opponent": side(opp, opp_pts),
+                    "result": "tie" if winner is None else "win" if winner == fid else "loss",
+                    "benchPoints": bench.get((sid, week, fid)),
+                    "scoringFormat": label,
+                }
+            )
+
+    def top(candidates, value, high):
+        return sorted(
+            candidates,
+            key=lambda r: (-value(r) if high else value(r), r["year"], r["week"], r["team"]["owner"]["name"]),
+        )[:10]
+
+    return {
+        "mostPointsInLoss": top([r for r in rows if r["result"] == "loss"], lambda r: r["team"]["score"], True),
+        "fewestPointsInWin": top([r for r in rows if r["result"] == "win"], lambda r: r["team"]["score"], False),
+        "mostBenchPoints": top([r for r in rows if r["benchPoints"] is not None], lambda r: r["benchPoints"], True),
+    }
 
 
 def _season_records(conn: Connection) -> dict:
@@ -550,16 +612,21 @@ def _season_records(conn: Connection) -> dict:
             "pointsPerGame": float(ppg),
             "pointsAgainst": float(pa),
             "pointsAgainstPerGame": float(papg),
+            "benchPoints": None if bench is None else float(bench),
             "scoringFormat": label,
         }
-        for year, owner, team, w, lost, tied, games, pct, pf, ppg, pa, papg, label in conn.execute(
+        for year, owner, team, w, lost, tied, games, pct, pf, ppg, pa, papg, bench, label in conn.execute(
             """SELECT year, owner, team_name, wins, losses, ties, games, win_pct, points_for, points_per_game,
-                      points_against, points_against_per_game, scoring_label
+                      points_against, points_against_per_game, bench_points, scoring_label
                FROM stats.season_records"""
         ).fetchall()
     ]
+    # A Season without lineups has no Bench points, so it can't hold that record
     return {
-        key: sorted(rows, key=lambda r: (-r[field] if high else r[field], r["year"], r["owner"]["name"]))[:10]
+        key: sorted(
+            [r for r in rows if r[field] is not None],
+            key=lambda r: (-r[field] if high else r[field], r["year"], r["owner"]["name"]),
+        )[:10]
         for key, field, high in SEASON_RECORDS
     }
 
@@ -575,10 +642,12 @@ def _all_time_records(conn: Connection) -> list[dict]:
             "winPct": float(pct),
             "pointsFor": float(pf),
             "pointsPerGame": float(ppg),
+            "benchPoints": None if bench is None else float(bench),
             "lastPlaces": last_places,
         }
-        for owner, seasons, w, lost, tied, games, pct, pf, ppg, last_places in conn.execute(
-            """SELECT owner, seasons, wins, losses, ties, games, win_pct, points_for, points_per_game, last_places
+        for owner, seasons, w, lost, tied, games, pct, pf, ppg, bench, last_places in conn.execute(
+            """SELECT owner, seasons, wins, losses, ties, games, win_pct, points_for, points_per_game, bench_points,
+                      last_places
                FROM stats.owner_records"""
         ).fetchall()
     ]

@@ -1,0 +1,57 @@
+---
+// A chip row that picks one of several Record Book records (#51, #52). Each chip is a hash link
+// (#season-most-points-for), so a record can be linked; the Tabs script opens the tab holding it. Each
+// record's content is the slot named by its id. On a phone the chips scroll sideways, and a linked chip
+// is scrolled into view.
+interface Props { label: string; testid: string; records: { id: string; chip: string; title: string }[] }
+const { label, testid, records } = Astro.props;
+const panels = await Promise.all(records.map((r) => Astro.slots.render(r.id)));
+---
+<div data-record-picker>
+  <div class="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
+    <nav aria-label={label} class="flex w-max gap-2 pb-1">
+      {records.map((r, i) => (
+        <a
+          href={`#${r.id}`}
+          data-record-chip={r.id}
+          aria-current={i === 0 ? "true" : "false"}
+          class="whitespace-nowrap rounded-full border border-line px-3 py-1 text-sm font-semibold text-muted transition-colors hover:text-paper aria-[current=true]:border-brand aria-[current=true]:bg-brand aria-[current=true]:text-paper"
+        >{r.chip}</a>
+      ))}
+    </nav>
+  </div>
+  {records.map((r, i) => (
+    <section id={r.id} data-testid={testid} data-record={r.id} aria-label={r.title} hidden={i !== 0} class="mt-6 scroll-mt-48">
+      <Fragment set:html={panels[i]} />
+    </section>
+  ))}
+</div>
+
+<script is:inline>
+  (() => {
+    const root = document.currentScript.previousElementSibling;
+    const chips = [...root.querySelectorAll("[data-record-chip]")];
+    const show = (id) => {
+      for (const c of chips) c.setAttribute("aria-current", String(c.dataset.recordChip === id));
+      for (const s of root.querySelectorAll("[data-record]")) s.hidden = s.dataset.record !== id;
+    };
+    for (const c of chips) {
+      c.addEventListener("click", (e) => {
+        e.preventDefault();
+        show(c.dataset.recordChip);
+        history.replaceState(null, "", `#${c.dataset.recordChip}`);
+      });
+    }
+    // Open the record named in the URL; on a phone, scroll its chip into view
+    const linked = chips.find((c) => `#${c.dataset.recordChip}` === location.hash);
+    if (linked) {
+      show(linked.dataset.recordChip);
+      // After the Tabs script has opened this panel, so the chip has a size
+      document.addEventListener("DOMContentLoaded", () => {
+        const bar = linked.parentElement.parentElement;
+        const edge = linked.getBoundingClientRect().right - bar.getBoundingClientRect().right;
+        if (edge > 0) bar.scrollLeft += Math.ceil(edge) + 16;
+      });
+    }
+  })();
+</script>

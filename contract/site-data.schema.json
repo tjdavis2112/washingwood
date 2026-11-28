@@ -1829,19 +1829,31 @@
       "description": "The Record Book section: cross-Season records. Single-game extremes stay in matchups.json. Exported as record-book.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["season", "allTime", "lastPlace"],
+      "required": ["week", "season", "allTime", "lastPlace"],
       "properties": {
+        "week": {
+          "description": "Week records: top-10 lists over the Counted Matchups. Ties go to the earlier Season, then Week, then Owner name.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["mostPointsInLoss", "fewestPointsInWin", "mostBenchPoints"],
+          "properties": {
+            "mostPointsInLoss": { "description": "Highest scores in a loss. A tied Matchup is neither a win nor a loss.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/weekRecordRow" } },
+            "fewestPointsInWin": { "description": "Lowest scores in a win. A tied Matchup is neither a win nor a loss.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/weekRecordRow" } },
+            "mostBenchPoints": { "description": "Most Bench points in a Week. Only Weeks with lineups.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/weekRecordRow" } }
+          }
+        },
         "season": {
           "description": "Season records: top-10 lists of Franchise-Seasons, regular season only. Points rank per game so 13-game and 14-game Seasons compare fairly.",
           "type": "object",
           "additionalProperties": false,
-          "required": ["bestWinPct", "worstWinPct", "mostPointsFor", "fewestPointsFor", "mostPointsAgainst"],
+          "required": ["bestWinPct", "worstWinPct", "mostPointsFor", "fewestPointsFor", "mostPointsAgainst", "mostBenchPoints"],
           "properties": {
             "bestWinPct": { "description": "Top 10 Franchise-Seasons by win %, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
             "worstWinPct": { "description": "Bottom 10 Franchise-Seasons by win %, lowest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
             "mostPointsFor": { "description": "Top 10 Franchise-Seasons by Points per game, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
             "fewestPointsFor": { "description": "Bottom 10 Franchise-Seasons by Points per game, lowest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
-            "mostPointsAgainst": { "description": "Top 10 Franchise-Seasons by points against per game, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } }
+            "mostPointsAgainst": { "description": "Top 10 Franchise-Seasons by points against per game, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
+            "mostBenchPoints": { "description": "Top 10 Franchise-Seasons by Bench points over regular-season Weeks, highest first. Only Seasons with lineups. Ties go to the earlier Season, then Owner name.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } }
           }
         },
         "allTime": {
@@ -1851,7 +1863,7 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["owner", "seasons", "record", "games", "winPct", "pointsFor", "pointsPerGame", "lastPlaces"],
+            "required": ["owner", "seasons", "record", "games", "winPct", "pointsFor", "pointsPerGame", "benchPoints", "lastPlaces"],
             "properties": {
               "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
               "seasons": { "description": "Seasons played.", "type": "integer", "minimum": 1 },
@@ -1860,6 +1872,7 @@
               "winPct": { "description": "(wins + ties / 2) / games, 0 to 1, to four decimals.", "type": "number", "minimum": 0, "maximum": 1 },
               "pointsFor": { "description": "Regular-season points scored across every Season.", "type": "number" },
               "pointsPerGame": { "description": "pointsFor / games, to two decimals.", "type": "number" },
+              "benchPoints": { "description": "Bench points over regular-season Weeks, summed over the Seasons with lineups; null if none have them.", "type": ["number", "null"] },
               "lastPlaces": { "description": "Seasons finished Last place.", "type": "integer", "minimum": 0 }
             }
           }
@@ -1907,11 +1920,28 @@
         }
       }
     },
+    "weekRecordRow": {
+      "description": "One Franchise's side of a Counted Matchup in a Record Book Week record.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year", "matchupPeriod", "week", "kind", "team", "opponent", "result", "benchPoints", "scoringFormat"],
+      "properties": {
+        "year": { "description": "The Season.", "$ref": "#/$defs/year" },
+        "matchupPeriod": { "description": "The Matchup period.", "$ref": "#/$defs/matchupPeriod" },
+        "week": { "description": "The NFL Week it was played in (two-week rounds aren't Counted Matchups).", "type": "integer", "minimum": 1 },
+        "kind": { "description": "regular or playoff (winners' bracket).", "enum": ["regular", "playoff"] },
+        "team": { "description": "The record holder's side.", "$ref": "#/$defs/leaderboardSide" },
+        "opponent": { "description": "The other side.", "$ref": "#/$defs/leaderboardSide" },
+        "result": { "description": "The record holder's result.", "enum": ["win", "loss", "tie"] },
+        "benchPoints": { "description": "The record holder's Bench points that Week; null if there's no lineup.", "type": ["number", "null"] },
+        "scoringFormat": { "description": "The Season's Scoring format label (e.g. PPR, PPR + TE premium).", "type": "string", "minLength": 1 }
+      }
+    },
     "seasonRecordRow": {
       "description": "One Franchise-Season in a Record Book Season record, regular season only. Uses the Season's standings figures.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["year", "owner", "teamName", "record", "games", "winPct", "pointsFor", "pointsPerGame", "pointsAgainst", "pointsAgainstPerGame", "scoringFormat"],
+      "required": ["year", "owner", "teamName", "record", "games", "winPct", "pointsFor", "pointsPerGame", "pointsAgainst", "pointsAgainstPerGame", "benchPoints", "scoringFormat"],
       "properties": {
         "year": { "description": "The Season.", "$ref": "#/$defs/year" },
         "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
@@ -1923,6 +1953,7 @@
         "pointsPerGame": { "description": "pointsFor / games, to two decimals (GLOSSARY: Points per game).", "type": "number" },
         "pointsAgainst": { "description": "Regular-season points allowed.", "type": "number" },
         "pointsAgainstPerGame": { "description": "pointsAgainst / games, to two decimals.", "type": "number" },
+        "benchPoints": { "description": "Bench points over regular-season Weeks; null if the Season has no lineups.", "type": ["number", "null"] },
         "scoringFormat": { "description": "The Season's Scoring format label (e.g. PPR, PPR + TE premium).", "type": "string", "minLength": 1 }
       }
     },

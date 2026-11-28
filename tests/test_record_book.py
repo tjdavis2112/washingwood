@@ -123,6 +123,7 @@ def test_all_time_includes_owners_who_left(archive, owners, tmp_path, pg_dsn):
         "winPct": 0.2308,
         "pointsFor": 1490.0,
         "pointsPerGame": 114.62,
+        "benchPoints": 351.0,  # 13 Weeks x 27.0
         "lastPlaces": 1,
     }
     (quinn,) = [r for r in all_time if r["owner"] == owner("quinn")]
@@ -145,3 +146,62 @@ def test_season_record_ties_go_to_the_earlier_season_then_name(archive, owners, 
         (2021, "pell-vantor"),
         (2021, "quinn-harrow"),
     ]
+
+
+# Bench points (#52). Fixture rule: each bench (BE) Player scores 4.5 and the IR Player 4.5, so a side's
+# Bench points are 6 x 4.5 = 27.0 a Week unless bench_bonus or bench_unplayed changes them.
+
+
+def test_bench_points_skip_ir_count_an_unplayed_player_as_zero_and_season_totals_are_regular_only(
+    archive, owners, tmp_path, pg_dsn
+):
+    # Quinn (seed 1): +20 in regular Week 3, +100 in the Week 16 semifinal. Pell's 2nd bench Player
+    # didn't play in Week 5 (NULL points)
+    season(2020, bench_bonus={(3, "quinn"): 20.0, (16, "quinn"): 100.0}, bench_unplayed=(5, "pell")).write(archive)
+
+    doc = record_book(archive, owners, tmp_path, pg_dsn)
+
+    top = doc["week"]["mostBenchPoints"]
+    assert [(r["week"], r["kind"], r["team"]["owner"]["slug"], r["benchPoints"]) for r in top[:2]] == [
+        (16, "playoff", "quinn-harrow", 127.0),
+        (3, "regular", "quinn-harrow", 47.0),
+    ]
+    # Season Bench points: 14 regular Weeks x 27.0 = 378.0; the semifinal's 100 doesn't count
+    season_bench = {r["owner"]["slug"]: r["benchPoints"] for r in doc["season"]["mostBenchPoints"]}
+    assert season_bench["quinn-harrow"] == 398.0
+    assert doc["season"]["mostBenchPoints"][0]["owner"] == owner("quinn")
+    all_time = {r["owner"]["slug"]: r["benchPoints"] for r in doc["allTime"]}
+    assert all_time["quinn-harrow"] == 398.0
+    assert all_time["pell-vantor"] == 378.0 - 4.5  # the unplayed bench Player counts 0
+    assert all_time["odie-brask"] == 378.0
+
+
+def test_week_records_skip_two_week_rounds_the_third_place_game_and_consolation_games(
+    archive, owners, tmp_path, pg_dsn
+):
+    # Big bench Weeks that aren't Counted Matchups: a 2018 two-week semifinal (Quinn, Week 14), a 2020
+    # consolation game (Jory, seed 12, Week 15) and the 2020 Third-place game (Rue, seed 4, Week 17)
+    Season2018Style(2018, [team(k) for k in SEED_ORDER[:10]], bench_bonus={(14, "quinn"): 200.0}).write(archive)
+    season(2020, bench_bonus={(15, "jory"): 200.0, (17, "rue"): 200.0, (2, "abel"): 10.0}).write(archive)
+
+    week = record_book(archive, owners, tmp_path, pg_dsn)["week"]
+
+    top = week["mostBenchPoints"][0]
+    assert (top["year"], top["week"], top["team"]["owner"]["slug"], top["benchPoints"]) == (2020, 2, "abel-trice", 37.0)
+    assert all(r["benchPoints"] < 100 for r in week["mostBenchPoints"])
+    for rows in week.values():
+        assert all(not (r["year"] == 2018 and r["week"] >= 14) for r in rows)
+
+
+def test_a_tied_matchup_is_neither_a_win_nor_a_loss(archive, owners, tmp_path, pg_dsn):
+    # Period 2's first Matchup ends 110.0-110.0: above every losing score (101.25) and below every
+    # winning one (120.5), so it would top both lists if it counted
+    season(2020, tie_period=2).write(archive)
+
+    week = record_book(archive, owners, tmp_path, pg_dsn)["week"]
+
+    assert {(r["result"], r["team"]["score"]) for r in week["mostPointsInLoss"]} == {("loss", 101.25)}
+    assert {(r["result"], r["team"]["score"]) for r in week["fewestPointsInWin"]} == {("win", 120.5)}
+    # Ties in the ranking: earlier Week, then Owner name
+    keys = [(r["week"], r["team"]["owner"]["name"]) for r in week["mostPointsInLoss"]]
+    assert keys == sorted(keys)

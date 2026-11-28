@@ -85,6 +85,7 @@ const RECORDS = [
   { id: "season-most-points-for", key: "mostPointsFor", value: (r: any) => pts(r.pointsPerGame), total: (r: any) => pts(r.pointsFor) },
   { id: "season-fewest-points-for", key: "fewestPointsFor", value: (r: any) => pts(r.pointsPerGame), total: (r: any) => pts(r.pointsFor) },
   { id: "season-most-points-against", key: "mostPointsAgainst", value: (r: any) => pts(r.pointsAgainstPerGame), total: (r: any) => pts(r.pointsAgainst) },
+  { id: "season-most-bench-points", key: "mostBenchPoints", value: (r: any) => pts(r.benchPoints) },
 ];
 
 for (const rec of RECORDS) {
@@ -129,6 +130,7 @@ const ALL_TIME = [
   { label: "Win %", stat: "win-pct", sort: (r: any) => r.winPct, show: (r: any) => pct(r.winPct) },
   { label: "Points for", stat: "points-for", sort: (r: any) => r.pointsFor, show: (r: any) => pts(r.pointsFor) },
   { label: "Points per game", stat: "points-per-game", sort: (r: any) => r.pointsPerGame, show: (r: any) => pts(r.pointsPerGame) },
+  { label: "Bench points", stat: "bench-points", sort: (r: any) => r.benchPoints ?? -1, show: (r: any) => (r.benchPoints === null ? "—" : pts(r.benchPoints)) },
   { label: "Last places", stat: "last-places", sort: (r: any) => r.lastPlaces, show: (r: any) => String(r.lastPlaces) },
 ];
 
@@ -146,23 +148,74 @@ test("picking an All-time stat re-sorts the table; a phone shows only rank, Owne
       await expect(row.getByTestId("all-time-rank")).toHaveText(String(i + 1));
       await expect(row.locator(`[data-stat="${s.stat}"]`)).toHaveText(s.show(r));
       await expect(row.locator(`[data-stat="${s.stat}"]`)).toBeVisible();
-      // Rank, Owner and the picked stat; desktop also shows Seasons and the other four stats
-      await expect(row.locator("td:visible")).toHaveCount(info.project.name === "desktop" ? 8 : 3);
+      // Rank, Owner and the picked stat; desktop also shows Seasons and the other five stats
+      await expect(row.locator("td:visible")).toHaveCount(info.project.name === "desktop" ? 9 : 3);
     }
   }
 });
 
 // One test per hash: goto() with only the hash changed doesn't reload the page
-for (const hash of ["season-most-points-for", "all-time"]) {
+for (const hash of ["week-most-bench-points", "season-most-points-for", "all-time"]) {
   test(`#${hash} fits the screen with its chips in view`, async ({ page }, info) => {
     await page.goto(`/record-book/#${hash}`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, `#${hash} is wider than the viewport`).toBeLessThanOrEqual(0);
     // The chip row isn't hidden under the sticky header when a link opens the page part-way down
-    const chips = page.locator(hash === "all-time" ? "[data-stat-button]" : "[data-record-chip]").first();
+    const chips = page.locator(hash === "all-time" ? "[data-stat-button]" : "[data-record-chip]:visible").first();
     await expect(chips).toBeInViewport();
     const header = (await page.locator("header").first().boundingBox())!;
     expect((await chips.boundingBox())!.y).toBeGreaterThanOrEqual(header.y + header.height);
     await page.screenshot({ path: path.join(SHOTS, info.project.name, `record-book-${hash}.png`), fullPage: true });
+  });
+}
+
+// Week records (#52)
+const WEEK = [
+  { id: "week-most-points-in-loss", key: "mostPointsInLoss", value: (r: any) => pts(r.team.score) },
+  { id: "week-fewest-points-in-win", key: "fewestPointsInWin", value: (r: any) => pts(r.team.score) },
+  { id: "week-most-bench-points", key: "mostBenchPoints", value: (r: any) => pts(r.benchPoints) },
+];
+const RESULT: Record<string, string> = { win: "W", loss: "L", tie: "T" };
+const boxPath = (r: any) => `/matchups/${r.year}/${r.week}/${[r.team.owner.slug, r.opponent.owner.slug].sort().join("-vs-")}/`;
+
+for (const rec of WEEK) {
+  test(`#${rec.id} opens the Week tab on that record`, async ({ page }) => {
+    await page.goto(`/record-book/#${rec.id}`);
+    await expect(page.getByRole("tab", { name: "Week", exact: true })).toHaveAttribute("aria-selected", "true");
+    await expect(page.locator(`[data-record-chip="${rec.id}"]`)).toHaveAttribute("aria-current", "true");
+    await expect(page.getByTestId("week-record").filter({ visible: true })).toHaveCount(1);
+    const expected = book.week[rec.key];
+    const rows = page.locator(`#${rec.id}`).getByTestId("week-record-row");
+    await expect(rows).toHaveCount(expected.length);
+    for (const [i, r] of expected.entries()) {
+      const row = rows.nth(i);
+      await expect(row.getByRole("link", { name: String(r.year), exact: true })).toHaveAttribute("href", `/seasons/${r.year}/`);
+      await expect(row.getByRole("rowheader")).toContainText(`Week ${r.week}`);
+      await expect(row.getByRole("link", { name: r.team.owner.name, exact: true })).toHaveAttribute("href", `/owners/${r.team.owner.slug}/`);
+      await expect(row.getByRole("link", { name: r.opponent.owner.name, exact: true })).toHaveAttribute("href", `/owners/${r.opponent.owner.slug}/`);
+      await expect(row.getByTestId("record-value")).toHaveText(rec.value(r));
+      const box = row.getByTestId("box-score-link");
+      await expect(box).toHaveText(`${RESULT[r.result]} ${pts(r.team.score)}–${pts(r.opponent.score)}`);
+      await expect(box).toHaveAttribute("href", boxPath(r));
+      await expect(row.getByTestId("format-badge")).toHaveText(r.scoringFormat);
+    }
+  });
+}
+
+test("a Week row's Box score link opens that Box score", async ({ page }) => {
+  const r = book.week.mostPointsInLoss[0];
+  await page.goto("/record-book/#week-most-points-in-loss");
+  await page.locator("#week-most-points-in-loss").getByTestId("box-score-link").first().click();
+  await expect(page).toHaveURL(new RegExp(`${boxPath(r)}$`));
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByText(r.team.owner.name).first()).toBeVisible();
+});
+
+for (const [tab, label] of [["highest", "Highest scores"], ["lowest", "Lowest scores"], ["blowouts", "Blowouts"], ["closest", "Closest games"], ["upsets", "Playoff upsets"]]) {
+  test(`the Week tab links to the Matchups ${label} leaderboard`, async ({ page }) => {
+    await page.goto("/record-book/#week");
+    await page.getByTestId("matchups-links").getByRole("link", { name: label, exact: true }).click();
+    await expect(page).toHaveURL(new RegExp(`/matchups/#${tab}$`));
+    await expect(page.getByRole("tab", { name: label, exact: true })).toHaveAttribute("aria-selected", "true");
   });
 }

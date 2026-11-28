@@ -1,0 +1,96 @@
+---
+// Record Book Week records (#52): top-10 sides of the Counted Matchups (GLOSSARY) per record, picked from a
+// chip row (RecordPicker). A tied Matchup is neither a win nor a loss. Each row links to its Box score.
+// Highest and lowest scores, blowouts, closest games and upsets live on the Matchups leaderboards, so
+// this tab links there rather than copying them. Every row shows its Scoring format.
+import OwnerLink from "./OwnerLink.astro";
+import RecordPicker from "./RecordPicker.astro";
+import { boxScorePath, formatPoints, hasBoxScores, type RecordBookDoc, type WeekRecordRow } from "../data/site-data";
+
+interface Props { records: RecordBookDoc["week"] }
+const { records } = Astro.props;
+
+const SCORE = { label: "Points", value: (r: WeekRecordRow) => formatPoints(r.team.score) };
+const BENCH = { label: "Bench points", value: (r: WeekRecordRow) => formatPoints(r.benchPoints ?? 0) };
+const LISTS = [
+  { id: "week-most-points-in-loss", chip: "Most points in a loss", title: "Most points in a loss", rows: records.mostPointsInLoss, stat: SCORE },
+  { id: "week-fewest-points-in-win", chip: "Fewest points in a win", title: "Fewest points in a win", rows: records.fewestPointsInWin, stat: SCORE },
+  { id: "week-most-bench-points", chip: "Most bench points", title: "Most bench points in a Week", rows: records.mostBenchPoints, stat: BENCH },
+];
+// The Matchups leaderboards, by their tab ids on /matchups/
+const ELSEWHERE = [
+  { tab: "highest", label: "Highest scores" },
+  { tab: "lowest", label: "Lowest scores" },
+  { tab: "blowouts", label: "Blowouts" },
+  { tab: "closest", label: "Closest games" },
+  { tab: "upsets", label: "Playoff upsets" },
+];
+const RESULT = { win: "W", loss: "L", tie: "T" } as const;
+// Box score pages exist only for Seasons with lineups
+const boxScores = new Set(Object.values(records).flat().map((r) => r.year).filter(hasBoxScores));
+const score = (r: WeekRecordRow) => `${RESULT[r.result]} ${formatPoints(r.team.score)}–${formatPoints(r.opponent.score)}`;
+---
+<p class="mb-2 text-xs text-muted">
+  Top 10 single Weeks: regular-season games and playoff games played (byes, consolation games, the
+  third-place game and 2018's two-week rounds aren't counted). Bench points are points left on the bench
+  (IR doesn't count).
+</p>
+<p data-testid="matchups-links" class="mb-6 text-sm text-muted">
+  More on Matchups:{" "}
+  {ELSEWHERE.map((e, i) => (
+    <>{i > 0 && " · "}<a href={`/matchups/#${e.tab}`} class="font-semibold text-paper underline decoration-brand underline-offset-4 hover:text-brand">{e.label}</a></>
+  ))}
+</p>
+<RecordPicker label="Week records" testid="week-record" records={LISTS}>
+  {LISTS.map((l) => (
+    <div slot={l.id}>
+      {l.rows.length === 0 ? (
+        <p class="text-sm text-muted">None yet.</p>
+      ) : (
+        <div class="overflow-x-auto rounded-2xl border border-line">
+          <table aria-label={l.title} class="w-full min-w-[44rem] border-collapse text-sm">
+            <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+              <tr>
+                <th scope="col" class="px-3 py-3 text-right">#</th>
+                <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Season</th>
+                <th scope="col" class="px-3 py-3">Owner</th>
+                <th scope="col" class="px-3 py-3 text-right text-paper">{l.stat.label}</th>
+                <th scope="col" class="px-3 py-3 text-right">Result</th>
+                <th scope="col" class="px-3 py-3">Opponent</th>
+                <th scope="col" class="px-3 py-3">Format</th>
+              </tr>
+            </thead>
+            <tbody>
+              {l.rows.map((r, n) => (
+                <tr data-testid="week-record-row" data-year={r.year} data-week={r.week} class="border-t border-line odd:bg-ink even:bg-panel/40">
+                  <td class="px-3 py-2.5 text-right font-bold tabular-nums">{n + 1}</td>
+                  <th scope="row" class="sticky left-0 bg-inherit px-3 py-2.5 text-left font-semibold whitespace-nowrap">
+                    <a href={`/seasons/${r.year}/`} class="tabular-nums hover:text-brand">{r.year}</a>
+                    <span class="block text-xs font-normal text-muted">Week {r.week}{r.kind === "playoff" ? " · Playoffs" : ""}</span>
+                  </th>
+                  <td class="px-3 py-2.5 whitespace-nowrap">
+                    <OwnerLink owner={r.team.owner} class="font-semibold" />
+                    <span class="block text-xs text-muted">{r.team.teamName}</span>
+                  </td>
+                  <td data-testid="record-value" class="px-3 py-2.5 text-right font-bold tabular-nums">{l.stat.value(r)}</td>
+                  <td class="px-3 py-2.5 text-right whitespace-nowrap tabular-nums">
+                    {boxScores.has(r.year) ? (
+                      <a data-testid="box-score-link" href={boxScorePath(r.year, r.week, r.team.owner.slug, r.opponent.owner.slug)} class="underline decoration-line underline-offset-4 hover:text-brand">{score(r)}</a>
+                    ) : (
+                      <span>{score(r)}</span>
+                    )}
+                  </td>
+                  <td class="px-3 py-2.5 whitespace-nowrap">
+                    <OwnerLink owner={r.opponent.owner} />
+                    <span class="block text-xs text-muted">{r.opponent.teamName}</span>
+                  </td>
+                  <td class="px-3 py-2.5"><span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{r.scoringFormat}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  ))}
+</RecordPicker>
