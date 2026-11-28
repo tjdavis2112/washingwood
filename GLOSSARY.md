@@ -125,7 +125,7 @@ A **Player**'s rank by **Season points** among every Player at their position th
 Per **Season** and position, the last starter-quality finish: team count × that position's starting slots, each FLEX counting as half an RB and half a WR, rounded up (a position with no starting slot counts one per team). Replacement points are the **Season points** of the **Player** at that **Positional finish** (on a tie that skips it, the nearest finish above; with fewer Players, the last one). 12 teams with 2 RB and 2 FLEX: RB36.
 
 **Points above replacement**:
-A drafted **Player**'s **Season points** minus their position's Replacement points that Season, never below 0 (anyone below replacement was waiver-wire level).
+A **Player**'s **Season points** minus their position's Replacement points that Season, never below 0 (anyone below replacement was waiver-wire level).
 
 **Points over expected**:
 A **Pick**'s **Points above replacement** minus what a Pick in that round usually returns: the mean Points above replacement of every recorded Pick in that round, across every **Season**. Rounded to whole points. Positive beat its round, negative fell short. It ranks the **Hits** and **Busts** and adds up to the **Draft grade**. Picks with no Player recorded are left out.
@@ -169,7 +169,7 @@ A **Franchise**'s actual regular-season wins minus its **Expected wins**, to one
 Points a **Player** scored as a starter for the **Franchise** that acquired them during the **Stint** (raw points; **Value added** is what trades and Pickups are judged on).
 
 **Value added**:
-What an acquired **Player** gave a **Franchise** beyond a replacement-level starter at his position: over the **Stint**, each start's points minus that position's Replacement points per start that **Season** (Replacement points divided by the Season's **Weeks**, playoffs included; see **Replacement level**). A start below replacement counts negative, since it cost the team; bench Weeks don't count. Unlike **Points above replacement** (a drafted Player's whole Season, never below 0), it is per start and can be negative. It stops a QB winning a trade just because QBs score more than other positions.
+What an acquired **Player** gave a **Franchise** beyond a replacement-level starter at his position: over the **Stint**, each start's points minus that position's Replacement points per start that **Season** (Replacement points divided by the Season's **Weeks**, playoffs included; see **Replacement level**). A start below replacement counts negative, since it cost the team; bench Weeks don't count. Unlike **Points above replacement** (a Player's whole Season, never below 0), it is per start and can be negative. It stops a QB winning a trade just because QBs score more than other positions.
 _Avoid_: Points above replacement (the Draft term)
 
 **Fleeced**:
@@ -183,3 +183,39 @@ The **Weeks** a **Player** spends with a **Franchise** after one acquisition: fr
 
 **Trade**:
 An executed swap of **Players** between two **Franchises**. Vetoed trades, proposals and declines aren't trades. Each side scores the **Value added** its received Players gave it over their **Stints**; the side with more wins by the **Margin**. Raw starter points are shown alongside but don't decide it. Its **Week** is the effective Week: the first Week the received Players are on their new rosters.
+
+## Hall of Fame
+
+**Hall of Fame**:
+Every **Inductee**, across all **Seasons**. It only grows: a later Season never removes an Inductee.
+
+**Inductee**:
+One **Player**'s **Season** that cleared an **Induction bar**, credited to one **Owner**. A Player can be inducted for several Seasons. One Inductee can clear more than one bar.
+_Avoid_: Hall of Famer (for the entry; fine as the plain-English plural on pages), nominee
+
+**Induction bar**:
+A fixed threshold that inducts a **Player** season by itself, with no ranking against other Player seasons. There are three, one per lane:
+- **Dominant**: **Points above replacement**. Credited to the Owner the Player scored the most starter points for.
+- **Overachiever**: **Points over expected**. Credited to the Owner who made the **Pick**.
+- **Waiver legend**: a **Pickup**'s starter points. Credited to the Owner who made the Pickup.
+
+**Owner's note**:
+A short hand-written note about an **Inductee** from the **Owner** it's credited to.
+
+**Accolade**:
+A per-**Season** **Player** award: **Top Week**, **Position crown**, **Playoff hero** or **MVP**. An Accolade doesn't induct anyone.
+
+**Top Week**:
+The highest single-**Week** score by a starter in a **Season**'s **Counted Matchups**.
+
+**Position crown**:
+The best **Positional finish** at a position in a **Season** among **Players** on a roster at some point that Season.
+
+**Playoff hero**:
+The **Player** with the most starter points in a **Season**'s championship-bracket **Matchups**.
+
+**Wins added**:
+A fantasy take on baseball's WAR. For each **Week** a **Player** started in a **Counted Matchup**, his points are swapped for the weekly replacement points at his position (the score at that position's **Replacement level** rank among every rostered Player that Week, bench included). A win that would have become a loss counts +1, a loss that would have become a win counts −1, and a change into or out of a tie counts ±0.5. The total is summed over the Season.
+
+**MVP**:
+The **Player** with the most **Wins added** in a **Season**.

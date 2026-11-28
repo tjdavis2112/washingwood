@@ -115,7 +115,7 @@ Kept from the original plan; build in roughly this order.
 - **Record Book**: single week / season / all-time leaderboards, stat picker, team records, streaks, luck index, bench points, last-place history. Always show or filter by Scoring format.
 - **Draft**: done (#24): board per Season (position or Points over expected coloring), draft grades, first-round history, Hits, Steals and Busts, Best drafters (ADR-0008)
 - **Transactions**: trade cards with points each side scored after the trade; best waiver pickups
-- **Hall of Fame**: legendary player seasons, curated in `core.hall_of_fame`
+- **Hall of Fame**: specced in #72: Player seasons inducted by fixed Induction bars (Dominant, Overachiever, Waiver legend; ADR-0009), flip cards with moments and an Owner's note, per-Season Accolades (Top Week, Position crowns, Playoff hero, Wins added, MVP)
 - **League Rules**: scoring and roster template by year, hand-written changelog (`core.rule_changes`), the league-wide Punishment explainer
 - **Punishment content**: picture, title and description per Season, kept in `washingwood-archive`
 - **Extras**: achievements/badges, manager efficiency (optimal lineup), auto-generated season recaps
@@ -153,7 +153,7 @@ The activity feed (`/communication/`) returns 404 for every season. Transactions
 - Teams: `core.franchises` (team in one season + final results), `core.franchise_owners` (franchise → person; exactly one Owner per Franchise, enforced by the loader)
 - Games: `core.matchups` (playoff/bracket/championship flags, multi-week periods), `core.lineup_entries`, `core.player_week_stats`, `core.stat_definitions`
 - Draft/txns: `core.draft_picks`, `core.transactions`, `core.transaction_items`
-- Curated: `core.achievements`, `core.owner_achievements`, `core.hall_of_fame`
+- Curated: `core.achievements`, `core.owner_achievements`, `core.hall_of_fame` (Owner's notes only, ADR-0009)
 - Views: `stats.franchise_owner`, `team_games`, `podium`, `owner_career`, `head_to_head`, `player_franchise_season`, `player_season`, `replacement_level`, `round_expectation`, `draft_value`, `draft_grades`, `acquisition_impact`, `trade_scorecard`, `team_week_scores`, `all_play`
 
 Not yet in the schema: Punishment (per-season title, description, image) and a way to mark the 3rd-place game. Add these when the loader is built.
