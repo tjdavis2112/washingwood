@@ -846,3 +846,17 @@ def test_a_pickup_comes_via_waiver_or_free_agency():
     doc["pickups"][0]["via"] = "trade"
     with pytest.raises(ContractError, match="via"):
         validate(doc, "transactions")
+
+
+# --- Season Transactions tab (#64) ---
+
+
+def test_every_example_season_has_its_pickups_and_one_has_no_trades():
+    doc = load_example("transactions.json")
+    years = sorted(example_seasons(), reverse=True)
+    assert [s["year"] for s in doc["seasonPickups"]] == years
+    for entry in doc["seasonPickups"]:
+        assert all(p["year"] == entry["year"] for p in entry["pickups"])
+        assert len(entry["pickups"]) <= 10
+    # The Season page's empty-Season line needs an example Season without trades
+    assert set(years) - {t["year"] for t in doc["trades"]}

@@ -139,3 +139,27 @@ def test_best_pickups_are_the_top_ten_with_ties_by_season_week_then_owner(archiv
     assert [p["points"] for p in pickups] == [16 * (20.0 - i) for i in range(9)] + [176.0]
     # Wren Solano and Cass Imber tie on 176.0 (same Season and Week): the name decides, and Wren is cut
     assert pickups[-1]["owner"]["name"] == "Cass Imber"
+
+
+def test_each_season_has_its_own_top_ten_pickups_newest_season_first(archive, owners, tmp_path, pg_dsn):
+    keys = SEED_ORDER[:12]
+    s2020 = season(2020)
+    # Twelve adds in Week 3 (15 Weeks each), one point less per Owner down the list; Wren Solano (9th)
+    # drops to 10.0, tying Cass Imber (10th) for the last place in the top 10
+    s2020.moves = [FixtureMove(week=3, team=k, add=free_agent_id(i), type="FREEAGENT") for i, k in enumerate(keys)]
+    s2020.lineup_points = {free_agent_id(i): 20.0 - i for i in range(len(keys))}
+    s2020.lineup_points[free_agent_id(9)] = 10.0
+    s2020.write(archive)
+    s2021 = season(2021)
+    s2021.moves = [FixtureMove(week=16, team="rue", add=free_agent_id(50))]
+    s2021.lineup_points = {free_agent_id(50): 4.0}
+    s2021.write(archive)
+
+    doc = transactions(archive, owners, tmp_path, pg_dsn)
+
+    assert [s["year"] for s in doc["seasonPickups"]] == [2021, 2020]
+    assert doc["seasonPickups"][0]["pickups"] == [pickup(50, "rue", 2021, 16, "waiver", 8.0, 2)]
+    top = doc["seasonPickups"][1]["pickups"]
+    assert [p["points"] for p in top] == [15 * (20.0 - i) for i in range(9)] + [150.0]
+    # Same Season, Week and points: the Owner name decides, so Cass Imber is in and Wren Solano is cut
+    assert top[-1]["owner"]["name"] == "Cass Imber"

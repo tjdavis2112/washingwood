@@ -1,4 +1,5 @@
-// Season page: final standings, the Scoring format tab and the Coming soon tabs (#8; Draft since #25).
+// Season page: final standings, the Scoring format tab and the Coming soon tab (#8; Draft since #25,
+// Transactions since #64).
 // Expected values come from the invented fixture documents the site is built from.
 import fs from "node:fs";
 import path from "node:path";
@@ -53,10 +54,10 @@ for (const year of [2018, 2020]) {
   });
 }
 
-test("Rosters and Transactions tabs say Coming soon", async ({ page }) => {
+test("the Rosters tab says Coming soon", async ({ page }) => {
   await page.goto("/seasons/2020/");
   await expect(page.getByRole("tab")).toHaveText(["Results", "Scoring format", "Rosters", "Draft", "Transactions"]);
-  for (const name of ["Rosters", "Transactions"]) {
+  for (const name of ["Rosters"]) {
     await page.getByRole("tab", { name }).click();
     const panel = page.getByRole("tabpanel", { name });
     await expect(panel).toBeVisible();

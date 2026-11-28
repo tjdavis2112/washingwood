@@ -1829,7 +1829,7 @@
       "description": "The Transactions section: every executed trade, scored by the starter points each side's received Players gave their new team. Season and Owner pages filter it at site build time. Exported as transactions.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["trades", "pickups"],
+      "required": ["trades", "pickups", "seasonPickups"],
       "properties": {
         "trades": {
           "description": "Every executed trade (commissioner-vetoed trades are left out), newest Season first, then newest Week, then the first side's Owner name.",
@@ -1841,6 +1841,25 @@
           "type": "array",
           "maxItems": 10,
           "items": { "$ref": "#/$defs/pickup" }
+        },
+        "seasonPickups": {
+          "description": "Each Season's top 10 Pickups, for its Season page, newest Season first: one entry per Season, an empty list when it has none. Season pages filter trades from `trades` by year.",
+          "type": "array",
+          "items": {
+            "description": "One Season's best Pickups.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["year", "pickups"],
+            "properties": {
+              "year": { "description": "The Season.", "$ref": "#/$defs/year" },
+              "pickups": {
+                "description": "That Season's top 10 Pickups, ordered like `pickups`.",
+                "type": "array",
+                "maxItems": 10,
+                "items": { "$ref": "#/$defs/pickup" }
+              }
+            }
+          }
         }
       }
     },
