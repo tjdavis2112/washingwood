@@ -1824,6 +1824,70 @@
         "record": { "description": "The Franchise's regular-season record.", "$ref": "#/$defs/record" }
       }
     },
+    "transactions": {
+      "title": "Transactions document",
+      "description": "The Transactions section: every executed trade, scored by the starter points each side's received Players gave their new team. Season and Owner pages filter it at site build time. Exported as transactions.json.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["trades"],
+      "properties": {
+        "trades": {
+          "description": "Every executed trade (commissioner-vetoed trades are left out), newest Season first, then newest Week, then the first side's Owner name.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/trade" }
+        }
+      }
+    },
+    "trade": {
+      "description": "One executed trade (GLOSSARY: Trade) and its two sides.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year", "week", "scoringFormat", "margin", "sides"],
+      "properties": {
+        "year": { "description": "The Season.", "$ref": "#/$defs/year" },
+        "week": { "description": "The effective Week: the first Week the received Players were on their new rosters.", "type": "integer", "minimum": 1 },
+        "scoringFormat": { "description": "That Season's Scoring format label, e.g. PPR.", "type": "string", "minLength": 1 },
+        "margin": { "description": "Margin (GLOSSARY): the winning side's total minus the losing side's. 0 for a tie.", "type": "number", "minimum": 0 },
+        "sides": {
+          "description": "Both sides: the winner first; a tie orders them by Owner name.",
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "items": { "$ref": "#/$defs/tradeSide" }
+        }
+      }
+    },
+    "tradeSide": {
+      "description": "What one Franchise received in a trade, and how it scored for them.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "teamName", "outcome", "total", "players"],
+      "properties": {
+        "owner": { "description": "The Franchise's Owner.", "$ref": "#/$defs/ownerRef" },
+        "teamName": { "description": "The Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+        "outcome": { "description": "won, lost or tied: this side's total against the other's.", "enum": ["won", "lost", "tied"] },
+        "total": { "description": "The side score: the received Players' starter points over their Stints, playoff Weeks included.", "type": "number" },
+        "players": {
+          "description": "The Players this side received, most points first, then by name.",
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/tradedPlayer" }
+        }
+      }
+    },
+    "tradedPlayer": {
+      "description": "A Player received in a trade, scored for the receiving Franchise over the Stint (GLOSSARY): from the trade's Week until the Player next left that team, to the end of the Season at most.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "position", "nflTeam", "points", "weeksStarted"],
+      "properties": {
+        "name": { "description": "The Player's name.", "type": "string", "minLength": 1 },
+        "position": { "description": "That Season's position: QB, RB, WR, TE, K, D/ST ...", "type": "string", "minLength": 1 },
+        "nflTeam": { "description": "That Season's NFL team abbreviation; null for a free agent.", "type": ["string", "null"] },
+        "points": { "description": "Starter points for the receiving Franchise during the Stint. Bench Weeks score nothing.", "type": "number" },
+        "weeksStarted": { "description": "Weeks the Player started for the receiving Franchise during the Stint.", "type": "integer", "minimum": 0 }
+      }
+    },
     "recordBook": {
       "title": "Record Book document",
       "description": "The Record Book section: cross-Season records. Single-game extremes stay in matchups.json. Exported as record-book.json.",

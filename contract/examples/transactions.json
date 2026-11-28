@@ -1,0 +1,275 @@
+{
+  "trades": [
+    {
+      "year": 2020,
+      "week": 9,
+      "scoringFormat": "PPR + TE premium",
+      "margin": 0.0,
+      "sides": [
+        {
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "teamName": "Trice Tritons",
+          "outcome": "tied",
+          "total": 90.0,
+          "players": [
+            {
+              "name": "Bram Okafor",
+              "position": "RB",
+              "nflTeam": "TEN",
+              "points": 90.0,
+              "weeksStarted": 9
+            }
+          ]
+        },
+        {
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          },
+          "teamName": "Paxton Pistons",
+          "outcome": "tied",
+          "total": 90.0,
+          "players": [
+            {
+              "name": "Lark Denholm",
+              "position": "TE",
+              "nflTeam": "MIA",
+              "points": 90.0,
+              "weeksStarted": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2020,
+      "week": 9,
+      "scoringFormat": "PPR + TE premium",
+      "margin": 63.0,
+      "sides": [
+        {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "outcome": "won",
+          "total": 126.0,
+          "players": [
+            {
+              "name": "Jem Corrow",
+              "position": "WR",
+              "nflTeam": "LV",
+              "points": 126.0,
+              "weeksStarted": 9
+            }
+          ]
+        },
+        {
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "teamName": "Ashgrove Aces",
+          "outcome": "lost",
+          "total": 63.0,
+          "players": [
+            {
+              "name": "Rook Tanner",
+              "position": "D/ST",
+              "nflTeam": "PIT",
+              "points": 63.0,
+              "weeksStarted": 9
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2020,
+      "week": 3,
+      "scoringFormat": "PPR + TE premium",
+      "margin": 36.0,
+      "sides": [
+        {
+          "owner": {
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
+          },
+          "teamName": "Quist Quakes",
+          "outcome": "won",
+          "total": 120.0,
+          "players": [
+            {
+              "name": "Fenn Hale",
+              "position": "K",
+              "nflTeam": "CHI",
+              "points": 120.0,
+              "weeksStarted": 15
+            }
+          ]
+        },
+        {
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "teamName": "Ashgrove Aces",
+          "outcome": "lost",
+          "total": 84.0,
+          "players": [
+            {
+              "name": "Jem Corrow",
+              "position": "WR",
+              "nflTeam": "LV",
+              "points": 84.0,
+              "weeksStarted": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2020,
+      "week": 1,
+      "scoringFormat": "PPR + TE premium",
+      "margin": 9.0,
+      "sides": [
+        {
+          "owner": {
+            "slug": "ines-dorrow",
+            "name": "Ines Dorrow"
+          },
+          "teamName": "Dorrow Drakes",
+          "outcome": "won",
+          "total": 153.0,
+          "players": [
+            {
+              "name": "Sable Wynn",
+              "position": "RB",
+              "nflTeam": "ATL",
+              "points": 153.0,
+              "weeksStarted": 17
+            }
+          ]
+        },
+        {
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          },
+          "teamName": "Imber Embers",
+          "outcome": "lost",
+          "total": 144.0,
+          "players": [
+            {
+              "name": "Gage Ridley",
+              "position": "WR",
+              "nflTeam": null,
+              "points": 144.0,
+              "weeksStarted": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "week": 11,
+      "scoringFormat": "PPR",
+      "margin": 38.5,
+      "sides": [
+        {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "outcome": "won",
+          "total": 147.0,
+          "players": [
+            {
+              "name": "Hollis Brandt",
+              "position": "QB",
+              "nflTeam": "KC",
+              "points": 147.0,
+              "weeksStarted": 7
+            }
+          ]
+        },
+        {
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          },
+          "teamName": "Vantor Vipers",
+          "outcome": "lost",
+          "total": 108.5,
+          "players": [
+            {
+              "name": "Tav Quill",
+              "position": "QB",
+              "nflTeam": "BAL",
+              "points": 108.5,
+              "weeksStarted": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2018,
+      "week": 4,
+      "scoringFormat": "PPR",
+      "margin": 42.75,
+      "sides": [
+        {
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "teamName": "Harrow Hammers",
+          "outcome": "won",
+          "total": 162.5,
+          "players": [
+            {
+              "name": "Corin Vale",
+              "position": "WR",
+              "nflTeam": "SEA",
+              "points": 162.5,
+              "weeksStarted": 13
+            }
+          ]
+        },
+        {
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "teamName": "Trice Tritons",
+          "outcome": "lost",
+          "total": 119.75,
+          "players": [
+            {
+              "name": "Mott Ellery",
+              "position": "RB",
+              "nflTeam": "DEN",
+              "points": 84.0,
+              "weeksStarted": 14
+            },
+            {
+              "name": "Pim Arlo",
+              "position": "TE",
+              "nflTeam": "NO",
+              "points": 35.75,
+              "weeksStarted": 11
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

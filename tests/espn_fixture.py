@@ -81,6 +81,58 @@ def fixture_player_name(pid: int) -> str:
     return f"Fixture Player {overall:03d}"
 
 
+STARTERS = [(0, 1), (2, 2), (2, 2), (4, 3), (4, 3), (6, 4), (23, 2), (16, 16), (17, 5)]  # (lineupSlotId, position)
+BENCH = [(20, 2), (20, 3), (20, 3), (20, 4), (20, 1), (20, 2), (21, 3)]
+LINEUP = STARTERS + BENCH  # index = lineup slot index; 8 is the K, who absorbs point overrides
+
+
+def lineup_player_id(team_id: int, index: int) -> int:
+    """The Player who starts the Season in a team's lineup slot `index`. D/ST IDs are negative, and kept
+    clear of the drafted D/STs' (-16000 - proTeamId) so a Week-1 roster diff sees no false moves."""
+    return -16100 - team_id if LINEUP[index][1] == 16 else 70000 + team_id * 100 + index
+
+
+def lineup_player(pid: int) -> tuple[str, int, int]:
+    """(fullName, defaultPositionId, proTeamId) of any Player who appears in a fixture lineup."""
+    if 70000 <= pid < 80000:
+        team_id, index = divmod(pid - 70000, 100)
+        return f"Lineup {team_id}-{index:02d}", LINEUP[index][1], 1 + index
+    if -16200 < pid <= -16100:  # a team's own D/ST
+        return f"Team{-16100 - pid} D/ST", 16, 8
+    return fixture_player_name(pid), fixture_player_position(pid), fixture_player_pro_team(pid)
+
+
+@dataclass
+class FixtureTrade:
+    """One trade in mTransactions2 shape (espn-api.md §7) and on the weekly rosters.
+
+    Team `a` accepts (TRADE_ACCEPT.teamId); `b` proposed. The two teams swap whoever holds each of
+    `slots` (lineup slot indices) from the effective Week (week + lag) on. With `draft_round` set, the
+    trade happens before roster_w01: each team's Pick from that round moves into the other team's slot
+    `slots[0]` instead (the Week-1 case, diffed against the draft roster).
+    """
+
+    week: int  # TRADE_ACCEPT scoringPeriodId
+    a: str
+    b: str
+    slots: tuple[int, ...] = (1,)
+    lag: int = 0  # 1 = the move shows on roster_w(week + 1), as after a review window
+    legs: bool = False  # 2018 style: TRADE items on TRADE_ACCEPT, no relatedTransactionId
+    team_actions: bool = False  # list both teams in teamActions (else the partner comes from the diff)
+    second_accept: bool = False  # a 2nd TRADE_ACCEPT (EXECUTED) carrying the legs, as 2020/2022/2024 have
+    veto: str | None = None  # "commissioner" (the trade dies: nothing moves) or "minority" (it stands)
+    draft_round: int | None = None
+    moves: bool = True  # False: the rows say a trade happened, but no roster shows it
+
+    @property
+    def effective_week(self) -> int:
+        return self.week + self.lag
+
+    @property
+    def executes(self) -> bool:
+        return self.veto != "commissioner"
+
+
 @dataclass
 class Team:
     """One Franchise in a fixture Season."""
@@ -140,6 +192,15 @@ class FixtureSeason:
     # (week, team key) whose 2nd bench Player has no actual stat row (didn't play), so their points are NULL
     bench_unplayed: tuple[int, str] | None = None
     # Manual score adjustments on a side's period-4 Matchup are set by `adjustments` (above)
+    # Trades (espn-api.md §7), applied to the weekly rosters and lineups in effective-Week order
+    trades: list[FixtureTrade] = field(default_factory=list)
+    # Points a Player scores every Week they're in a lineup. Starters' extra points come off the K
+    # (slot 8) so each side still adds up to its score.
+    lineup_points: dict[int, float] = field(default_factory=dict)
+    # (week, from key, to key, slot): a Player moves between teams with no trade or add (unclean diff)
+    stray_move: tuple[int, str, str, int] | None = None
+    # Added to every team's transactionCounter.trades (to break the reconciliation)
+    trade_counter_offset: int = 0
 
     TEAMS = 0
     REGULAR_PERIODS = 0
@@ -279,6 +340,14 @@ class FixtureSeason:
                     "playoffSeed": seed,
                     "rankCalculatedFinal": self._final_rank[t.key],
                     "rankFinal": 0,
+                    # Each executed trade counts once per side (espn-api.md §2)
+                    "transactionCounter": {
+                        "acquisitions": 0,
+                        "drops": 0,
+                        "trades": self.trade_counter_offset
+                        + sum(1 for tr in self.trades if tr.executes and t.key in (tr.a, tr.b)),
+                        "acquisitionBudgetSpent": 0,
+                    },
                     "record": {
                         "overall": {
                             "wins": self.REGULAR_PERIODS - seed,
@@ -424,9 +493,135 @@ class FixtureSeason:
         if self.box_scores:
             last = self._weeks(self.REGULAR_PERIODS + self.PLAYOFF_PERIODS)[-1]
             for week in range(1, last + 1):
-                (d / f"boxscore_w{week:02d}.json").write_text(
-                    json.dumps(self.box_score(week), indent=1), encoding="utf-8"
-                )
+                for name, doc in (
+                    ("boxscore", self.box_score(week)),
+                    ("roster", self.roster_doc(week)),
+                    ("transactions", self.transactions_doc(week)),
+                ):
+                    (d / f"{name}_w{week:02d}.json").write_text(json.dumps(doc, indent=1), encoding="utf-8")
+
+    # -- rosters and trades (espn-api.md §4 weekly rosters, §7) -----------------
+
+    def team_id(self, key: str) -> int:
+        return self._ids[key]
+
+    def drafted(self, key: str, rnd: int) -> int:
+        """playerId of team `key`'s Pick in round `rnd`."""
+        return next(p["playerId"] for p in self._picks() if p["teamId"] == self._ids[key] and p["roundId"] == rnd)
+
+    def rosters(self, week: int) -> dict[str, list[int]]:
+        """Each team's lineup Players, by slot index, in `week`, after every trade effective by then."""
+        roster = {k: [lineup_player_id(i, s) for s in range(len(LINEUP))] for k, i in self._ids.items()}
+        for tr in self.trade_legs():
+            if tr[0].effective_week <= week:
+                for pid, _, to, slot in tr[1]:
+                    roster[to][slot] = pid
+        if self.stray_move and self.stray_move[0] <= week:
+            _, src, dst, slot = self.stray_move
+            roster[dst][slot], roster[src][slot] = roster[src][slot], 80000 + self._ids[src] * 100 + slot
+        return roster
+
+    def trade_legs(self) -> list[tuple[FixtureTrade, list[tuple[int, str, str, int]]]]:
+        """Each executed trade that moves Players, with its legs (playerId, from key, to key, slot)."""
+        out = []
+        roster = {k: [lineup_player_id(i, s) for s in range(len(LINEUP))] for k, i in self._ids.items()}
+        for tr in sorted((t for t in self.trades if t.executes and t.moves), key=lambda t: (t.effective_week, t.week)):
+            if tr.draft_round is not None:
+                slot = tr.slots[0]
+                legs = [(self.drafted(tr.a, tr.draft_round), tr.a, tr.b, slot),
+                        (self.drafted(tr.b, tr.draft_round), tr.b, tr.a, slot)]  # fmt: skip
+            else:
+                legs = [
+                    leg
+                    for s in tr.slots
+                    for leg in ((roster[tr.a][s], tr.a, tr.b, s), (roster[tr.b][s], tr.b, tr.a, s))
+                ]
+            for pid, _, to, slot in legs:
+                roster[to][slot] = pid
+            out.append((tr, legs))
+        return out
+
+    def _legs_of(self, trade: FixtureTrade) -> list[tuple[int, str, str, int]]:
+        found = [legs for tr, legs in self.trade_legs() if tr is trade]
+        if found:
+            return found[0]
+        # A vetoed or phantom trade: the legs it would have had
+        if trade.draft_round is not None:
+            return [(self.drafted(trade.a, trade.draft_round), trade.a, trade.b, trade.slots[0]),
+                    (self.drafted(trade.b, trade.draft_round), trade.b, trade.a, trade.slots[0])]  # fmt: skip
+        r = self.rosters(trade.week)
+        return [
+            leg
+            for s in trade.slots
+            for leg in ((r[trade.a][s], trade.a, trade.b, s), (r[trade.b][s], trade.b, trade.a, s))
+        ]
+
+    def roster_doc(self, week: int) -> dict:
+        """roster_wNN.json: teams[].roster.entries[] (espn-api.md §4), the lineup Players that Week."""
+        teams = []
+        for key, pids in sorted(self.rosters(week).items(), key=lambda kv: self._ids[kv[0]]):
+            team_id = self._ids[key]
+            entries = []
+            for (slot, _), pid in zip(LINEUP, pids, strict=True):
+                name, position, pro_team = lineup_player(pid)
+                entries.append(
+                    {"playerId": pid, "lineupSlotId": slot, "acquisitionType": None, "acquisitionDate": None,
+                     "playerPoolEntry": {"id": pid, "onTeamId": team_id,
+                                         "player": {"id": pid, "fullName": name, "defaultPositionId": position,
+                                                    "proTeamId": pro_team}}}
+                )  # fmt: skip
+            teams.append({"id": team_id, "roster": {"entries": entries}})
+        return {"id": int(LEAGUE_ID), "seasonId": self.year, "scoringPeriodId": week, "teams": teams}
+
+    def transactions_doc(self, week: int) -> dict:
+        """transactions_wNN.json (mTransactions2, espn-api.md §7): every row of the trades accepted this Week,
+        plus a cancelled proposal and a declined one that the loader must ignore."""
+        rows = [
+            {"id": f"noise-proposal-{week}", "type": "TRADE_PROPOSAL", "status": "CANCELED", "teamId": 1,
+             "scoringPeriodId": week, "proposedDate": 1_600_000_000_000 + week, "items": []},
+            {"id": f"noise-decline-{week}", "type": "TRADE_DECLINE", "teamId": 2, "scoringPeriodId": week,
+             "relatedTransactionId": f"noise-proposal-{week}", "proposedDate": 1_600_000_000_000 + week,
+             "items": []},
+        ]  # fmt: skip
+        for n, tr in enumerate(self.trades):
+            if tr.week == week:
+                rows.extend(self._trade_rows(n, tr))
+        return {"id": int(LEAGUE_ID), "seasonId": self.year, "scoringPeriodId": week, "transactions": rows}
+
+    def _trade_rows(self, n: int, tr: FixtureTrade) -> list[dict]:
+        a, b = self._ids[tr.a], self._ids[tr.b]
+        tid = f"{self.year}-trade-{n:02d}"
+        items = [{"type": "TRADE", "playerId": pid, "fromTeamId": self._ids[src], "toTeamId": self._ids[dst],
+                  "fromLineupSlotId": -1, "toLineupSlotId": -1, "isKeeper": False}
+                 for pid, src, dst, _ in self._legs_of(tr)]  # fmt: skip
+        when = 1_600_000_000_000 + tr.week * 604_800_000 + n
+        base = {"teamId": a, "scoringPeriodId": tr.week, "proposedDate": when, "isPending": False, "bidAmount": 0,
+                "memberId": f"{{MEMBER-{a:04d}}}", "isLeagueManager": False}  # fmt: skip
+        if tr.legs:  # 2018: legs on TRADE_ACCEPT; status PENDING + PROCESS; no relatedTransactionId
+            accept = {**base, "id": f"{tid}-accept", "type": "TRADE_ACCEPT", "status": "PENDING",
+                      "executionType": "PROCESS", "acceptedDate": when, "processDate": when + 172_800_000,
+                      "items": items}  # fmt: skip
+            if tr.team_actions:
+                accept["teamActions"] = {str(a): "ACCEPTED", str(b): "INVOLVED"}
+            return [
+                {**base, "id": f"{tid}-proposal", "type": "TRADE_PROPOSAL", "status": "PENDING", "teamId": b,
+                 "items": items},
+                accept,
+                {**base, "id": f"{tid}-uphold", "type": "TRADE_UPHOLD", "teamId": 3, "items": items},
+            ]  # fmt: skip
+        # 2019 on: rows share relatedTransactionId (the proposal, absent from the archive); no legs, no status
+        related = {**base, "relatedTransactionId": f"{tid}-proposal"}
+        accept = {**related, "id": f"{tid}-accept", "type": "TRADE_ACCEPT", "executionType": "EXECUTE", "items": []}
+        if tr.team_actions:
+            accept["teamActions"] = {str(a): "ACCEPTED", str(b): "INVOLVED"}
+        rows = [accept, {**related, "id": f"{tid}-uphold", "type": "TRADE_UPHOLD", "teamId": 3, "items": []}]
+        if tr.second_accept:
+            rows.append({**related, "id": f"{tid}-accept-2", "type": "TRADE_ACCEPT", "status": "EXECUTED",
+                         "executionType": "PROCESS", "processDate": when + 86_400_000, "items": items})  # fmt: skip
+        if tr.veto:
+            rows.append({**related, "id": f"{tid}-veto", "type": "TRADE_VETO", "teamId": 4, "items": [],
+                         "isLeagueManager": tr.veto == "commissioner"})  # fmt: skip
+        return rows
 
     # -- box scores ------------------------------------------------------------
 
@@ -453,30 +648,41 @@ class FixtureSeason:
 
     def _lineup(self, week: int, team_key: str, total: float) -> list[dict]:
         team_id = self._ids[team_key]
-        starters = [(0, 1), (2, 2), (2, 2), (4, 3), (4, 3), (6, 4), (23, 2), (16, 16), (17, 5)]  # (slot, position)
-        bench = [(20, 2), (20, 3), (20, 3), (20, 4), (20, 1), (20, 2), (21, 3)]
-        share = round(total / len(starters), 2)
-        points = [share] * (len(starters) - 1) + [round(total - share * (len(starters) - 1), 2)]
+        roster = self.rosters(week)[team_key]
+        share = round(total / len(STARTERS), 2)
+        points = [share] * (len(STARTERS) - 1) + [round(total - share * (len(STARTERS) - 1), 2)]
         if self.bad_lineup == (week, team_key):
             points[0] = round(points[0] + 1, 2)
         if self.quirks == (week, team_key):  # the 2nd starter didn't play: the last starter scores their share
             points[-1], points[1] = round(points[-1] + points[1], 2), 0.0
+        points += [4.5] * len(BENCH)
+        k = len(STARTERS) - 1
+        for i, pid in enumerate(roster):
+            if pid in self.lineup_points and i != k:
+                if i < len(STARTERS):  # the K keeps the side's total
+                    points[k] = round(points[k] + points[i] - self.lineup_points[pid], 2)
+                points[i] = self.lineup_points[pid]
         entries = []
-        for i, ((slot, position), pts) in enumerate(zip(starters + bench, points + [4.5] * len(bench), strict=True)):
-            pid = -16000 - team_id if position == 16 else 70000 + team_id * 100 + i
+        for i, ((slot, _), pts) in enumerate(zip(LINEUP, points, strict=True)):
+            pid = roster[i]
             played = not (self.quirks == (week, team_key) and i == 1)
-            if self.bench_unplayed == (week, team_key) and i == len(starters) + 1:
+            if self.bench_unplayed == (week, team_key) and i == len(STARTERS) + 1:
                 played = False
-            if i == len(starters):
+            if i == len(STARTERS):
                 pts = round(pts + self.bench_bonus.get((week, team_key), 0.0), 2)
-            if self.quirks == (week, team_key) and i == len(starters):
+            if self.quirks == (week, team_key) and i == len(STARTERS):
                 pid = 99000 + team_id  # only in this box score
+            name, position, pro_team = (
+                lineup_player(pid) if pid != 99000 + team_id else (f"Lineup {team_id}-{i:02d}", LINEUP[i][1], 1 + i)
+            )
             bonus = self.projection_bonus.get((week, team_key), 0.0) if i == 0 else 0.0
             stats = [{"seasonId": self.year, "scoringPeriodId": week, "statSourceId": 1, "statSplitTypeId": 1,
-                      "appliedTotal": round(pts + 2.0 + bonus, 2), "proTeamId": 1 + i}]  # fmt: skip
+                      "appliedTotal": round(pts + 2.0 + bonus, 2), "proTeamId": pro_team}]  # fmt: skip
             if played:
                 actual = {"seasonId": self.year, "scoringPeriodId": week, "statSourceId": 0, "statSplitTypeId": 1}
-                stats.append({**actual, "appliedTotal": pts, "proTeamId": 1 + i, "externalId": f"40{week:02d}{i:02d}"})
+                stats.append(
+                    {**actual, "appliedTotal": pts, "proTeamId": pro_team, "externalId": f"40{week:02d}{i:02d}"}
+                )
             entries.append(
                 {
                     "lineupSlotId": slot,
@@ -487,9 +693,9 @@ class FixtureSeason:
                         "appliedStatTotal": pts if played else 0.0,
                         "player": {
                             "id": pid,
-                            "fullName": f"Team{team_id} D/ST" if position == 16 else f"Lineup {team_id}-{i:02d}",
+                            "fullName": name,
                             "defaultPositionId": position,
-                            "proTeamId": 1 + i,
+                            "proTeamId": pro_team,
                             "stats": stats,
                         },
                     },

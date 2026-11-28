@@ -604,22 +604,37 @@ JOIN stats.draft_value dv       ON dv.season_id = dp.season_id AND dv.overall_pi
 LEFT JOIN core.players p        ON p.player_id = dp.player_id
 LEFT JOIN core.player_seasons ps ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id;
 
--- Points each acquired player scored as a starter for the new team, rest of that season
+-- Points each acquired Player scored as a starter for the new team during the Stint (GLOSSARY): from the
+-- acquisition's Week until the Player next leaves that team (traded away or dropped) that Season, playoff
+-- Weeks included. A later re-acquisition is a Stint of its own, so no Week counts twice.
 CREATE VIEW stats.acquisition_impact AS
-SELECT t.transaction_id, t.season_id, t.week AS acquired_week, t.kind,
-       ti.player_id, ti.from_franchise_id, ti.to_franchise_id,
+WITH acquisitions AS (
+    SELECT t.transaction_id, t.season_id, coalesce(t.week, 1) AS acquired_week, t.kind,
+           ti.player_id, ti.from_franchise_id, ti.to_franchise_id,
+           (SELECT min(t2.week)
+            FROM core.transactions t2
+            JOIN core.transaction_items ti2 ON ti2.transaction_id = t2.transaction_id
+            WHERE t2.season_id = t.season_id
+              AND ti2.player_id = ti.player_id
+              AND ti2.from_franchise_id = ti.to_franchise_id
+              AND t2.week > coalesce(t.week, 1))                    AS left_week  -- NULL = kept to Season's end
+    FROM core.transactions t
+    JOIN core.transaction_items ti ON ti.transaction_id = t.transaction_id
+    WHERE ti.to_franchise_id IS NOT NULL
+)
+SELECT a.transaction_id, a.season_id, a.acquired_week, a.kind,
+       a.player_id, a.from_franchise_id, a.to_franchise_id, a.left_week,
        coalesce(sum(le.points) FILTER (WHERE le.is_starter), 0) AS started_points_after,
        count(le.*) FILTER (WHERE le.is_starter)                 AS weeks_started_after
-FROM core.transactions t
-JOIN core.transaction_items ti ON ti.transaction_id = t.transaction_id
+FROM acquisitions a
 LEFT JOIN core.lineup_entries le
-       ON le.season_id = t.season_id
-      AND le.franchise_id = ti.to_franchise_id
-      AND le.player_id = ti.player_id
-      AND le.week >= coalesce(t.week, 1)
-WHERE ti.to_franchise_id IS NOT NULL
-GROUP BY t.transaction_id, t.season_id, t.week, t.kind,
-         ti.player_id, ti.from_franchise_id, ti.to_franchise_id;
+       ON le.season_id = a.season_id
+      AND le.franchise_id = a.to_franchise_id
+      AND le.player_id = a.player_id
+      AND le.week >= a.acquired_week
+      AND (a.left_week IS NULL OR le.week < a.left_week)
+GROUP BY a.transaction_id, a.season_id, a.acquired_week, a.kind,
+         a.player_id, a.from_franchise_id, a.to_franchise_id, a.left_week;
 
 -- Trade scorecard: each side's started points from what it received
 CREATE VIEW stats.trade_scorecard AS
@@ -628,6 +643,18 @@ SELECT ai.transaction_id, ai.season_id, ai.to_franchise_id AS franchise_id,
 FROM stats.acquisition_impact ai
 WHERE ai.kind = 'trade'
 GROUP BY ai.transaction_id, ai.season_id, ai.to_franchise_id;
+
+-- One row per trade: Margin (GLOSSARY) = the winning side's score minus the losing side's; the winner is
+-- the side with more points, NULL for a tie.
+CREATE VIEW stats.trade_results AS
+SELECT sc.transaction_id, sc.season_id, s.year, t.week, s.scoring_label,
+       max(sc.points_received) - min(sc.points_received)                         AS margin,
+       CASE WHEN max(sc.points_received) > min(sc.points_received)
+            THEN (array_agg(sc.franchise_id ORDER BY sc.points_received DESC))[1] END AS winner_franchise_id
+FROM stats.trade_scorecard sc
+JOIN core.transactions t ON t.transaction_id = sc.transaction_id
+JOIN core.seasons s      ON s.season_id = sc.season_id
+GROUP BY sc.transaction_id, sc.season_id, s.year, t.week, s.scoring_label;
 
 -- Weekly team scores with league-wide rank. A Franchise with no starter points (NULL) ranks last, never first.
 CREATE VIEW stats.team_week_scores AS

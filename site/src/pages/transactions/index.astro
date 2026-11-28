@@ -1,0 +1,33 @@
+---
+// Transactions (#61): the tracer (#62) shows every trade as a card, grouped by Season, newest first.
+// Fleeced, leaderboards and Pickups come in later slices (#63, #66).
+import TradeCard from "../../components/TradeCard.astro";
+import { getTransactions } from "../../data/site-data";
+import Base from "../../layouts/Base.astro";
+
+const { trades } = getTransactions();
+const years = [...new Set(trades.map((t) => t.year))]; // already newest first
+---
+<Base title="Transactions">
+  <header class="mb-8">
+    <h1 class="text-3xl font-black md:text-5xl">Transactions</h1>
+    <p class="mt-2 text-muted">
+      Every trade, and who won it. Each side scores the points its new Players put up as starters for it,
+      from the trade's Week to the end of the Season, playoffs included, until it traded them away. Bench
+      Weeks don't count.
+    </p>
+  </header>
+
+  {trades.length === 0 && <p class="text-muted">No trades yet.</p>}
+
+  {years.map((year) => (
+    <section aria-labelledby={`trades-${year}`} data-testid="trade-season" data-year={year} class="mb-10">
+      <h2 id={`trades-${year}`} class="mb-4 text-2xl font-black">
+        <a href={`/seasons/${year}/`} class="transition-colors hover:text-brand">{year}</a>
+      </h2>
+      <div class="grid gap-4">
+        {trades.filter((t) => t.year === year).map((trade) => <TradeCard trade={trade} />)}
+      </div>
+    </section>
+  ))}
+</Base>

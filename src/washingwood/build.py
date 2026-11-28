@@ -63,6 +63,7 @@ def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list
             "draft.json": (export.draft_history(conn), "draft"),
             "matchups.json": (export.matchups_document(conn), "matchups"),
             "record-book.json": (export.record_book_document(conn), "recordBook"),
+            "transactions.json": (export.transactions_document(conn), "transactions"),
         }
         for slug, doc in export.owner_documents(conn).items():
             docs[f"owners/{slug}.json"] = (doc, "owner")
@@ -90,10 +91,7 @@ def _ensure_schema(conn: psycopg.Connection) -> None:
     if conn.execute("SELECT to_regclass('core.seasons')").fetchone()[0] is None:
         conn.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
         conn.commit()
-    elif not conn.execute(  # newest schema change: the Luck index column (#54)
-        """SELECT 1 FROM information_schema.columns
-           WHERE table_schema = 'stats' AND table_name = 'owner_records' AND column_name = 'luck'"""
-    ).fetchone():
+    elif conn.execute("SELECT to_regclass('stats.trade_results')").fetchone()[0] is None:  # newest: #62
         raise BuildError("the database's schema predates db/schema.sql: drop and recreate the database, then re-run")
 
 

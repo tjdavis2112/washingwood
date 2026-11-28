@@ -114,6 +114,7 @@ def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> No
         "(SELECT franchise_id FROM core.franchises WHERE season_id = %s)",
         (season_id,),
     )
+    conn.execute("DELETE FROM core.transactions WHERE season_id = %s", (season_id,))  # items cascade
     conn.execute("DELETE FROM core.lineup_entries WHERE season_id = %s", (season_id,))
     conn.execute("DELETE FROM core.draft_picks WHERE season_id = %s", (season_id,))
     conn.execute("DELETE FROM core.player_seasons WHERE season_id = %s", (season_id,))
@@ -138,8 +139,9 @@ def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> No
 
     _matchups(conn, season_id, files, franchise_ids)
     _draft(conn, season_id, files, picks, franchise_ids)
-    if files.has_lineups:
+    if files.has_lineups:  # trades are scored from lineups, and need the weekly rosters that come with them
         _lineups(conn, season_id, files, franchise_ids)
+        _trades(conn, season_id, files, franchise_ids)
 
 
 def _check_picks(files: SeasonFiles) -> list[dict]:
@@ -561,3 +563,221 @@ def _week_row(player: dict, year: int, week: int, *, source: int) -> dict | None
         ),
         None,
     )
+
+
+# -- trades (espn-api.md §7) ---------------------------------------------------
+
+Move = tuple[int, int, int, int]  # (ESPN player id, from team id, to team id, first Week on the new roster)
+
+
+@dataclass
+class _Trade:
+    """One executed trade: every mTransactions2 row that shares its relatedTransactionId (one row in 2018)."""
+
+    rows: list[dict]
+    legs: set[Move] | None = None  # resolved legs
+    week: int | None = None  # effective Week: the first Week the received Players are on the new roster
+
+    @property
+    def accept(self) -> dict:
+        return self.rows[0]
+
+    @property
+    def accepted_week(self) -> int:
+        return self.accept["scoringPeriodId"]
+
+    @property
+    def acceptor(self) -> int:
+        return self.accept["teamId"]
+
+    @property
+    def window(self) -> tuple[int, int]:
+        """Players show on their new team in roster_w(N) or roster_w(N+1), N = the accepted Week."""
+        return self.accepted_week, self.accepted_week + 1
+
+    @property
+    def platform_id(self) -> str:
+        return self.accept.get("relatedTransactionId") or self.accept["id"]
+
+
+def _trades(conn: Connection, season_id: int, files: SeasonFiles, franchise_ids: dict[int, int]) -> None:
+    """Executed trades into core.transactions (kind 'trade') and their legs into core.transaction_items.
+
+    Counting (espn-api.md §7): one trade per TRADE_ACCEPT without relatedTransactionId (2018), else one
+    per distinct relatedTransactionId among TRADE_ACCEPT rows, minus those a commissioner vetoed. Legs
+    come from TRADE items where any row has them; otherwise from the weekly roster diff. Every Player
+    who changes teams without an executed add must belong to a trade, and the count must match ESPN's
+    transactionCounter, or the build stops."""
+    last_week = max(w for ws in files.settings["settings"]["scheduleSettings"]["matchupPeriods"].values() for w in ws)
+    team_names = {t["id"]: t["name"] for t in files.teams["teams"]}
+    rosters = {0: _draft_rosters(files)} | {w: _roster(files, w) for w in range(1, last_week + 1)}
+    rows = [r for w in range(1, last_week + 1) for r in _transactions(files, w)]
+    trades = _executed_trades(rows)
+
+    expected = sum((t.get("transactionCounter") or {}).get("trades", 0) for t in files.teams["teams"]) / 2
+    if len(trades) != expected:
+        raise LoadError(
+            f"Season {files.year}: {len(trades)} trade(s) found, but ESPN's transactionCounter says {expected:g}"
+        )
+
+    moves = _unexplained_moves(rosters, _executed_adds(rows))
+    unclaimed = _resolve_trades(files, trades, moves, team_names)
+    if unclaimed:
+        pid, src, dst, week = min(unclaimed, key=lambda m: (m[3], m[0]))
+        raise LoadError(
+            f"Season {files.year}, Week {week}: ESPN player {pid} moved from {team_names.get(src, src)} to "
+            f"{team_names.get(dst, dst)} with no trade or executed add to explain it"
+        )
+
+    known = dict(
+        conn.execute("SELECT external_id, player_id FROM core.player_external_ids WHERE platform = %s", (PLATFORM,))
+    )
+    for trade in sorted(trades, key=lambda t: (t.week, t.platform_id)):
+        process = next((r["processDate"] for r in trade.rows if r.get("processDate")), None)
+        txn_id = conn.execute(
+            """INSERT INTO core.transactions (season_id, platform_txn_id, week, kind, status, processed_at)
+               VALUES (%s, %s, %s, 'trade', 'executed', to_timestamp(%s / 1000.0)) RETURNING transaction_id""",
+            (season_id, trade.platform_id, trade.week, process),
+        ).fetchone()[0]
+        for pid, src, dst, _ in sorted(trade.legs):
+            if str(pid) not in known:
+                raise LoadError(f"Season {files.year}, Week {trade.week}: traded ESPN player {pid} is in no lineup")
+            conn.execute(
+                """INSERT INTO core.transaction_items (transaction_id, player_id, from_franchise_id, to_franchise_id)
+                   VALUES (%s, %s, %s, %s)""",
+                (txn_id, known[str(pid)], franchise_ids[src], franchise_ids[dst]),
+            )
+
+
+def _season_file(files: SeasonFiles, name: str) -> dict:
+    path = files.season_dir / f"{name}.json"
+    if not path.exists():
+        raise LoadError(f"Season {files.year}: missing {path.name}")
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _roster(files: SeasonFiles, week: int) -> dict[int, set[int]]:
+    """team id -> ESPN player ids on its roster_wNN.json (espn-api.md §4)."""
+    doc = _season_file(files, f"roster_w{week:02d}")
+    return {t["id"]: {e["playerId"] for e in (t.get("roster") or {}).get("entries", [])} for t in doc["teams"]}
+
+
+def _draft_rosters(files: SeasonFiles) -> dict[int, set[int]]:
+    """The roster before Week 1: each team's drafted Players (espn-api.md §6)."""
+    rosters: dict[int, set[int]] = {t["id"]: set() for t in files.teams["teams"]}
+    for p in files.draft["draftDetail"]["picks"]:
+        if p["playerId"] != NO_PLAYER:
+            rosters[p["teamId"]].add(p["playerId"])
+    return rosters
+
+
+def _transactions(files: SeasonFiles, week: int) -> list[dict]:
+    return _season_file(files, f"transactions_w{week:02d}").get("transactions") or []
+
+
+def _executed_adds(rows: list[dict]) -> set[tuple[int, int, int]]:
+    """(ESPN player id, receiving team, Week) of every executed waiver or free-agent add. The receiving team
+    is the item's toTeamId, never the row's teamId (espn-api.md §7)."""
+    return {
+        (item["playerId"], item["toTeamId"], r["scoringPeriodId"])
+        for r in rows
+        if r["type"] in ("WAIVER", "FREEAGENT") and r.get("status") == "EXECUTED"
+        for item in r.get("items") or []
+        if item["type"] == "ADD"
+    }
+
+
+def _executed_trades(rows: list[dict]) -> list[_Trade]:
+    """Accepted trades minus commissioner vetoes, in the order they were accepted."""
+    vetoed = {r.get("relatedTransactionId") for r in rows if r["type"] == "TRADE_VETO" and r.get("isLeagueManager")}
+    grouped: dict[str, list[dict]] = {}
+    for r in rows:
+        if r["type"] == "TRADE_ACCEPT":
+            grouped.setdefault(r.get("relatedTransactionId") or r["id"], []).append(r)
+    trades = [_Trade(sorted(rs, key=lambda r: (r["proposedDate"], r["id"]))) for rs in grouped.values()]
+    trades = [t for t in trades if t.platform_id not in vetoed - {None}]
+    return sorted(trades, key=lambda t: (t.accepted_week, t.accept["proposedDate"], t.platform_id))
+
+
+def _unexplained_moves(rosters: dict[int, dict[int, set[int]]], adds: set[tuple[int, int, int]]) -> set[Move]:
+    """Players on one team's roster in Week w-1 (the draft roster for Week 1) and another team's in Week w,
+    with no executed add to the new team in Week w-1 or w."""
+    moves = set()
+    for week in sorted(w for w in rosters if w > 0):
+        for src, before in rosters[week - 1].items():
+            for dst, after in rosters[week].items():
+                if src != dst:
+                    moves |= {
+                        (pid, src, dst, week)
+                        for pid in before & after
+                        if (pid, dst, week - 1) not in adds and (pid, dst, week) not in adds
+                    }
+    return moves
+
+
+def _resolve_trades(files: SeasonFiles, trades: list[_Trade], moves: set[Move], team_names) -> set[Move]:
+    """Give every trade its legs and effective Week; return the moves no trade claimed.
+
+    Trades with TRADE items take the moves that match them. The rest take the one two-way swap between
+    the acceptor and one other team (from teamActions when listed) in their window, settling the
+    unambiguous trades first. Two trades of one team left with the same choice are assigned in the order
+    they were accepted; both swaps are then real trades of that team in the same window."""
+    claimed: set[Move] = set()
+
+    for trade in trades:
+        items = {
+            (i["playerId"], i["fromTeamId"], i["toTeamId"])
+            for r in trade.rows
+            for i in r.get("items") or []
+            if i["type"] == "TRADE"
+        }
+        if not items:
+            continue
+        pairs = {(src, dst) for _, src, dst in items}
+        if len(pairs) != 2 or {(dst, src) for src, dst in pairs} != pairs:
+            raise LoadError(
+                f"Season {files.year}, Week {trade.accepted_week}: a trade's TRADE items aren't a swap between "
+                "two teams in which each side receives a Player"
+            )
+        matched = {m for m in moves - claimed if m[:3] in items and m[3] in trade.window}
+        claimed |= matched
+        trade.week = min((m[3] for m in matched), default=trade.accepted_week)
+        trade.legs = {(pid, src, dst, trade.week) for pid, src, dst in items}
+
+    def swaps(trade: _Trade) -> dict[tuple[int, int], set[Move]]:
+        """(Week, partner) -> moves both ways between the acceptor and that partner, among unclaimed moves."""
+        a = trade.acceptor
+        listed = {int(k) for k in trade.accept.get("teamActions") or {}} - {a}
+        found: dict[tuple[int, int], set[Move]] = {}
+        for m in moves - claimed:
+            if m[3] in trade.window and a in m[1:3]:
+                partner = m[2] if m[1] == a else m[1]
+                if not listed or partner in listed:
+                    found.setdefault((m[3], partner), set()).add(m)
+        return {k: v for k, v in found.items() if {m[1] for m in v} == {a, k[1]}}
+
+    def settle(trade: _Trade, key: tuple[int, int], legs: set[Move]) -> None:
+        claimed.update(legs)
+        trade.week, trade.legs = key[0], legs
+
+    pending = [t for t in trades if t.legs is None]
+    progress = True
+    while progress:
+        progress = False
+        for trade in list(pending):
+            options = swaps(trade)
+            if len(options) == 1:
+                settle(trade, *next(iter(options.items())))
+                pending.remove(trade)
+                progress = True
+    for trade in pending:
+        options = swaps(trade)
+        if not options:
+            raise LoadError(
+                f"Season {files.year}, Week {trade.accepted_week}: couldn't rebuild a trade accepted by "
+                f"{team_names.get(trade.acceptor, trade.acceptor)} from the weekly rosters: no two-way swap "
+                f"with one other team in Week {trade.window[0]} or {trade.window[1]}"
+            )
+        key = min(options)
+        settle(trade, key, options[key])
+    return moves - claimed

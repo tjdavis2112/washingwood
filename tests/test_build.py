@@ -129,6 +129,7 @@ def test_rerunning_on_the_same_input_gives_byte_identical_output(archive, owners
             "record-book.json",
             "seasons/2020.json",
             "seasons/2021.json",
+            "transactions.json",
             "trophy-shelf.json",
             *owner_files,
         ]
