@@ -920,7 +920,7 @@ def test_example_trades_are_decided_on_value_added_not_raw_points():
     )
 
 
-# --- Hall of Fame (#73) ---
+# --- Hall of Fame (#73, #74) ---
 
 
 def test_hall_of_fame_example_validates_and_agrees_with_its_reference():
@@ -929,18 +929,29 @@ def test_hall_of_fame_example_validates_and_agrees_with_its_reference():
     doc = load_example("hall-of-fame.json")
     validate(doc, "hallOfFame")
     assert doc == derive()
-    keys = [(-i["year"], -i["lanes"][0]["value"], i["name"]) for i in doc["inductees"]]
-    assert keys == sorted(keys)
-    assert {i["year"] for i in doc["inductees"]} == set(example_seasons())
+    years = [i["year"] for i in doc["inductees"]]
+    assert years == sorted(years, reverse=True)
+    assert set(years) == set(example_seasons())
+
+
+def test_the_example_covers_every_lane_and_a_two_lane_inductee_whose_lanes_name_different_owners():
+    inductees = load_example("hall-of-fame.json")["inductees"]
+    assert {lane["lane"] for i in inductees for lane in i["lanes"]} == {"dominant", "overachiever", "waiver_legend"}
+    assert any(len({lane["owner"]["slug"] for lane in i["lanes"]}) == 2 for i in inductees)
 
 
 def test_every_example_inductee_owner_is_in_that_seasons_example_and_carries_its_team_name():
     seasons = example_seasons()
+    order = ["dominant", "overachiever", "waiver_legend"]
     for i in load_example("hall-of-fame.json")["inductees"]:
-        row = next(r for r in seasons[i["year"]]["standings"] if r["owner"] == i["owner"])
+        standings = seasons[i["year"]]["standings"]
+        row = next(r for r in standings if r["owner"] == i["owner"])
         assert i["teamName"] == row["teamName"]
         assert i["scoringFormat"] == seasons[i["year"]]["scoringFormat"]["label"]
-        assert [lane["owner"] for lane in i["lanes"]] == [i["owner"]]
+        # Credited to the first lane's Owner; lanes in credit order, each Owner in that Season
+        assert i["lanes"][0]["owner"] == i["owner"]
+        assert [lane["lane"] for lane in i["lanes"]] == sorted((lane["lane"] for lane in i["lanes"]), key=order.index)
+        assert all(any(r["owner"] == lane["owner"] for r in standings) for lane in i["lanes"])
 
 
 def test_an_inductee_needs_at_least_one_lane_and_a_known_lane():

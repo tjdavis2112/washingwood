@@ -19,10 +19,74 @@
             "slug": "cass-imber",
             "name": "Cass Imber"
           }
+        },
+        {
+          "lane": "overachiever",
+          "value": 157,
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          }
         }
       ],
       "points": 362.4,
       "positionalFinish": 1
+    },
+    {
+      "year": 2020,
+      "scoringFormat": "PPR + TE premium",
+      "name": "Tarn Whitlow",
+      "position": "WR",
+      "nflTeam": "SEA",
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "teamName": "Paxton Pistons",
+      "lanes": [
+        {
+          "lane": "dominant",
+          "value": 240.0,
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          }
+        },
+        {
+          "lane": "overachiever",
+          "value": 200,
+          "owner": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          }
+        }
+      ],
+      "points": 317.0,
+      "positionalFinish": 1
+    },
+    {
+      "year": 2020,
+      "scoringFormat": "PPR + TE premium",
+      "name": "Kip Arlen",
+      "position": "RB",
+      "nflTeam": null,
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "teamName": "Ashgrove Aces",
+      "lanes": [
+        {
+          "lane": "overachiever",
+          "value": 150,
+          "owner": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          }
+        }
+      ],
+      "points": 340.0,
+      "positionalFinish": 3
     },
     {
       "year": 2020,
@@ -51,26 +115,26 @@
     {
       "year": 2020,
       "scoringFormat": "PPR + TE premium",
-      "name": "Tarn Whitlow",
+      "name": "Wade Fennick",
       "position": "WR",
-      "nflTeam": "SEA",
+      "nflTeam": "LAR",
       "owner": {
-        "slug": "jory-paxton",
-        "name": "Jory Paxton"
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
       },
-      "teamName": "Paxton Pistons",
+      "teamName": "Quist Quakes",
       "lanes": [
         {
-          "lane": "dominant",
-          "value": 171.0,
+          "lane": "waiver_legend",
+          "value": 112.5,
           "owner": {
-            "slug": "jory-paxton",
-            "name": "Jory Paxton"
+            "slug": "marlo-quist",
+            "name": "Marlo Quist"
           }
         }
       ],
-      "points": 248.0,
-      "positionalFinish": 1
+      "points": 180.0,
+      "positionalFinish": 4
     },
     {
       "year": 2018,
@@ -110,15 +174,71 @@
       "lanes": [
         {
           "lane": "dominant",
-          "value": 150.0,
+          "value": 225.0,
           "owner": {
             "slug": "wren-solano",
             "name": "Wren Solano"
           }
         }
       ],
-      "points": 282.4,
+      "points": 357.4,
       "positionalFinish": 1
+    },
+    {
+      "year": 2018,
+      "scoringFormat": "PPR",
+      "name": "Ruel Haskett",
+      "position": "WR",
+      "nflTeam": "DEN",
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "teamName": "Fenwick Foxes",
+      "lanes": [
+        {
+          "lane": "overachiever",
+          "value": 160,
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          }
+        },
+        {
+          "lane": "waiver_legend",
+          "value": 118.4,
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          }
+        }
+      ],
+      "points": 278.6,
+      "positionalFinish": 5
+    },
+    {
+      "year": 2018,
+      "scoringFormat": "PPR",
+      "name": "Ozzie Calder",
+      "position": "RB",
+      "nflTeam": "TEN",
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "teamName": "Vantor Vipers",
+      "lanes": [
+        {
+          "lane": "waiver_legend",
+          "value": 100.0,
+          "owner": {
+            "slug": "pell-vantor",
+            "name": "Pell Vantor"
+          }
+        }
+      ],
+      "points": null,
+      "positionalFinish": null
     }
   ]
 }

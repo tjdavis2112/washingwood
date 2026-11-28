@@ -1996,7 +1996,7 @@
       "required": ["inductees"],
       "properties": {
         "inductees": {
-          "description": "Every Inductee, newest Season first, then highest Dominant value (Points above replacement), then Player name. Season pages take theirs by `year`, Owner pages by the credited Owner's slug.",
+          "description": "Every Inductee, newest Season first, then highest Points above replacement (whichever lanes the Player season cleared), then Player name. Season pages take theirs by `year`, Owner pages by the credited Owner's slug.",
           "type": "array",
           "items": { "$ref": "#/$defs/inductee" }
         }
@@ -2013,16 +2013,16 @@
         "name": { "description": "The Player's name.", "type": "string", "minLength": 1 },
         "position": { "description": "That Season's position: QB, RB, WR, TE, K, D/ST ...", "type": "string", "minLength": 1 },
         "nflTeam": { "description": "That Season's NFL team abbreviation; null for a free agent.", "type": ["string", "null"] },
-        "owner": { "description": "The credited Owner: the Dominant lane's Owner (the only lane so far).", "$ref": "#/$defs/ownerRef" },
+        "owner": { "description": "The credited Owner, by credit order (ADR-0009): the dominant lane's Owner, else the overachiever lane's, else the waiver_legend lane's.", "$ref": "#/$defs/ownerRef" },
         "teamName": { "description": "The credited Owner's team name that Season.", "$ref": "#/$defs/teamName" },
         "lanes": {
-          "description": "Every Induction bar this Player season cleared, at least one. Only dominant so far.",
+          "description": "Every Induction bar this Player season cleared, at least one, in credit order: dominant, overachiever, waiver_legend. Each names its own Owner, which can differ from the credited one.",
           "type": "array",
           "minItems": 1,
           "items": { "$ref": "#/$defs/inductionLane" }
         },
-        "points": { "description": "The Player's Season points (GLOSSARY).", "type": "number" },
-        "positionalFinish": { "description": "The Player's Positional finish (GLOSSARY) that Season: 1 = the top scorer at his position.", "type": "integer", "minimum": 1 }
+        "points": { "description": "The Player's Season points (GLOSSARY); null when the Archive has none for him, which only a Waiver legend can be.", "type": ["number", "null"] },
+        "positionalFinish": { "description": "The Player's Positional finish (GLOSSARY) that Season: 1 = the top scorer at his position; null with null points.", "type": ["integer", "null"], "minimum": 1 }
       }
     },
     "inductionLane": {
@@ -2031,9 +2031,9 @@
       "additionalProperties": false,
       "required": ["lane", "value", "owner"],
       "properties": {
-        "lane": { "description": "dominant: Points above replacement at or above PAR_BAR (washingwood.hall_of_fame).", "enum": ["dominant"] },
-        "value": { "description": "The lane's measure: for dominant, Points above replacement (GLOSSARY), rounded to 2 decimals.", "type": "number", "minimum": 0 },
-        "owner": { "description": "The Owner this lane credits: for dominant, the Owner of the Franchise the Player scored the most starter points for (a tie goes to the earlier acquisition).", "$ref": "#/$defs/ownerRef" }
+        "lane": { "description": "dominant: Points above replacement at or above PAR_BAR; overachiever: a Pick's Points over expected at or above POE_BAR; waiver_legend: the Player season's best Pickup's Value added at or above PICKUP_BAR (washingwood.hall_of_fame).", "enum": ["dominant", "overachiever", "waiver_legend"] },
+        "value": { "description": "The lane's measure (GLOSSARY): dominant, Points above replacement, rounded to 2 decimals; overachiever, Points over expected, whole points; waiver_legend, Value added over the Stint, rounded to 2 decimals.", "type": "number", "minimum": 0 },
+        "owner": { "description": "The Owner this lane credits: dominant, the Owner of the Franchise the Player scored the most starter points for (a tie goes to the earlier acquisition); overachiever, the drafting Franchise's Owner; waiver_legend, the Owner of the Franchise that made the best Pickup (a tie goes to the earlier Pickup).", "$ref": "#/$defs/ownerRef" }
       }
     },
     "recordBook": {
