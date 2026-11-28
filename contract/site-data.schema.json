@@ -1829,7 +1829,7 @@
       "description": "The Record Book section: cross-Season records. Single-game extremes stay in matchups.json. Exported as record-book.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["week", "season", "allTime", "lastPlace"],
+      "required": ["week", "season", "allTime", "streaks", "lastPlace"],
       "properties": {
         "week": {
           "description": "Week records: top-10 lists over the Counted Matchups. Ties go to the earlier Season, then Week, then Owner name.",
@@ -1863,7 +1863,7 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["owner", "seasons", "record", "games", "winPct", "pointsFor", "pointsPerGame", "benchPoints", "lastPlaces"],
+            "required": ["owner", "seasons", "record", "games", "winPct", "pointsFor", "pointsPerGame", "benchPoints", "longestWinStreak", "longestLossStreak", "lastPlaces"],
             "properties": {
               "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
               "seasons": { "description": "Seasons played.", "type": "integer", "minimum": 1 },
@@ -1873,8 +1873,20 @@
               "pointsFor": { "description": "Regular-season points scored across every Season.", "type": "number" },
               "pointsPerGame": { "description": "pointsFor / games, to two decimals.", "type": "number" },
               "benchPoints": { "description": "Bench points over regular-season Weeks, summed over the Seasons with lineups; null if none have them.", "type": ["number", "null"] },
+              "longestWinStreak": { "description": "The Owner's longest winning Streak, in games (0 if they never won).", "type": "integer", "minimum": 0 },
+              "longestLossStreak": { "description": "The Owner's longest losing Streak, in games (0 if they never lost).", "type": "integer", "minimum": 0 },
               "lastPlaces": { "description": "Seasons finished Last place.", "type": "integer", "minimum": 0 }
             }
+          }
+        },
+        "streaks": {
+          "description": "Streaks (GLOSSARY): runs of consecutive regular-season wins or losses across Seasons, top 10 of each.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["wins", "losses"],
+          "properties": {
+            "wins": { "description": "Longest winning Streaks. Equal lengths go to the earlier start Season, then Week, then Owner name.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/streakRow" } },
+            "losses": { "description": "Longest losing Streaks. Equal lengths go to the earlier start Season, then Week, then Owner name.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/streakRow" } }
           }
         },
         "lastPlace": {
@@ -1918,6 +1930,29 @@
             }
           }
         }
+      }
+    },
+    "streakRow": {
+      "description": "One Streak: an Owner's run of consecutive regular-season wins, or of losses.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["owner", "length", "start", "end", "active"],
+      "properties": {
+        "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+        "length": { "description": "Games in the Streak.", "type": "integer", "minimum": 1 },
+        "start": { "description": "Its first game.", "$ref": "#/$defs/seasonWeek" },
+        "end": { "description": "Its last game.", "$ref": "#/$defs/seasonWeek" },
+        "active": { "description": "Still running after the latest Season's last regular-season game.", "type": "boolean" }
+      }
+    },
+    "seasonWeek": {
+      "description": "A Season and NFL Week.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year", "week"],
+      "properties": {
+        "year": { "description": "The Season.", "$ref": "#/$defs/year" },
+        "week": { "description": "The NFL Week.", "type": "integer", "minimum": 1 }
       }
     },
     "weekRecordRow": {

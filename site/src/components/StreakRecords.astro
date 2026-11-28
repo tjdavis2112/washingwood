@@ -1,0 +1,59 @@
+---
+// Record Book Streaks (#53): the 10 longest winning and losing Streaks (GLOSSARY). A Streak runs across
+// Seasons, a Season the Owner sat out doesn't break it, a tie ends it, and playoff games don't count. An
+// active Streak is still running after the latest Season. Side by side on desktop, stacked on a phone.
+import OwnerLink from "./OwnerLink.astro";
+import type { RecordBookDoc, StreakRow } from "../data/site-data";
+
+interface Props { streaks: RecordBookDoc["streaks"] }
+const { streaks } = Astro.props;
+
+const LISTS = [
+  { id: "wins", title: "Longest winning Streaks", rows: streaks.wins },
+  { id: "losses", title: "Longest losing Streaks", rows: streaks.losses },
+];
+const spot = (s: StreakRow["start"]) => `${s.year} · Wk ${s.week}`;
+---
+<p class="mb-6 text-xs text-muted">
+  Consecutive regular-season wins or losses, carried across Seasons. A Season an Owner sat out doesn't break a
+  Streak, a tie ends it, and playoff games don't count. <span class="font-semibold text-paper">Active</span>{" "}
+  Streaks are still running.
+</p>
+<div class="grid gap-8 lg:grid-cols-2">
+  {LISTS.map((l) => (
+    <section data-testid={`streaks-${l.id}`} aria-labelledby={`streaks-${l.id}-heading`} class="min-w-0">
+      <h2 id={`streaks-${l.id}-heading`} class="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-muted">{l.title}</h2>
+      {l.rows.length === 0 ? (
+        <p class="text-sm text-muted">None yet.</p>
+      ) : (
+        <div class="overflow-x-auto rounded-2xl border border-line">
+          <table aria-label={l.title} class="w-full border-collapse text-sm">
+            <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+              <tr>
+                <th scope="col" class="px-2 md:px-3 py-3 text-right">#</th>
+                <th scope="col" class="px-2 md:px-3 py-3">Owner</th>
+                <th scope="col" class="px-2 md:px-3 py-3 text-right text-paper">Games</th>
+                <th scope="col" class="px-2 md:px-3 py-3">Span</th>
+              </tr>
+            </thead>
+            <tbody>
+              {l.rows.map((r, n) => (
+                <tr data-testid="streak-row" class="border-t border-line odd:bg-ink even:bg-panel/40">
+                  <td class="px-2 md:px-3 py-2.5 text-right font-bold tabular-nums">{n + 1}</td>
+                  <td class="px-2 md:px-3 py-2.5 whitespace-nowrap"><OwnerLink owner={r.owner} class="font-semibold" /></td>
+                  <td data-testid="streak-length" class="px-2 md:px-3 py-2.5 text-right font-bold tabular-nums">{r.length}</td>
+                  <td class="px-2 md:px-3 py-2.5 whitespace-nowrap tabular-nums">
+                    <span data-testid="streak-start" class="block">{spot(r.start)}</span>
+                    <span class="block text-xs text-muted">to <span data-testid="streak-end">{spot(r.end)}</span>
+                      {r.active && <span data-testid="streak-active" class="ml-1 rounded-full bg-brand px-1.5 py-px text-[0.65rem] font-bold text-paper">Active</span>}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
+  ))}
+</div>

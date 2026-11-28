@@ -515,10 +515,14 @@ def record_book_document(conn: Connection) -> dict:
         entry["years"].append(row["year"])
     for entry in tally.values():
         entry["years"].sort()
+    streaks, longest = _streaks(conn)
+    all_time = [r | longest.get(r["owner"]["slug"], {"longestWinStreak": 0, "longestLossStreak": 0})
+                for r in _all_time_records(conn)]  # fmt: skip
     return {
         "week": _week_records(conn),
         "season": _season_records(conn),
-        "allTime": _all_time_records(conn),
+        "allTime": all_time,
+        "streaks": streaks,
         "lastPlace": {
             "seasons": seasons,
             "tally": sorted(tally.values(), key=lambda e: (-e["count"], e["owner"]["name"])),
@@ -629,6 +633,50 @@ def _season_records(conn: Connection) -> dict:
         )[:10]
         for key, field, high in SEASON_RECORDS
     }
+
+
+def _streaks(conn: Connection) -> tuple[dict, dict[str, dict]]:
+    """Streaks (GLOSSARY): each Owner's regular-season games in order (Season, then Matchup period) across
+    Seasons, from stats.owner_games, so playoff and consolation games are left out and a Season the Owner
+    sat out doesn't break a run. A tie ends both kinds. A Streak is active if it runs through the Owner's
+    last game and that game is in the latest Season. Returns the top-10 win and loss lists (longest first;
+    equal lengths by start Season, then Week, then Owner name) and each Owner's longest of each kind."""
+    latest = conn.execute("SELECT max(year) FROM core.seasons").fetchone()[0]
+    games: dict[str, list[tuple[int, int, str]]] = {}
+    for owner, year, week, result in conn.execute(
+        """SELECT o.display_name, og.year, m.first_week, og.result
+           FROM stats.owner_games og
+           JOIN core.matchups m ON m.matchup_id = og.matchup_id
+           JOIN core.owners o   ON o.owner_id = og.owner_id
+           WHERE og.kind = 'regular'
+           ORDER BY o.display_name, og.year, m.matchup_period"""
+    ).fetchall():
+        games.setdefault(owner, []).append((year, week, result))
+    runs: dict[str, list[dict]] = {"W": [], "L": []}
+    longest: dict[str, dict] = {}
+    for owner, played in games.items():
+        ref, current, mine = _owner_ref(owner), None, {"W": [0], "L": [0]}
+        for year, week, result in played:
+            spot = {"year": year, "week": week}
+            if result == "T":
+                current = None
+            elif current is not None and current[0] == result:
+                current[1]["length"] += 1
+                current[1]["end"] = spot
+            else:
+                current = (result, {"owner": ref, "length": 1, "start": spot, "end": spot, "active": False})
+                runs[result].append(current[1])
+            if current is not None:
+                mine[current[0]].append(current[1]["length"])
+        if current is not None and played[-1][0] == latest:
+            current[1]["active"] = True
+        longest[ref["slug"]] = {"longestWinStreak": max(mine["W"]), "longestLossStreak": max(mine["L"])}
+
+    def top(kind):
+        key = lambda r: (-r["length"], r["start"]["year"], r["start"]["week"], r["owner"]["name"])  # noqa: E731
+        return sorted(runs[kind], key=key)[:10]
+
+    return {"wins": top("W"), "losses": top("L")}, longest
 
 
 def _all_time_records(conn: Connection) -> list[dict]:
