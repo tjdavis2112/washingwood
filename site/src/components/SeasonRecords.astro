@@ -1,20 +1,23 @@
 ---
-// Record Book Season records (#51, #52): top-10 Franchise-Seasons per record, regular season only, picked
+// Record Book Season records (#51, #52, #54): top-10 Franchise-Seasons per record, regular season only, picked
 // from a chip row (RecordPicker). Points rank per game, with the total beside it, so 13-game and 14-game
 // Seasons compare fairly (GLOSSARY: Points per game); Bench points are the regular-season total. Every
-// row shows its Scoring format.
+// row shows its Scoring format. The Luck lists show actual and Expected wins, with the formula below.
+import LuckExplainer from "./LuckExplainer.astro";
 import OwnerLink from "./OwnerLink.astro";
 import RecordPicker from "./RecordPicker.astro";
-import { formatPct, formatPoints, formatRecord, type RecordBookDoc, type SeasonRecordRow } from "../data/site-data";
+import { formatLuck, formatPct, formatPoints, formatRecord, type RecordBookDoc, type SeasonRecordRow } from "../data/site-data";
 
 interface Props { records: RecordBookDoc["season"] }
 const { records } = Astro.props;
 
-type Stat = { label: string; value: (r: SeasonRecordRow) => string; total?: (r: SeasonRecordRow) => string };
+// total: a second column beside the stat (its label defaults to Total)
+type Stat = { label: string; value: (r: SeasonRecordRow) => string; total?: (r: SeasonRecordRow) => string; totalLabel?: string };
 const WIN_PCT: Stat = { label: "Win %", value: (r) => formatPct(r.winPct) };
 const PPG: Stat = { label: "Per game", value: (r) => formatPoints(r.pointsPerGame), total: (r) => formatPoints(r.pointsFor) };
 const PAPG: Stat = { label: "Per game", value: (r) => formatPoints(r.pointsAgainstPerGame), total: (r) => formatPoints(r.pointsAgainst) };
 const BENCH: Stat = { label: "Bench points", value: (r) => formatPoints(r.benchPoints ?? 0) };
+const LUCK: Stat = { label: "Luck", value: (r) => formatLuck(r.luck ?? 0), total: (r) => (r.expectedWins ?? 0).toFixed(2), totalLabel: "Expected wins" };
 const LISTS = [
   { id: "season-best-win-pct", chip: "Best win %", title: "Best win %", rows: records.bestWinPct, stat: WIN_PCT },
   { id: "season-worst-win-pct", chip: "Worst win %", title: "Worst win %", rows: records.worstWinPct, stat: WIN_PCT },
@@ -22,6 +25,8 @@ const LISTS = [
   { id: "season-fewest-points-for", chip: "Fewest points", title: "Fewest points per game", rows: records.fewestPointsFor, stat: PPG },
   { id: "season-most-points-against", chip: "Most points against", title: "Most points against per game", rows: records.mostPointsAgainst, stat: PAPG },
   { id: "season-most-bench-points", chip: "Most bench points", title: "Most bench points", rows: records.mostBenchPoints, stat: BENCH },
+  { id: "season-luckiest", chip: "Luckiest", title: "Luckiest Seasons", rows: records.luckiest, stat: LUCK },
+  { id: "season-unluckiest", chip: "Unluckiest", title: "Unluckiest Seasons", rows: records.unluckiest, stat: LUCK },
 ];
 ---
 <p class="mb-4 text-xs text-muted">
@@ -43,7 +48,7 @@ const LISTS = [
                 <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Season</th>
                 <th scope="col" class="px-3 py-3">Owner</th>
                 <th scope="col" class="px-3 py-3 text-right text-paper">{l.stat.label}</th>
-                {l.stat.total && <th scope="col" class="px-3 py-3 text-right">Total</th>}
+                {l.stat.total && <th scope="col" class="px-3 py-3 text-right">{l.stat.totalLabel ?? "Total"}</th>}
                 <th scope="col" class="px-3 py-3 text-right">Record</th>
                 <th scope="col" class="px-3 py-3">Format</th>
               </tr>
@@ -69,6 +74,7 @@ const LISTS = [
           </table>
         </div>
       )}
+      {l.stat === LUCK && <LuckExplainer />}
     </div>
   ))}
 </RecordPicker>

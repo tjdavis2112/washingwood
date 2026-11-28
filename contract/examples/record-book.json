@@ -838,6 +838,8 @@
         "pointsAgainst": 1535.83,
         "pointsAgainstPerGame": 109.7,
         "benchPoints": 900.53,
+        "expectedWins": 9.09,
+        "luck": 0.9,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -859,6 +861,8 @@
         "pointsAgainst": 1491.2,
         "pointsAgainstPerGame": 106.51,
         "benchPoints": 941.89,
+        "expectedWins": 7.45,
+        "luck": 2.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -880,6 +884,8 @@
         "pointsAgainst": 1407.13,
         "pointsAgainstPerGame": 108.24,
         "benchPoints": 981.79,
+        "expectedWins": 6.72,
+        "luck": 1.3,
         "scoringFormat": "PPR"
       },
       {
@@ -901,6 +907,8 @@
         "pointsAgainst": 1545.76,
         "pointsAgainstPerGame": 110.41,
         "benchPoints": 917.62,
+        "expectedWins": 7.09,
+        "luck": 1.9,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -922,6 +930,8 @@
         "pointsAgainst": 1522.21,
         "pointsAgainstPerGame": 108.73,
         "benchPoints": 909.39,
+        "expectedWins": 8.36,
+        "luck": 0.6,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -943,6 +953,8 @@
         "pointsAgainst": 1399.01,
         "pointsAgainstPerGame": 107.62,
         "benchPoints": 971.66,
+        "expectedWins": 7.0,
+        "luck": 1.0,
         "scoringFormat": "PPR"
       },
       {
@@ -964,6 +976,8 @@
         "pointsAgainst": 1648.45,
         "pointsAgainstPerGame": 117.75,
         "benchPoints": 926.69,
+        "expectedWins": 7.55,
+        "luck": 0.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -985,6 +999,8 @@
         "pointsAgainst": 1507.96,
         "pointsAgainstPerGame": 107.71,
         "benchPoints": 1014.94,
+        "expectedWins": 6.55,
+        "luck": 1.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1006,6 +1022,8 @@
         "pointsAgainst": 1515.62,
         "pointsAgainstPerGame": 116.59,
         "benchPoints": 897.73,
+        "expectedWins": 6.78,
+        "luck": 0.2,
         "scoringFormat": "PPR"
       },
       {
@@ -1027,6 +1045,8 @@
         "pointsAgainst": 1392.24,
         "pointsAgainstPerGame": 107.1,
         "benchPoints": 898.52,
+        "expectedWins": 5.44,
+        "luck": 1.6,
         "scoringFormat": "PPR"
       }
     ],
@@ -1050,6 +1070,8 @@
         "pointsAgainst": 1761.83,
         "pointsAgainstPerGame": 125.85,
         "benchPoints": 1073.35,
+        "expectedWins": 5.45,
+        "luck": -2.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1071,6 +1093,8 @@
         "pointsAgainst": 1694.07,
         "pointsAgainstPerGame": 121.01,
         "benchPoints": 1044.39,
+        "expectedWins": 4.82,
+        "luck": -0.8,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1092,6 +1116,8 @@
         "pointsAgainst": 1782.86,
         "pointsAgainstPerGame": 127.35,
         "benchPoints": 983.97,
+        "expectedWins": 5.73,
+        "luck": -1.7,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1113,6 +1139,8 @@
         "pointsAgainst": 1656.97,
         "pointsAgainstPerGame": 127.46,
         "benchPoints": 843.85,
+        "expectedWins": 6.11,
+        "luck": -1.1,
         "scoringFormat": "PPR"
       },
       {
@@ -1134,6 +1162,8 @@
         "pointsAgainst": 1548.08,
         "pointsAgainstPerGame": 119.08,
         "benchPoints": 913.45,
+        "expectedWins": 6.22,
+        "luck": -1.2,
         "scoringFormat": "PPR"
       },
       {
@@ -1155,6 +1185,8 @@
         "pointsAgainst": 1572.11,
         "pointsAgainstPerGame": 112.29,
         "benchPoints": 1077.98,
+        "expectedWins": 8.09,
+        "luck": -2.1,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1176,6 +1208,8 @@
         "pointsAgainst": 1579.2,
         "pointsAgainstPerGame": 112.8,
         "benchPoints": 900.05,
+        "expectedWins": 6.73,
+        "luck": -0.7,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1197,6 +1231,8 @@
         "pointsAgainst": 1465.41,
         "pointsAgainstPerGame": 112.72,
         "benchPoints": 861.17,
+        "expectedWins": 7.33,
+        "luck": -1.3,
         "scoringFormat": "PPR"
       },
       {
@@ -1218,6 +1254,8 @@
         "pointsAgainst": 1541.94,
         "pointsAgainstPerGame": 118.61,
         "benchPoints": 866.88,
+        "expectedWins": 5.33,
+        "luck": 0.7,
         "scoringFormat": "PPR"
       },
       {
@@ -1239,6 +1277,8 @@
         "pointsAgainst": 1567.04,
         "pointsAgainstPerGame": 120.54,
         "benchPoints": 784.16,
+        "expectedWins": 6.89,
+        "luck": -0.9,
         "scoringFormat": "PPR"
       }
     ],
@@ -1262,6 +1302,8 @@
         "pointsAgainst": 1522.21,
         "pointsAgainstPerGame": 108.73,
         "benchPoints": 909.39,
+        "expectedWins": 8.36,
+        "luck": 0.6,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1283,6 +1325,8 @@
         "pointsAgainst": 1535.83,
         "pointsAgainstPerGame": 109.7,
         "benchPoints": 900.53,
+        "expectedWins": 9.09,
+        "luck": 0.9,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1304,6 +1348,8 @@
         "pointsAgainst": 1407.13,
         "pointsAgainstPerGame": 108.24,
         "benchPoints": 981.79,
+        "expectedWins": 6.72,
+        "luck": 1.3,
         "scoringFormat": "PPR"
       },
       {
@@ -1325,6 +1371,8 @@
         "pointsAgainst": 1572.11,
         "pointsAgainstPerGame": 112.29,
         "benchPoints": 1077.98,
+        "expectedWins": 8.09,
+        "luck": -2.1,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1346,6 +1394,8 @@
         "pointsAgainst": 1515.62,
         "pointsAgainstPerGame": 116.59,
         "benchPoints": 897.73,
+        "expectedWins": 6.78,
+        "luck": 0.2,
         "scoringFormat": "PPR"
       },
       {
@@ -1367,6 +1417,8 @@
         "pointsAgainst": 1465.41,
         "pointsAgainstPerGame": 112.72,
         "benchPoints": 861.17,
+        "expectedWins": 7.33,
+        "luck": -1.3,
         "scoringFormat": "PPR"
       },
       {
@@ -1388,6 +1440,8 @@
         "pointsAgainst": 1399.01,
         "pointsAgainstPerGame": 107.62,
         "benchPoints": 971.66,
+        "expectedWins": 7.0,
+        "luck": 1.0,
         "scoringFormat": "PPR"
       },
       {
@@ -1409,6 +1463,8 @@
         "pointsAgainst": 1491.2,
         "pointsAgainstPerGame": 106.51,
         "benchPoints": 941.89,
+        "expectedWins": 7.45,
+        "luck": 2.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1430,6 +1486,8 @@
         "pointsAgainst": 1535.73,
         "pointsAgainstPerGame": 109.7,
         "benchPoints": 1067.91,
+        "expectedWins": 7.09,
+        "luck": -0.1,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1451,6 +1509,8 @@
         "pointsAgainst": 1545.76,
         "pointsAgainstPerGame": 110.41,
         "benchPoints": 917.62,
+        "expectedWins": 7.09,
+        "luck": 1.9,
         "scoringFormat": "PPR + TE premium"
       }
     ],
@@ -1474,6 +1534,8 @@
         "pointsAgainst": 1694.07,
         "pointsAgainstPerGame": 121.01,
         "benchPoints": 1044.39,
+        "expectedWins": 4.82,
+        "luck": -0.8,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1495,6 +1557,8 @@
         "pointsAgainst": 1782.86,
         "pointsAgainstPerGame": 127.35,
         "benchPoints": 983.97,
+        "expectedWins": 5.73,
+        "luck": -1.7,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1516,6 +1580,8 @@
         "pointsAgainst": 1761.83,
         "pointsAgainstPerGame": 125.85,
         "benchPoints": 1073.35,
+        "expectedWins": 5.45,
+        "luck": -2.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1537,6 +1603,8 @@
         "pointsAgainst": 1507.96,
         "pointsAgainstPerGame": 107.71,
         "benchPoints": 1014.94,
+        "expectedWins": 6.55,
+        "luck": 1.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1558,6 +1626,8 @@
         "pointsAgainst": 1541.94,
         "pointsAgainstPerGame": 118.61,
         "benchPoints": 866.88,
+        "expectedWins": 5.33,
+        "luck": 0.7,
         "scoringFormat": "PPR"
       },
       {
@@ -1579,6 +1649,8 @@
         "pointsAgainst": 1392.24,
         "pointsAgainstPerGame": 107.1,
         "benchPoints": 898.52,
+        "expectedWins": 5.44,
+        "luck": 1.6,
         "scoringFormat": "PPR"
       },
       {
@@ -1600,6 +1672,8 @@
         "pointsAgainst": 1548.08,
         "pointsAgainstPerGame": 119.08,
         "benchPoints": 913.45,
+        "expectedWins": 6.22,
+        "luck": -1.2,
         "scoringFormat": "PPR"
       },
       {
@@ -1621,6 +1695,8 @@
         "pointsAgainst": 1579.2,
         "pointsAgainstPerGame": 112.8,
         "benchPoints": 900.05,
+        "expectedWins": 6.73,
+        "luck": -0.7,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1642,6 +1718,8 @@
         "pointsAgainst": 1648.45,
         "pointsAgainstPerGame": 117.75,
         "benchPoints": 926.69,
+        "expectedWins": 7.55,
+        "luck": 0.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1663,6 +1741,8 @@
         "pointsAgainst": 1543.88,
         "pointsAgainstPerGame": 118.76,
         "benchPoints": 857.58,
+        "expectedWins": 7.17,
+        "luck": -1.2,
         "scoringFormat": "PPR"
       }
     ],
@@ -1686,6 +1766,8 @@
         "pointsAgainst": 1656.97,
         "pointsAgainstPerGame": 127.46,
         "benchPoints": 843.85,
+        "expectedWins": 6.11,
+        "luck": -1.1,
         "scoringFormat": "PPR"
       },
       {
@@ -1707,6 +1789,8 @@
         "pointsAgainst": 1782.86,
         "pointsAgainstPerGame": 127.35,
         "benchPoints": 983.97,
+        "expectedWins": 5.73,
+        "luck": -1.7,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1728,6 +1812,8 @@
         "pointsAgainst": 1761.83,
         "pointsAgainstPerGame": 125.85,
         "benchPoints": 1073.35,
+        "expectedWins": 5.45,
+        "luck": -2.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1749,6 +1835,8 @@
         "pointsAgainst": 1694.07,
         "pointsAgainstPerGame": 121.01,
         "benchPoints": 1044.39,
+        "expectedWins": 4.82,
+        "luck": -0.8,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1770,6 +1858,8 @@
         "pointsAgainst": 1567.04,
         "pointsAgainstPerGame": 120.54,
         "benchPoints": 784.16,
+        "expectedWins": 6.89,
+        "luck": -0.9,
         "scoringFormat": "PPR"
       },
       {
@@ -1791,6 +1881,8 @@
         "pointsAgainst": 1548.08,
         "pointsAgainstPerGame": 119.08,
         "benchPoints": 913.45,
+        "expectedWins": 6.22,
+        "luck": -1.2,
         "scoringFormat": "PPR"
       },
       {
@@ -1812,6 +1904,8 @@
         "pointsAgainst": 1543.88,
         "pointsAgainstPerGame": 118.76,
         "benchPoints": 857.58,
+        "expectedWins": 7.17,
+        "luck": -1.2,
         "scoringFormat": "PPR"
       },
       {
@@ -1833,6 +1927,8 @@
         "pointsAgainst": 1541.94,
         "pointsAgainstPerGame": 118.61,
         "benchPoints": 866.88,
+        "expectedWins": 5.33,
+        "luck": 0.7,
         "scoringFormat": "PPR"
       },
       {
@@ -1854,6 +1950,8 @@
         "pointsAgainst": 1648.45,
         "pointsAgainstPerGame": 117.75,
         "benchPoints": 926.69,
+        "expectedWins": 7.55,
+        "luck": 0.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1875,6 +1973,8 @@
         "pointsAgainst": 1515.62,
         "pointsAgainstPerGame": 116.59,
         "benchPoints": 897.73,
+        "expectedWins": 6.78,
+        "luck": 0.2,
         "scoringFormat": "PPR"
       }
     ],
@@ -1898,6 +1998,8 @@
         "pointsAgainst": 1572.11,
         "pointsAgainstPerGame": 112.29,
         "benchPoints": 1077.98,
+        "expectedWins": 8.09,
+        "luck": -2.1,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1919,6 +2021,8 @@
         "pointsAgainst": 1761.83,
         "pointsAgainstPerGame": 125.85,
         "benchPoints": 1073.35,
+        "expectedWins": 5.45,
+        "luck": -2.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1940,6 +2044,8 @@
         "pointsAgainst": 1535.73,
         "pointsAgainstPerGame": 109.7,
         "benchPoints": 1067.91,
+        "expectedWins": 7.09,
+        "luck": -0.1,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1961,6 +2067,8 @@
         "pointsAgainst": 1694.07,
         "pointsAgainstPerGame": 121.01,
         "benchPoints": 1044.39,
+        "expectedWins": 4.82,
+        "luck": -0.8,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -1982,6 +2090,8 @@
         "pointsAgainst": 1507.96,
         "pointsAgainstPerGame": 107.71,
         "benchPoints": 1014.94,
+        "expectedWins": 6.55,
+        "luck": 1.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -2003,6 +2113,8 @@
         "pointsAgainst": 1782.86,
         "pointsAgainstPerGame": 127.35,
         "benchPoints": 983.97,
+        "expectedWins": 5.73,
+        "luck": -1.7,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -2024,6 +2136,8 @@
         "pointsAgainst": 1407.13,
         "pointsAgainstPerGame": 108.24,
         "benchPoints": 981.79,
+        "expectedWins": 6.72,
+        "luck": 1.3,
         "scoringFormat": "PPR"
       },
       {
@@ -2045,6 +2159,8 @@
         "pointsAgainst": 1399.01,
         "pointsAgainstPerGame": 107.62,
         "benchPoints": 971.66,
+        "expectedWins": 7.0,
+        "luck": 1.0,
         "scoringFormat": "PPR"
       },
       {
@@ -2066,6 +2182,8 @@
         "pointsAgainst": 1491.2,
         "pointsAgainstPerGame": 106.51,
         "benchPoints": 941.89,
+        "expectedWins": 7.45,
+        "luck": 2.5,
         "scoringFormat": "PPR + TE premium"
       },
       {
@@ -2087,6 +2205,472 @@
         "pointsAgainst": 1648.45,
         "pointsAgainstPerGame": 117.75,
         "benchPoints": 926.69,
+        "expectedWins": 7.55,
+        "luck": 0.5,
+        "scoringFormat": "PPR + TE premium"
+      }
+    ],
+    "luckiest": [
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets",
+        "record": {
+          "wins": 10,
+          "losses": 4,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.7143,
+        "pointsFor": 1639.5,
+        "pointsPerGame": 117.11,
+        "pointsAgainst": 1491.2,
+        "pointsAgainstPerGame": 106.51,
+        "benchPoints": 941.89,
+        "expectedWins": 7.45,
+        "luck": 2.5,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "teamName": "Fenwick Fog",
+        "record": {
+          "wins": 9,
+          "losses": 5,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.6429,
+        "pointsFor": 1626.25,
+        "pointsPerGame": 116.16,
+        "pointsAgainst": 1545.76,
+        "pointsAgainstPerGame": 110.41,
+        "benchPoints": 917.62,
+        "expectedWins": 7.09,
+        "luck": 1.9,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "wren-solano",
+          "name": "Wren Solano"
+        },
+        "teamName": "Solano Sparks",
+        "record": {
+          "wins": 7,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.5385,
+        "pointsFor": 1438.89,
+        "pointsPerGame": 110.68,
+        "pointsAgainst": 1392.24,
+        "pointsAgainstPerGame": 107.1,
+        "benchPoints": 898.52,
+        "expectedWins": 5.44,
+        "luck": 1.6,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "teamName": "Vantor Vortex",
+        "record": {
+          "wins": 8,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.5714,
+        "pointsFor": 1543.99,
+        "pointsPerGame": 110.29,
+        "pointsAgainst": 1507.96,
+        "pointsAgainstPerGame": 107.71,
+        "benchPoints": 1014.94,
+        "expectedWins": 6.55,
+        "luck": 1.5,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "record": {
+          "wins": 8,
+          "losses": 4,
+          "ties": 1
+        },
+        "games": 13,
+        "winPct": 0.6538,
+        "pointsFor": 1582.21,
+        "pointsPerGame": 121.71,
+        "pointsAgainst": 1407.13,
+        "pointsAgainstPerGame": 108.24,
+        "benchPoints": 981.79,
+        "expectedWins": 6.72,
+        "luck": 1.3,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "teamName": "Vantor Vipers",
+        "record": {
+          "wins": 8,
+          "losses": 5,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.6154,
+        "pointsFor": 1527.51,
+        "pointsPerGame": 117.5,
+        "pointsAgainst": 1399.01,
+        "pointsAgainstPerGame": 107.62,
+        "benchPoints": 971.66,
+        "expectedWins": 7.0,
+        "luck": 1.0,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "teamName": "Imber Embers",
+        "record": {
+          "wins": 10,
+          "losses": 4,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.7143,
+        "pointsFor": 1738.66,
+        "pointsPerGame": 124.19,
+        "pointsAgainst": 1535.83,
+        "pointsAgainstPerGame": 109.7,
+        "benchPoints": 900.53,
+        "expectedWins": 9.09,
+        "luck": 0.9,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "teamName": "Brask Bruisers",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1436.72,
+        "pointsPerGame": 110.52,
+        "pointsAgainst": 1541.94,
+        "pointsAgainstPerGame": 118.61,
+        "benchPoints": 866.88,
+        "expectedWins": 5.33,
+        "luck": 0.7,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "teamName": "Quist Quakes",
+        "record": {
+          "wins": 9,
+          "losses": 5,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.6429,
+        "pointsFor": 1753.12,
+        "pointsPerGame": 125.22,
+        "pointsAgainst": 1522.21,
+        "pointsAgainstPerGame": 108.73,
+        "benchPoints": 909.39,
+        "expectedWins": 8.36,
+        "luck": 0.6,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "record": {
+          "wins": 8,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.5714,
+        "pointsFor": 1585.77,
+        "pointsPerGame": 113.27,
+        "pointsAgainst": 1648.45,
+        "pointsAgainstPerGame": 117.75,
+        "benchPoints": 926.69,
+        "expectedWins": 7.55,
+        "luck": 0.5,
+        "scoringFormat": "PPR + TE premium"
+      }
+    ],
+    "unluckiest": [
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "record": {
+          "wins": 3,
+          "losses": 11,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2143,
+        "pointsFor": 1516.03,
+        "pointsPerGame": 108.29,
+        "pointsAgainst": 1761.83,
+        "pointsAgainstPerGame": 125.85,
+        "benchPoints": 1073.35,
+        "expectedWins": 5.45,
+        "luck": -2.5,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "teamName": "Trice Tritons",
+        "record": {
+          "wins": 6,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.4286,
+        "pointsFor": 1670.6,
+        "pointsPerGame": 119.33,
+        "pointsAgainst": 1572.11,
+        "pointsAgainstPerGame": 112.29,
+        "benchPoints": 1077.98,
+        "expectedWins": 8.09,
+        "luck": -2.1,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles",
+        "record": {
+          "wins": 4,
+          "losses": 10,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2857,
+        "pointsFor": 1467.52,
+        "pointsPerGame": 104.82,
+        "pointsAgainst": 1782.86,
+        "pointsAgainstPerGame": 127.35,
+        "benchPoints": 983.97,
+        "expectedWins": 5.73,
+        "luck": -1.7,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "teamName": "Quist Quakes",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1546.69,
+        "pointsPerGame": 118.98,
+        "pointsAgainst": 1465.41,
+        "pointsAgainstPerGame": 112.72,
+        "benchPoints": 861.17,
+        "expectedWins": 7.33,
+        "luck": -1.3,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "record": {
+          "wins": 5,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.3846,
+        "pointsFor": 1440.63,
+        "pointsPerGame": 110.82,
+        "pointsAgainst": 1548.08,
+        "pointsAgainstPerGame": 119.08,
+        "benchPoints": 913.45,
+        "expectedWins": 6.22,
+        "luck": -1.2,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "teamName": "Fenwick Foxes",
+        "record": {
+          "wins": 6,
+          "losses": 6,
+          "ties": 1
+        },
+        "games": 13,
+        "winPct": 0.5,
+        "pointsFor": 1501.28,
+        "pointsPerGame": 115.48,
+        "pointsAgainst": 1543.88,
+        "pointsAgainstPerGame": 118.76,
+        "benchPoints": 857.58,
+        "expectedWins": 7.17,
+        "luck": -1.2,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "teamName": "Trice Tritons",
+        "record": {
+          "wins": 5,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.3846,
+        "pointsFor": 1508.98,
+        "pointsPerGame": 116.08,
+        "pointsAgainst": 1656.97,
+        "pointsAgainstPerGame": 127.46,
+        "benchPoints": 843.85,
+        "expectedWins": 6.11,
+        "luck": -1.1,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1507.44,
+        "pointsPerGame": 115.96,
+        "pointsAgainst": 1567.04,
+        "pointsAgainstPerGame": 120.54,
+        "benchPoints": 784.16,
+        "expectedWins": 6.89,
+        "luck": -0.9,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "teamName": "Ashgrove Aces",
+        "record": {
+          "wins": 4,
+          "losses": 10,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2857,
+        "pointsFor": 1443.06,
+        "pointsPerGame": 103.08,
+        "pointsAgainst": 1694.07,
+        "pointsAgainstPerGame": 121.01,
+        "benchPoints": 1044.39,
+        "expectedWins": 4.82,
+        "luck": -0.8,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "teamName": "Paxton Pistons",
+        "record": {
+          "wins": 6,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.4286,
+        "pointsFor": 1555.2,
+        "pointsPerGame": 111.09,
+        "pointsAgainst": 1579.2,
+        "pointsAgainstPerGame": 112.8,
+        "benchPoints": 900.05,
+        "expectedWins": 6.73,
+        "luck": -0.7,
         "scoringFormat": "PPR + TE premium"
       }
     ]
@@ -2108,6 +2692,7 @@
       "pointsFor": 3188.97,
       "pointsPerGame": 118.11,
       "benchPoints": 1839.62,
+      "luck": 2.7,
       "lastPlaces": 0,
       "longestWinStreak": 5,
       "longestLossStreak": 2
@@ -2128,6 +2713,7 @@
       "pointsFor": 3071.5,
       "pointsPerGame": 113.76,
       "benchPoints": 1986.6,
+      "luck": 2.5,
       "lastPlaces": 0,
       "longestWinStreak": 4,
       "longestLossStreak": 3
@@ -2148,6 +2734,7 @@
       "pointsFor": 3127.53,
       "pointsPerGame": 115.83,
       "benchPoints": 1775.2,
+      "luck": 0.7,
       "lastPlaces": 0,
       "longestWinStreak": 5,
       "longestLossStreak": 2
@@ -2168,6 +2755,7 @@
       "pointsFor": 3299.81,
       "pointsPerGame": 122.22,
       "benchPoints": 1770.56,
+      "luck": -0.7,
       "lastPlaces": 0,
       "longestWinStreak": 6,
       "longestLossStreak": 3
@@ -2188,6 +2776,7 @@
       "pointsFor": 3026.4,
       "pointsPerGame": 112.09,
       "benchPoints": 1840.14,
+      "luck": -0.7,
       "lastPlaces": 1,
       "longestWinStreak": 4,
       "longestLossStreak": 5
@@ -2208,6 +2797,7 @@
       "pointsFor": 3074.23,
       "pointsPerGame": 113.86,
       "benchPoints": 1934.79,
+      "luck": 0.6,
       "lastPlaces": 0,
       "longestWinStreak": 3,
       "longestLossStreak": 3
@@ -2228,6 +2818,7 @@
       "pointsFor": 3179.58,
       "pointsPerGame": 117.76,
       "benchPoints": 1921.83,
+      "luck": -3.2,
       "lastPlaces": 0,
       "longestWinStreak": 3,
       "longestLossStreak": 4
@@ -2248,6 +2839,7 @@
       "pointsFor": 3098.24,
       "pointsPerGame": 114.75,
       "benchPoints": 2055.14,
+      "luck": -1.2,
       "lastPlaces": 1,
       "longestWinStreak": 6,
       "longestLossStreak": 6
@@ -2268,6 +2860,7 @@
       "pointsFor": 1738.66,
       "pointsPerGame": 124.19,
       "benchPoints": 900.53,
+      "luck": 0.9,
       "lastPlaces": 0,
       "longestWinStreak": 5,
       "longestLossStreak": 2
@@ -2288,6 +2881,7 @@
       "pointsFor": 2974.96,
       "pointsPerGame": 110.18,
       "benchPoints": 1768.13,
+      "luck": -2.6,
       "lastPlaces": 0,
       "longestWinStreak": 2,
       "longestLossStreak": 3
@@ -2308,6 +2902,7 @@
       "pointsFor": 1438.89,
       "pointsPerGame": 110.68,
       "benchPoints": 898.52,
+      "luck": 1.6,
       "lastPlaces": 0,
       "longestWinStreak": 4,
       "longestLossStreak": 4
@@ -2328,6 +2923,7 @@
       "pointsFor": 1555.2,
       "pointsPerGame": 111.09,
       "benchPoints": 900.05,
+      "luck": -0.7,
       "lastPlaces": 0,
       "longestWinStreak": 3,
       "longestLossStreak": 5
@@ -2348,6 +2944,7 @@
       "pointsFor": 1443.06,
       "pointsPerGame": 103.08,
       "benchPoints": 1044.39,
+      "luck": -0.8,
       "lastPlaces": 0,
       "longestWinStreak": 2,
       "longestLossStreak": 6

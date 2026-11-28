@@ -90,7 +90,10 @@ def _ensure_schema(conn: psycopg.Connection) -> None:
     if conn.execute("SELECT to_regclass('core.seasons')").fetchone()[0] is None:
         conn.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
         conn.commit()
-    elif conn.execute("SELECT to_regclass('stats.season_bench_points')").fetchone()[0] is None:  # newest view
+    elif not conn.execute(  # newest schema change: the Luck index column (#54)
+        """SELECT 1 FROM information_schema.columns
+           WHERE table_schema = 'stats' AND table_name = 'owner_records' AND column_name = 'luck'"""
+    ).fetchone():
         raise BuildError("the database's schema predates db/schema.sql: drop and recreate the database, then re-run")
 
 

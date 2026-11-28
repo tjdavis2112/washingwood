@@ -3,9 +3,9 @@
 // across every Season. Buttons pick a stat: the table re-sorts by it (highest first, then name) and
 // highlights its column. Desktop shows every column; a phone shows rank, Owner and the picked stat only.
 // Bench points (#52) are regular-season totals; Win and Loss streak (#53) are the Owner's longest Streaks.
-// A later slice adds Luck.
+// Luck (#54) is the sum of the Owner's Seasons' Luck index.
 import OwnerLink from "./OwnerLink.astro";
-import { formatPct, formatPoints, formatRecord, type AllTimeRow } from "../data/site-data";
+import { formatLuck, formatPct, formatPoints, formatRecord, type AllTimeRow } from "../data/site-data";
 
 interface Props { rows: AllTimeRow[] }
 const { rows } = Astro.props;
@@ -18,6 +18,8 @@ const STATS: { id: string; label: string; sort: (r: AllTimeRow) => number; show:
   { id: "points-per-game", label: "Points per game", sort: (r) => r.pointsPerGame, show: (r) => formatPoints(r.pointsPerGame) },
   // An Owner with no lineups at all shows a dash and sorts last
   { id: "bench-points", label: "Bench points", sort: (r) => r.benchPoints ?? -1, show: (r) => (r.benchPoints === null ? "—" : formatPoints(r.benchPoints)) },
+  // All-time Luck index: the sum of the Owner's Seasons; no lineups at all shows a dash and sorts last
+  { id: "luck", label: "Luck", sort: (r) => r.luck ?? -1e9, show: (r) => (r.luck === null ? "—" : formatLuck(r.luck)) },
   { id: "win-streak", label: "Win streak", sort: (r) => r.longestWinStreak, show: (r) => String(r.longestWinStreak) },
   { id: "loss-streak", label: "Loss streak", sort: (r) => r.longestLossStreak, show: (r) => String(r.longestLossStreak) },
   { id: "last-places", label: "Last places", sort: (r) => r.lastPlaces, show: (r) => String(r.lastPlaces) },

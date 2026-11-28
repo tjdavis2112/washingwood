@@ -539,6 +539,8 @@ SEASON_RECORDS = [
     ("fewestPointsFor", "pointsPerGame", False),
     ("mostPointsAgainst", "pointsAgainstPerGame", True),
     ("mostBenchPoints", "benchPoints", True),
+    ("luckiest", "luck", True),
+    ("unluckiest", "luck", False),
 ]
 
 
@@ -616,16 +618,18 @@ def _season_records(conn: Connection) -> dict:
             "pointsPerGame": float(ppg),
             "pointsAgainst": float(pa),
             "pointsAgainstPerGame": float(papg),
-            "benchPoints": None if bench is None else float(bench),
+            "benchPoints": _num(bench),
+            "expectedWins": _num(expected),
+            "luck": _num(luck),
             "scoringFormat": label,
         }
-        for year, owner, team, w, lost, tied, games, pct, pf, ppg, pa, papg, bench, label in conn.execute(
+        for year, owner, team, w, lost, tied, games, pct, pf, ppg, pa, papg, bench, expected, luck, label in conn.execute(  # noqa: E501
             """SELECT year, owner, team_name, wins, losses, ties, games, win_pct, points_for, points_per_game,
-                      points_against, points_against_per_game, bench_points, scoring_label
+                      points_against, points_against_per_game, bench_points, expected_wins, luck, scoring_label
                FROM stats.season_records"""
         ).fetchall()
     ]
-    # A Season without lineups has no Bench points, so it can't hold that record
+    # A Season without lineups has no Bench points or Luck index, so it can't hold those records
     return {
         key: sorted(
             [r for r in rows if r[field] is not None],
@@ -679,6 +683,11 @@ def _streaks(conn: Connection) -> tuple[dict, dict[str, dict]]:
     return {"wins": top("W"), "losses": top("L")}, longest
 
 
+def _num(x) -> float | None:
+    """A nullable numeric column as a float (None stays None)."""
+    return None if x is None else float(x)
+
+
 def _all_time_records(conn: Connection) -> list[dict]:
     """One row per Owner, former Owners included, ordered by wins (descending), then name."""
     rows = [
@@ -690,12 +699,13 @@ def _all_time_records(conn: Connection) -> list[dict]:
             "winPct": float(pct),
             "pointsFor": float(pf),
             "pointsPerGame": float(ppg),
-            "benchPoints": None if bench is None else float(bench),
+            "benchPoints": _num(bench),
+            "luck": _num(luck),
             "lastPlaces": last_places,
         }
-        for owner, seasons, w, lost, tied, games, pct, pf, ppg, bench, last_places in conn.execute(
+        for owner, seasons, w, lost, tied, games, pct, pf, ppg, bench, luck, last_places in conn.execute(
             """SELECT owner, seasons, wins, losses, ties, games, win_pct, points_for, points_per_game, bench_points,
-                      last_places
+                      luck, last_places
                FROM stats.owner_records"""
         ).fetchall()
     ]

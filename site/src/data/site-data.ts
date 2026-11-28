@@ -153,6 +153,8 @@ export function getSeason(year: number): Season {
 /** "9-5", or "8-5-1" when there were ties. */
 /** A 0-1 win % as a percentage to one decimal, e.g. 0.9259 -> "92.6%". */
 export const formatPct = (n: number) => `${(n * 100).toFixed(1)}%`;
+/** A Luck index with its sign: +1.6, 0.0, −2.1 (a true minus sign). */
+export const formatLuck = (n: number) => (n > 0 ? `+${n.toFixed(1)}` : n < 0 ? `−${Math.abs(n).toFixed(1)}` : "0.0");
 export const formatRecord = (r: WinLossTie) => (r.ties ? `${r.wins}-${r.losses}-${r.ties}` : `${r.wins}-${r.losses}`);
 
 export type ShelfEntry = {
@@ -377,9 +379,11 @@ export type LastPlaceTally = { owner: OwnerRef; count: number; years: number[] }
 export type SeasonRecordRow = {
   year: number; owner: OwnerRef; teamName: string; record: WinLossTie; games: number; winPct: number;
   pointsFor: number; pointsPerGame: number; pointsAgainst: number; pointsAgainstPerGame: number; benchPoints: number | null;
+  expectedWins: number | null; luck: number | null;
   scoringFormat: string;
 };
-export type SeasonRecordKey = "bestWinPct" | "worstWinPct" | "mostPointsFor" | "fewestPointsFor" | "mostPointsAgainst" | "mostBenchPoints";
+export type SeasonRecordKey = "bestWinPct" | "worstWinPct" | "mostPointsFor" | "fewestPointsFor" | "mostPointsAgainst" | "mostBenchPoints"
+  | "luckiest" | "unluckiest";
 export type WeekRecordRow = {
   year: number; matchupPeriod: number; week: number; kind: "regular" | "playoff"; team: LeaderboardSide;
   opponent: LeaderboardSide; result: "win" | "loss" | "tie"; benchPoints: number | null; scoringFormat: string;
@@ -391,7 +395,7 @@ export type StreakRow = {
 };
 export type AllTimeRow = {
   owner: OwnerRef; seasons: number; record: WinLossTie; games: number; winPct: number;
-  pointsFor: number; pointsPerGame: number; benchPoints: number | null; longestWinStreak: number;
+  pointsFor: number; pointsPerGame: number; benchPoints: number | null; luck: number | null; longestWinStreak: number;
   longestLossStreak: number; lastPlaces: number;
 };
 export type RecordBookDoc = {
