@@ -1,6 +1,6 @@
 # Hall of Fame induction is computed from fixed Induction bars, never re-ranked
 
-A **Player** season enters the **Hall of Fame** when it clears any one of three fixed **Induction bars**: Points above replacement (**Dominant**), Points over expected (**Overachiever**) or Pickup starter points (**Waiver legend**). Each bar is a constant in code, not a rank. So adding a Season can induct new Player seasons but never removes an earlier one, and nothing about who was inducted has to be stored. The bars are set so only a few Player seasons clear them each Season; zero is allowed.
+A **Player** season enters the **Hall of Fame** when it clears any one of three fixed **Induction bars**: Points above replacement (**Dominant**), Points over expected (**Overachiever**) or a Pickup's Value added (**Waiver legend**). Each bar is a constant in code, not a rank. So adding a Season can induct new Player seasons but never removes an earlier one, and nothing about who was inducted has to be stored. The bars are set so only a few Player seasons clear them each Season; zero is allowed.
 
 The bars are calibrated once against the real **Archive** with a local-only report. The chosen values are recorded here, and changing them needs a new ADR, because that is the one way an **Inductee** can leave the Hall.
 
@@ -21,4 +21,4 @@ The bars are calibrated once against the real **Archive** with a local-only repo
 
 - Points over expected pools every Season (ADR-0008), so a later Season can nudge an Overachiever's value across its bar. That's accepted as rare. If it happens, it shows up as a changed Inductee count in the report.
 - Inductees are derived, so the unused `core.hall_of_fame` columns (`franchise_id`, `inducted_year`) go. That table holds only Owner's notes, loaded from `hall_of_fame.yaml` in `washingwood-archive` (ADR-0007), keyed by Season and ESPN player ID like `owners.yaml`. A note that matches no Inductee fails the build.
-- One bar per lane is used across **Scoring formats**. Points above replacement and Points over expected are relative to their own Season, so that's fair. Pickup starter points are raw points, so PPR Seasons clear the Waiver legend bar more easily. The calibration report shows counts per Season, so any skew is visible. Cards show the Scoring format.
+- One bar per lane is used across **Scoring formats**. All three measures are taken against their own Season's **Replacement level**, so that's fair enough to compare. The calibration report shows counts per Season, so any skew is visible. Cards show the Scoring format.

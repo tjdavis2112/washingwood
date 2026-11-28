@@ -197,7 +197,7 @@ _Avoid_: Hall of Famer (for the entry; fine as the plain-English plural on pages
 A fixed threshold that inducts a **Player** season by itself, with no ranking against other Player seasons. There are three, one per lane:
 - **Dominant**: **Points above replacement**. Credited to the Owner the Player scored the most starter points for.
 - **Overachiever**: **Points over expected**. Credited to the Owner who made the **Pick**.
-- **Waiver legend**: a **Pickup**'s starter points. Credited to the Owner who made the Pickup.
+- **Waiver legend**: a **Pickup**'s **Value added**. Credited to the Owner who made the Pickup.
 
 **Owner's note**:
 A short hand-written note about an **Inductee** from the **Owner** it's credited to.
@@ -215,7 +215,7 @@ The best **Positional finish** at a position in a **Season** among **Players** o
 The **Player** with the most starter points in a **Season**'s championship-bracket **Matchups**.
 
 **Wins added**:
-A fantasy take on baseball's WAR. For each **Week** a **Player** started in a **Counted Matchup**, his points are swapped for the weekly replacement points at his position (the score at that position's **Replacement level** rank among every rostered Player that Week, bench included). A win that would have become a loss counts +1, a loss that would have become a win counts −1, and a change into or out of a tie counts ±0.5. The total is summed over the Season.
+A fantasy take on baseball's WAR. For each **Week** a **Player** started in a **Counted Matchup**, his points are swapped for his position's Replacement points per start that Season (the same per-start figure **Value added** uses). A win that would have become a loss counts +1, a loss that would have become a win counts −1, and a change into or out of a tie counts ±0.5. The total is summed over the Season.
 
 **MVP**:
 The **Player** with the most **Wins added** in a **Season**.
