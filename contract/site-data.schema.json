@@ -1829,8 +1829,41 @@
       "description": "The Record Book section: cross-Season records. Single-game extremes stay in matchups.json. Exported as record-book.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["lastPlace"],
+      "required": ["season", "allTime", "lastPlace"],
       "properties": {
+        "season": {
+          "description": "Season records: top-10 lists of Franchise-Seasons, regular season only. Points rank per game so 13-game and 14-game Seasons compare fairly.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["bestWinPct", "worstWinPct", "mostPointsFor", "fewestPointsFor", "mostPointsAgainst"],
+          "properties": {
+            "bestWinPct": { "description": "Top 10 Franchise-Seasons by win %, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
+            "worstWinPct": { "description": "Bottom 10 Franchise-Seasons by win %, lowest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
+            "mostPointsFor": { "description": "Top 10 Franchise-Seasons by Points per game, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
+            "fewestPointsFor": { "description": "Bottom 10 Franchise-Seasons by Points per game, lowest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
+            "mostPointsAgainst": { "description": "Top 10 Franchise-Seasons by points against per game, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } }
+          }
+        },
+        "allTime": {
+          "description": "One row per Owner, former Owners included, no minimum games. Regular-season totals across every Season. Ordered by wins (descending), then name.",
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["owner", "seasons", "record", "games", "winPct", "pointsFor", "pointsPerGame", "lastPlaces"],
+            "properties": {
+              "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+              "seasons": { "description": "Seasons played.", "type": "integer", "minimum": 1 },
+              "record": { "description": "Regular-season record across every Season.", "$ref": "#/$defs/record" },
+              "games": { "description": "Regular-season games played.", "type": "integer", "minimum": 1 },
+              "winPct": { "description": "(wins + ties / 2) / games, 0 to 1, to four decimals.", "type": "number", "minimum": 0, "maximum": 1 },
+              "pointsFor": { "description": "Regular-season points scored across every Season.", "type": "number" },
+              "pointsPerGame": { "description": "pointsFor / games, to two decimals.", "type": "number" },
+              "lastPlaces": { "description": "Seasons finished Last place.", "type": "integer", "minimum": 0 }
+            }
+          }
+        },
         "lastPlace": {
           "description": "Last place history: every Season's Last place and how often each Owner has finished there.",
           "type": "object",
@@ -1872,6 +1905,25 @@
             }
           }
         }
+      }
+    },
+    "seasonRecordRow": {
+      "description": "One Franchise-Season in a Record Book Season record, regular season only. Uses the Season's standings figures.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["year", "owner", "teamName", "record", "games", "winPct", "pointsFor", "pointsPerGame", "pointsAgainst", "pointsAgainstPerGame", "scoringFormat"],
+      "properties": {
+        "year": { "description": "The Season.", "$ref": "#/$defs/year" },
+        "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+        "teamName": { "description": "The Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+        "record": { "description": "Regular-season record.", "$ref": "#/$defs/record" },
+        "games": { "description": "Regular-season games (13 or 14).", "type": "integer", "minimum": 1 },
+        "winPct": { "description": "(wins + ties / 2) / games, 0 to 1, to four decimals.", "type": "number", "minimum": 0, "maximum": 1 },
+        "pointsFor": { "description": "Regular-season points scored.", "type": "number" },
+        "pointsPerGame": { "description": "pointsFor / games, to two decimals (GLOSSARY: Points per game).", "type": "number" },
+        "pointsAgainst": { "description": "Regular-season points allowed.", "type": "number" },
+        "pointsAgainstPerGame": { "description": "pointsAgainst / games, to two decimals.", "type": "number" },
+        "scoringFormat": { "description": "The Season's Scoring format label (e.g. PPR, PPR + TE premium).", "type": "string", "minLength": 1 }
       }
     },
     "punishment": {

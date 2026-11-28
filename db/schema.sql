@@ -647,3 +647,32 @@ SELECT season_id, franchise_id,
        sum(week_rank - 1)               AS all_play_losses
 FROM stats.team_week_scores
 GROUP BY season_id, franchise_id;
+
+-- Season records (Record Book, #51): one row per Franchise-Season, regular season only. Uses ESPN's
+-- regular-season record and points (as standings do), so it agrees with the Season pages. Win % counts
+-- a tie as half a win. Per-game figures divide by regular-season games, so 13-game and 14-game Seasons
+-- compare fairly (GLOSSARY: Points per game).
+CREATE VIEW stats.season_records AS
+SELECT st.year, st.franchise_id, st.team_name, st.owner_id, st.owner, s.scoring_label,
+       st.wins, st.losses, st.ties,
+       st.wins + st.losses + st.ties                                            AS games,
+       round((st.wins + st.ties / 2.0) / (st.wins + st.losses + st.ties), 4)    AS win_pct,
+       st.points_for, st.points_against,
+       round(st.points_for / (st.wins + st.losses + st.ties), 2)                AS points_per_game,
+       round(st.points_against / (st.wins + st.losses + st.ties), 2)            AS points_against_per_game
+FROM stats.standings st
+JOIN core.seasons s ON s.year = st.year;
+
+-- All-time records (Record Book, #51): one row per Owner (primary Owner of each Franchise, through
+-- core.franchise_owners), former Owners included, summed over regular-season games.
+CREATE VIEW stats.owner_records AS
+SELECT sr.owner_id, sr.owner,
+       count(*)                                                                 AS seasons,
+       sum(sr.wins) AS wins, sum(sr.losses) AS losses, sum(sr.ties) AS ties,
+       sum(sr.games)                                                            AS games,
+       round((sum(sr.wins) + sum(sr.ties) / 2.0) / sum(sr.games), 4)            AS win_pct,
+       sum(sr.points_for)                                                       AS points_for,
+       round(sum(sr.points_for) / sum(sr.games), 2)                             AS points_per_game,
+       (SELECT count(*) FROM stats.last_place lp WHERE lp.owner_id = sr.owner_id) AS last_places
+FROM stats.season_records sr
+GROUP BY sr.owner_id, sr.owner;

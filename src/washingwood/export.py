@@ -516,11 +516,73 @@ def record_book_document(conn: Connection) -> dict:
     for entry in tally.values():
         entry["years"].sort()
     return {
+        "season": _season_records(conn),
+        "allTime": _all_time_records(conn),
         "lastPlace": {
             "seasons": seasons,
             "tally": sorted(tally.values(), key=lambda e: (-e["count"], e["owner"]["name"])),
-        }
+        },
     }
+
+
+# Season record lists: (contract key, row field to rank by, True = highest first). Points rank per game
+# (GLOSSARY: Points per game); ties go to the earlier Season, then Owner name.
+SEASON_RECORDS = [
+    ("bestWinPct", "winPct", True),
+    ("worstWinPct", "winPct", False),
+    ("mostPointsFor", "pointsPerGame", True),
+    ("fewestPointsFor", "pointsPerGame", False),
+    ("mostPointsAgainst", "pointsAgainstPerGame", True),
+]
+
+
+def _season_records(conn: Connection) -> dict:
+    """Top-10 Franchise-Seasons for each Season record, from stats.season_records."""
+    rows = [
+        {
+            "year": year,
+            "owner": _owner_ref(owner),
+            "teamName": team,
+            "record": _record(w, lost, tied),
+            "games": games,
+            "winPct": float(pct),
+            "pointsFor": float(pf),
+            "pointsPerGame": float(ppg),
+            "pointsAgainst": float(pa),
+            "pointsAgainstPerGame": float(papg),
+            "scoringFormat": label,
+        }
+        for year, owner, team, w, lost, tied, games, pct, pf, ppg, pa, papg, label in conn.execute(
+            """SELECT year, owner, team_name, wins, losses, ties, games, win_pct, points_for, points_per_game,
+                      points_against, points_against_per_game, scoring_label
+               FROM stats.season_records"""
+        ).fetchall()
+    ]
+    return {
+        key: sorted(rows, key=lambda r: (-r[field] if high else r[field], r["year"], r["owner"]["name"]))[:10]
+        for key, field, high in SEASON_RECORDS
+    }
+
+
+def _all_time_records(conn: Connection) -> list[dict]:
+    """One row per Owner, former Owners included, ordered by wins (descending), then name."""
+    rows = [
+        {
+            "owner": _owner_ref(owner),
+            "seasons": seasons,
+            "record": _record(w, lost, tied),
+            "games": games,
+            "winPct": float(pct),
+            "pointsFor": float(pf),
+            "pointsPerGame": float(ppg),
+            "lastPlaces": last_places,
+        }
+        for owner, seasons, w, lost, tied, games, pct, pf, ppg, last_places in conn.execute(
+            """SELECT owner, seasons, wins, losses, ties, games, win_pct, points_for, points_per_game, last_places
+               FROM stats.owner_records"""
+        ).fetchall()
+    ]
+    return sorted(rows, key=lambda r: (-r["record"]["wins"], r["owner"]["name"]))
 
 
 def rivalry_documents(conn: Connection) -> dict[str, dict]:

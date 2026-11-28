@@ -1,0 +1,92 @@
+---
+// Record Book All-time table (#51): one row per Owner, former Owners included, regular-season totals
+// across every Season. Buttons pick a stat: the table re-sorts by it (highest first, then name) and
+// highlights its column. Desktop shows every column; a phone shows rank, Owner and the picked stat only.
+// Later slices add Bench points, Streak and Luck columns.
+import OwnerLink from "./OwnerLink.astro";
+import { formatPct, formatPoints, formatRecord, type AllTimeRow } from "../data/site-data";
+
+interface Props { rows: AllTimeRow[] }
+const { rows } = Astro.props;
+
+// Each stat: its button and column label, the value it sorts by, and how the cell shows it
+const STATS: { id: string; label: string; sort: (r: AllTimeRow) => number; show: (r: AllTimeRow) => string }[] = [
+  { id: "wins", label: "Wins", sort: (r) => r.record.wins, show: (r) => formatRecord(r.record) },
+  { id: "win-pct", label: "Win %", sort: (r) => r.winPct, show: (r) => formatPct(r.winPct) },
+  { id: "points-for", label: "Points for", sort: (r) => r.pointsFor, show: (r) => formatPoints(r.pointsFor) },
+  { id: "points-per-game", label: "Points per game", sort: (r) => r.pointsPerGame, show: (r) => formatPoints(r.pointsPerGame) },
+  { id: "last-places", label: "Last places", sort: (r) => r.lastPlaces, show: (r) => String(r.lastPlaces) },
+];
+// Picked column vs the rest: highlighted, or hidden on a phone
+const ON = "text-paper font-bold";
+const OFF = "hidden md:table-cell";
+---
+<div data-all-time>
+  <p class="mb-4 text-xs text-muted">
+    Every Owner, former Owners included, over every regular-season game they played. Win % counts a tie as
+    half a win. Scoring formats differ by Season, so point totals mix formats.
+  </p>
+  <div class="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
+    <div role="group" aria-label="Sort the All-time table by" class="flex w-max gap-2 pb-1">
+      {STATS.map((s, i) => (
+        <button
+          type="button"
+          data-stat-button={s.id}
+          aria-pressed={i === 0 ? "true" : "false"}
+          class="whitespace-nowrap rounded-full border border-line px-3 py-1 text-sm font-semibold text-muted transition-colors hover:text-paper aria-pressed:border-brand aria-pressed:bg-brand aria-pressed:text-paper"
+        >{s.label}</button>
+      ))}
+    </div>
+  </div>
+
+  <div class="mt-6 overflow-x-auto rounded-2xl border border-line">
+    <table aria-label="All-time records" class="w-full border-collapse text-sm">
+      <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+        <tr>
+          <th scope="col" class="px-3 py-3 text-right">#</th>
+          <th scope="col" class="px-3 py-3">Owner</th>
+          <th scope="col" class={`px-3 py-3 text-right ${OFF}`}>Seasons</th>
+          {STATS.map((s, i) => (
+            <th scope="col" data-stat={s.id} class={`px-3 py-3 text-right ${i === 0 ? ON : OFF}`}>{s.label}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((r, n) => (
+          <tr data-testid="all-time-row" data-owner={r.owner.slug} data-name={r.owner.name} class="border-t border-line">
+            <td data-testid="all-time-rank" class="px-3 py-2.5 text-right font-bold tabular-nums">{n + 1}</td>
+            <td class="px-3 py-2.5 whitespace-nowrap"><OwnerLink owner={r.owner} class="font-semibold" /></td>
+            <td class={`px-3 py-2.5 text-right tabular-nums ${OFF}`}>{r.seasons}</td>
+            {STATS.map((s, i) => (
+              <td data-stat={s.id} data-value={s.sort(r)} class={`px-3 py-2.5 text-right tabular-nums ${i === 0 ? ON : OFF}`}>{s.show(r)}</td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script is:inline define:vars={{ ON, OFF }}>
+  (() => {
+    const root = document.querySelector("[data-all-time]");
+    const tbody = root.querySelector("tbody");
+    const buttons = [...root.querySelectorAll("[data-stat-button]")];
+    const pick = (id) => {
+      for (const b of buttons) b.setAttribute("aria-pressed", String(b.dataset.statButton === id));
+      for (const cell of root.querySelectorAll("[data-stat]")) {
+        const on = cell.dataset.stat === id;
+        cell.classList.remove(...(on ? OFF : ON).split(" "));
+        cell.classList.add(...(on ? ON : OFF).split(" "));
+      }
+      // Highest first, then Owner name
+      const value = (tr) => Number(tr.querySelector(`[data-stat="${id}"]`).dataset.value);
+      const rows = [...tbody.rows].sort((a, b) => value(b) - value(a) || a.dataset.name.localeCompare(b.dataset.name));
+      rows.forEach((tr, i) => {
+        tr.querySelector("[data-testid=all-time-rank]").textContent = String(i + 1);
+        tbody.append(tr);
+      });
+    };
+    for (const b of buttons) b.addEventListener("click", () => pick(b.dataset.statButton));
+  })();
+</script>
