@@ -376,14 +376,21 @@ export type LastPlaceRow = { year: number; owner: OwnerRef; teamName: string; re
 export type LastPlaceTally = { owner: OwnerRef; count: number; years: number[] };
 export type SeasonRecordRow = {
   year: number; owner: OwnerRef; teamName: string; record: WinLossTie; games: number; winPct: number;
-  pointsFor: number; pointsPerGame: number; pointsAgainst: number; pointsAgainstPerGame: number; scoringFormat: string;
+  pointsFor: number; pointsPerGame: number; pointsAgainst: number; pointsAgainstPerGame: number; benchPoints: number | null;
+  scoringFormat: string;
 };
-export type SeasonRecordKey = "bestWinPct" | "worstWinPct" | "mostPointsFor" | "fewestPointsFor" | "mostPointsAgainst";
+export type SeasonRecordKey = "bestWinPct" | "worstWinPct" | "mostPointsFor" | "fewestPointsFor" | "mostPointsAgainst" | "mostBenchPoints";
+export type WeekRecordRow = {
+  year: number; matchupPeriod: number; week: number; kind: "regular" | "playoff"; team: LeaderboardSide;
+  opponent: LeaderboardSide; result: "win" | "loss" | "tie"; benchPoints: number | null; scoringFormat: string;
+};
+export type WeekRecordKey = "mostPointsInLoss" | "fewestPointsInWin" | "mostBenchPoints";
 export type AllTimeRow = {
   owner: OwnerRef; seasons: number; record: WinLossTie; games: number; winPct: number;
-  pointsFor: number; pointsPerGame: number; lastPlaces: number;
+  pointsFor: number; pointsPerGame: number; benchPoints: number | null; lastPlaces: number;
 };
 export type RecordBookDoc = {
+  week: Record<WeekRecordKey, WeekRecordRow[]>;
   season: Record<SeasonRecordKey, SeasonRecordRow[]>;
   allTime: AllTimeRow[];
   lastPlace: { seasons: LastPlaceRow[]; tally: LastPlaceTally[] };

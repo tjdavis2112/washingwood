@@ -648,6 +648,21 @@ SELECT season_id, franchise_id,
 FROM stats.team_week_scores
 GROUP BY season_id, franchise_id;
 
+-- Bench points (GLOSSARY) per Franchise-Week: BE-slot points only (IR excluded); a bench Player who
+-- didn't play (NULL points) counts 0, and so does a lineup with no bench points at all.
+CREATE VIEW stats.week_bench_points AS
+SELECT season_id, week, franchise_id, coalesce(bench_points, 0) AS bench_points
+FROM stats.team_week_scores;
+
+-- Bench points per Franchise-Season, regular-season Weeks only. A Season with no lineups has no row.
+CREATE VIEW stats.season_bench_points AS
+SELECT b.season_id, b.franchise_id, sum(b.bench_points) AS bench_points
+FROM stats.week_bench_points b
+WHERE EXISTS (SELECT 1 FROM core.matchups m
+              WHERE m.season_id = b.season_id AND NOT m.is_playoff
+                AND b.week BETWEEN m.first_week AND m.last_week)
+GROUP BY b.season_id, b.franchise_id;
+
 -- Season records (Record Book, #51): one row per Franchise-Season, regular season only. Uses ESPN's
 -- regular-season record and points (as standings do), so it agrees with the Season pages. Win % counts
 -- a tie as half a win. Per-game figures divide by regular-season games, so 13-game and 14-game Seasons
@@ -659,9 +674,11 @@ SELECT st.year, st.franchise_id, st.team_name, st.owner_id, st.owner, s.scoring_
        round((st.wins + st.ties / 2.0) / (st.wins + st.losses + st.ties), 4)    AS win_pct,
        st.points_for, st.points_against,
        round(st.points_for / (st.wins + st.losses + st.ties), 2)                AS points_per_game,
-       round(st.points_against / (st.wins + st.losses + st.ties), 2)            AS points_against_per_game
+       round(st.points_against / (st.wins + st.losses + st.ties), 2)            AS points_against_per_game,
+       bp.bench_points                                                          -- NULL: no lineups that Season
 FROM stats.standings st
-JOIN core.seasons s ON s.year = st.year;
+JOIN core.seasons s ON s.year = st.year
+LEFT JOIN stats.season_bench_points bp ON bp.franchise_id = st.franchise_id;
 
 -- All-time records (Record Book, #51): one row per Owner (primary Owner of each Franchise, through
 -- core.franchise_owners), former Owners included, summed over regular-season games.
@@ -673,6 +690,7 @@ SELECT sr.owner_id, sr.owner,
        round((sum(sr.wins) + sum(sr.ties) / 2.0) / sum(sr.games), 4)            AS win_pct,
        sum(sr.points_for)                                                       AS points_for,
        round(sum(sr.points_for) / sum(sr.games), 2)                             AS points_per_game,
+       sum(sr.bench_points)                                                     AS bench_points,  -- Seasons with lineups
        (SELECT count(*) FROM stats.last_place lp WHERE lp.owner_id = sr.owner_id) AS last_places
 FROM stats.season_records sr
 GROUP BY sr.owner_id, sr.owner;

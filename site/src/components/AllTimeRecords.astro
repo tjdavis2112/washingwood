@@ -2,7 +2,7 @@
 // Record Book All-time table (#51): one row per Owner, former Owners included, regular-season totals
 // across every Season. Buttons pick a stat: the table re-sorts by it (highest first, then name) and
 // highlights its column. Desktop shows every column; a phone shows rank, Owner and the picked stat only.
-// Later slices add Bench points, Streak and Luck columns.
+// Bench points (#52) are regular-season totals; later slices add Streak and Luck columns.
 import OwnerLink from "./OwnerLink.astro";
 import { formatPct, formatPoints, formatRecord, type AllTimeRow } from "../data/site-data";
 
@@ -15,6 +15,8 @@ const STATS: { id: string; label: string; sort: (r: AllTimeRow) => number; show:
   { id: "win-pct", label: "Win %", sort: (r) => r.winPct, show: (r) => formatPct(r.winPct) },
   { id: "points-for", label: "Points for", sort: (r) => r.pointsFor, show: (r) => formatPoints(r.pointsFor) },
   { id: "points-per-game", label: "Points per game", sort: (r) => r.pointsPerGame, show: (r) => formatPoints(r.pointsPerGame) },
+  // An Owner with no lineups at all shows a dash and sorts last
+  { id: "bench-points", label: "Bench points", sort: (r) => r.benchPoints ?? -1, show: (r) => (r.benchPoints === null ? "—" : formatPoints(r.benchPoints)) },
   { id: "last-places", label: "Last places", sort: (r) => r.lastPlaces, show: (r) => String(r.lastPlaces) },
 ];
 // Picked column vs the rest: highlighted, or hidden on a phone

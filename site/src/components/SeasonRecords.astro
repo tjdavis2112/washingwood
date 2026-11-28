@@ -1,9 +1,10 @@
 ---
-// Record Book Season records (#51): top-10 Franchise-Seasons per record, regular season only. A chip row
-// picks the record; each chip is a hash link (#season-most-points-for), so a record can be linked and the
-// Tabs script opens this tab for it. Points rank per game, with the total beside it, so 13-game and
-// 14-game Seasons compare fairly (GLOSSARY: Points per game). Every row shows its Scoring format.
+// Record Book Season records (#51, #52): top-10 Franchise-Seasons per record, regular season only, picked
+// from a chip row (RecordPicker). Points rank per game, with the total beside it, so 13-game and 14-game
+// Seasons compare fairly (GLOSSARY: Points per game); Bench points are the regular-season total. Every
+// row shows its Scoring format.
 import OwnerLink from "./OwnerLink.astro";
+import RecordPicker from "./RecordPicker.astro";
 import { formatPct, formatPoints, formatRecord, type RecordBookDoc, type SeasonRecordRow } from "../data/site-data";
 
 interface Props { records: RecordBookDoc["season"] }
@@ -13,96 +14,61 @@ type Stat = { label: string; value: (r: SeasonRecordRow) => string; total?: (r: 
 const WIN_PCT: Stat = { label: "Win %", value: (r) => formatPct(r.winPct) };
 const PPG: Stat = { label: "Per game", value: (r) => formatPoints(r.pointsPerGame), total: (r) => formatPoints(r.pointsFor) };
 const PAPG: Stat = { label: "Per game", value: (r) => formatPoints(r.pointsAgainstPerGame), total: (r) => formatPoints(r.pointsAgainst) };
+const BENCH: Stat = { label: "Bench points", value: (r) => formatPoints(r.benchPoints ?? 0) };
 const LISTS = [
   { id: "season-best-win-pct", chip: "Best win %", title: "Best win %", rows: records.bestWinPct, stat: WIN_PCT },
   { id: "season-worst-win-pct", chip: "Worst win %", title: "Worst win %", rows: records.worstWinPct, stat: WIN_PCT },
   { id: "season-most-points-for", chip: "Most points", title: "Most points per game", rows: records.mostPointsFor, stat: PPG },
   { id: "season-fewest-points-for", chip: "Fewest points", title: "Fewest points per game", rows: records.fewestPointsFor, stat: PPG },
   { id: "season-most-points-against", chip: "Most points against", title: "Most points against per game", rows: records.mostPointsAgainst, stat: PAPG },
+  { id: "season-most-bench-points", chip: "Most bench points", title: "Most bench points", rows: records.mostBenchPoints, stat: BENCH },
 ];
 ---
-<div data-season-records>
-  <p class="mb-4 text-xs text-muted">
-    Top 10 Seasons, regular season only. Win % counts a tie as half a win. Points rank per game, so 13-game
-    and 14-game Seasons compare fairly.
-  </p>
-  <div class="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0">
-    <nav aria-label="Season records" class="flex w-max gap-2 pb-1">
-      {LISTS.map((l, i) => (
-        <a
-          href={`#${l.id}`}
-          data-record-chip={l.id}
-          aria-current={i === 0 ? "true" : "false"}
-          class="whitespace-nowrap rounded-full border border-line px-3 py-1 text-sm font-semibold text-muted transition-colors hover:text-paper aria-[current=true]:border-brand aria-[current=true]:bg-brand aria-[current=true]:text-paper"
-        >{l.chip}</a>
-      ))}
-    </nav>
-  </div>
-
-  {LISTS.map((l, i) => (
-    <section id={l.id} data-testid="season-record" data-record={l.id} aria-label={l.title} hidden={i !== 0} class="mt-6 scroll-mt-48">
-      <div class="overflow-x-auto rounded-2xl border border-line">
-        <table aria-label={l.title} class="w-full min-w-[40rem] border-collapse text-sm">
-          <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
-            <tr>
-              <th scope="col" class="px-3 py-3 text-right">#</th>
-              <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Season</th>
-              <th scope="col" class="px-3 py-3">Owner</th>
-              <th scope="col" class="px-3 py-3 text-right text-paper">{l.stat.label}</th>
-              {l.stat.total && <th scope="col" class="px-3 py-3 text-right">Total</th>}
-              <th scope="col" class="px-3 py-3 text-right">Record</th>
-              <th scope="col" class="px-3 py-3">Format</th>
-            </tr>
-          </thead>
-          <tbody>
-            {l.rows.map((r, n) => (
-              <tr data-testid="season-record-row" data-year={r.year} class="border-t border-line odd:bg-ink even:bg-panel/40">
-                <td class="px-3 py-2.5 text-right font-bold tabular-nums">{n + 1}</td>
-                <th scope="row" class="sticky left-0 bg-inherit px-3 py-2.5 text-left font-semibold tabular-nums">
-                  <a href={`/seasons/${r.year}/`} class="hover:text-brand">{r.year}</a>
-                </th>
-                <td class="px-3 py-2.5 whitespace-nowrap">
-                  <OwnerLink owner={r.owner} class="font-semibold" />
-                  <span class="block text-xs text-muted">{r.teamName}</span>
-                </td>
-                <td data-testid="record-value" class="px-3 py-2.5 text-right font-bold tabular-nums">{l.stat.value(r)}</td>
-                {l.stat.total && <td data-testid="record-total" class="px-3 py-2.5 text-right tabular-nums text-muted">{l.stat.total(r)}</td>}
-                <td class="px-3 py-2.5 text-right tabular-nums">{formatRecord(r.record)}</td>
-                <td class="px-3 py-2.5"><span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{r.scoringFormat}</span></td>
+<p class="mb-4 text-xs text-muted">
+  Top 10 Seasons, regular season only. Win % counts a tie as half a win. Points rank per game, so 13-game
+  and 14-game Seasons compare fairly. Bench points are the Season total of points left on the bench (IR
+  doesn't count).
+</p>
+<RecordPicker label="Season records" testid="season-record" records={LISTS}>
+  {LISTS.map((l) => (
+    <div slot={l.id}>
+      {l.rows.length === 0 ? (
+        <p class="text-sm text-muted">None yet.</p>
+      ) : (
+        <div class="overflow-x-auto rounded-2xl border border-line">
+          <table aria-label={l.title} class="w-full min-w-[40rem] border-collapse text-sm">
+            <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+              <tr>
+                <th scope="col" class="px-3 py-3 text-right">#</th>
+                <th scope="col" class="sticky left-0 bg-panel px-3 py-3">Season</th>
+                <th scope="col" class="px-3 py-3">Owner</th>
+                <th scope="col" class="px-3 py-3 text-right text-paper">{l.stat.label}</th>
+                {l.stat.total && <th scope="col" class="px-3 py-3 text-right">Total</th>}
+                <th scope="col" class="px-3 py-3 text-right">Record</th>
+                <th scope="col" class="px-3 py-3">Format</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
+            </thead>
+            <tbody>
+              {l.rows.map((r, n) => (
+                <tr data-testid="season-record-row" data-year={r.year} class="border-t border-line odd:bg-ink even:bg-panel/40">
+                  <td class="px-3 py-2.5 text-right font-bold tabular-nums">{n + 1}</td>
+                  <th scope="row" class="sticky left-0 bg-inherit px-3 py-2.5 text-left font-semibold tabular-nums">
+                    <a href={`/seasons/${r.year}/`} class="hover:text-brand">{r.year}</a>
+                  </th>
+                  <td class="px-3 py-2.5 whitespace-nowrap">
+                    <OwnerLink owner={r.owner} class="font-semibold" />
+                    <span class="block text-xs text-muted">{r.teamName}</span>
+                  </td>
+                  <td data-testid="record-value" class="px-3 py-2.5 text-right font-bold tabular-nums">{l.stat.value(r)}</td>
+                  {l.stat.total && <td data-testid="record-total" class="px-3 py-2.5 text-right tabular-nums text-muted">{l.stat.total(r)}</td>}
+                  <td class="px-3 py-2.5 text-right tabular-nums">{formatRecord(r.record)}</td>
+                  <td class="px-3 py-2.5"><span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{r.scoringFormat}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
   ))}
-</div>
-
-<script is:inline>
-  (() => {
-    const root = document.currentScript.previousElementSibling;
-    const chips = [...root.querySelectorAll("[data-record-chip]")];
-    const show = (id) => {
-      for (const c of chips) c.setAttribute("aria-current", String(c.dataset.recordChip === id));
-      for (const s of root.querySelectorAll("[data-record]")) s.hidden = s.dataset.record !== id;
-    };
-    for (const c of chips) {
-      c.addEventListener("click", (e) => {
-        e.preventDefault();
-        show(c.dataset.recordChip);
-        history.replaceState(null, "", `#${c.dataset.recordChip}`);
-      });
-    }
-    // Open the record named in the URL (#season-most-points-for); on a phone, scroll its chip into view
-    const linked = chips.find((c) => `#${c.dataset.recordChip}` === location.hash);
-    if (linked) {
-      show(linked.dataset.recordChip);
-      // After the Tabs script has opened this panel, so the chip has a size
-      document.addEventListener("DOMContentLoaded", () => {
-        const bar = linked.parentElement.parentElement;
-        const edge = linked.getBoundingClientRect().right - bar.getBoundingClientRect().right;
-        if (edge > 0) bar.scrollLeft += Math.ceil(edge) + 16;
-      });
-    }
-  })();
-</script>
+</RecordPicker>
