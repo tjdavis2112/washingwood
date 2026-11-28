@@ -124,6 +124,8 @@ def test_all_time_includes_owners_who_left(archive, owners, tmp_path, pg_dsn):
         "pointsFor": 1490.0,
         "pointsPerGame": 114.62,
         "benchPoints": 351.0,  # 13 Weeks x 27.0
+        "longestWinStreak": 4,  # from the fixture's round-robin schedule
+        "longestLossStreak": 5,
         "lastPlaces": 1,
     }
     (quinn,) = [r for r in all_time if r["owner"] == owner("quinn")]
@@ -205,3 +207,55 @@ def test_a_tied_matchup_is_neither_a_win_nor_a_loss(archive, owners, tmp_path, p
     # Ties in the ranking: earlier Week, then Owner name
     keys = [(r["week"], r["team"]["owner"]["name"]) for r in week["mostPointsInLoss"]]
     assert keys == sorted(keys)
+
+
+# Streaks (#53). Fixture rule (tests/espn_fixture.py): the regular season is a round robin in which the
+# first team in the order is always home and the home team always wins, so seed 1 wins every regular-season
+# game and plays playoff games too.
+
+
+def streak(key, length, start, end, active):
+    return {
+        "owner": owner(key),
+        "length": length,
+        "start": {"year": start[0], "week": start[1]},
+        "end": {"year": end[0], "week": end[1]},
+        "active": active,
+    }
+
+
+def test_a_streak_carries_across_seasons_and_through_a_skipped_season(archive, owners, tmp_path, pg_dsn):
+    # Quinn wins all 13 regular-season games in 2018, sits out 2019, then wins all 14 in 2020. Quinn's
+    # 2018 playoff wins don't extend it: 13 + 14 = 27
+    Season2018Style(2018, [team(k) for k in SEED_ORDER[:10]]).write(archive)
+    Season2018Style(2019, [team(k) for k in SEED_ORDER[2:12]]).write(archive)
+    season(2020).write(archive)
+
+    doc = record_book(archive, owners, tmp_path, pg_dsn)
+
+    assert doc["streaks"]["wins"][0] == streak("quinn", 27, (2018, 1), (2020, 14), True)
+    (quinn,) = [r for r in doc["allTime"] if r["owner"] == owner("quinn")]
+    assert (quinn["longestWinStreak"], quinn["longestLossStreak"]) == (27, 0)
+    assert all(len(v) <= 10 for v in doc["streaks"].values())
+
+
+def test_a_tie_ends_a_streak_and_only_runs_into_the_latest_season_are_active(archive, owners, tmp_path, pg_dsn):
+    # Quinn's period-5 Matchup (the first one) is a tie in 2020: 4 wins, the tie, then 9 + 14 wins.
+    # Jory plays 2020 but not 2021, so no Streak of Jory's can be active
+    season(2020, tie_period=5).write(archive)
+    season(2021, order=[*SEED_ORDER[:11], "nell"]).write(archive)
+
+    doc = record_book(archive, owners, tmp_path, pg_dsn)
+
+    assert doc["streaks"]["wins"][0] == streak("quinn", 23, (2020, 6), (2021, 14), True)
+    (quinn,) = [r for r in doc["allTime"] if r["owner"] == owner("quinn")]
+    assert quinn["longestWinStreak"] == 23
+    rows = doc["streaks"]["wins"] + doc["streaks"]["losses"]
+    assert all(r["end"] == {"year": 2021, "week": 14} for r in rows if r["active"])
+    assert not any(r["active"] for r in rows if r["owner"] == owner("jory"))
+    # Equal lengths: earlier start Season, then Week, then Owner name
+    for kind in ("wins", "losses"):
+        keys = [
+            (-r["length"], r["start"]["year"], r["start"]["week"], r["owner"]["name"]) for r in doc["streaks"][kind]
+        ]
+        assert keys == sorted(keys)

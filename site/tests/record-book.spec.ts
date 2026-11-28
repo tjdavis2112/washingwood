@@ -131,6 +131,8 @@ const ALL_TIME = [
   { label: "Points for", stat: "points-for", sort: (r: any) => r.pointsFor, show: (r: any) => pts(r.pointsFor) },
   { label: "Points per game", stat: "points-per-game", sort: (r: any) => r.pointsPerGame, show: (r: any) => pts(r.pointsPerGame) },
   { label: "Bench points", stat: "bench-points", sort: (r: any) => r.benchPoints ?? -1, show: (r: any) => (r.benchPoints === null ? "—" : pts(r.benchPoints)) },
+  { label: "Win streak", stat: "win-streak", sort: (r: any) => r.longestWinStreak, show: (r: any) => String(r.longestWinStreak) },
+  { label: "Loss streak", stat: "loss-streak", sort: (r: any) => r.longestLossStreak, show: (r: any) => String(r.longestLossStreak) },
   { label: "Last places", stat: "last-places", sort: (r: any) => r.lastPlaces, show: (r: any) => String(r.lastPlaces) },
 ];
 
@@ -148,23 +150,25 @@ test("picking an All-time stat re-sorts the table; a phone shows only rank, Owne
       await expect(row.getByTestId("all-time-rank")).toHaveText(String(i + 1));
       await expect(row.locator(`[data-stat="${s.stat}"]`)).toHaveText(s.show(r));
       await expect(row.locator(`[data-stat="${s.stat}"]`)).toBeVisible();
-      // Rank, Owner and the picked stat; desktop also shows Seasons and the other five stats
-      await expect(row.locator("td:visible")).toHaveCount(info.project.name === "desktop" ? 9 : 3);
+      // Rank, Owner and the picked stat; desktop also shows Seasons and the other seven stats
+      await expect(row.locator("td:visible")).toHaveCount(info.project.name === "desktop" ? 11 : 3);
     }
   }
 });
 
 // One test per hash: goto() with only the hash changed doesn't reload the page
-for (const hash of ["week-most-bench-points", "season-most-points-for", "all-time"]) {
+for (const hash of ["week-most-bench-points", "season-most-points-for", "all-time", "streaks"]) {
   test(`#${hash} fits the screen with its chips in view`, async ({ page }, info) => {
     await page.goto(`/record-book/#${hash}`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, `#${hash} is wider than the viewport`).toBeLessThanOrEqual(0);
     // The chip row isn't hidden under the sticky header when a link opens the page part-way down
-    const chips = page.locator(hash === "all-time" ? "[data-stat-button]" : "[data-record-chip]:visible").first();
-    await expect(chips).toBeInViewport();
-    const header = (await page.locator("header").first().boundingBox())!;
-    expect((await chips.boundingBox())!.y).toBeGreaterThanOrEqual(header.y + header.height);
+    if (hash !== "streaks") {
+      const chips = page.locator(hash === "all-time" ? "[data-stat-button]" : "[data-record-chip]:visible").first();
+      await expect(chips).toBeInViewport();
+      const header = (await page.locator("header").first().boundingBox())!;
+      expect((await chips.boundingBox())!.y).toBeGreaterThanOrEqual(header.y + header.height);
+    }
     await page.screenshot({ path: path.join(SHOTS, info.project.name, `record-book-${hash}.png`), fullPage: true });
   });
 }
@@ -219,3 +223,38 @@ for (const [tab, label] of [["highest", "Highest scores"], ["lowest", "Lowest sc
     await expect(page.getByRole("tab", { name: label, exact: true })).toHaveAttribute("aria-selected", "true");
   });
 }
+
+// Streaks (#53)
+const spot = (w: { year: number; week: number }) => `${w.year} \u00b7 Wk ${w.week}`;
+
+test("#streaks opens the tab with the longest winning and losing Streaks", async ({ page }) => {
+  await page.goto("/record-book/#streaks");
+  await expect(page.getByRole("tab", { name: "Streaks", exact: true })).toHaveAttribute("aria-selected", "true");
+  for (const kind of ["wins", "losses"]) {
+    const expected = book.streaks[kind];
+    const rows = page.getByTestId(`streaks-${kind}`).getByTestId("streak-row");
+    await expect(rows).toHaveCount(expected.length);
+    for (const [i, r] of expected.entries()) {
+      const row = rows.nth(i);
+      await expect(row.getByRole("link", { name: r.owner.name, exact: true })).toHaveAttribute("href", `/owners/${r.owner.slug}/`);
+      await expect(row.getByTestId("streak-length")).toHaveText(String(r.length));
+      await expect(row.getByTestId("streak-start")).toHaveText(spot(r.start));
+      await expect(row.getByTestId("streak-end")).toHaveText(spot(r.end));
+      await expect(row.getByTestId("streak-active")).toHaveCount(r.active ? 1 : 0);
+    }
+  }
+});
+
+test("the two Streak tables sit side by side on desktop and stacked on a phone", async ({ page }, info) => {
+  await page.goto("/record-book/#streaks");
+  const wins = (await page.getByTestId("streaks-wins").boundingBox())!;
+  const losses = (await page.getByTestId("streaks-losses").boundingBox())!;
+  if (info.project.name === "desktop") expect(losses.x).toBeGreaterThan(wins.x + wins.width - 1);
+  else expect(losses.y).toBeGreaterThanOrEqual(wins.y + wins.height);
+  // Both fit the viewport, with every Active label in view (no sideways scrolling to find it)
+  for (const box of [wins, losses]) expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+  for (const label of await page.getByTestId("streak-active").all()) {
+    const b = (await label.boundingBox())!;
+    expect(b.x + b.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+  }
+});

@@ -2108,7 +2108,9 @@
       "pointsFor": 3188.97,
       "pointsPerGame": 118.11,
       "benchPoints": 1839.62,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 5,
+      "longestLossStreak": 2
     },
     {
       "owner": {
@@ -2126,7 +2128,9 @@
       "pointsFor": 3071.5,
       "pointsPerGame": 113.76,
       "benchPoints": 1986.6,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 4,
+      "longestLossStreak": 3
     },
     {
       "owner": {
@@ -2144,7 +2148,9 @@
       "pointsFor": 3127.53,
       "pointsPerGame": 115.83,
       "benchPoints": 1775.2,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 5,
+      "longestLossStreak": 2
     },
     {
       "owner": {
@@ -2162,7 +2168,9 @@
       "pointsFor": 3299.81,
       "pointsPerGame": 122.22,
       "benchPoints": 1770.56,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 6,
+      "longestLossStreak": 3
     },
     {
       "owner": {
@@ -2180,7 +2188,9 @@
       "pointsFor": 3026.4,
       "pointsPerGame": 112.09,
       "benchPoints": 1840.14,
-      "lastPlaces": 1
+      "lastPlaces": 1,
+      "longestWinStreak": 4,
+      "longestLossStreak": 5
     },
     {
       "owner": {
@@ -2198,7 +2208,9 @@
       "pointsFor": 3074.23,
       "pointsPerGame": 113.86,
       "benchPoints": 1934.79,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 3,
+      "longestLossStreak": 3
     },
     {
       "owner": {
@@ -2216,7 +2228,9 @@
       "pointsFor": 3179.58,
       "pointsPerGame": 117.76,
       "benchPoints": 1921.83,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 3,
+      "longestLossStreak": 4
     },
     {
       "owner": {
@@ -2234,7 +2248,9 @@
       "pointsFor": 3098.24,
       "pointsPerGame": 114.75,
       "benchPoints": 2055.14,
-      "lastPlaces": 1
+      "lastPlaces": 1,
+      "longestWinStreak": 6,
+      "longestLossStreak": 6
     },
     {
       "owner": {
@@ -2252,7 +2268,9 @@
       "pointsFor": 1738.66,
       "pointsPerGame": 124.19,
       "benchPoints": 900.53,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 5,
+      "longestLossStreak": 2
     },
     {
       "owner": {
@@ -2270,7 +2288,9 @@
       "pointsFor": 2974.96,
       "pointsPerGame": 110.18,
       "benchPoints": 1768.13,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 2,
+      "longestLossStreak": 3
     },
     {
       "owner": {
@@ -2288,7 +2308,9 @@
       "pointsFor": 1438.89,
       "pointsPerGame": 110.68,
       "benchPoints": 898.52,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 4,
+      "longestLossStreak": 4
     },
     {
       "owner": {
@@ -2306,7 +2328,9 @@
       "pointsFor": 1555.2,
       "pointsPerGame": 111.09,
       "benchPoints": 900.05,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 3,
+      "longestLossStreak": 5
     },
     {
       "owner": {
@@ -2324,9 +2348,337 @@
       "pointsFor": 1443.06,
       "pointsPerGame": 103.08,
       "benchPoints": 1044.39,
-      "lastPlaces": 0
+      "lastPlaces": 0,
+      "longestWinStreak": 2,
+      "longestLossStreak": 6
     }
   ],
+  "streaks": {
+    "wins": [
+      {
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "length": 6,
+        "start": {
+          "year": 2018,
+          "week": 6
+        },
+        "end": {
+          "year": 2018,
+          "week": 11
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "length": 6,
+        "start": {
+          "year": 2020,
+          "week": 2
+        },
+        "end": {
+          "year": 2020,
+          "week": 7
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "length": 5,
+        "start": {
+          "year": 2020,
+          "week": 1
+        },
+        "end": {
+          "year": 2020,
+          "week": 5
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "length": 5,
+        "start": {
+          "year": 2020,
+          "week": 8
+        },
+        "end": {
+          "year": 2020,
+          "week": 12
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "length": 5,
+        "start": {
+          "year": 2020,
+          "week": 10
+        },
+        "end": {
+          "year": 2020,
+          "week": 14
+        },
+        "active": true
+      },
+      {
+        "owner": {
+          "slug": "wren-solano",
+          "name": "Wren Solano"
+        },
+        "length": 4,
+        "start": {
+          "year": 2018,
+          "week": 1
+        },
+        "end": {
+          "year": 2018,
+          "week": 4
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "length": 4,
+        "start": {
+          "year": 2018,
+          "week": 12
+        },
+        "end": {
+          "year": 2020,
+          "week": 2
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "length": 4,
+        "start": {
+          "year": 2020,
+          "week": 4
+        },
+        "end": {
+          "year": 2020,
+          "week": 7
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "length": 4,
+        "start": {
+          "year": 2020,
+          "week": 5
+        },
+        "end": {
+          "year": 2020,
+          "week": 8
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "length": 4,
+        "start": {
+          "year": 2020,
+          "week": 11
+        },
+        "end": {
+          "year": 2020,
+          "week": 14
+        },
+        "active": true
+      }
+    ],
+    "losses": [
+      {
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "length": 6,
+        "start": {
+          "year": 2020,
+          "week": 1
+        },
+        "end": {
+          "year": 2020,
+          "week": 6
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "length": 6,
+        "start": {
+          "year": 2020,
+          "week": 9
+        },
+        "end": {
+          "year": 2020,
+          "week": 14
+        },
+        "active": true
+      },
+      {
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "length": 5,
+        "start": {
+          "year": 2018,
+          "week": 2
+        },
+        "end": {
+          "year": 2018,
+          "week": 6
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "length": 5,
+        "start": {
+          "year": 2020,
+          "week": 3
+        },
+        "end": {
+          "year": 2020,
+          "week": 7
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "length": 5,
+        "start": {
+          "year": 2020,
+          "week": 4
+        },
+        "end": {
+          "year": 2020,
+          "week": 8
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "wren-solano",
+          "name": "Wren Solano"
+        },
+        "length": 4,
+        "start": {
+          "year": 2018,
+          "week": 9
+        },
+        "end": {
+          "year": 2018,
+          "week": 12
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "length": 4,
+        "start": {
+          "year": 2020,
+          "week": 9
+        },
+        "end": {
+          "year": 2020,
+          "week": 12
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "length": 4,
+        "start": {
+          "year": 2020,
+          "week": 11
+        },
+        "end": {
+          "year": 2020,
+          "week": 14
+        },
+        "active": true
+      },
+      {
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "length": 3,
+        "start": {
+          "year": 2018,
+          "week": 3
+        },
+        "end": {
+          "year": 2018,
+          "week": 5
+        },
+        "active": false
+      },
+      {
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "length": 3,
+        "start": {
+          "year": 2018,
+          "week": 9
+        },
+        "end": {
+          "year": 2018,
+          "week": 11
+        },
+        "active": false
+      }
+    ]
+  },
   "lastPlace": {
     "seasons": [
       {

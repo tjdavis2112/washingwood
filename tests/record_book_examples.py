@@ -1,5 +1,6 @@
 """Derive the Record Book example (contract/examples/record-book.json) from the Season and Box score
-examples: Week records, Season records, the All-time table, Last place history and the per-Owner tally.
+examples: Week records, Season records, the All-time table, Streaks, Last place history and the per-Owner
+tally.
 
 A reference implementation in plain Python, independent of the pipeline's SQL. test_site_contract.py
 uses it to check the example still agrees with the Season examples.
@@ -186,6 +187,68 @@ def all_time(rows: list[dict], last_places: list[dict]) -> list[dict]:
     return sorted(out, key=lambda r: (-r["record"]["wins"], r["owner"]["name"]))
 
 
+def regular_games(season: dict) -> list[tuple[str, dict, int, str]]:
+    """Every regular-season game in a Season, in Matchup-period order: (Owner slug, Owner ref, Week, W/L/T),
+    one per side. Regular-season periods are the weekly results before the first bracket round; byes aren't
+    games."""
+    first_round = season["bracket"]["rounds"][0]["matchupPeriod"]
+    out = []
+    for period in sorted(season["weeklyResults"], key=lambda p: p["matchupPeriod"]):
+        if period["matchupPeriod"] >= first_round:
+            continue
+        for m in period["matchups"]:
+            if m["isBye"]:
+                continue
+            for who in ("home", "away"):
+                result = "T" if m["isTie"] else "W" if m["winner"] == who else "L"
+                out.append((m[who]["owner"]["slug"], m[who]["owner"], period["weeks"][0], result))
+    return out
+
+
+def streaks(seasons: list[dict]) -> tuple[dict, dict[str, dict]]:
+    """Streaks (GLOSSARY) over every Season, oldest first: runs of regular-season wins or losses per Owner;
+    a sat-out Season doesn't break one, a tie ends it. Active: runs through the Owner's last game, played in
+    the latest Season. Returns the top-10 lists and each Owner's longest of each kind."""
+    latest = max(s["year"] for s in seasons)
+    games: dict[str, list] = {}
+    for season in sorted(seasons, key=lambda s: s["year"]):
+        for slug, ref, week, result in regular_games(season):
+            games.setdefault(slug, []).append((season["year"], ref, week, result))
+    runs: dict[str, list[dict]] = {"W": [], "L": []}
+    longest = {}
+    for slug, played in games.items():
+        kind, run = None, None
+        for year, ref, week, result in played:
+            if result == "T":
+                kind, run = None, None
+            elif result == kind:
+                run["length"] += 1
+                run["end"] = {"year": year, "week": week}
+            else:
+                kind = result
+                run = {
+                    "owner": ref,
+                    "length": 1,
+                    "start": {"year": year, "week": week},
+                    "end": {"year": year, "week": week},
+                    "active": False,
+                }
+                runs[kind].append(run)
+        if run is not None and played[-1][0] == latest:
+            run["active"] = True
+        longest[slug] = {
+            "longestWinStreak": max((r["length"] for r in runs["W"] if r["owner"]["slug"] == slug), default=0),
+            "longestLossStreak": max((r["length"] for r in runs["L"] if r["owner"]["slug"] == slug), default=0),
+        }
+
+    def top(kind):
+        return sorted(
+            runs[kind], key=lambda r: (-r["length"], r["start"]["year"], r["start"]["week"], r["owner"]["name"])
+        )[:10]
+
+    return {"wins": top("W"), "losses": top("L")}, longest
+
+
 def _seasons() -> list[dict]:
     return [
         json.loads(p.read_text(encoding="utf-8")) for p in sorted((EXAMPLES / "seasons").glob("*.json"), reverse=True)
@@ -198,16 +261,18 @@ def _box_scores(year: int) -> dict | None:
 
 
 def derive() -> dict:
-    """record-book.json: Week and Season records, the All-time table, Last place per Season (newest first)
-    and the tally."""
+    """record-book.json: Week and Season records, the All-time table, Streaks, Last place per Season (newest
+    first) and the tally."""
     seasons = _seasons()
     boxes = {s["year"]: _box_scores(s["year"]) for s in seasons}
     rows = [r for s in seasons for r in season_rows(s, boxes[s["year"]])]
     last = [last_place_row(s) for s in seasons]
+    streak_lists, longest = streaks(seasons)
     return {
         "week": week_records([r for s in seasons for r in week_rows(s, boxes[s["year"]])]),
         "season": season_records(rows),
-        "allTime": all_time(rows, last),
+        "allTime": [r | longest[r["owner"]["slug"]] for r in all_time(rows, last)],
+        "streaks": streak_lists,
         "lastPlace": {"seasons": last, "tally": tally(last)},
     }
 

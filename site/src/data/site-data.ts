@@ -385,14 +385,20 @@ export type WeekRecordRow = {
   opponent: LeaderboardSide; result: "win" | "loss" | "tie"; benchPoints: number | null; scoringFormat: string;
 };
 export type WeekRecordKey = "mostPointsInLoss" | "fewestPointsInWin" | "mostBenchPoints";
+export type StreakRow = {
+  owner: OwnerRef; length: number; start: { year: number; week: number }; end: { year: number; week: number };
+  active: boolean;
+};
 export type AllTimeRow = {
   owner: OwnerRef; seasons: number; record: WinLossTie; games: number; winPct: number;
-  pointsFor: number; pointsPerGame: number; benchPoints: number | null; lastPlaces: number;
+  pointsFor: number; pointsPerGame: number; benchPoints: number | null; longestWinStreak: number;
+  longestLossStreak: number; lastPlaces: number;
 };
 export type RecordBookDoc = {
   week: Record<WeekRecordKey, WeekRecordRow[]>;
   season: Record<SeasonRecordKey, SeasonRecordRow[]>;
   allTime: AllTimeRow[];
+  streaks: { wins: StreakRow[]; losses: StreakRow[] };
   lastPlace: { seasons: LastPlaceRow[]; tally: LastPlaceTally[] };
 };
 
