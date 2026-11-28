@@ -143,6 +143,8 @@ export type StandingsRow = {
 /** Season points with thousands separators and two decimals: "1,499.50". */
 export const formatPoints = (n: number) =>
   n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+/** A signed points figure such as Value added: +12.50, −3.25 (a true minus sign) or 0.00. */
+export const formatSigned = (n: number) => (n > 0 ? `+${formatPoints(n)}` : n < 0 ? `−${formatPoints(-n)}` : formatPoints(0));
 
 const seasons = new Map<number, Season>();
 export function getSeason(year: number): Season {
@@ -413,14 +415,16 @@ export function getRecordBook(): RecordBookDoc {
   return recordBookDoc;
 }
 
-export type TradedPlayer = { name: string; position: string; nflTeam: string | null; points: number; weeksStarted: number };
-export type TradeSide = { owner: OwnerRef; teamName: string; outcome: "won" | "lost" | "tied"; total: number; players: TradedPlayer[] };
+export type TradedPlayer = { name: string; position: string; nflTeam: string | null; points: number; value: number; weeksStarted: number };
+export type TradeSide = {
+  owner: OwnerRef; teamName: string; outcome: "won" | "lost" | "tied"; total: number; rawTotal: number; players: TradedPlayer[];
+};
 export type Trade = {
   year: number; week: number; scoringFormat: string; margin: number; fleeced: boolean; sides: [TradeSide, TradeSide];
 };
 export type Pickup = {
   name: string; position: string; nflTeam: string | null; owner: OwnerRef; teamName: string; year: number; week: number;
-  via: "waiver" | "free_agent"; points: number; weeksStarted: number; scoringFormat: string;
+  via: "waiver" | "free_agent"; points: number; value: number; weeksStarted: number; scoringFormat: string;
 };
 export type TradeRecord = { owner: OwnerRef; trades: number; won: number; lost: number; tied: number; netPoints: number };
 export type TransactionsDoc = {

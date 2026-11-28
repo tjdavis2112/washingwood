@@ -3,7 +3,7 @@
 // inside its own box on a phone (first column sticky), and each row carries its Scoring format badge. On a
 // Season page (#64, `season` set) it lists that Season's top 10: Week instead of Season, no Format column.
 import type { Pickup } from "../data/site-data";
-import { formatPoints } from "../data/site-data";
+import { formatPoints, formatSigned } from "../data/site-data";
 import OwnerLink from "./OwnerLink.astro";
 
 interface Props { pickups: Pickup[]; season?: number }
@@ -14,8 +14,8 @@ const VIA = { waiver: "via waivers", free_agent: "free agent" } as const;
 <section aria-labelledby="best-pickups-heading" data-section="best-pickups" data-testid="best-pickups" class="mb-10">
   <h2 id="best-pickups-heading" class="text-2xl font-black">Best pickups</h2>
   <p class="mt-1 mb-4 text-xs text-muted">
-    Waiver claims and free-agent adds, ranked by the points the Player scored as a starter for that team until
-    they left it.{allTime && " Scoring formats differ between Seasons, so check each row's format."}
+    Waiver claims and free-agent adds, ranked by Value added: the Player's starts for that team, until they left
+    it, each measured against a replacement-level starter at their position.{allTime && " Scoring formats differ between Seasons, so check each row's format."}
   </p>
   {pickups.length === 0 ? <p class="text-muted">{allTime ? "No pickups yet." : `No pickups in ${season}.`}</p> : (
     <div class="overflow-x-auto rounded-2xl border border-line">
@@ -26,7 +26,7 @@ const VIA = { waiver: "via waivers", free_agent: "free agent" } as const;
             <th scope="col" class="sticky left-0 bg-panel px-3 py-3">{allTime ? "Season" : "Week"}</th>
             <th scope="col" class="px-3 py-3">Player</th>
             <th scope="col" class="px-3 py-3">Owner</th>
-            <th scope="col" class="px-3 py-3 text-right">Points</th>
+            <th scope="col" class="px-3 py-3 text-right">Value</th>
             {allTime && <th scope="col" class="px-3 py-3">Format</th>}
           </tr>
         </thead>
@@ -46,8 +46,8 @@ const VIA = { waiver: "via waivers", free_agent: "free agent" } as const;
               </td>
               <td class="px-3 py-2.5 whitespace-nowrap"><OwnerLink owner={p.owner} /><span class="block text-xs text-muted">{p.teamName}</span></td>
               <td class="px-3 py-2.5 text-right whitespace-nowrap tabular-nums">
-                <span class="font-bold">{formatPoints(p.points)}</span>
-                <span class="block text-xs text-muted">{p.weeksStarted} {p.weeksStarted === 1 ? "start" : "starts"}</span>
+                <span data-testid="pickup-value" class="font-bold">{formatSigned(p.value)}</span>
+                <span class="block text-xs text-muted">{formatPoints(p.points)} raw · {p.weeksStarted} {p.weeksStarted === 1 ? "start" : "starts"}</span>
               </td>
               {allTime && <td class="px-3 py-2.5"><span data-testid="format-badge" class="whitespace-nowrap rounded-full border border-line px-2 py-0.5 text-[0.7rem] text-muted">{p.scoringFormat}</span></td>}
             </tr>

@@ -17,11 +17,19 @@ const years = [...new Set(trades.map((t) => t.year))]; // already newest first
   <header class="mb-8">
     <h1 class="text-3xl font-black md:text-5xl">Transactions</h1>
     <p class="mt-2 text-muted">
-      Every trade and who won it, and the best waiver and free-agent pickups. A trade side scores the points its
-      new Players put up as starters for it, from the trade's Week to the end of the Season, playoffs included,
-      until it traded them away. Bench Weeks don't count.
+      Every trade and who won it, and the best waiver and free-agent pickups. A trade side counts its new
+      Players' starts for it, from the trade's Week to the end of the Season, playoffs included, until it traded
+      them away. Bench Weeks don't count.
     </p>
   </header>
+
+  <aside data-testid="value-added-note" class="mb-8 rounded-2xl border border-line bg-panel/60 p-4 text-sm text-muted">
+    <p>
+      <span class="font-semibold text-paper">Value added:</span> every start is measured against a replacement-level
+      starter at that position that Season (the last starter-quality finish, such as QB12 in a 12-team Season), so a
+      QB doesn't win a trade just because QBs score more. A start below replacement counts negative. Raw points are shown beside it.
+    </p>
+  </aside>
 
   <section aria-labelledby="fleeced-heading" data-section="fleeced" data-testid="fleeced" class="mb-10">
     <h2 id="fleeced-heading" class="text-2xl font-black">Fleeced</h2>

@@ -98,7 +98,8 @@ def lineup_player(pid: int) -> tuple[str, int, int]:
         team_id, index = divmod(pid - 70000, 100)
         return f"Lineup {team_id}-{index:02d}", LINEUP[index][1], 1 + index
     if 60000 <= pid < 70000:  # a free agent (free_agent_id)
-        return f"Free Agent {pid - 60000:03d}", 2, 9
+        kind, n = divmod(pid - 60000, 1000)
+        return f"Free Agent {n:03d}", kind or 2, 9
     if -16200 < pid <= -16100:  # a team's own D/ST
         return f"Team{-16100 - pid} D/ST", 16, 8
     return fixture_player_name(pid), fixture_player_position(pid), fixture_player_pro_team(pid)
@@ -118,6 +119,8 @@ class FixtureTrade:
     a: str
     b: str
     slots: tuple[int, ...] = (1,)
+    # b's slots, when they differ from a's: a's slots[i] player goes to b's b_slots[i], and back
+    b_slots: tuple[int, ...] | None = None
     lag: int = 0  # 1 = the move shows on roster_w(week + 1), as after a review window
     legs: bool = False  # 2018 style: TRADE items on TRADE_ACCEPT, no relatedTransactionId
     team_actions: bool = False  # list both teams in teamActions (else the partner comes from the diff)
@@ -159,9 +162,14 @@ class FixtureMove:
         return self.status == "EXECUTED"
 
 
-def free_agent_id(n: int) -> int:
-    """An invented free agent, in no lineup until someone adds them."""
-    return 60000 + n
+# pool_points_by_position that makes every position's Replacement points 0, so Value added = raw points
+NO_REPLACEMENT = {position: 0.0 for position in (1, 2, 3, 4, 5, 16)}
+
+
+def free_agent_id(n: int, position: int = 2) -> int:
+    """An invented free agent, in no lineup until someone adds them. RB by default; position is a
+    defaultPositionId (1 QB, 3 WR, 4 TE, 5 K) and n stays under 1000."""
+    return 60000 + n if position == 2 else 60000 + position * 1000 + n
 
 
 @dataclass
@@ -200,6 +208,9 @@ class FixtureSeason:
     unlisted_players: set[int] = field(default_factory=set)
     # Season points (player_pool.json season total) by playerId; default fixture_player_points()
     player_points: dict[int, float] = field(default_factory=dict)
+    # Season points for every pool Player at a position (defaultPositionId -> points), unless player_points
+    # names them. Every Player at a position scoring the same fixes that position's Replacement points.
+    pool_points_by_position: dict[int, float] = field(default_factory=dict)
     # playerIds whose season-total row is left out of player_pool.json
     pool_without_points: set[int] = field(default_factory=set)
     # Extra undrafted pool Players: playerId -> (defaultPositionId, points)
@@ -473,12 +484,15 @@ class FixtureSeason:
         for pid in [p["playerId"] for p in self._picks() if p["playerId"] != -1] + list(extra):
             if pid in extra:
                 position, points = extra[pid]
+                points = self.pool_points_by_position.get(position, points)
                 name, pro_team = f"Undrafted Fixture {pid}", 0
             else:
                 position, name, pro_team = (fixture_player_position(pid), fixture_player_name(pid),
                                             fixture_player_pro_team(pid))  # fmt: skip
                 name = listed.get(pid, {}).get("fullName", self.player_names.get(pid, name))
-                points = self.player_points.get(pid, fixture_player_points(pid))
+                points = self.player_points.get(
+                    pid, self.pool_points_by_position.get(position, fixture_player_points(pid))
+                )
             stats = [
                 # A projected row and a weekly row, which the loader must ignore
                 {"seasonId": self.year, "scoringPeriodId": 0, "statSourceId": 1, "statSplitTypeId": 0,
@@ -568,8 +582,7 @@ class FixtureSeason:
                     legs = [(self.drafted(ev.a, ev.draft_round), ev.a, ev.b, ev.slots[0]),
                             (self.drafted(ev.b, ev.draft_round), ev.b, ev.a, ev.slots[0])]  # fmt: skip
                 else:
-                    a, b = roster[ev.a], roster[ev.b]
-                    legs = [leg for s in ev.slots for leg in ((a[s], ev.a, ev.b, s), (b[s], ev.b, ev.a, s))]
+                    legs = self._swap_legs(ev, roster)
                 for pid, _, to, slot in legs:
                     roster[to][slot] = pid
                 legs_of[id(ev)] = legs
@@ -596,11 +609,16 @@ class FixtureSeason:
         if trade.draft_round is not None:
             return [(self.drafted(trade.a, trade.draft_round), trade.a, trade.b, trade.slots[0]),
                     (self.drafted(trade.b, trade.draft_round), trade.b, trade.a, trade.slots[0])]  # fmt: skip
-        r = self.rosters(trade.week)
+        return self._swap_legs(trade, self.rosters(trade.week))
+
+    @staticmethod
+    def _swap_legs(trade: FixtureTrade, roster: dict[str, list[int]]) -> list[tuple[int, str, str, int]]:
+        """a's slots[i] player moves into b's b_slots[i] (default: the same slot) and b's moves back."""
+        a, b = roster[trade.a], roster[trade.b]
         return [
             leg
-            for s in trade.slots
-            for leg in ((r[trade.a][s], trade.a, trade.b, s), (r[trade.b][s], trade.b, trade.a, s))
+            for s, t in zip(trade.slots, trade.b_slots or trade.slots, strict=True)
+            for leg in ((a[s], trade.a, trade.b, t), (b[t], trade.b, trade.a, s))
         ]
 
     def roster_doc(self, week: int) -> dict:

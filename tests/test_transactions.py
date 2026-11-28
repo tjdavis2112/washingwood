@@ -8,13 +8,21 @@ included; a trade swaps whoever holds the listed lineup slots (1 = an RB starter
 import json
 
 import pytest
-from espn_fixture import PEOPLE, FixtureTrade, Season2018Style, lineup_player_id, team
-from test_build import SEED_ORDER, season
+from espn_fixture import NO_REPLACEMENT, PEOPLE, FixtureTrade, Season2018Style, lineup_player_id, team
+from test_build import SEED_ORDER
+from test_build import season as build_season
 from test_draft import owner
 
 from washingwood.build import build
 from washingwood.contract import validate
 from washingwood.loader import LoadError
+
+
+def season(year, **options):
+    """A 2020-style Season whose Replacement points are 0 at every position, so Value added equals raw
+    starter points unless a test sets pool_points_by_position itself."""
+    options.setdefault("pool_points_by_position", NO_REPLACEMENT)
+    return build_season(year, **options)
 
 
 def trades(archive, owners, tmp_path, pg_dsn) -> list[dict]:
@@ -29,12 +37,15 @@ def pid(s, key, slot):
     return lineup_player_id(s.team_id(key), slot)
 
 
-def player(name, position, nfl_team, points, weeks):
-    return {"name": name, "position": position, "nflTeam": nfl_team, "points": points, "weeksStarted": weeks}
+def player(name, position, nfl_team, points, weeks, value=None):
+    """A received Player. With Replacement points 0 (the default here), Value added = raw points."""
+    return {"name": name, "position": position, "nflTeam": nfl_team, "points": points,
+            "value": points if value is None else value, "weeksStarted": weeks}  # fmt: skip
 
 
-def side(key, outcome, total, players):
-    return {"owner": owner(key), "teamName": PEOPLE[key][1], "outcome": outcome, "total": total, "players": players}
+def side(key, outcome, total, players, raw=None):
+    return {"owner": owner(key), "teamName": PEOPLE[key][1], "outcome": outcome, "total": total,
+            "rawTotal": total if raw is None else raw, "players": players}  # fmt: skip
 
 
 def lineup_name(s, key, slot):
@@ -44,7 +55,7 @@ def lineup_name(s, key, slot):
 def test_a_2018_style_trade_takes_its_legs_from_trade_accept_and_counts_playoff_weeks(
     archive, owners, tmp_path, pg_dsn
 ):
-    s = Season2018Style(2018, [team(k) for k in SEED_ORDER[2:12]])
+    s = Season2018Style(2018, [team(k) for k in SEED_ORDER[2:12]], pool_points_by_position=NO_REPLACEMENT)
     s.trades = [FixtureTrade(week=4, a="odie", b="rue", legs=True, team_actions=True)]
     s.lineup_points = {pid(s, "odie", 1): 10.0, pid(s, "rue", 1): 7.0}
     s.write(archive)
@@ -166,3 +177,22 @@ def test_the_build_fails_when_the_trade_count_disagrees_with_espn(archive, owner
     s.write(archive)
     with pytest.raises(LoadError, match=r"Season 2020: 1 trade\(s\) found, but ESPN's transactionCounter says 7"):
         build(archive_dir=archive, owners_file=owners, out_dir=tmp_path / "export", dsn=pg_dsn)
+
+
+def test_a_trade_is_won_on_value_added_so_a_qb_doesnt_win_on_raw_points_alone(archive, owners, tmp_path, pg_dsn):
+    # Replacement points: QB 340 and WR 170 over 17 Weeks, so a start is worth 20 (QB) or 10 (WR) at replacement
+    s = season(2020, pool_points_by_position={**NO_REPLACEMENT, 1: 340.0, 3: 170.0})
+    # Odie's starting QB (slot 0) for Rue's starting WR (slot 3), from Week 9: 9 starts each
+    s.trades = [FixtureTrade(week=9, a="odie", b="rue", slots=(0,), b_slots=(3,))]
+    qb, wr = pid(s, "odie", 0), pid(s, "rue", 3)
+    s.lineup_points = {qb: 22.0, wr: 16.0}
+    s.write(archive)
+
+    (trade,) = trades(archive, owners, tmp_path, pg_dsn)
+
+    # Raw: the QB side has 198 to 144. Value added: 9 x (22 - 20) = 18 against 9 x (16 - 10) = 54
+    assert trade["margin"] == 36.0
+    assert trade["sides"] == [
+        side("odie", "won", 54.0, [player(lineup_name(s, "rue", 3), "WR", "CIN", 144.0, 9, value=54.0)], raw=144.0),
+        side("rue", "lost", 18.0, [player(lineup_name(s, "odie", 0), "QB", "ATL", 198.0, 9, value=18.0)], raw=198.0),
+    ]

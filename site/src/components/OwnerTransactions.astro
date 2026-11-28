@@ -31,7 +31,7 @@ const signed = (n: number) => (n > 0 ? `+${formatPoints(n)}` : n < 0 ? `−${for
     ) : <p data-testid="no-trades" class="text-muted">No trades yet.</p>}
     {trades.length > 0 && (
       <>
-        <p class="mb-4 text-xs text-muted">Net points: what this Owner's received Players scored for them, minus what the other side's did, over every trade.</p>
+        <p class="mb-4 text-xs text-muted">Net points: the Value added this Owner's received Players gave them, minus what the other side's gave, over every trade.</p>
         <div class="grid gap-4">{trades.map((trade) => <TradeCard trade={trade} />)}</div>
       </>
     )}
