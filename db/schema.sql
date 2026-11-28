@@ -605,36 +605,49 @@ LEFT JOIN core.players p        ON p.player_id = dp.player_id
 LEFT JOIN core.player_seasons ps ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id;
 
 -- Points each acquired Player scored as a starter for the new team during the Stint (GLOSSARY): from the
--- acquisition's Week until the Player next leaves that team (traded away or dropped) that Season, playoff
--- Weeks included. A later re-acquisition is a Stint of its own, so no Week counts twice.
+-- acquisition's Week until the Player next leaves that team, playoff Weeks included. Lineups record where a
+-- Player is each Week, so the Stint counts the team's lineup Weeks up to (not including) its next
+-- acquisition of the same Player: after a trade-away or drop the Player is in no lineup of that team, and a
+-- re-acquisition starts a new Stint, so no Week counts twice. This also keeps the Week of a drop made after
+-- that Week's games. stint_end_week is that next acquisition's Week (NULL = none that Season).
 CREATE VIEW stats.acquisition_impact AS
 WITH acquisitions AS (
     SELECT t.transaction_id, t.season_id, coalesce(t.week, 1) AS acquired_week, t.kind,
-           ti.player_id, ti.from_franchise_id, ti.to_franchise_id,
-           (SELECT min(t2.week)
-            FROM core.transactions t2
-            JOIN core.transaction_items ti2 ON ti2.transaction_id = t2.transaction_id
-            WHERE t2.season_id = t.season_id
-              AND ti2.player_id = ti.player_id
-              AND ti2.from_franchise_id = ti.to_franchise_id
-              AND t2.week > coalesce(t.week, 1))                    AS left_week  -- NULL = kept to Season's end
+           ti.player_id, ti.from_franchise_id, ti.to_franchise_id
     FROM core.transactions t
     JOIN core.transaction_items ti ON ti.transaction_id = t.transaction_id
     WHERE ti.to_franchise_id IS NOT NULL
+), stints AS (
+    SELECT a.*,
+           lead(a.acquired_week) OVER (PARTITION BY a.season_id, a.player_id, a.to_franchise_id
+                                       ORDER BY a.acquired_week, a.transaction_id) AS stint_end_week
+    FROM acquisitions a
 )
-SELECT a.transaction_id, a.season_id, a.acquired_week, a.kind,
-       a.player_id, a.from_franchise_id, a.to_franchise_id, a.left_week,
+SELECT st.transaction_id, st.season_id, st.acquired_week, st.kind,
+       st.player_id, st.from_franchise_id, st.to_franchise_id, st.stint_end_week,
        coalesce(sum(le.points) FILTER (WHERE le.is_starter), 0) AS started_points_after,
        count(le.*) FILTER (WHERE le.is_starter)                 AS weeks_started_after
-FROM acquisitions a
+FROM stints st
 LEFT JOIN core.lineup_entries le
-       ON le.season_id = a.season_id
-      AND le.franchise_id = a.to_franchise_id
-      AND le.player_id = a.player_id
-      AND le.week >= a.acquired_week
-      AND (a.left_week IS NULL OR le.week < a.left_week)
-GROUP BY a.transaction_id, a.season_id, a.acquired_week, a.kind,
-         a.player_id, a.from_franchise_id, a.to_franchise_id, a.left_week;
+       ON le.season_id = st.season_id
+      AND le.franchise_id = st.to_franchise_id
+      AND le.player_id = st.player_id
+      AND le.week >= st.acquired_week
+      AND (st.stint_end_week IS NULL OR le.week < st.stint_end_week)
+GROUP BY st.transaction_id, st.season_id, st.acquired_week, st.kind,
+         st.player_id, st.from_franchise_id, st.to_franchise_id, st.stint_end_week;
+
+-- Pickups (GLOSSARY): executed waiver claims and free-agent adds, each scored over its Stint, with the
+-- acquiring Franchise's primary Owner (through core.franchise_owners).
+CREATE VIEW stats.pickups AS
+SELECT ai.transaction_id, s.year, ai.acquired_week AS week, s.scoring_label, ai.kind AS via,
+       ai.player_id, ai.to_franchise_id AS franchise_id, f.team_name, fo.owner_id, fo.display_name AS owner,
+       ai.started_points_after AS points, ai.weeks_started_after AS weeks_started
+FROM stats.acquisition_impact ai
+JOIN core.seasons s           ON s.season_id = ai.season_id
+JOIN core.franchises f        ON f.franchise_id = ai.to_franchise_id
+JOIN stats.franchise_owner fo ON fo.franchise_id = ai.to_franchise_id
+WHERE ai.kind IN ('waiver', 'free_agent');
 
 -- Trade scorecard: each side's started points from what it received
 CREATE VIEW stats.trade_scorecard AS

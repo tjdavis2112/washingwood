@@ -818,3 +818,31 @@ def test_a_trade_outcome_is_won_lost_or_tied():
     doc["trades"][0]["sides"][0]["outcome"] = "fleeced"
     with pytest.raises(ContractError, match="outcome"):
         validate(doc, "transactions")
+
+
+# --- Pickups (#63) ---
+
+
+def test_best_pickups_are_ranked_and_their_owners_played_that_season():
+    doc = load_example("transactions.json")
+    pickups = doc["pickups"]
+    assert len(pickups) == 10
+    keys = [(-p["points"], p["year"], p["week"], p["owner"]["name"], p["name"]) for p in pickups]
+    assert keys == sorted(keys)
+    seasons = example_seasons()
+    for p in pickups:
+        assert p["owner"]["slug"] in {s["owner"]["slug"] for s in seasons[p["year"]]["standings"]}
+
+
+def test_best_pickups_hold_at_most_ten():
+    doc = load_example("transactions.json")
+    doc["pickups"].append(copy.deepcopy(doc["pickups"][0]))
+    with pytest.raises(ContractError, match="pickups"):
+        validate(doc, "transactions")
+
+
+def test_a_pickup_comes_via_waiver_or_free_agency():
+    doc = load_example("transactions.json")
+    doc["pickups"][0]["via"] = "trade"
+    with pytest.raises(ContractError, match="via"):
+        validate(doc, "transactions")

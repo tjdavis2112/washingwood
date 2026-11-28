@@ -168,6 +168,9 @@ A **Franchise**'s actual regular-season wins minus its **Expected wins**, to one
 **Acquisition impact**:
 Points a **Player** scored as a starter for the **Franchise** that acquired them during the **Stint**.
 
+**Pickup**:
+An executed waiver claim or free-agent add: a **Player** joins a **Franchise** from free agency. It goes to the team the claim names, scores the starter points the Player gave that team over the **Stint**, and a re-add after a drop is a new Pickup. Cancelled, failed and pending claims, drops and **Trades** aren't Pickups.
+
 **Stint**:
 The **Weeks** a **Player** spends with a **Franchise** after one acquisition: from the acquisition's Week until the Player next leaves that team (traded away or dropped), or the end of the **Season**, playoff Weeks included. Re-acquiring the Player starts a new Stint, so no Week counts twice.
 

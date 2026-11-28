@@ -1829,13 +1829,38 @@
       "description": "The Transactions section: every executed trade, scored by the starter points each side's received Players gave their new team. Season and Owner pages filter it at site build time. Exported as transactions.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["trades"],
+      "required": ["trades", "pickups"],
       "properties": {
         "trades": {
           "description": "Every executed trade (commissioner-vetoed trades are left out), newest Season first, then newest Week, then the first side's Owner name.",
           "type": "array",
           "items": { "$ref": "#/$defs/trade" }
+        },
+        "pickups": {
+          "description": "Best pickups: the top 10 Pickups of all time by starter points over the Stint. Ties go to the earlier Season, then Week, then Owner name, then Player name.",
+          "type": "array",
+          "maxItems": 10,
+          "items": { "$ref": "#/$defs/pickup" }
         }
+      }
+    },
+    "pickup": {
+      "description": "A Pickup (GLOSSARY): an executed waiver claim or free-agent add, scored for the acquiring Franchise over the Stint.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "position", "nflTeam", "owner", "teamName", "year", "week", "via", "points", "weeksStarted", "scoringFormat"],
+      "properties": {
+        "name": { "description": "The Player's name.", "type": "string", "minLength": 1 },
+        "position": { "description": "That Season's position: QB, RB, WR, TE, K, D/ST ...", "type": "string", "minLength": 1 },
+        "nflTeam": { "description": "That Season's NFL team abbreviation; null for a free agent.", "type": ["string", "null"] },
+        "owner": { "description": "The acquiring Franchise's Owner.", "$ref": "#/$defs/ownerRef" },
+        "teamName": { "description": "The acquiring Franchise's team name that Season.", "$ref": "#/$defs/teamName" },
+        "year": { "description": "The Season.", "$ref": "#/$defs/year" },
+        "week": { "description": "The Week the Player was added.", "type": "integer", "minimum": 1 },
+        "via": { "description": "waiver (a processed waiver claim) or free_agent (added straight from free agency).", "enum": ["waiver", "free_agent"] },
+        "points": { "description": "Starter points for the acquiring Franchise during the Stint, playoff Weeks included. Bench Weeks score nothing.", "type": "number" },
+        "weeksStarted": { "description": "Weeks the Player started for the acquiring Franchise during the Stint.", "type": "integer", "minimum": 0 },
+        "scoringFormat": { "description": "That Season's Scoring format label, e.g. PPR.", "type": "string", "minLength": 1 }
       }
     },
     "trade": {
