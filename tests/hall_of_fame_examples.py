@@ -21,6 +21,19 @@ the Stint). The rules applied here are the ones the pipeline follows (ADR-0009, 
   points and Positional finish;
 - inductees: newest Season first, then highest Points above replacement (none last), then Player name.
 
+Moments (the card back) are all for the credited Owner, read from his weekly log and the Season example's
+weeklyResults, bracket and standings:
+
+- best Week: his highest starter score in a Counted Matchup (a regular-season Week, or a single-Week
+  championship-bracket Matchup his Owner played); a tie goes to the earlier Week. None if he never started;
+- playoff points: his starter points over every Week of the championship-bracket Matchups his Owner played
+  (byes aren't played; both Weeks of a two-Week round count), None if the Owner played none;
+- championship points: the same for the championship game, None if his Owner wasn't in it;
+- finish: the Owner's final rank and seed, and whether he made the playoffs (appears in the bracket);
+- Weeks started: every Week in the log he started.
+
+The Owner's note comes from NOTES, null for the rest.
+
 test_site_contract.py checks the example still equals derive().
 
     uv run python tests/hall_of_fame_examples.py   # rewrite the example
@@ -36,17 +49,20 @@ from washingwood.hall_of_fame import PAR_BAR, PICKUP_BAR, POE_BAR
 EXAMPLES = Path(__file__).resolve().parents[1] / "contract" / "examples"
 
 
-def _log(first: int, last: int, points: float, *, bench: tuple[int, ...] = ()) -> dict[int, float | None]:
-    """A steady weekly log: `points` each Week from `first` to `last`, None on the bench Weeks."""
-    return {w: None if w in bench else points for w in range(first, last + 1)}
+def _log(
+    first: int, last: int, points: float, *, bench: tuple[int, ...] = (), peaks: dict[int, float] | None = None
+) -> dict[int, float | None]:
+    """A steady weekly log: `points` each Week from `first` to `last`, None on the bench Weeks, `peaks` on top."""
+    return {w: None if w in bench else (peaks or {}).get(w, points) for w in range(first, last + 1)}
 
 
 # (year, name, position, NFL team, Season points, Positional finish, [(owner slug, weekly log), ...],
 #  Pick as (owner slug, Round expectation) or None, [(owner slug, Value added), ...] Pickups)
 # fmt: off
 PLAYER_SEASONS = [
-    # Dominant and Overachiever, both for Cass
-    (2020, "Bodhi Lanark", "RB", "DAL", 362.4, 1, [("cass-imber", _log(1, 17, 21.0, bench=(6,)))],
+    # Dominant and Overachiever, both for Cass. Best Week 11 (41.5); 33.25 in his one playoff game, a semifinal loss
+    (2020, "Bodhi Lanark", "RB", "DAL", 362.4, 1,
+     [("cass-imber", _log(1, 17, 21.0, bench=(6,), peaks={11: 41.5, 16: 33.25}))],
      ("cass-imber", 100.0), []),
     # Drafted by Abel, traded in Week 7: 96 starter points for Abel, 165 for Jory, so Jory gets the Dominant
     # credit and the card, and Abel keeps the Overachiever lane
@@ -91,6 +107,12 @@ PLAYER_SEASONS = [
 ]
 # fmt: on
 
+# Owner's notes (invented), by (year, Player): the rest are null, "coming soon" on the card
+NOTES = {
+    (2020, "Tarn Whitlow"): "Traded for him in Week 7 and never looked back.",
+    (2018, "Eamon Stroud"): "Two-week rounds, two weeks of him. Title.",
+}
+
 
 def _seasons() -> dict[int, dict]:
     out = {}
@@ -98,6 +120,58 @@ def _seasons() -> dict[int, dict]:
         season = json.loads(path.read_text(encoding="utf-8"))
         out[season["year"]] = season
     return out
+
+
+def _result(matchup: dict, slug: str) -> tuple[dict, str]:
+    """(opponent Owner ref, win/loss/tie) for `slug` in a played Matchup."""
+    side = "home" if matchup["home"]["owner"]["slug"] == slug else "away"
+    other = matchup["away" if side == "home" else "home"]
+    result = "tie" if matchup["isTie"] else "win" if matchup["winner"] == side else "loss"
+    return other["owner"], result
+
+
+def _moments(season: dict, slug: str, log: dict[int, float | None]) -> dict:
+    def plays(m):
+        return not m["isBye"] and slug in (
+            m["home"]["owner"]["slug"],
+            (m.get("away") or {}).get("owner", {}).get("slug"),
+        )
+
+    bracket = season["bracket"]["rounds"]
+    playoff_periods = {r["matchupPeriod"] for r in bracket}
+    # Counted Matchups his Owner played, by Week: regular-season Weeks and single-Week bracket rounds
+    counted = {}
+    for period in season["weeklyResults"]:
+        if period["matchupPeriod"] in playoff_periods:
+            continue
+        (week,) = period["weeks"]
+        counted[week] = next(m for m in period["matchups"] if plays(m))
+    played = [(r, next((m for m in r["matchups"] if plays(m)), None)) for r in bracket]
+    played = [(r, m) for r, m in played if m is not None]
+    for r, m in played:
+        if len(r["weeks"]) == 1:
+            counted[r["weeks"][0]] = m
+    starts = [(w, p) for w, p in log.items() if p is not None and w in counted]
+    best_week = None
+    if starts:
+        week, points = sorted(starts, key=lambda s: (-s[1], s[0]))[0]
+        opponent, result = _result(counted[week], slug)
+        best_week = {"week": week, "points": points, "opponent": opponent, "result": result}
+
+    def points_in(weeks):
+        return round(sum(log.get(w) or 0.0 for w in weeks), 2)
+
+    final = bracket[-1]  # the Championship round
+    standing = next(r for r in season["standings"] if r["owner"]["slug"] == slug)
+    in_bracket = any(slug in (m["home"]["owner"]["slug"], (m.get("away") or {}).get("owner", {}).get("slug"))
+                     for r in bracket for m in r["matchups"])  # fmt: skip
+    return {
+        "bestWeek": best_week,
+        "playoffPoints": points_in(w for r, _ in played for w in r["weeks"]) if played else None,
+        "championshipPoints": points_in(final["weeks"]) if any(r is final for r, _ in played) else None,
+        "finish": {"finalRank": standing["rank"], "playoffSeed": standing["playoffSeed"], "madePlayoffs": in_bracket},
+        "weeksStarted": sum(p is not None for p in log.values()),
+    }
 
 
 def derive() -> dict:
@@ -139,6 +213,8 @@ def derive() -> dict:
             ],
             "points": points,
             "positionalFinish": finish,
+            "moments": _moments(season, cleared[0][2], dict(logs).get(cleared[0][2], {})),
+            "ownerNote": NOTES.get((year, name)),
         }
         rows.append((-year, par is None, -(par or 0.0), name, inductee))
     return {"inductees": [i for *_, i in sorted(rows, key=lambda r: r[:4])]}

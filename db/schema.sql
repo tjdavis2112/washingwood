@@ -286,12 +286,14 @@ CREATE TABLE core.owner_achievements (
     PRIMARY KEY (owner_id, achievement_id, season_id, week)
 );
 
+-- Owner's notes (GLOSSARY), one per Inductee at most. Inductees themselves are derived, never stored
+-- (ADR-0009). Loaded by washingwood.hall_of_fame from the private hall_of_fame.yaml (ADR-0007), keyed there
+-- by Season and ESPN player ID and resolved through core.player_external_ids (ADR-0002). Every build
+-- replaces the rows, so a build without the file leaves none.
 CREATE TABLE core.hall_of_fame (
-    player_id     int  NOT NULL REFERENCES core.players,
-    season_id     int  NOT NULL REFERENCES core.seasons,
-    franchise_id  int  NOT NULL REFERENCES core.franchises,
-    blurb         text,
-    inducted_year int,
+    player_id   int  NOT NULL REFERENCES core.players,
+    season_id   int  NOT NULL REFERENCES core.seasons,
+    owner_note  text NOT NULL,
     PRIMARY KEY (player_id, season_id)
 );
 

@@ -448,6 +448,21 @@ export type Inductee = {
   teamName: string; lanes: InductionLane[];
   /** null when the Archive has no Season points for him (only a Waiver legend can be) */
   points: number | null; positionalFinish: number | null;
+  moments: InducteeMoments;
+  /** The Owner's note from the private hall_of_fame.yaml; null until written ("coming soon") */
+  ownerNote: string | null;
+};
+/** The card back, all for the credited Owner's team. The other lanes' Owners are in `lanes`. */
+export type InducteeMoments = {
+  /** His best starter score in a Counted Matchup (never a two-week round); null if he never started in one */
+  bestWeek: { week: number; points: number; opponent: OwnerRef; result: "win" | "loss" | "tie" } | null;
+  /** Starter points over every Week of the championship-bracket Matchups the team played; null if it played none */
+  playoffPoints: number | null;
+  /** The same for the championship game; null if the team wasn't in it */
+  championshipPoints: number | null;
+  /** finalRank 1-3: Champion, runner-up, 3rd; else the seed, which is the regular-season rank outside the playoffs */
+  finish: { finalRank: number; playoffSeed: number; madePlayoffs: boolean };
+  weeksStarted: number;
 };
 export type HallOfFameDoc = { inductees: Inductee[] };
 

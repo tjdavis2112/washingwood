@@ -73,7 +73,7 @@ ESPN API ──(archiver, needs cookies)──▶ archive/ (private repo)
 2. **Archive** the finished season: `uv run --env-file .env python scripts/archive_espn.py --years <YEAR>`
 3. Commit and push the new raw files in `archive/` (private repo).
 4. **Deploy:** load into Postgres → export site data → build the site → upload to Cloudflare, in one command. The build checks every Season first and stops on any problem:
-   `uv run --env-file .env python -m washingwood.deploy --archive archive/<league-id> --owners archive/owners.yaml`
+   `uv run --env-file .env python -m washingwood.deploy --archive archive/<league-id> --owners archive/owners.yaml --hall-of-fame archive/hall_of_fame.yaml` (`--hall-of-fame`, the Owner's notes, is optional)
    Details and first-time setup: `docs/guides/deploy.md`.
 
 ---

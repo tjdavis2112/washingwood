@@ -17,25 +17,33 @@ The tests pin their own bars (BARS), so calibrating the real ones (ADR-0009) doe
 """
 
 import json
+from pathlib import Path
+from unittest.mock import ANY
 
 import pytest
+import yaml
 from espn_fixture import (
     NO_REPLACEMENT,
     PEOPLE,
+    STARTERS,
     FixtureMove,
     FixtureTrade,
+    Season2018Style,
     fixture_player_name,
     free_agent_id,
     lineup_player,
     lineup_player_id,
+    team,
 )
-from test_build import season
+from test_build import SEED_ORDER, season
 from test_draft import owner
 
+from washingwood import deploy
 from washingwood import hall_of_fame as hof
 from washingwood.build import build
+from washingwood.build import main as build_main
 from washingwood.contract import validate
-from washingwood.hall_of_fame import main
+from washingwood.hall_of_fame import HallOfFameError, main
 
 BARS = {"PAR_BAR": 150.0, "POE_BAR": 110.0, "PICKUP_BAR": 80.0}
 PAR_BAR, POE_BAR, PICKUP_BAR = BARS.values()
@@ -54,8 +62,8 @@ def pool_season(year, **options):
     return season(year, pool_points_by_position=POOL, **options)
 
 
-def hall_of_fame(archive, owners, tmp_path, pg_dsn, out="export") -> dict:
-    build(archive_dir=archive, owners_file=owners, out_dir=tmp_path / out, dsn=pg_dsn)
+def hall_of_fame(archive, owners, tmp_path, pg_dsn, out="export", notes=None) -> dict:
+    build(archive_dir=archive, owners_file=owners, out_dir=tmp_path / out, dsn=pg_dsn, hall_of_fame_file=notes)
     doc = json.loads((tmp_path / out / "hall-of-fame.json").read_text(encoding="utf-8"))
     validate(doc, "hallOfFame")
     return doc
@@ -93,6 +101,8 @@ def test_a_player_season_at_the_bar_is_inducted_and_one_just_below_is_not(archiv
             "lanes": [{"lane": "dominant", "value": PAR_BAR, "owner": owner("quinn")}],
             "points": RB_REPLACEMENT + PAR_BAR,
             "positionalFinish": 1,
+            "moments": ANY,
+            "ownerNote": None,
         }
     ]
 
@@ -164,6 +174,8 @@ def test_an_overachiever_at_the_bar_is_inducted_and_one_just_below_is_not(archiv
             "lanes": [{"lane": "overachiever", "value": POE_BAR, "owner": owner(drafter)}],
             "points": 120.0,
             "positionalFinish": 1,
+            "moments": ANY,
+            "ownerNote": None,
         }
     ]
 
@@ -194,6 +206,8 @@ def test_a_waiver_legend_at_the_bar_is_inducted_and_one_just_below_is_not(archiv
             "lanes": [{"lane": "waiver_legend", "value": PICKUP_BAR, "owner": owner("pell")}],
             "points": 80.0,
             "positionalFinish": 1,
+            "moments": ANY,
+            "ownerNote": None,
         }
     ]
 
@@ -347,6 +361,224 @@ def test_inductees_are_newest_season_first_then_highest_points_above_replacement
         (2020, fixture_player_name(pick), PEOPLE[s2020.pick(2)[0]][0]),
     ]
     assert [i["positionalFinish"] for i in doc["inductees"]] == [1, 1, 2, 1]
+
+
+# -- Moments (card back, #75) ----------------------------------------------------------------------------
+
+
+def share(score: float) -> float:
+    """What a side's slot-1 starter scores in a Week it scores `score`: its starters share the score evenly
+    unless lineup_points fixes his points."""
+    return round(score / len(STARTERS), 2)
+
+
+def by_name(doc, name) -> dict:
+    return next(i for i in doc["inductees"] if i["name"] == name)
+
+
+def test_moments_are_the_best_week_playoff_points_finish_and_weeks_started_for_the_credited_franchise(
+    archive, owners, tmp_path, pg_dsn
+):
+    base = pool_season(2020)
+    champ = lineup_player_id(base.team_id("quinn"), 1)  # seed 1: a bye in Week 15, then wins the title
+    missed = lineup_player_id(base.team_id("marlo"), 1)  # seed 7: misses the playoffs
+    index, week5_opponent, home = base.matchup_of(5, "quinn")
+    assert home
+    # Week 5: Quinn scores 270 and loses to 280. His slot-1 RB's 30.0 is his best Week, in a loss
+    s = pool_season(2020, scores={(5, index): (270.0, 280.0)})
+    s.lineup_points = {missed: 15.0}  # the same every Week, so the earliest Week is his best
+    s.player_points = {champ: RB_REPLACEMENT + PAR_BAR + 50, missed: RB_REPLACEMENT + PAR_BAR + 50}
+    s.write(archive)
+    _, week1_opponent, marlo_home = base.matchup_of(1, "marlo")
+
+    doc = hall_of_fame(archive, owners, tmp_path, pg_dsn)
+
+    assert by_name(doc, lineup_player(champ)[0])["moments"] == {
+        "bestWeek": {"week": 5, "points": 30.0, "opponent": owner(week5_opponent), "result": "loss"},
+        # Weeks 16 and 17, each won at home with 120.5; the Week 15 bye isn't a Matchup played
+        "playoffPoints": round(2 * share(120.5), 2),
+        "championshipPoints": share(120.5),
+        "finish": {"finalRank": 1, "playoffSeed": 1, "madePlayoffs": True},
+        "weeksStarted": 17,  # every Week, the bye included
+    }
+    assert by_name(doc, lineup_player(missed)[0])["moments"] == {
+        "bestWeek": {
+            "week": 1,
+            "points": 15.0,
+            "opponent": owner(week1_opponent),
+            "result": "win" if marlo_home else "loss",  # the home side wins every regular-season Matchup
+        },
+        "playoffPoints": None,
+        "championshipPoints": None,
+        "finish": {"finalRank": 7, "playoffSeed": 7, "madePlayoffs": False},
+        "weeksStarted": 17,
+    }
+
+
+def test_a_two_week_round_counts_both_weeks_in_playoff_points_but_is_never_a_best_week(
+    archive, owners, tmp_path, pg_dsn
+):
+    teams = [team(k) for k in SEED_ORDER[:10]]
+    base = Season2018Style(2018, teams, pool_points_by_position=POOL)
+    star = lineup_player_id(base.team_id("quinn"), 1)  # seed 1: home every regular-season Week, then champion
+    semi, _, home = base.matchup_of(14, "quinn")  # the semifinal, Weeks 14-15
+    assert home
+    # 400 over two Weeks: 200 a Week, so 22.22 a Week for his slot, more than any regular-season Week
+    s = Season2018Style(2018, teams, pool_points_by_position=POOL, scores={(14, semi): (400.0, 300.0)})
+    s.player_points = {star: RB_REPLACEMENT + PAR_BAR + 50}
+    s.write(archive)
+
+    moments = by_name(hall_of_fame(archive, owners, tmp_path, pg_dsn), lineup_player(star)[0])["moments"]
+
+    # Best Week: a single-Week regular-season Matchup, every one won at home with 120.5; ties go to Week 1
+    assert moments["bestWeek"] == {
+        "week": 1,
+        "points": share(120.5),
+        "opponent": owner(base.matchup_of(1, "quinn")[1]),
+        "result": "win",
+    }
+    # Both Weeks of the semifinal, then both Weeks of the final (120.5 over two Weeks: 60.25 a Week)
+    final = 2 * share(60.25)
+    assert moments["playoffPoints"] == round(2 * share(200.0) + final, 2)
+    assert moments["championshipPoints"] == round(final, 2)
+    assert moments["finish"] == {"finalRank": 1, "playoffSeed": 1, "madePlayoffs": True}
+    assert moments["weeksStarted"] == 17
+
+
+def test_an_owner_who_never_started_him_has_no_best_week_and_no_playoff_points(archive, owners, tmp_path, pg_dsn):
+    s = pool_season(2020)
+    drafter, pick = s.pick(2)  # an Overachiever, in no lineup
+    s.player_points = {pick: 120.0}
+    s.write(archive)
+    seed = SEED_ORDER.index(drafter) + 1
+    made = seed <= 6
+
+    (inductee,) = hall_of_fame(archive, owners, tmp_path, pg_dsn)["inductees"]
+
+    assert inductee["moments"] == {
+        "bestWeek": None,
+        # A playoff team's championship-bracket Matchups, none of them started by him
+        "playoffPoints": 0.0 if made else None,
+        "championshipPoints": 0.0 if seed in (1, 2) else None,
+        "finish": {"finalRank": ANY, "playoffSeed": seed, "madePlayoffs": made},
+        "weeksStarted": 0,
+    }
+
+
+# -- Owner's note (#75) ----------------------------------------------------------------------------------
+
+NOTE = "Carried us to the title."
+
+
+def write_notes(tmp_path, entries) -> Path:
+    path = tmp_path / "hall_of_fame.yaml"
+    path.write_text(yaml.safe_dump({"notes": entries}, sort_keys=False), encoding="utf-8")
+    return path
+
+
+def two_inductees(archive) -> tuple[int, int]:
+    """A 2020 Season with two Dominant Inductees: (Quinn's, Pell's) ESPN player IDs, Quinn's listed first."""
+    s = pool_season(2020)
+    a, b = lineup_player_id(s.team_id("quinn"), 1), lineup_player_id(s.team_id("pell"), 1)
+    s.player_points = {a: RB_REPLACEMENT + PAR_BAR + 20, b: RB_REPLACEMENT + PAR_BAR + 10}
+    s.write(archive)
+    return a, b
+
+
+def test_an_owners_note_loads_onto_its_inductee_and_one_with_no_entry_is_null(archive, owners, tmp_path, pg_dsn):
+    a, b = two_inductees(archive)
+    notes = write_notes(tmp_path, [{"season": 2020, "espn_player": a, "note": NOTE}])
+
+    doc = hall_of_fame(archive, owners, tmp_path, pg_dsn, notes=notes)
+
+    assert [(i["name"], i["ownerNote"]) for i in doc["inductees"]] == [
+        (lineup_player(a)[0], NOTE),
+        (lineup_player(b)[0], None),
+    ]
+
+
+def test_with_no_file_every_owners_note_is_null_even_after_a_build_that_had_one(archive, owners, tmp_path, pg_dsn):
+    a, _ = two_inductees(archive)
+    hall_of_fame(
+        archive,
+        owners,
+        tmp_path,
+        pg_dsn,
+        out="with",
+        notes=write_notes(tmp_path, [{"season": 2020, "espn_player": a, "note": NOTE}]),
+    )
+
+    doc = hall_of_fame(archive, owners, tmp_path, pg_dsn, out="without")  # the same database, no file
+
+    assert [i["ownerNote"] for i in doc["inductees"]] == [None, None]
+
+
+@pytest.mark.parametrize("which", ["not an inductee", "unknown player", "wrong season"])
+def test_a_note_that_matches_no_inductee_fails_the_build_naming_season_and_id(which, archive, owners, tmp_path, pg_dsn):
+    a, _ = two_inductees(archive)
+    ordinary = lineup_player_id(1, 2)  # in a lineup all Season, below every bar
+    year, pid = {"not an inductee": (2020, ordinary), "unknown player": (2020, 90000099), "wrong season": (2019, a)}[
+        which
+    ]
+    notes = write_notes(
+        tmp_path,
+        [{"season": 2020, "espn_player": a, "note": NOTE}, {"season": year, "espn_player": pid, "note": "Who?"}],
+    )
+
+    with pytest.raises(HallOfFameError) as err:
+        build(archive_dir=archive, owners_file=owners, out_dir=tmp_path / "out", dsn=pg_dsn, hall_of_fame_file=notes)
+
+    assert f"Season {year}" in str(err.value) and f"ESPN player {pid}" in str(err.value)
+    assert not (tmp_path / "out").exists()  # nothing written
+
+
+@pytest.mark.parametrize(
+    "entries",
+    [
+        [{"season": 2020, "espn_player": 70101}],
+        [{"season": "2020", "espn_player": 70101, "note": "x"}],
+        [{"season": 2020, "espn_player": 70101, "note": " "}],
+        [{"season": 2020, "espn_player": 70101, "note": "x"}, {"season": 2020, "espn_player": "70101", "note": "y"}],
+    ],
+    ids=["no note", "season as text", "blank note", "listed twice"],
+)
+def test_a_malformed_hall_of_fame_file_fails_the_build(entries, archive, owners, tmp_path, pg_dsn):
+    two_inductees(archive)
+
+    with pytest.raises(HallOfFameError, match="hall_of_fame.yaml"):
+        build(
+            archive_dir=archive,
+            owners_file=owners,
+            out_dir=tmp_path / "out",
+            dsn=pg_dsn,
+            hall_of_fame_file=write_notes(tmp_path, entries),
+        )
+
+
+def test_the_build_command_takes_an_optional_hall_of_fame_file(archive, owners, tmp_path, pg_dsn):
+    a, _ = two_inductees(archive)
+    notes = write_notes(tmp_path, [{"season": 2020, "espn_player": a, "note": NOTE}])
+    argv = ["--archive", str(archive), "--owners", str(owners), "--pg", pg_dsn]
+
+    assert build_main([*argv, "--out", str(tmp_path / "without")]) == 0
+    assert build_main([*argv, "--out", str(tmp_path / "with"), "--hall-of-fame", str(notes)]) == 0
+
+    def note(out):
+        doc = json.loads((tmp_path / out / "hall-of-fame.json").read_text(encoding="utf-8"))
+        return doc["inductees"][0]["ownerNote"]
+
+    assert (note("without"), note("with")) == (None, NOTE)
+
+
+def test_the_deploy_command_passes_an_optional_hall_of_fame_file_to_the_build(monkeypatch):
+    calls = []
+    monkeypatch.setattr(deploy, "deploy", lambda *args, **kwargs: calls.append(kwargs))
+    argv = ["--archive", "a", "--owners", "o.yaml", "--pg", "postgresql://x", "--dry-run"]
+
+    assert deploy.main(argv) == 0
+    assert deploy.main([*argv, "--hall-of-fame", "notes.yaml"]) == 0
+
+    assert [kwargs["hall_of_fame_file"] for kwargs in calls] == [None, Path("notes.yaml")]
 
 
 # -- Calibration report ----------------------------------------------------------------------------------

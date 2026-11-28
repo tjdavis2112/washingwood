@@ -2006,7 +2006,7 @@
       "description": "An Inductee (GLOSSARY): one Player's Season that cleared at least one Induction bar, credited to one Owner.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["year", "scoringFormat", "name", "position", "nflTeam", "owner", "teamName", "lanes", "points", "positionalFinish"],
+      "required": ["year", "scoringFormat", "name", "position", "nflTeam", "owner", "teamName", "lanes", "points", "positionalFinish", "moments", "ownerNote"],
       "properties": {
         "year": { "description": "The Season.", "$ref": "#/$defs/year" },
         "scoringFormat": { "description": "That Season's Scoring format label, e.g. PPR.", "type": "string", "minLength": 1 },
@@ -2022,7 +2022,43 @@
           "items": { "$ref": "#/$defs/inductionLane" }
         },
         "points": { "description": "The Player's Season points (GLOSSARY); null when the Archive has none for him, which only a Waiver legend can be.", "type": ["number", "null"] },
-        "positionalFinish": { "description": "The Player's Positional finish (GLOSSARY) that Season: 1 = the top scorer at his position; null with null points.", "type": ["integer", "null"], "minimum": 1 }
+        "positionalFinish": { "description": "The Player's Positional finish (GLOSSARY) that Season: 1 = the top scorer at his position; null with null points.", "type": ["integer", "null"], "minimum": 1 },
+        "moments": { "description": "The card back's Season moments, all for the credited Owner's Franchise. The other lanes' Owners are in `lanes`.", "$ref": "#/$defs/inducteeMoments" },
+        "ownerNote": { "description": "The Owner's note (GLOSSARY), hand-written in the private hall_of_fame.yaml; null until written (the card says it's coming soon).", "type": ["string", "null"], "minLength": 1 }
+      }
+    },
+    "inducteeMoments": {
+      "description": "An Inductee's moments that Season, for the credited Owner's Franchise.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bestWeek", "playoffPoints", "championshipPoints", "finish", "weeksStarted"],
+      "properties": {
+        "bestWeek": {
+          "description": "The Player's highest starter score in a Counted Matchup for the Franchise (so never a two-week round); a tie goes to the earlier Week. Null when he never started for it in one.",
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "required": ["week", "points", "opponent", "result"],
+          "properties": {
+            "week": { "description": "The NFL Week.", "type": "integer", "minimum": 1 },
+            "points": { "description": "His points that Week.", "type": "number" },
+            "opponent": { "description": "The opposing Owner.", "$ref": "#/$defs/ownerRef" },
+            "result": { "description": "The Franchise's result that Week.", "enum": ["win", "loss", "tie"] }
+          }
+        },
+        "playoffPoints": { "description": "His starter points in the championship-bracket Matchups the Franchise played, both Weeks of a two-week round included; 0 if he started none. Null when the Franchise played none (it missed the playoffs) or the Season has no lineups.", "type": ["number", "null"], "minimum": 0 },
+        "championshipPoints": { "description": "His starter points in the championship game, both Weeks of a two-week final included; null when the Franchise didn't play in it.", "type": ["number", "null"], "minimum": 0 },
+        "finish": {
+          "description": "The Franchise's finish that Season: Champion, runner-up or 3rd by finalRank, else its playoff seed when it made the playoffs, else its regular-season rank (playoffSeed).",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["finalRank", "playoffSeed", "madePlayoffs"],
+          "properties": {
+            "finalRank": { "description": "Final place: 1 = Champion, 2 = runner-up, 3 = Third-place game winner.", "type": "integer", "minimum": 1 },
+            "playoffSeed": { "description": "Regular-season rank, which is the playoff seed for a playoff team.", "type": "integer", "minimum": 1 },
+            "madePlayoffs": { "description": "Whether the Franchise's seed was inside the playoff field (a first-round bye counts).", "type": "boolean" }
+          }
+        },
+        "weeksStarted": { "description": "Weeks the Player started for the Franchise that Season, any Week.", "type": "integer", "minimum": 0 }
       }
     },
     "inductionLane": {

@@ -59,7 +59,7 @@ test("every Inductee is a gold card, grouped by Season newest first", async ({ p
     // No Season points in the Archive (a Waiver legend can have none): a dash for points and finish
     await expect(card.getByTestId("inductee-points")).toHaveText(i.points === null ? "—" : pts(i.points));
     await expect(card.getByTestId("inductee-finish")).toHaveText(i.positionalFinish === null ? "—" : `${i.position}${i.positionalFinish}`);
-    // Plain gold border, no effects yet (#77)
+    // Plain gold border, no effects yet (#76)
     const border = await card.evaluate((el) => getComputedStyle(el).borderTopColor);
     expect(border).toBe("rgb(212, 175, 55)");
   }
@@ -103,5 +103,71 @@ test("every link on the Hall of Fame page resolves", async ({ page }) => {
   for (const href of hrefs) {
     const res = await page.request.get(href);
     expect(res.status(), href).toBe(200);
+  }
+});
+
+// The card back (#75): moments for the credited Owner's team, the other lanes' Owners, and the Owner's note or
+// its placeholder. It sits below the front with no flip yet (#76).
+type Moments = {
+  bestWeek: { week: number; points: number; opponent: { slug: string; name: string }; result: "win" | "loss" | "tie" } | null;
+  playoffPoints: number | null; championshipPoints: number | null;
+  finish: { finalRank: number; playoffSeed: number; madePlayoffs: boolean }; weeksStarted: number;
+};
+const ord = (n: number) => `${n}${n % 100 >= 11 && n % 100 <= 13 ? "th" : ({ 1: "st", 2: "nd", 3: "rd" } as Record<number, string>)[n % 10] ?? "th"}`;
+const bestWeek = (b: Moments["bestWeek"]) =>
+  b === null ? "—" : `${pts(b.points)} in Week ${b.week}, ${{ win: "a win over", loss: "a loss to", tie: "a tie with" }[b.result]} ${b.opponent.name}`;
+const finish = ({ finalRank, playoffSeed, madePlayoffs }: Moments["finish"]) =>
+  ({ 1: "Champion", 2: "Runner-up", 3: "3rd place" } as Record<number, string>)[finalRank] ??
+  (madePlayoffs ? `Playoffs, No. ${playoffSeed} seed` : `Missed the playoffs, ${ord(playoffSeed)} in the regular season`);
+const playoffs = (m: Moments) =>
+  m.playoffPoints === null ? "—" : `${pts(m.playoffPoints)}${m.championshipPoints === null ? "" : ` (${pts(m.championshipPoints)} in the final)`}`;
+
+test("every card back shows its moments, the other lanes' Owners and the Owner's note or its placeholder", async ({ page }, info) => {
+  await page.goto("/hall-of-fame/");
+  const cards = page.getByTestId("inductee-card");
+  for (const [n, i] of inductees.entries()) {
+    const back = cards.nth(n).getByTestId("card-back");
+    await expect(back).toBeVisible();
+    const m: Moments = i.moments;
+    await expect(back.getByTestId("moment-best-week")).toHaveText(bestWeek(m.bestWeek));
+    if (m.bestWeek) await expect(back.getByTestId("moment-best-week").getByRole("link")).toHaveAttribute("href", `/owners/${m.bestWeek.opponent.slug}/`);
+    await expect(back.getByTestId("moment-playoffs")).toHaveText(playoffs(m));
+    await expect(back.getByTestId("moment-finish")).toHaveText(finish(m.finish));
+    await expect(back.getByTestId("moment-weeks-started")).toHaveText(String(m.weeksStarted));
+    // The other lanes' Owners: every lane crediting someone else, by lane
+    const others = i.lanes.filter((l: { owner: { slug: string } }) => l.owner.slug !== i.owner.slug);
+    const rows = back.getByTestId("other-owner");
+    await expect(rows).toHaveCount(others.length);
+    for (const [k, lane] of others.entries()) {
+      await expect(rows.nth(k)).toHaveText(`${LANES[lane.lane].label}: ${lane.owner.name}`);
+      await expect(rows.nth(k).getByRole("link")).toHaveAttribute("href", `/owners/${lane.owner.slug}/`);
+    }
+    if (i.ownerNote === null) {
+      await expect(back.getByTestId("owner-note")).toHaveCount(0);
+      await expect(back.getByTestId("owner-note-placeholder")).toHaveText("Owner's note coming soon");
+    } else {
+      await expect(back.getByTestId("owner-note")).toContainText(i.ownerNote);
+      await expect(back.getByTestId("owner-note")).toContainText(i.owner.name);
+      await expect(back.getByTestId("owner-note-placeholder")).toHaveCount(0);
+    }
+    // Inside the card, below the front
+    const card = (await cards.nth(n).boundingBox())!;
+    const box = (await back.boundingBox())!;
+    expect(box.x).toBeGreaterThanOrEqual(card.x);
+    expect(box.x + box.width).toBeLessThanOrEqual(card.x + card.width + 0.5);
+    const front = (await cards.nth(n).getByTestId("inductee-lane").last().boundingBox())!;
+    expect(box.y, `${i.name}: the back sits below the front`).toBeGreaterThan(front.y + front.height);
+  }
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+  expect(overflow, "page is wider than the viewport").toBeLessThanOrEqual(0);
+
+  // One card with a note and other lanes' Owners, one with the placeholder
+  const noted = inductees.find((i: { ownerNote: string | null }) => i.ownerNote !== null);
+  const pending = inductees.find((i: { ownerNote: string | null; lanes: unknown[] }) => i.ownerNote === null && i.lanes.length > 1);
+  expect(noted && pending, "the example has a card with a note and a multi-lane card without one").toBeTruthy();
+  for (const [label, i] of [["note", noted], ["placeholder", pending]] as const) {
+    const card = cards.filter({ has: page.getByTestId("inductee-name").getByText(i.name, { exact: true }) });
+    await card.scrollIntoViewIfNeeded();
+    await card.screenshot({ path: path.join(SHOTS, `hall-of-fame-card-back-${label}-${info.project.name}.png`) });
   }
 });

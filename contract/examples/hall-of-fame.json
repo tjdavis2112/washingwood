@@ -30,7 +30,27 @@
         }
       ],
       "points": 362.4,
-      "positionalFinish": 1
+      "positionalFinish": 1,
+      "moments": {
+        "bestWeek": {
+          "week": 11,
+          "points": 41.5,
+          "opponent": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "result": "win"
+        },
+        "playoffPoints": 33.25,
+        "championshipPoints": null,
+        "finish": {
+          "finalRank": 3,
+          "playoffSeed": 1,
+          "madePlayoffs": true
+        },
+        "weeksStarted": 16
+      },
+      "ownerNote": null
     },
     {
       "year": 2020,
@@ -62,7 +82,27 @@
         }
       ],
       "points": 317.0,
-      "positionalFinish": 1
+      "positionalFinish": 1,
+      "moments": {
+        "bestWeek": {
+          "week": 7,
+          "points": 15.0,
+          "opponent": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "result": "loss"
+        },
+        "playoffPoints": null,
+        "championshipPoints": null,
+        "finish": {
+          "finalRank": 9,
+          "playoffSeed": 9,
+          "madePlayoffs": false
+        },
+        "weeksStarted": 11
+      },
+      "ownerNote": "Traded for him in Week 7 and never looked back."
     },
     {
       "year": 2020,
@@ -86,7 +126,19 @@
         }
       ],
       "points": 340.0,
-      "positionalFinish": 3
+      "positionalFinish": 3,
+      "moments": {
+        "bestWeek": null,
+        "playoffPoints": null,
+        "championshipPoints": null,
+        "finish": {
+          "finalRank": 11,
+          "playoffSeed": 11,
+          "madePlayoffs": false
+        },
+        "weeksStarted": 0
+      },
+      "ownerNote": null
     },
     {
       "year": 2020,
@@ -110,7 +162,27 @@
         }
       ],
       "points": 330.0,
-      "positionalFinish": 2
+      "positionalFinish": 2,
+      "moments": {
+        "bestWeek": {
+          "week": 1,
+          "points": 22.0,
+          "opponent": {
+            "slug": "abel-trice",
+            "name": "Abel Trice"
+          },
+          "result": "win"
+        },
+        "playoffPoints": 0.0,
+        "championshipPoints": 0.0,
+        "finish": {
+          "finalRank": 2,
+          "playoffSeed": 2,
+          "madePlayoffs": true
+        },
+        "weeksStarted": 8
+      },
+      "ownerNote": null
     },
     {
       "year": 2020,
@@ -134,7 +206,27 @@
         }
       ],
       "points": 180.0,
-      "positionalFinish": 4
+      "positionalFinish": 4,
+      "moments": {
+        "bestWeek": {
+          "week": 9,
+          "points": 14.0,
+          "opponent": {
+            "slug": "nell-ashgrove",
+            "name": "Nell Ashgrove"
+          },
+          "result": "loss"
+        },
+        "playoffPoints": 28.0,
+        "championshipPoints": null,
+        "finish": {
+          "finalRank": 4,
+          "playoffSeed": 3,
+          "madePlayoffs": true
+        },
+        "weeksStarted": 9
+      },
+      "ownerNote": null
     },
     {
       "year": 2018,
@@ -158,7 +250,27 @@
         }
       ],
       "points": 330.6,
-      "positionalFinish": 1
+      "positionalFinish": 1,
+      "moments": {
+        "bestWeek": {
+          "week": 1,
+          "points": 19.0,
+          "opponent": {
+            "slug": "wren-solano",
+            "name": "Wren Solano"
+          },
+          "result": "loss"
+        },
+        "playoffPoints": 76.0,
+        "championshipPoints": 38.0,
+        "finish": {
+          "finalRank": 1,
+          "playoffSeed": 1,
+          "madePlayoffs": true
+        },
+        "weeksStarted": 16
+      },
+      "ownerNote": "Two-week rounds, two weeks of him. Title."
     },
     {
       "year": 2018,
@@ -182,7 +294,27 @@
         }
       ],
       "points": 357.4,
-      "positionalFinish": 1
+      "positionalFinish": 1,
+      "moments": {
+        "bestWeek": {
+          "week": 1,
+          "points": 16.5,
+          "opponent": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          },
+          "result": "win"
+        },
+        "playoffPoints": 33.0,
+        "championshipPoints": null,
+        "finish": {
+          "finalRank": 4,
+          "playoffSeed": 4,
+          "madePlayoffs": true
+        },
+        "weeksStarted": 17
+      },
+      "ownerNote": null
     },
     {
       "year": 2018,
@@ -214,7 +346,27 @@
         }
       ],
       "points": 278.6,
-      "positionalFinish": 5
+      "positionalFinish": 5,
+      "moments": {
+        "bestWeek": {
+          "week": 1,
+          "points": 6.0,
+          "opponent": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "result": "win"
+        },
+        "playoffPoints": null,
+        "championshipPoints": null,
+        "finish": {
+          "finalRank": 5,
+          "playoffSeed": 5,
+          "madePlayoffs": false
+        },
+        "weeksStarted": 3
+      },
+      "ownerNote": null
     },
     {
       "year": 2018,
@@ -238,7 +390,27 @@
         }
       ],
       "points": null,
-      "positionalFinish": null
+      "positionalFinish": null,
+      "moments": {
+        "bestWeek": {
+          "week": 4,
+          "points": 10.0,
+          "opponent": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "result": "win"
+        },
+        "playoffPoints": 20.0,
+        "championshipPoints": null,
+        "finish": {
+          "finalRank": 3,
+          "playoffSeed": 2,
+          "madePlayoffs": true
+        },
+        "weeksStarted": 14
+      },
+      "ownerNote": null
     }
   ]
 }

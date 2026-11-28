@@ -1,7 +1,10 @@
 """One command: archive + owners.yaml -> Postgres core.* -> site-data JSON.
 
     uv run python -m washingwood.build --archive ../washingwood-archive/<league> \
-        --owners ../washingwood-archive/owners.yaml --out export/
+        --owners ../washingwood-archive/owners.yaml --out export/ \
+        --hall-of-fame ../washingwood-archive/hall_of_fame.yaml
+
+--hall-of-fame (Owner's notes) is optional: without it every Inductee's ownerNote is null.
 
 The Postgres DSN comes from --pg or WASHINGWOOD_PG. It is never printed (it may hold a password).
 """
@@ -36,15 +39,21 @@ FAILURES = (
     LoadError,
     export.ExportError,
     contract.ContractError,
+    hall_of_fame.HallOfFameError,
     psycopg.OperationalError,
 )
 
 
-def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list[Path]:
-    """Load every Season in `archive_dir` and write the site data to `out_dir`. Returns files written."""
+def build(
+    archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str, hall_of_fame_file: Path | None = None
+) -> list[Path]:
+    """Load every Season in `archive_dir`, and the Owner's notes in `hall_of_fame_file` when given, and write
+    the site data to `out_dir`. Returns files written."""
     out_dir = Path(out_dir)
     with psycopg.connect(dsn) as conn:
         season_dirs = load_archive(conn, archive_dir, owners_file)
+        with conn.transaction():
+            hall_of_fame.load_notes(conn, hall_of_fame_file)
         docs = {
             "league.json": (export.league_summary(conn), "league"),
             "trophy-shelf.json": (export.trophy_shelf(conn), "trophyShelf"),
@@ -98,7 +107,14 @@ def _ensure_schema(conn: psycopg.Connection) -> None:
     if conn.execute("SELECT to_regclass('core.seasons')").fetchone()[0] is None:
         conn.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
         conn.commit()
-    elif conn.execute("SELECT to_regclass('stats.waiver_legend_seasons')").fetchone()[0] is None:  # newest
+    elif (
+        conn.execute("SELECT to_regclass('stats.waiver_legend_seasons')").fetchone()[0] is None  # newest object
+        or conn.execute(  # newest reshape: core.hall_of_fame holds Owner's notes (#75)
+            """SELECT 1 FROM information_schema.columns
+               WHERE table_schema = 'core' AND table_name = 'hall_of_fame' AND column_name = 'owner_note'"""
+        ).fetchone()
+        is None
+    ):
         raise BuildError("the database's schema predates db/schema.sql: drop and recreate the database, then re-run")
 
 
@@ -106,13 +122,14 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     p.add_argument("--archive", required=True, type=Path, help="archive/<league> folder holding one folder per Season")
     p.add_argument("--owners", required=True, type=Path, help="owners.yaml (private)")
+    p.add_argument("--hall-of-fame", type=Path, help="hall_of_fame.yaml, the Owner's notes (private; optional)")
     p.add_argument("--out", default=Path("export"), type=Path, help="output folder (gitignored); default export/")
     p.add_argument("--pg", default=os.environ.get("WASHINGWOOD_PG"), help="Postgres DSN; default $WASHINGWOOD_PG")
     args = p.parse_args(argv)
     if not args.pg:
         p.error("no Postgres DSN: pass --pg or set WASHINGWOOD_PG")
     try:
-        written = build(args.archive, args.owners, args.out, args.pg)
+        written = build(args.archive, args.owners, args.out, args.pg, hall_of_fame_file=args.hall_of_fame)
     except FAILURES as e:
         print(f"build failed: {type(e).__name__}: {e}", file=sys.stderr)
         return 1

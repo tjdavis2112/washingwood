@@ -5,13 +5,14 @@ How v1 gets from the private archive to `washingwood.xyz`. Everything runs on yo
 ## What the deploy command does
 
 ```powershell
-uv run --env-file .env python -m washingwood.deploy --archive archive/<league-id> --owners archive/owners.yaml
+uv run --env-file .env python -m washingwood.deploy --archive archive/<league-id> --owners archive/owners.yaml --hall-of-fame archive/hall_of_fame.yaml
 ```
 
 - `uv run --env-file .env`: run in the project's environment with `.env` loaded, so `WASHINGWOOD_PG` is set.
 - `python -m washingwood.deploy`: the deploy command (`src/washingwood/deploy.py`).
 - `--archive archive/<league-id>`: the league folder in the private archive repo.
 - `--owners archive/owners.yaml`: the Owner mapping (private).
+- `--hall-of-fame archive/hall_of_fame.yaml` (optional): the Owner's notes for Hall of Fame cards (private; format in `docs/guides/build-site-data.md`). Leave it out and every card says "Owner's note coming soon".
 - Add `--dry-run` to build everything without uploading.
 
 It runs three steps, and stops at the first failure:
@@ -22,6 +23,7 @@ It runs three steps, and stops at the first failure:
    - has Podium places exactly 1, 2 and 3
    - has a Last place that is the worst seed
    - produces documents that pass the contract
+   - with `--hall-of-fame`: has an Inductee for every Owner's note in the file
 2. **Builds the static site** into `site/dist/` (gitignored) from that data.
 3. **Uploads `site/dist/`** to the Cloudflare Pages project `washingwood` on the `main` (production) branch, using Wrangler.
 

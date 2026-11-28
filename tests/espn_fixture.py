@@ -563,6 +563,18 @@ class FixtureSeason:
         """playerId of team `key`'s Pick in round `rnd`."""
         return next(p["playerId"] for p in self._picks() if p["teamId"] == self._ids[key] and p["roundId"] == rnd)
 
+    def matchup_of(self, period: int, key: str) -> tuple[int, str | None, bool]:
+        """Team `key`'s Matchup in a Matchup period: (its index within the period, the key `scores` takes;
+        the opponent's key, None for a bye; whether `key` is the home side)."""
+        keys = {v: k for k, v in self._ids.items()}
+        in_period = [m for m in self._schedule if m["matchupPeriodId"] == period]
+        for index, m in enumerate(in_period):
+            if self._ids[key] in self._team_ids(m):
+                home = m["home"]["teamId"] == self._ids[key]
+                other = (m.get("away") or {}).get("teamId") if home else m["home"]["teamId"]
+                return index, keys.get(other), home
+        raise KeyError(f"{key} has no Matchup in period {period}")
+
     def pick(self, overall: int) -> tuple[str, int]:
         """(team key, playerId) of the Pick at `overall`."""
         p = next(p for p in self._picks() if p["overallPickNumber"] == overall)
