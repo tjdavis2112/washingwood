@@ -579,7 +579,42 @@ def transactions_document(conn: Connection) -> dict:
             }
         )
     trades.sort(key=lambda t: (-t["year"], -t["week"], t["sides"][0]["owner"]["name"]))
-    return {"trades": trades}
+    return {"trades": trades, "pickups": _best_pickups(conn)}
+
+
+BEST_PICKUPS = 10
+
+
+def _best_pickups(conn: Connection) -> list[dict]:
+    """Best pickups: the top 10 Pickups of all time by starter points over the Stint. Ties go to the earlier
+    Season, then Week, then Owner name, then Player name."""
+    rows = conn.execute(
+        """SELECT p.full_name, coalesce(ps.position, p.position), ps.nfl_team, pk.owner, pk.team_name, pk.year,
+                  pk.week, pk.via, pk.points, pk.weeks_started, pk.scoring_label
+           FROM stats.pickups pk
+           JOIN core.seasons s              ON s.year = pk.year
+           JOIN core.players p              ON p.player_id = pk.player_id
+           LEFT JOIN core.player_seasons ps ON ps.season_id = s.season_id AND ps.player_id = pk.player_id
+           ORDER BY pk.points DESC, pk.year, pk.week, pk.owner, p.full_name
+           LIMIT %s""",
+        (BEST_PICKUPS,),
+    ).fetchall()
+    return [
+        {
+            "name": name,
+            "position": position,
+            "nflTeam": nfl_team,
+            "owner": _owner_ref(owner),
+            "teamName": team,
+            "year": year,
+            "week": week,
+            "via": via,
+            "points": float(points),
+            "weeksStarted": weeks,
+            "scoringFormat": label,
+        }
+        for name, position, nfl_team, owner, team, year, week, via, points, weeks, label in rows
+    ]
 
 
 # Season record lists: (contract key, row field to rank by, True = highest first). Points rank per game

@@ -1,4 +1,4 @@
-"""Derive the Transactions example (contract/examples/transactions.json): invented trades, scored.
+"""Derive the Transactions example (contract/examples/transactions.json): invented trades and Pickups, scored.
 
 A reference implementation in plain Python, independent of the pipeline's SQL. The trades below are
 invented (ADR-0007); Owners and team names come from the Season examples so links resolve. Each
@@ -9,7 +9,10 @@ on the bench. The rules applied here are the ones the pipeline follows:
   playoff Weeks included, but each Player's Stint ends when they next leave that Owner;
 - Margin = winning total minus losing total; equal totals are a tie with no winner;
 - sides: winner first, a tie by Owner name; Players: most points first, then name;
-- trades: newest Season, then newest Week, then the first side's Owner name.
+- trades: newest Season, then newest Week, then the first side's Owner name;
+- Pickups score the same way: an added Player's log holds only the Weeks they were in that Owner's
+  lineup, and a Stint ends at that Owner's next acquisition of the Player, so a re-add is a new Pickup;
+- Best pickups: top 10 by points, ties by Season, then Week, then Owner name, then Player name.
 
 test_site_contract.py checks the example still equals derive().
 
@@ -63,6 +66,44 @@ TRADES = [
 ]  # fmt: skip
 
 
+# Pickups: (year, week added, Owner slug, name, position, NFL team, via, weekly log in that Owner's lineup)
+PICKUPS = [
+    (2018, 2, "lyle-fenwick", "Dov Kessling", "RB", "IND", "waiver", _log(2, 17, 11.0, bench=(2,))),
+    (2018, 6, "wren-solano", "Ash Pelham", "WR", "GB", "free_agent", _log(6, 17, 9.5)),
+    (2018, 9, "marlo-quist", "Kip Tolland", "TE", "NYG", "waiver", _log(9, 17, 6.0)),
+    (2018, 12, "odie-brask", "Rey Hatcher", "D/ST", "CLE", "free_agent", _log(12, 17, 8.0)),
+    (2018, 3, "tamsin-oake", "Ivo Brennick", "QB", None, "free_agent", _log(3, 4, 14.0)),
+    # Dropped after Week 7 and re-added in Week 12: two Pickups, no Week counted twice
+    (2020, 2, "pell-vantor", "Nico Strand", "WR", "DAL", "waiver", _log(2, 7, 12.0) | _log(12, 17, 12.0)),
+    (2020, 12, "pell-vantor", "Nico Strand", "WR", "DAL", "waiver", _log(12, 17, 12.0)),
+    (2020, 4, "jory-paxton", "Cal Mercer", "RB", "NE", "free_agent", _log(4, 17, 10.0)),
+    (2020, 5, "rue-calloway", "Tobin Ashe", "K", "HOU", "waiver", _log(5, 17, 7.25)),
+    (2020, 7, "quinn-harrow", "Juno Pratt", "TE", "ARI", "free_agent", _log(7, 17, 5.0, bench=(15, 16, 17))),
+    # Equal points: the earlier Week ranks first, then the Owner name
+    (2020, 10, "lyle-fenwick", "Wes Garland", "RB", "SF", "waiver", _log(10, 17, 9.0)),
+    (2020, 10, "cass-imber", "Orrin Vey", "WR", "TB", "free_agent", _log(10, 17, 9.0)),
+    (2020, 15, "tamsin-oake", "Hale Brook", "QB", "MIN", "free_agent", _log(15, 17, 3.0)),
+]
+
+
+def best_pickups(teams) -> list[dict]:
+    rows = []
+    for year, week, slug, name, position, nfl_team, via, log in PICKUPS:
+        # The Stint ends at this Owner's next acquisition of the Player (a re-add or a trade)
+        later = [w for y, w, o, n, *_ in PICKUPS if (y, o, n) == (year, slug, name) and w > week]
+        later += [w for y, w, sides in TRADES if y == year and w > week
+                  for o, players in sides if o == slug and any(p[0] == name for p in players)]  # fmt: skip
+        end = min(later, default=LAST_WEEK[year] + 1)
+        stint = [pts for w, pts in log.items() if week <= w < end and pts is not None]
+        team = teams[year, slug]
+        rows.append({"name": name, "position": position, "nflTeam": nfl_team, "owner": team["owner"],
+                     "teamName": team["teamName"], "year": year, "week": week, "via": via,
+                     "points": round(sum(stint), 2), "weeksStarted": len(stint),
+                     "scoringFormat": team["scoringFormat"]})  # fmt: skip
+    rows.sort(key=lambda r: (-r["points"], r["year"], r["week"], r["owner"]["name"], r["name"]))
+    return rows[:10]
+
+
 def _teams() -> dict[tuple[int, str], dict]:
     out = {}
     for path in (EXAMPLES / "seasons").glob("*.json"):
@@ -112,7 +153,7 @@ def derive() -> dict:
             "sides": [{k: s[k] for k in ("owner", "teamName", "outcome", "total", "players")} for s in pair],
         })  # fmt: skip
     trades.sort(key=lambda t: (-t["year"], -t["week"], t["sides"][0]["owner"]["name"]))
-    return {"trades": trades}
+    return {"trades": trades, "pickups": best_pickups(teams)}
 
 
 if __name__ == "__main__":

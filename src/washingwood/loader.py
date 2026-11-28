@@ -139,9 +139,9 @@ def load_season(conn: Connection, files: SeasonFiles, owner_map: OwnerMap) -> No
 
     _matchups(conn, season_id, files, franchise_ids)
     _draft(conn, season_id, files, picks, franchise_ids)
-    if files.has_lineups:  # trades are scored from lineups, and need the weekly rosters that come with them
+    if files.has_lineups:  # moves are scored from lineups, and trades need the weekly rosters that come with them
         _lineups(conn, season_id, files, franchise_ids)
-        _trades(conn, season_id, files, franchise_ids)
+        _trades_and_moves(conn, season_id, files, franchise_ids)
 
 
 def _check_picks(files: SeasonFiles) -> list[dict]:
@@ -600,8 +600,9 @@ class _Trade:
         return self.accept.get("relatedTransactionId") or self.accept["id"]
 
 
-def _trades(conn: Connection, season_id: int, files: SeasonFiles, franchise_ids: dict[int, int]) -> None:
-    """Executed trades into core.transactions (kind 'trade') and their legs into core.transaction_items.
+def _trades_and_moves(conn: Connection, season_id: int, files: SeasonFiles, franchise_ids: dict[int, int]) -> None:
+    """Executed trades into core.transactions (kind 'trade') and their legs into core.transaction_items,
+    then the executed waiver claims, free-agent adds and drops (_moves).
 
     Counting (espn-api.md §7): one trade per TRADE_ACCEPT without relatedTransactionId (2018), else one
     per distinct relatedTransactionId among TRADE_ACCEPT rows, minus those a commissioner vetoed. Legs
@@ -646,6 +647,47 @@ def _trades(conn: Connection, season_id: int, files: SeasonFiles, franchise_ids:
                 """INSERT INTO core.transaction_items (transaction_id, player_id, from_franchise_id, to_franchise_id)
                    VALUES (%s, %s, %s, %s)""",
                 (txn_id, known[str(pid)], franchise_ids[src], franchise_ids[dst]),
+            )
+    _moves(conn, season_id, files, rows, franchise_ids, known)
+
+
+# Executed move row type -> core.transactions.kind when it adds a Player (espn-api.md §7)
+PICKUP_KINDS = {"WAIVER": "waiver", "FREEAGENT": "free_agent"}
+
+
+def _moves(conn: Connection, season_id: int, files: SeasonFiles, rows: list[dict], franchise_ids, known) -> None:
+    """Executed WAIVER, FREEAGENT and ROSTER rows (status EXECUTED in every era, 2018 included; cancelled,
+    pending and failed rows never are). A row that adds a Player is a Pickup: kind 'waiver' or 'free_agent',
+    the receiving team from items[].toTeamId, never the row's teamId. A row that only drops (2018: FREEAGENT;
+    from 2019: ROSTER) is kind 'drop'. Every dropped Player is an item with no to_franchise_id, so a Stint
+    can end there. memberId and bidAmount are never stored."""
+    for r in sorted(rows, key=lambda r: (r["scoringPeriodId"], r["proposedDate"], r["id"])):
+        if r["type"] not in (*PICKUP_KINDS, "ROSTER") or r.get("status") != "EXECUTED":
+            continue
+        items = [i for i in r.get("items") or [] if i["type"] in ("ADD", "DROP")]
+        if not items:
+            continue  # a lineup change
+        adds = [i for i in items if i["type"] == "ADD"]
+        if adds and r["type"] == "ROSTER":
+            raise LoadError(f"Season {files.year}, Week {r['scoringPeriodId']}: a ROSTER row adds a Player")
+        kind = PICKUP_KINDS[r["type"]] if adds else "drop"
+        txn_id = conn.execute(
+            """INSERT INTO core.transactions (season_id, platform_txn_id, week, kind, status, processed_at)
+               VALUES (%s, %s, %s, %s, 'executed', to_timestamp(%s / 1000.0)) RETURNING transaction_id""",
+            (season_id, r["id"], r["scoringPeriodId"], kind, r.get("processDate")),
+        ).fetchone()[0]
+        for i in items:
+            team = i["toTeamId"] if i["type"] == "ADD" else i["fromTeamId"]
+            if str(i["playerId"]) not in known or team not in franchise_ids:
+                raise LoadError(
+                    f"Season {files.year}, Week {r['scoringPeriodId']}: {i['type']} of ESPN player {i['playerId']} "
+                    f"for team {team} names a Player or team the Season doesn't have"
+                )
+            ends = (None, franchise_ids[team]) if i["type"] == "ADD" else (franchise_ids[team], None)
+            conn.execute(
+                """INSERT INTO core.transaction_items (transaction_id, player_id, from_franchise_id, to_franchise_id)
+                   VALUES (%s, %s, %s, %s)""",
+                (txn_id, known[str(i["playerId"])], *ends),
             )
 
 

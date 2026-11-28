@@ -271,5 +271,167 @@
         }
       ]
     }
+  ],
+  "pickups": [
+    {
+      "name": "Dov Kessling",
+      "position": "RB",
+      "nflTeam": "IND",
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "teamName": "Fenwick Foxes",
+      "year": 2018,
+      "week": 2,
+      "via": "waiver",
+      "points": 165.0,
+      "weeksStarted": 15,
+      "scoringFormat": "PPR"
+    },
+    {
+      "name": "Cal Mercer",
+      "position": "RB",
+      "nflTeam": "NE",
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "teamName": "Paxton Pistons",
+      "year": 2020,
+      "week": 4,
+      "via": "free_agent",
+      "points": 140.0,
+      "weeksStarted": 14,
+      "scoringFormat": "PPR + TE premium"
+    },
+    {
+      "name": "Ash Pelham",
+      "position": "WR",
+      "nflTeam": "GB",
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "teamName": "Solano Sparks",
+      "year": 2018,
+      "week": 6,
+      "via": "free_agent",
+      "points": 114.0,
+      "weeksStarted": 12,
+      "scoringFormat": "PPR"
+    },
+    {
+      "name": "Tobin Ashe",
+      "position": "K",
+      "nflTeam": "HOU",
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "teamName": "Calloway Comets",
+      "year": 2020,
+      "week": 5,
+      "via": "waiver",
+      "points": 94.25,
+      "weeksStarted": 13,
+      "scoringFormat": "PPR + TE premium"
+    },
+    {
+      "name": "Nico Strand",
+      "position": "WR",
+      "nflTeam": "DAL",
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "teamName": "Vantor Vortex",
+      "year": 2020,
+      "week": 2,
+      "via": "waiver",
+      "points": 72.0,
+      "weeksStarted": 6,
+      "scoringFormat": "PPR + TE premium"
+    },
+    {
+      "name": "Orrin Vey",
+      "position": "WR",
+      "nflTeam": "TB",
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "teamName": "Imber Embers",
+      "year": 2020,
+      "week": 10,
+      "via": "free_agent",
+      "points": 72.0,
+      "weeksStarted": 8,
+      "scoringFormat": "PPR + TE premium"
+    },
+    {
+      "name": "Wes Garland",
+      "position": "RB",
+      "nflTeam": "SF",
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "teamName": "Fenwick Fog",
+      "year": 2020,
+      "week": 10,
+      "via": "waiver",
+      "points": 72.0,
+      "weeksStarted": 8,
+      "scoringFormat": "PPR + TE premium"
+    },
+    {
+      "name": "Nico Strand",
+      "position": "WR",
+      "nflTeam": "DAL",
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "teamName": "Vantor Vortex",
+      "year": 2020,
+      "week": 12,
+      "via": "waiver",
+      "points": 72.0,
+      "weeksStarted": 6,
+      "scoringFormat": "PPR + TE premium"
+    },
+    {
+      "name": "Kip Tolland",
+      "position": "TE",
+      "nflTeam": "NYG",
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "teamName": "Quist Quakes",
+      "year": 2018,
+      "week": 9,
+      "via": "waiver",
+      "points": 54.0,
+      "weeksStarted": 9,
+      "scoringFormat": "PPR"
+    },
+    {
+      "name": "Rey Hatcher",
+      "position": "D/ST",
+      "nflTeam": "CLE",
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "teamName": "Brask Bruisers",
+      "year": 2018,
+      "week": 12,
+      "via": "free_agent",
+      "points": 48.0,
+      "weeksStarted": 6,
+      "scoringFormat": "PPR"
+    }
   ]
 }

@@ -97,6 +97,8 @@ def lineup_player(pid: int) -> tuple[str, int, int]:
     if 70000 <= pid < 80000:
         team_id, index = divmod(pid - 70000, 100)
         return f"Lineup {team_id}-{index:02d}", LINEUP[index][1], 1 + index
+    if 60000 <= pid < 70000:  # a free agent (free_agent_id)
+        return f"Free Agent {pid - 60000:03d}", 2, 9
     if -16200 < pid <= -16100:  # a team's own D/ST
         return f"Team{-16100 - pid} D/ST", 16, 8
     return fixture_player_name(pid), fixture_player_position(pid), fixture_player_pro_team(pid)
@@ -131,6 +133,35 @@ class FixtureTrade:
     @property
     def executes(self) -> bool:
         return self.veto != "commissioner"
+
+
+@dataclass
+class FixtureMove:
+    """A waiver claim, free-agent add or standalone drop: one mTransactions2 row (espn-api.md §7).
+
+    An executed row changes `team`'s lineup slot `slot` from `week` on: `add` (a free agent) takes the
+    slot, and with `drop` whoever held it is dropped in the same row. A drop-only row (`add` None) puts
+    a placeholder in the slot. Rows that didn't execute change nothing.
+    """
+
+    week: int  # scoringPeriodId
+    team: str  # receiving team: items[].toTeamId
+    slot: int = 1
+    add: int | None = None
+    drop: bool = True
+    type: str = "WAIVER"  # WAIVER, FREEAGENT, or ROSTER (a 2020+ standalone drop)
+    status: str = "EXECUTED"  # also CANCELED, PENDING, FAILED_INVALIDPLAYERSOURCE, ...
+    execution_type: str | None = None  # default: PROCESS for WAIVER, else EXECUTE; 2018 cancels use CANCEL
+    row_team: str | None = None  # top-level teamId, when it differs from the item's (2018)
+
+    @property
+    def executes(self) -> bool:
+        return self.status == "EXECUTED"
+
+
+def free_agent_id(n: int) -> int:
+    """An invented free agent, in no lineup until someone adds them."""
+    return 60000 + n
 
 
 @dataclass
@@ -194,6 +225,8 @@ class FixtureSeason:
     # Manual score adjustments on a side's period-4 Matchup are set by `adjustments` (above)
     # Trades (espn-api.md §7), applied to the weekly rosters and lineups in effective-Week order
     trades: list[FixtureTrade] = field(default_factory=list)
+    # Waiver claims, free-agent adds and drops (espn-api.md §7), applied with the trades in Week order
+    moves: list[FixtureMove] = field(default_factory=list)
     # Points a Player scores every Week they're in a lineup. Starters' extra points come off the K
     # (slot 8) so each side still adds up to its score.
     lineup_points: dict[int, float] = field(default_factory=dict)
@@ -509,37 +542,50 @@ class FixtureSeason:
         """playerId of team `key`'s Pick in round `rnd`."""
         return next(p["playerId"] for p in self._picks() if p["teamId"] == self._ids[key] and p["roundId"] == rnd)
 
-    def rosters(self, week: int) -> dict[str, list[int]]:
-        """Each team's lineup Players, by slot index, in `week`, after every trade effective by then."""
+    def _replay(self) -> tuple[dict[int, dict[str, list[int]]], dict[int, list], dict[int, tuple]]:
+        """Play the Season's trades and executed moves Week by Week (moves first within a Week).
+
+        Returns each Week's rosters (team key -> Players by lineup slot), each executed trade's legs
+        (playerId, from key, to key, slot) by id(trade), and each executed move's (added, dropped) by id(move).
+        """
         roster = {k: [lineup_player_id(i, s) for s in range(len(LINEUP))] for k, i in self._ids.items()}
-        for tr in self.trade_legs():
-            if tr[0].effective_week <= week:
-                for pid, _, to, slot in tr[1]:
+        events = sorted(
+            [(m.week, 0, n, m) for n, m in enumerate(self.moves) if m.executes]
+            + [(t.effective_week, 1, n, t) for n, t in enumerate(self.trades) if t.executes and t.moves]
+        )
+        snapshots, legs_of, items_of = {}, {}, {}
+        for week in range(1, self._weeks(self.REGULAR_PERIODS + self.PLAYOFF_PERIODS)[-1] + 1):
+            for _, kind, _, ev in (e for e in events if e[0] == week):
+                if kind == 0:
+                    held = roster[ev.team][ev.slot]
+                    roster[ev.team][ev.slot] = (
+                        ev.add if ev.add is not None else 86000 + self._ids[ev.team] * 100 + ev.slot
+                    )
+                    items_of[id(ev)] = (ev.add, held if ev.drop else None)
+                    continue
+                if ev.draft_round is not None:
+                    legs = [(self.drafted(ev.a, ev.draft_round), ev.a, ev.b, ev.slots[0]),
+                            (self.drafted(ev.b, ev.draft_round), ev.b, ev.a, ev.slots[0])]  # fmt: skip
+                else:
+                    a, b = roster[ev.a], roster[ev.b]
+                    legs = [leg for s in ev.slots for leg in ((a[s], ev.a, ev.b, s), (b[s], ev.b, ev.a, s))]
+                for pid, _, to, slot in legs:
                     roster[to][slot] = pid
-        if self.stray_move and self.stray_move[0] <= week:
-            _, src, dst, slot = self.stray_move
-            roster[dst][slot], roster[src][slot] = roster[src][slot], 80000 + self._ids[src] * 100 + slot
-        return roster
+                legs_of[id(ev)] = legs
+            if self.stray_move and self.stray_move[0] == week:
+                _, src, dst, slot = self.stray_move
+                roster[dst][slot], roster[src][slot] = roster[src][slot], 80000 + self._ids[src] * 100 + slot
+            snapshots[week] = {k: list(v) for k, v in roster.items()}
+        return snapshots, legs_of, items_of
+
+    def rosters(self, week: int) -> dict[str, list[int]]:
+        """Each team's lineup Players, by slot index, in `week`, after every trade and move effective by then."""
+        return self._replay()[0][week]
 
     def trade_legs(self) -> list[tuple[FixtureTrade, list[tuple[int, str, str, int]]]]:
         """Each executed trade that moves Players, with its legs (playerId, from key, to key, slot)."""
-        out = []
-        roster = {k: [lineup_player_id(i, s) for s in range(len(LINEUP))] for k, i in self._ids.items()}
-        for tr in sorted((t for t in self.trades if t.executes and t.moves), key=lambda t: (t.effective_week, t.week)):
-            if tr.draft_round is not None:
-                slot = tr.slots[0]
-                legs = [(self.drafted(tr.a, tr.draft_round), tr.a, tr.b, slot),
-                        (self.drafted(tr.b, tr.draft_round), tr.b, tr.a, slot)]  # fmt: skip
-            else:
-                legs = [
-                    leg
-                    for s in tr.slots
-                    for leg in ((roster[tr.a][s], tr.a, tr.b, s), (roster[tr.b][s], tr.b, tr.a, s))
-                ]
-            for pid, _, to, slot in legs:
-                roster[to][slot] = pid
-            out.append((tr, legs))
-        return out
+        legs_of = self._replay()[1]
+        return [(t, legs_of[id(t)]) for t in self.trades if id(t) in legs_of]
 
     def _legs_of(self, trade: FixtureTrade) -> list[tuple[int, str, str, int]]:
         found = [legs for tr, legs in self.trade_legs() if tr is trade]
@@ -586,6 +632,10 @@ class FixtureSeason:
         for n, tr in enumerate(self.trades):
             if tr.week == week:
                 rows.extend(self._trade_rows(n, tr))
+        items_of = self._replay()[2]
+        for n, mv in enumerate(self.moves):
+            if mv.week == week:
+                rows.append(self._move_row(n, mv, items_of))
         return {"id": int(LEAGUE_ID), "seasonId": self.year, "scoringPeriodId": week, "transactions": rows}
 
     def _trade_rows(self, n: int, tr: FixtureTrade) -> list[dict]:
@@ -622,6 +672,30 @@ class FixtureSeason:
             rows.append({**related, "id": f"{tid}-veto", "type": "TRADE_VETO", "teamId": 4, "items": [],
                          "isLeagueManager": tr.veto == "commissioner"})  # fmt: skip
         return rows
+
+    def _move_row(self, n: int, mv: FixtureMove, items_of: dict[int, tuple]) -> dict:
+        team = self._ids[mv.team]
+        if id(mv) in items_of:
+            added, dropped = items_of[id(mv)]
+        else:  # didn't execute: the row still names the Players it would have moved
+            held = self.rosters(mv.week)[mv.team][mv.slot] if mv.week > 0 else None
+            added, dropped = mv.add, held if mv.drop else None
+        items = []
+        if added is not None:
+            items.append({"type": "ADD", "playerId": added, "fromTeamId": 0, "toTeamId": team,
+                          "fromLineupSlotId": -1, "toLineupSlotId": 20, "isKeeper": False})  # fmt: skip
+        if dropped is not None:
+            items.append({"type": "DROP", "playerId": dropped, "fromTeamId": team, "toTeamId": 0,
+                          "fromLineupSlotId": 20, "toLineupSlotId": -1, "isKeeper": False})  # fmt: skip
+        execution = mv.execution_type or ("PROCESS" if mv.type == "WAIVER" else "EXECUTE")
+        when = 1_600_000_000_000 + mv.week * 604_800_000 + 1_000 + n
+        row = {"id": f"{self.year}-move-{n:02d}", "type": mv.type, "status": mv.status, "executionType": execution,
+               "isPending": mv.status == "PENDING", "teamId": self._ids[mv.row_team or mv.team],
+               "memberId": f"{{MEMBER-{team:04d}}}", "isLeagueManager": False, "scoringPeriodId": mv.week,
+               "proposedDate": when, "bidAmount": 0, "items": items}  # fmt: skip
+        if execution == "PROCESS":
+            row["processDate"] = when + 3_600_000
+        return row
 
     # -- box scores ------------------------------------------------------------
 
