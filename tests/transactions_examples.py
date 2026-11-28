@@ -12,7 +12,8 @@ on the bench. The rules applied here are the ones the pipeline follows:
 - trades: newest Season, then newest Week, then the first side's Owner name;
 - Pickups score the same way: an added Player's log holds only the Weeks they were in that Owner's
   lineup, and a Stint ends at that Owner's next acquisition of the Player, so a re-add is a new Pickup;
-- Best pickups: top 10 by points, ties by Season, then Week, then Owner name, then Player name.
+- Best pickups: top 10 by points, ties by Season, then Week, then Owner name, then Player name; each
+  Season also gets its own top 10 (seasonPickups, newest Season first).
 
 test_site_contract.py checks the example still equals derive().
 
@@ -35,12 +36,13 @@ def _log(first: int, last: int, points: float, *, bench: tuple[int, ...] = ()) -
 
 # (year, week, [(owner slug, [(name, position, NFL team, weekly log)]), ...two sides])
 TRADES = [
-    (2018, 4, [
+    # 2018 has no trades, so its Season page shows the empty-Season line
+    (2020, 4, [
         ("quinn-harrow", [("Corin Vale", "WR", "SEA", _log(4, 17, 12.5, bench=(9,)))]),
         ("abel-trice", [("Mott Ellery", "RB", "DEN", _log(4, 17, 6.0)),
                         ("Pim Arlo", "TE", "NO", _log(4, 17, 3.25, bench=(4, 5, 6)))]),
     ]),
-    (2018, 11, [
+    (2020, 11, [
         ("rue-calloway", [("Hollis Brandt", "QB", "KC", _log(11, 17, 21.0))]),
         ("pell-vantor", [("Tav Quill", "QB", "BAL", _log(11, 17, 15.5))]),
     ]),
@@ -86,9 +88,12 @@ PICKUPS = [
 ]
 
 
-def best_pickups(teams) -> list[dict]:
+def best_pickups(teams, season: int | None = None) -> list[dict]:
+    """The top 10 Pickups of all time, or of one Season."""
     rows = []
     for year, week, slug, name, position, nfl_team, via, log in PICKUPS:
+        if season is not None and year != season:
+            continue
         # The Stint ends at this Owner's next acquisition of the Player (a re-add or a trade)
         later = [w for y, w, o, n, *_ in PICKUPS if (y, o, n) == (year, slug, name) and w > week]
         later += [w for y, w, sides in TRADES if y == year and w > week
@@ -153,7 +158,12 @@ def derive() -> dict:
             "sides": [{k: s[k] for k in ("owner", "teamName", "outcome", "total", "players")} for s in pair],
         })  # fmt: skip
     trades.sort(key=lambda t: (-t["year"], -t["week"], t["sides"][0]["owner"]["name"]))
-    return {"trades": trades, "pickups": best_pickups(teams)}
+    years = sorted({year for year, _ in teams}, reverse=True)
+    return {
+        "trades": trades,
+        "pickups": best_pickups(teams),
+        "seasonPickups": [{"year": y, "pickups": best_pickups(teams, y)} for y in years],
+    }
 
 
 if __name__ == "__main__":

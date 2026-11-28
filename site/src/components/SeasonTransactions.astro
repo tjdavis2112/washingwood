@@ -1,0 +1,22 @@
+---
+// The Season page's Transactions tab (#64): that Season's trades as cards, newest Week first, then its top 10
+// Pickups. Trades are filtered from transactions.json by year (one source, contract/README.md).
+import { getTransactions } from "../data/site-data";
+import BestPickups from "./BestPickups.astro";
+import TradeCard from "./TradeCard.astro";
+
+interface Props { year: number }
+const { year } = Astro.props;
+const { trades: all, seasonPickups } = getTransactions();
+const trades = all.filter((t) => t.year === year); // already newest Week first
+const pickups = seasonPickups.find((s) => s.year === year)?.pickups ?? [];
+---
+<div class="space-y-10">
+  <section aria-labelledby="season-trades-heading">
+    <h2 id="season-trades-heading" class="mb-4 text-2xl font-black">Trades</h2>
+    {trades.length === 0
+      ? <p data-testid="no-trades" class="text-muted">No trades in {year}.</p>
+      : <div class="grid gap-4">{trades.map((trade) => <TradeCard trade={trade} />)}</div>}
+  </section>
+  <BestPickups pickups={pickups} season={year} />
+</div>
