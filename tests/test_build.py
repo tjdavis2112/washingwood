@@ -123,6 +123,7 @@ def test_rerunning_on_the_same_input_gives_byte_identical_output(archive, owners
     assert sorted(f for f in first if not f.startswith(("rivalries/", "box-scores/"))) == sorted(
         [
             "draft.json",
+            "hall-of-fame.json",
             "league.json",
             "matchups.json",
             "owners.json",

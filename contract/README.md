@@ -14,6 +14,7 @@ The site-data contract is the interface between the **pipeline** (Python: archiv
 | `examples/box-scores/<year>.json` | Example Box scores, invented (deterministically) from the Season examples by `tests/box_score_examples.py`: lineups use each Owner's example draft, and starters add up to each score (re-run it after changing the Season examples) |
 | `examples/record-book.json` | Example Record Book, derived from the Season examples by `tests/record_book_examples.py` (re-run it after changing them) |
 | `examples/transactions.json` | Example Transactions: invented trades (a tie, a Week-1 trade, a Stint cut short by a later trade, a Margin tie at the 5th Fleeced place; 2018 has none, for the empty-Season line) and Pickups (a re-add, tied points, rows cut from the top 10) scored by the plain-Python reference `tests/transactions_examples.py` (re-run it after changing them) |
+| `examples/hall-of-fame.json` | Example Hall of Fame: invented Player seasons (a traded Player, a tie on starter points, one exactly at the bar, one just under it, one who never started; Inductees in both Seasons, one on the former Owner) inducted by the plain-Python reference `tests/hall_of_fame_examples.py` (re-run it after changing them or `PAR_BAR`) |
 | `examples/draft.json` | Example Draft history, derived from the Season examples by `tests/draft_examples.py` (re-run it after changing them) |
 | `examples/seasons/2018.json` | Example 10-team Season: 4 playoff teams, two-week playoff rounds, a tie, one manual score adjustment, a Last place who wins a consolation Matchup, and an offline Draft with three Picks not recorded |
 | `examples/seasons/2020.json` | Example 12-team Season: 6 playoff teams, first-round byes, the Third-place game, a 5th-place Matchup, and a snake Draft |
@@ -37,6 +38,7 @@ The schema has one entry point per document under `$defs`:
 | Box scores | `#/$defs/boxScores` | `box-scores/<year>.json` |
 | Record Book | `#/$defs/recordBook` | `record-book.json` |
 | Transactions | `#/$defs/transactions` | `transactions.json` |
+| Hall of Fame | `#/$defs/hallOfFame` | `hall-of-fame.json` |
 
 ## Conventions
 
@@ -68,6 +70,8 @@ The schema can't express a few rules, and the exporter has to guarantee them:
 - `transactions.json` decides trades and ranks Pickups by Value added (`total`, `value`); raw starter points (`rawTotal`, `points`) ride along for reference. Each start's Value added uses that Season's Replacement points per start, the same Replacement level the Draft section uses
 - `transactions.json` `pickups` are the top 10 Pickups by Value added (ties: Season, Week, Owner name, Player name); a Player dropped and re-added is two Pickups whose Stints never share a Week
 - `transactions.json` `trades` are newest Season first, then newest Week, then the first side's Owner name; each side's total is the sum of its Players' points, the winner comes first, and `margin` is the difference of the two totals. Season pages and Owner pages get their trades by filtering this document at site build time (by `year`, or by a side's Owner slug), so trades have one source
+- `hall-of-fame.json` `inductees` are every Player season whose Points above replacement is at or above `PAR_BAR` (`washingwood.hall_of_fame`; ADR-0009), among Players on a roster at some point that Season who started at least once. Each is credited to the Owner of the Franchise the Player scored the most starter points for (a tie goes to the earlier acquisition: the Franchise whose lineups had him first). Newest Season first, then highest Points above replacement, then Player name. Bars are fixed, never ranks, so a later Season never removes an Inductee
+- `hall-of-fame.json` is the one source for Inductees: Season pages take theirs by filtering `inductees` by `year`, and Owner pages by the credited `owner.slug`, at site build time. Season and Owner documents carry no copy
 - `draft.json` lists every Season newest first, and each `firstRound` is that Season's round-1 Picks in order
 - `standings` has one entry per Franchise and is ordered by `rank`
 - the Champion in the league summary matches the latest Season's Podium
@@ -82,7 +86,7 @@ from washingwood.contract import validate, ContractError
 
 validate(
     doc, "season"
-)  # kinds: "league", "trophyShelf", "ownerIndex", "owner", "season", "draft", "matchups", "rivalry", "boxScores", "recordBook", "transactions"
+)  # kinds: "league", "trophyShelf", "ownerIndex", "owner", "season", "draft", "matchups", "rivalry", "boxScores", "recordBook", "transactions", "hallOfFame"
 ```
 
 `ContractError.errors` lists every violation as `"/json/pointer: message"`.

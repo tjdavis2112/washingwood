@@ -15,7 +15,7 @@ export type League = {
   champion: { owner: OwnerRef; teamName: string; year: number };
 };
 
-type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups" | "rivalry" | "boxScores" | "recordBook" | "transactions";
+type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups" | "rivalry" | "boxScores" | "recordBook" | "transactions" | "hallOfFame";
 
 let ajv: Ajv2020 | undefined;
 let schemaId = "";
@@ -438,4 +438,18 @@ let transactionsDoc: TransactionsDoc | undefined;
 export function getTransactions(): TransactionsDoc {
   transactionsDoc ??= load<TransactionsDoc>("transactions.json", "transactions");
   return transactionsDoc;
+}
+
+export type InductionLane = { lane: "dominant"; value: number; owner: OwnerRef };
+export type Inductee = {
+  year: number; scoringFormat: string; name: string; position: string; nflTeam: string | null; owner: OwnerRef;
+  teamName: string; lanes: InductionLane[]; points: number; positionalFinish: number;
+};
+export type HallOfFameDoc = { inductees: Inductee[] };
+
+let hallOfFameDoc: HallOfFameDoc | undefined;
+/** hall-of-fame.json: every Inductee, newest Season first. Season and Owner pages filter it (one source). */
+export function getHallOfFame(): HallOfFameDoc {
+  hallOfFameDoc ??= load<HallOfFameDoc>("hall-of-fame.json", "hallOfFame");
+  return hallOfFameDoc;
 }

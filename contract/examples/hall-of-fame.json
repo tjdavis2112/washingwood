@@ -1,0 +1,124 @@
+{
+  "inductees": [
+    {
+      "year": 2020,
+      "scoringFormat": "PPR + TE premium",
+      "name": "Bodhi Lanark",
+      "position": "RB",
+      "nflTeam": "DAL",
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "teamName": "Imber Embers",
+      "lanes": [
+        {
+          "lane": "dominant",
+          "value": 257.2,
+          "owner": {
+            "slug": "cass-imber",
+            "name": "Cass Imber"
+          }
+        }
+      ],
+      "points": 362.4,
+      "positionalFinish": 1
+    },
+    {
+      "year": 2020,
+      "scoringFormat": "PPR + TE premium",
+      "name": "Ilan Cresswell",
+      "position": "QB",
+      "nflTeam": "KC",
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "teamName": "Calloway Comets",
+      "lanes": [
+        {
+          "lane": "dominant",
+          "value": 226.2,
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          }
+        }
+      ],
+      "points": 330.0,
+      "positionalFinish": 2
+    },
+    {
+      "year": 2020,
+      "scoringFormat": "PPR + TE premium",
+      "name": "Tarn Whitlow",
+      "position": "WR",
+      "nflTeam": "SEA",
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "teamName": "Paxton Pistons",
+      "lanes": [
+        {
+          "lane": "dominant",
+          "value": 171.0,
+          "owner": {
+            "slug": "jory-paxton",
+            "name": "Jory Paxton"
+          }
+        }
+      ],
+      "points": 248.0,
+      "positionalFinish": 1
+    },
+    {
+      "year": 2018,
+      "scoringFormat": "PPR",
+      "name": "Eamon Stroud",
+      "position": "RB",
+      "nflTeam": "MIN",
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "teamName": "Harrow Hammers",
+      "lanes": [
+        {
+          "lane": "dominant",
+          "value": 236.0,
+          "owner": {
+            "slug": "quinn-harrow",
+            "name": "Quinn Harrow"
+          }
+        }
+      ],
+      "points": 330.6,
+      "positionalFinish": 1
+    },
+    {
+      "year": 2018,
+      "scoringFormat": "PPR",
+      "name": "Harlo Bexley",
+      "position": "QB",
+      "nflTeam": "NO",
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "teamName": "Solano Sparks",
+      "lanes": [
+        {
+          "lane": "dominant",
+          "value": 150.0,
+          "owner": {
+            "slug": "wren-solano",
+            "name": "Wren Solano"
+          }
+        }
+      ],
+      "points": 282.4,
+      "positionalFinish": 1
+    }
+  ]
+}

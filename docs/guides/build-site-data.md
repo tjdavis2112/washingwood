@@ -13,6 +13,7 @@ How to turn the private archive into the JSON the site renders. This runs on you
    - `owners.json`: the Owners index (every Owner, with their career regular-season record)
    - `owners/<slug>.json`: one per Owner (trophy case, career summary, every Season, head-to-head)
    - `seasons/<year>.json`: one per Season (Podium, Last place, standings, Scoring format, bracket, weekly results)
+   - `hall-of-fame.json`: every Hall of Fame Inductee (Season and Owner pages filter it)
 
    Every document is checked against `contract/site-data.schema.json` before any file is written.
 
@@ -68,6 +69,20 @@ uv run --env-file .env python -m washingwood.build --archive archive/<league-id>
 - `--out export`: the output folder (gitignored).
 
 On success it prints a `wrote ...` line for each file. On failure it prints `build failed: ...`, writes nothing, and exits 1.
+
+## Hall of Fame calibration report
+
+The Hall of Fame inducts a Player season when it clears a fixed **Induction bar** (ADR-0009). The bars are constants in `src/washingwood/hall_of_fame.py` (`PAR_BAR` for Dominant). The report shows how many Player seasons each Season would induct at a range of candidate bars, so a bar can be chosen against the real archive.
+
+```powershell
+uv run --env-file .env python -m washingwood.hall_of_fame --report --archive archive/<league-id> --owners archive/owners.yaml
+```
+
+- `python -m washingwood.hall_of_fame`: the Hall of Fame module.
+- `--report`: print the calibration report.
+- `--archive`, `--owners`: the same as for the build. It loads the archive into Postgres the same way, and writes no files.
+
+It prints one row per Season: the count at each candidate bar, then the count at the current bar. It prints counts only, never a Player or Owner name, so the output is safe to paste into an issue or PR.
 
 ## Tests
 

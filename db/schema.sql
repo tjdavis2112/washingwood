@@ -544,14 +544,47 @@ SELECT p.season_id, p.position, p.replacement_finish,
         LIMIT 1) AS replacement_points
 FROM positions p;
 
--- Points above replacement (GLOSSARY) for each recorded Pick: Season points minus its position's
--- Replacement points that Season, floored at 0 (anyone below replacement is a waiver-wire Player).
-CREATE VIEW stats.draft_points_above_replacement AS
-SELECT dp.season_id, dp.overall_pick, dp.round,
+-- Points above replacement (GLOSSARY) for every Player with Season points: Season points minus that
+-- position's Replacement points that Season, floored at 0 (anyone below replacement is a waiver-wire Player).
+CREATE VIEW stats.points_above_replacement AS
+SELECT ps.season_id, ps.player_id, ps.position, ps.season_points,
        greatest(ps.season_points - rl.replacement_points, 0) AS points_above_replacement
+FROM core.player_seasons ps
+JOIN stats.replacement_level rl ON rl.season_id = ps.season_id AND rl.position = ps.position
+WHERE ps.season_points IS NOT NULL;
+
+-- Points above replacement for each recorded Pick
+CREATE VIEW stats.draft_points_above_replacement AS
+SELECT dp.season_id, dp.overall_pick, dp.round, par.points_above_replacement
 FROM core.draft_picks dp
-JOIN core.player_seasons ps     ON ps.season_id = dp.season_id AND ps.player_id = dp.player_id
-JOIN stats.replacement_level rl ON rl.season_id = dp.season_id AND rl.position = ps.position;
+JOIN stats.points_above_replacement par ON par.season_id = dp.season_id AND par.player_id = dp.player_id;
+
+-- Hall of Fame, Dominant lane (GLOSSARY: Induction bar; ADR-0009): every Player on a roster at some point
+-- that Season, with his Points above replacement, credited to the Franchise he scored the most starter points
+-- for. A tie goes to the earlier acquisition: the Franchise whose lineups had him first (then the lower
+-- franchise_id, so the answer is always one Franchise). A Player who never started for anyone is left out,
+-- and so is one with no Season points. The bar itself (PAR_BAR) lives in washingwood.hall_of_fame.
+CREATE VIEW stats.dominant_seasons AS
+WITH stints AS (
+    SELECT le.season_id, le.player_id, le.franchise_id,
+           coalesce(sum(le.points) FILTER (WHERE le.is_starter), 0) AS started_points,
+           count(*) FILTER (WHERE le.is_starter)                    AS weeks_started,
+           min(le.week)                                             AS first_week
+    FROM core.lineup_entries le
+    GROUP BY le.season_id, le.player_id, le.franchise_id
+), ranked AS (
+    SELECT st.*,
+           row_number() OVER (PARTITION BY st.season_id, st.player_id
+                              ORDER BY st.started_points DESC, st.first_week, st.franchise_id) AS credit_order,
+           sum(st.weeks_started) OVER (PARTITION BY st.season_id, st.player_id)                AS starts
+    FROM stints st
+)
+SELECT r.season_id, r.player_id, r.franchise_id, par.position, par.season_points, par.points_above_replacement,
+       psf.positional_finish
+FROM ranked r
+JOIN stats.points_above_replacement par ON par.season_id = r.season_id AND par.player_id = r.player_id
+JOIN stats.player_season_finish psf     ON psf.season_id = r.season_id AND psf.player_id = r.player_id
+WHERE r.credit_order = 1 AND r.starts > 0;
 
 -- What a Round usually returns: the mean Points above replacement of every recorded Pick in that
 -- Round, across every Season.

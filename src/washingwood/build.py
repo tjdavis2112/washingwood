@@ -16,7 +16,7 @@ from pathlib import Path
 
 import psycopg
 
-from washingwood import contract, export
+from washingwood import contract, export, hall_of_fame
 from washingwood.loader import LoadError, SeasonFiles, load_season
 from washingwood.owners import OwnerMappingError, load_owners
 
@@ -42,20 +42,9 @@ FAILURES = (
 
 def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list[Path]:
     """Load every Season in `archive_dir` and write the site data to `out_dir`. Returns files written."""
-    archive_dir, out_dir = Path(archive_dir), Path(out_dir)
-    owner_map = load_owners(Path(owners_file))
-    season_dirs = sorted(
-        (d for d in archive_dir.iterdir() if d.is_dir() and d.name.isdigit() and int(d.name) >= FIRST_SEASON),
-        key=lambda d: int(d.name),
-    )
-    if not season_dirs:
-        raise BuildError(f"no Season folders ({FIRST_SEASON}+) in {archive_dir}")
-
+    out_dir = Path(out_dir)
     with psycopg.connect(dsn) as conn:
-        _ensure_schema(conn)
-        for d in season_dirs:
-            with conn.transaction():
-                load_season(conn, SeasonFiles.read(d), owner_map)
+        season_dirs = load_archive(conn, archive_dir, owners_file)
         docs = {
             "league.json": (export.league_summary(conn), "league"),
             "trophy-shelf.json": (export.trophy_shelf(conn), "trophyShelf"),
@@ -64,6 +53,7 @@ def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list
             "matchups.json": (export.matchups_document(conn), "matchups"),
             "record-book.json": (export.record_book_document(conn), "recordBook"),
             "transactions.json": (export.transactions_document(conn), "transactions"),
+            "hall-of-fame.json": (hall_of_fame.hall_of_fame_document(conn), "hallOfFame"),
         }
         for slug, doc in export.owner_documents(conn).items():
             docs[f"owners/{slug}.json"] = (doc, "owner")
@@ -86,12 +76,29 @@ def build(archive_dir: Path, owners_file: Path, out_dir: Path, dsn: str) -> list
     return written
 
 
+def load_archive(conn: psycopg.Connection, archive_dir: Path, owners_file: Path) -> list[Path]:
+    """Load every Season folder (FIRST_SEASON on) in `archive_dir` into Postgres. Returns the folders, oldest first."""
+    archive_dir = Path(archive_dir)
+    owner_map = load_owners(Path(owners_file))
+    season_dirs = sorted(
+        (d for d in archive_dir.iterdir() if d.is_dir() and d.name.isdigit() and int(d.name) >= FIRST_SEASON),
+        key=lambda d: int(d.name),
+    )
+    if not season_dirs:
+        raise BuildError(f"no Season folders ({FIRST_SEASON}+) in {archive_dir}")
+    _ensure_schema(conn)
+    for d in season_dirs:
+        with conn.transaction():
+            load_season(conn, SeasonFiles.read(d), owner_map)
+    return season_dirs
+
+
 def _ensure_schema(conn: psycopg.Connection) -> None:
     """Create the schema on an empty database. An existing one is left alone (no migrations yet)."""
     if conn.execute("SELECT to_regclass('core.seasons')").fetchone()[0] is None:
         conn.execute(SCHEMA_SQL.read_text(encoding="utf-8"))
         conn.commit()
-    elif conn.execute("SELECT to_regclass('stats.weekly_replacement')").fetchone()[0] is None:  # newest: Value added
+    elif conn.execute("SELECT to_regclass('stats.dominant_seasons')").fetchone()[0] is None:  # newest: Hall of Fame
         raise BuildError("the database's schema predates db/schema.sql: drop and recreate the database, then re-run")
 
 
