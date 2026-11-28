@@ -1,0 +1,31 @@
+---
+// Hall of Fame (#73): every Inductee as a card, grouped by Season, newest first. hall-of-fame.json is
+// already newest Season first, then highest Points above replacement. No paging.
+import InducteeCard from "../../components/InducteeCard.astro";
+import { getHallOfFame } from "../../data/site-data";
+import Base from "../../layouts/Base.astro";
+
+const { inductees } = getHallOfFame();
+const years = [...new Set(inductees.map((i) => i.year))];
+---
+<Base title="Hall of Fame">
+  <header class="mb-8">
+    <h1 class="text-3xl font-black md:text-5xl">Hall of Fame</h1>
+    <p data-testid="induction-note" class="mt-2 text-muted">
+      A Player season gets in by clearing a fixed bar, never by rank, so nobody is ever knocked out.
+      Dominant: Points above replacement, his Season points over a replacement-level starter at his position.
+    </p>
+  </header>
+
+  {inductees.length === 0 && <p class="text-muted">No Inductees yet.</p>}
+  {years.map((year) => (
+    <section aria-labelledby={`hof-${year}`} data-testid="inductee-season" data-year={year} class="mb-10">
+      <h2 id={`hof-${year}`} class="mb-4 text-2xl font-black">
+        <a href={`/seasons/${year}/`} class="transition-colors hover:text-brand">{year}</a>
+      </h2>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {inductees.filter((i) => i.year === year).map((inductee) => <InducteeCard inductee={inductee} />)}
+      </div>
+    </section>
+  ))}
+</Base>

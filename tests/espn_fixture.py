@@ -206,7 +206,8 @@ class FixtureSeason:
     missing_picks: set[int] = field(default_factory=set)
     # playerIds to leave out of players.json
     unlisted_players: set[int] = field(default_factory=set)
-    # Season points (player_pool.json season total) by playerId; default fixture_player_points()
+    # Season points (player_pool.json season total) by playerId; default fixture_player_points(). A playerId
+    # that isn't drafted (a lineup Player or a free agent) is added to the pool with these Season points.
     player_points: dict[int, float] = field(default_factory=dict)
     # Season points for every pool Player at a position (defaultPositionId -> points), unless player_points
     # names them. Every Player at a position scoring the same fixes that position's Replacement points.
@@ -481,8 +482,13 @@ class FixtureSeason:
         entries = []
         listed = {p["id"]: p for p in self.players()}
         extra = {UNDRAFTED_PLAYER_ID: (3, 50.0), **self.undrafted}
-        for pid in [p["playerId"] for p in self._picks() if p["playerId"] != -1] + list(extra):
-            if pid in extra:
+        drafted = [p["playerId"] for p in self._picks() if p["playerId"] != -1]
+        rostered = [pid for pid in self.player_points if pid not in drafted and pid not in extra]
+        for pid in drafted + list(extra) + rostered:
+            if pid in rostered:  # a lineup Player or free agent given Season points
+                name, position, pro_team = lineup_player(pid)
+                points = self.player_points[pid]
+            elif pid in extra:
                 position, points = extra[pid]
                 points = self.pool_points_by_position.get(position, points)
                 name, pro_team = f"Undrafted Fixture {pid}", 0

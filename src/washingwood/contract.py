@@ -33,6 +33,7 @@ KINDS = (
     "boxScores",
     "recordBook",
     "transactions",
+    "hallOfFame",
 )
 
 

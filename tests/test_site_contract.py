@@ -918,3 +918,37 @@ def test_example_trades_are_decided_on_value_added_not_raw_points():
     assert any(
         t["sides"][0]["outcome"] == "won" and t["sides"][0]["rawTotal"] < t["sides"][1]["rawTotal"] for t in trades
     )
+
+
+# --- Hall of Fame (#73) ---
+
+
+def test_hall_of_fame_example_validates_and_agrees_with_its_reference():
+    from hall_of_fame_examples import derive
+
+    doc = load_example("hall-of-fame.json")
+    validate(doc, "hallOfFame")
+    assert doc == derive()
+    keys = [(-i["year"], -i["lanes"][0]["value"], i["name"]) for i in doc["inductees"]]
+    assert keys == sorted(keys)
+    assert {i["year"] for i in doc["inductees"]} == set(example_seasons())
+
+
+def test_every_example_inductee_owner_is_in_that_seasons_example_and_carries_its_team_name():
+    seasons = example_seasons()
+    for i in load_example("hall-of-fame.json")["inductees"]:
+        row = next(r for r in seasons[i["year"]]["standings"] if r["owner"] == i["owner"])
+        assert i["teamName"] == row["teamName"]
+        assert i["scoringFormat"] == seasons[i["year"]]["scoringFormat"]["label"]
+        assert [lane["owner"] for lane in i["lanes"]] == [i["owner"]]
+
+
+def test_an_inductee_needs_at_least_one_lane_and_a_known_lane():
+    doc = load_example("hall-of-fame.json")
+    bad = copy.deepcopy(doc)
+    bad["inductees"][0]["lanes"] = []
+    with pytest.raises(ContractError, match="lanes"):
+        validate(bad, "hallOfFame")
+    doc["inductees"][0]["lanes"][0]["lane"] = "legend"
+    with pytest.raises(ContractError, match="lane"):
+        validate(doc, "hallOfFame")
