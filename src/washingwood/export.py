@@ -530,6 +530,58 @@ def record_book_document(conn: Connection) -> dict:
     }
 
 
+OUTCOMES = {1: "won", -1: "lost", 0: "tied"}
+
+
+def transactions_document(conn: Connection) -> dict:
+    """The Transactions section: every executed trade, newest Season and Week first, then by the first side's
+    Owner name. Each side lists what it received, scored over each Player's Stint (stats.acquisition_impact);
+    the winning side comes first, and a tie orders the sides by Owner name. Season and Owner pages filter
+    this document at site build time rather than carrying their own copy."""
+    results = conn.execute(
+        "SELECT transaction_id, year, week, scoring_label, margin FROM stats.trade_results"
+    ).fetchall()
+    legs = conn.execute(
+        """SELECT ai.transaction_id, ai.to_franchise_id, fo.display_name, f.team_name, p.full_name,
+                  coalesce(ps.position, p.position), ps.nfl_team, ai.started_points_after, ai.weeks_started_after
+           FROM stats.acquisition_impact ai
+           JOIN core.franchises f          ON f.franchise_id = ai.to_franchise_id
+           JOIN stats.franchise_owner fo   ON fo.franchise_id = ai.to_franchise_id
+           JOIN core.players p             ON p.player_id = ai.player_id
+           LEFT JOIN core.player_seasons ps ON ps.season_id = ai.season_id AND ps.player_id = ai.player_id
+           WHERE ai.kind = 'trade'"""
+    ).fetchall()
+    sides: dict[int, dict[int, dict]] = {}
+    for txn, franchise, owner, team, name, position, nfl_team, points, weeks in legs:
+        side = sides.setdefault(txn, {}).setdefault(
+            franchise, {"owner": _owner_ref(owner), "teamName": team, "total": 0.0, "players": []}
+        )
+        side["players"].append(
+            {"name": name, "position": position, "nflTeam": nfl_team, "points": float(points), "weeksStarted": weeks}
+        )
+        side["total"] = round(side["total"] + float(points), 2)
+    trades = []
+    for txn, year, week, label, margin in results:
+        pair = list(sides[txn].values())
+        if len(pair) != 2:
+            raise ExportError(f"Season {year}, Week {week}: a trade has {len(pair)} receiving side(s), not 2")
+        for side, other in (pair, pair[::-1]):
+            side["outcome"] = OUTCOMES[(side["total"] > other["total"]) - (side["total"] < other["total"])]
+            side["players"].sort(key=lambda p: (-p["points"], p["name"]))
+        pair.sort(key=lambda s: (-s["total"], s["owner"]["name"]))
+        trades.append(
+            {
+                "year": year,
+                "week": week,
+                "scoringFormat": label,
+                "margin": float(margin),
+                "sides": [{k: s[k] for k in ("owner", "teamName", "outcome", "total", "players")} for s in pair],
+            }
+        )
+    trades.sort(key=lambda t: (-t["year"], -t["week"], t["sides"][0]["owner"]["name"]))
+    return {"trades": trades}
+
+
 # Season record lists: (contract key, row field to rank by, True = highest first). Points rank per game
 # (GLOSSARY: Points per game); ties go to the earlier Season, then Owner name.
 SEASON_RECORDS = [

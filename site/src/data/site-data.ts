@@ -15,7 +15,7 @@ export type League = {
   champion: { owner: OwnerRef; teamName: string; year: number };
 };
 
-type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups" | "rivalry" | "boxScores" | "recordBook";
+type Kind = "league" | "trophyShelf" | "ownerIndex" | "owner" | "season" | "draft" | "matchups" | "rivalry" | "boxScores" | "recordBook" | "transactions";
 
 let ajv: Ajv2020 | undefined;
 let schemaId = "";
@@ -411,4 +411,16 @@ let recordBookDoc: RecordBookDoc | undefined;
 export function getRecordBook(): RecordBookDoc {
   recordBookDoc ??= load<RecordBookDoc>("record-book.json", "recordBook");
   return recordBookDoc;
+}
+
+export type TradedPlayer = { name: string; position: string; nflTeam: string | null; points: number; weeksStarted: number };
+export type TradeSide = { owner: OwnerRef; teamName: string; outcome: "won" | "lost" | "tied"; total: number; players: TradedPlayer[] };
+export type Trade = { year: number; week: number; scoringFormat: string; margin: number; sides: [TradeSide, TradeSide] };
+export type TransactionsDoc = { trades: Trade[] };
+
+let transactionsDoc: TransactionsDoc | undefined;
+/** transactions.json: every executed trade, newest first. Season and Owner pages filter it (one source). */
+export function getTransactions(): TransactionsDoc {
+  transactionsDoc ??= load<TransactionsDoc>("transactions.json", "transactions");
+  return transactionsDoc;
 }

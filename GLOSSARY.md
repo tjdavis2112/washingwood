@@ -80,7 +80,7 @@ A **Season** in which a **Franchise**'s seed is within that Season's playoff fie
 A regular-season **Matchup**, or a championship-bracket Matchup actually played, that spans a single **Week**. The set Matchup leaderboards draw from. Byes, the **Third-place game**, consolation Matchups and two-week rounds aren't counted.
 
 **Margin**:
-The winner's score minus the loser's in a played **Matchup**.
+The winner's score minus the loser's in a played **Matchup**. For a **Trade**, the winning side's score minus the losing side's; 0 for a tied trade, which nobody won.
 
 **Playoff upset**:
 A championship-bracket **Matchup** won by the worse seed.
@@ -166,4 +166,10 @@ A **Franchise**'s all-play win % times its regular-season games: the wins an ave
 A **Franchise**'s actual regular-season wins minus its **Expected wins**, to one decimal. Positive is lucky. An **Owner**'s all-time Luck index is the sum of their Seasons.
 
 **Acquisition impact**:
-Points a **Player** scored as a starter for the **Franchise** that acquired them, from the acquisition **Week** to the end of the **Season**.
+Points a **Player** scored as a starter for the **Franchise** that acquired them during the **Stint**.
+
+**Stint**:
+The **Weeks** a **Player** spends with a **Franchise** after one acquisition: from the acquisition's Week until the Player next leaves that team (traded away or dropped), or the end of the **Season**, playoff Weeks included. Re-acquiring the Player starts a new Stint, so no Week counts twice.
+
+**Trade**:
+An executed swap of **Players** between two **Franchises**. Vetoed trades, proposals and declines aren't trades. Each side scores the starter points its received Players gave it over their **Stints**; the side with more wins by the **Margin**. Its **Week** is the effective Week: the first Week the received Players are on their new rosters.

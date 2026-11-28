@@ -783,3 +783,38 @@ def test_a_last_place_tally_count_must_be_at_least_one():
     doc["lastPlace"]["tally"][0]["count"] = 0
     with pytest.raises(ContractError, match="count"):
         validate(doc, "recordBook")
+
+
+# --- Transactions (#62) ---
+
+
+def test_transactions_example_validates_and_agrees_with_its_reference():
+    from transactions_examples import derive
+
+    doc = load_example("transactions.json")
+    validate(doc, "transactions")
+    assert doc == derive()
+    keys = [(t["year"], t["week"]) for t in doc["trades"]]
+    assert keys == sorted(keys, reverse=True)
+    assert any(t["sides"][0]["outcome"] == "tied" for t in doc["trades"])
+
+
+def test_every_example_trade_owner_is_in_that_seasons_example():
+    seasons = example_seasons()
+    for t in load_example("transactions.json")["trades"]:
+        slugs = {s["owner"]["slug"] for s in seasons[t["year"]]["standings"]}
+        assert {s["owner"]["slug"] for s in t["sides"]} <= slugs
+
+
+def test_a_trade_has_exactly_two_sides():
+    doc = load_example("transactions.json")
+    doc["trades"][0]["sides"].pop()
+    with pytest.raises(ContractError, match="sides"):
+        validate(doc, "transactions")
+
+
+def test_a_trade_outcome_is_won_lost_or_tied():
+    doc = load_example("transactions.json")
+    doc["trades"][0]["sides"][0]["outcome"] = "fleeced"
+    with pytest.raises(ContractError, match="outcome"):
+        validate(doc, "transactions")

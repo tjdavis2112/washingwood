@@ -32,6 +32,7 @@ KINDS = (
     "rivalry",
     "boxScores",
     "recordBook",
+    "transactions",
 )
 
 
