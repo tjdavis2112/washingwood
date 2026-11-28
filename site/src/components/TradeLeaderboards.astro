@@ -1,0 +1,73 @@
+---
+// Transactions leaderboards (#66): Trade record per Owner who has traded (won, lost, tied, net points) and
+// Most active (every Owner's trades and Pickups). Tables scroll inside their own box on a phone.
+import type { OwnerRef, TradeRecord } from "../data/site-data";
+import { formatPoints } from "../data/site-data";
+import OwnerLink from "./OwnerLink.astro";
+
+interface Props { records: TradeRecord[]; activity: { owner: OwnerRef; trades: number; pickups: number }[] }
+const { records, activity } = Astro.props;
+const signed = (n: number) => (n > 0 ? `+${formatPoints(n)}` : n < 0 ? `−${formatPoints(-n)}` : formatPoints(0));
+const th = "px-2 py-3 md:px-3";
+const td = "px-2 py-2.5 whitespace-nowrap md:px-3";
+---
+<section aria-labelledby="trade-records-heading" data-section="trade-records" data-testid="trade-records" class="mb-10">
+  <h2 id="trade-records-heading" class="text-2xl font-black">Trade record</h2>
+  <p class="mt-1 mb-4 text-xs text-muted">
+    Every Owner who has traded. Net points: what their received Players scored for them, minus what the other
+    side's did, over every trade.
+  </p>
+  <div class="overflow-x-auto rounded-2xl border border-line">
+    <table aria-label="Trade record" class="w-full border-collapse text-sm">
+      <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+        <tr>
+          <th scope="col" class={`${th} text-right`}>#</th>
+          <th scope="col" class={`sticky left-0 bg-panel ${th}`}>Owner</th>
+          <th scope="col" class={`${th} text-right`}>Trades</th>
+          <th scope="col" class={`${th} text-right`}><abbr title="Won-Lost-Tied" class="no-underline">W-L-T</abbr></th>
+          <th scope="col" class={`${th} text-right`}>Net</th>
+        </tr>
+      </thead>
+      <tbody>
+        {records.map((r, i) => (
+          <tr data-testid="trade-record-row" class="border-t border-line odd:bg-ink even:bg-panel/40">
+            <td class={`${td} text-right font-bold tabular-nums`}>{i + 1}</td>
+            <td class={`sticky left-0 bg-inherit ${td}`}><OwnerLink owner={r.owner} class="font-semibold" /></td>
+            <td class={`${td} text-right tabular-nums`}>{r.trades}</td>
+            <td class={`${td} text-right tabular-nums`}>{r.won}-{r.lost}-{r.tied}</td>
+            <td class:list={[td, "text-right font-bold tabular-nums", r.netPoints > 0 && "text-brand"]}>{signed(r.netPoints)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section aria-labelledby="most-active-heading" data-section="most-active" data-testid="most-active" class="mb-10">
+  <h2 id="most-active-heading" class="text-2xl font-black">Most active</h2>
+  <p class="mt-1 mb-4 text-xs text-muted">Trades and Pickups (waiver claims and free-agent adds) per Owner, all-time.</p>
+  <div class="overflow-x-auto rounded-2xl border border-line">
+    <table aria-label="Most active" class="w-full border-collapse text-sm">
+      <thead class="bg-panel text-left text-xs uppercase tracking-wider text-muted">
+        <tr>
+          <th scope="col" class={`${th} text-right`}>#</th>
+          <th scope="col" class={`sticky left-0 bg-panel ${th}`}>Owner</th>
+          <th scope="col" class={`${th} text-right`}>Trades</th>
+          <th scope="col" class={`${th} text-right`}>Pickups</th>
+          <th scope="col" class={`${th} text-right`}>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {activity.map((a, i) => (
+          <tr data-testid="activity-row" class="border-t border-line odd:bg-ink even:bg-panel/40">
+            <td class={`${td} text-right font-bold tabular-nums`}>{i + 1}</td>
+            <td class={`sticky left-0 bg-inherit ${td}`}><OwnerLink owner={a.owner} class="font-semibold" /></td>
+            <td data-testid="activity-trades" class={`${td} text-right tabular-nums`}>{a.trades}</td>
+            <td data-testid="activity-pickups" class={`${td} text-right tabular-nums`}>{a.pickups}</td>
+            <td class={`${td} text-right font-bold tabular-nums`}>{a.trades + a.pickups}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>

@@ -1,37 +1,52 @@
 ---
-// Transactions (#61): Best pickups (#63), then every trade as a card (#62), grouped by Season, newest first.
-// Fleeced and the other leaderboards come in #66.
+// Transactions (#61): the 5 Fleeced trades (#66), Best pickups (#63), Trade record and Most active (#66), then
+// every trade as a card (#62), grouped by Season, newest first.
 import BestPickups from "../../components/BestPickups.astro";
 import TradeCard from "../../components/TradeCard.astro";
+import TradeLeaderboards from "../../components/TradeLeaderboards.astro";
 import { getTransactions } from "../../data/site-data";
 import Base from "../../layouts/Base.astro";
 
-const { trades, pickups } = getTransactions();
+const { trades, pickups, tradeRecords, activity } = getTransactions();
+const fleeced = trades
+  .filter((t) => t.fleeced)
+  .sort((a, b) => b.margin - a.margin || a.year - b.year || a.week - b.week);
 const years = [...new Set(trades.map((t) => t.year))]; // already newest first
 ---
 <Base title="Transactions">
   <header class="mb-8">
     <h1 class="text-3xl font-black md:text-5xl">Transactions</h1>
     <p class="mt-2 text-muted">
-      The best waiver and free-agent pickups, then every trade and who won it. Each trade side scores the points its new Players put up as starters for it,
-      from the trade's Week to the end of the Season, playoffs included, until it traded them away. Bench
-      Weeks don't count.
+      Every trade and who won it, and the best waiver and free-agent pickups. A trade side scores the points its
+      new Players put up as starters for it, from the trade's Week to the end of the Season, playoffs included,
+      until it traded them away. Bench Weeks don't count.
     </p>
   </header>
 
+  <section aria-labelledby="fleeced-heading" data-section="fleeced" data-testid="fleeced" class="mb-10">
+    <h2 id="fleeced-heading" class="text-2xl font-black">Fleeced</h2>
+    <p class="mt-1 mb-4 text-xs text-muted">The 5 most lopsided trades of all time, by Margin. Scoring formats differ between Seasons.</p>
+    {fleeced.length === 0
+      ? <p class="text-muted">No trades yet.</p>
+      : <div class="grid gap-4">{fleeced.map((trade) => <TradeCard trade={trade} />)}</div>}
+  </section>
+
   <BestPickups pickups={pickups} />
 
-  <h2 class="mb-4 text-2xl font-black">Trades</h2>
-  {trades.length === 0 && <p class="text-muted">No trades yet.</p>}
+  <TradeLeaderboards records={tradeRecords} activity={activity} />
 
-  {years.map((year) => (
-    <section aria-labelledby={`trades-${year}`} data-testid="trade-season" data-year={year} class="mb-10">
-      <h3 id={`trades-${year}`} class="mb-4 text-xl font-black">
-        <a href={`/seasons/${year}/`} class="transition-colors hover:text-brand">{year}</a>
-      </h3>
-      <div class="grid gap-4">
-        {trades.filter((t) => t.year === year).map((trade) => <TradeCard trade={trade} />)}
-      </div>
-    </section>
-  ))}
+  <section aria-labelledby="trades-heading" data-section="trades">
+    <h2 id="trades-heading" class="mb-4 text-2xl font-black">Every trade</h2>
+    {trades.length === 0 && <p class="text-muted">No trades yet.</p>}
+    {years.map((year) => (
+      <section aria-labelledby={`trades-${year}`} data-testid="trade-season" data-year={year} class="mb-10">
+        <h3 id={`trades-${year}`} class="mb-4 text-xl font-black">
+          <a href={`/seasons/${year}/`} class="transition-colors hover:text-brand">{year}</a>
+        </h3>
+        <div class="grid gap-4">
+          {trades.filter((t) => t.year === year).map((trade) => <TradeCard trade={trade} />)}
+        </div>
+      </section>
+    ))}
+  </section>
 </Base>

@@ -2,9 +2,55 @@
   "trades": [
     {
       "year": 2020,
+      "week": 12,
+      "scoringFormat": "PPR + TE premium",
+      "margin": 6.0,
+      "fleeced": false,
+      "sides": [
+        {
+          "owner": {
+            "slug": "tamsin-oake",
+            "name": "Tamsin Oake"
+          },
+          "teamName": "Oake Oracles",
+          "outcome": "won",
+          "total": 36.0,
+          "players": [
+            {
+              "name": "Fitz Arden",
+              "position": "TE",
+              "nflTeam": "LAC",
+              "points": 36.0,
+              "weeksStarted": 6
+            }
+          ]
+        },
+        {
+          "owner": {
+            "slug": "lyle-fenwick",
+            "name": "Lyle Fenwick"
+          },
+          "teamName": "Fenwick Fog",
+          "outcome": "lost",
+          "total": 30.0,
+          "players": [
+            {
+              "name": "Gil Sawyer",
+              "position": "QB",
+              "nflTeam": "NYJ",
+              "points": 30.0,
+              "weeksStarted": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2020,
       "week": 11,
       "scoringFormat": "PPR + TE premium",
       "margin": 38.5,
+      "fleeced": true,
       "sides": [
         {
           "owner": {
@@ -49,6 +95,7 @@
       "week": 9,
       "scoringFormat": "PPR + TE premium",
       "margin": 0.0,
+      "fleeced": false,
       "sides": [
         {
           "owner": {
@@ -93,6 +140,7 @@
       "week": 9,
       "scoringFormat": "PPR + TE premium",
       "margin": 63.0,
+      "fleeced": true,
       "sides": [
         {
           "owner": {
@@ -134,9 +182,55 @@
     },
     {
       "year": 2020,
+      "week": 6,
+      "scoringFormat": "PPR + TE premium",
+      "margin": 9.0,
+      "fleeced": false,
+      "sides": [
+        {
+          "owner": {
+            "slug": "rue-calloway",
+            "name": "Rue Calloway"
+          },
+          "teamName": "Calloway Comets",
+          "outcome": "won",
+          "total": 105.0,
+          "players": [
+            {
+              "name": "Dace Morrow",
+              "position": "WR",
+              "nflTeam": "BUF",
+              "points": 105.0,
+              "weeksStarted": 12
+            }
+          ]
+        },
+        {
+          "owner": {
+            "slug": "odie-brask",
+            "name": "Odie Brask"
+          },
+          "teamName": "Brask Bruisers",
+          "outcome": "lost",
+          "total": 96.0,
+          "players": [
+            {
+              "name": "Ely Grant",
+              "position": "RB",
+              "nflTeam": "CIN",
+              "points": 96.0,
+              "weeksStarted": 12
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 2020,
       "week": 4,
       "scoringFormat": "PPR + TE premium",
       "margin": 42.75,
+      "fleeced": true,
       "sides": [
         {
           "owner": {
@@ -188,6 +282,7 @@
       "week": 3,
       "scoringFormat": "PPR + TE premium",
       "margin": 36.0,
+      "fleeced": true,
       "sides": [
         {
           "owner": {
@@ -232,6 +327,7 @@
       "week": 1,
       "scoringFormat": "PPR + TE premium",
       "margin": 9.0,
+      "fleeced": true,
       "sides": [
         {
           "owner": {
@@ -660,11 +756,22 @@
         "slug": "odie-brask",
         "name": "Odie Brask"
       },
-      "trades": 1,
+      "trades": 2,
       "won": 1,
+      "lost": 1,
+      "tied": 0,
+      "netPoints": 54.0
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "trades": 2,
+      "won": 2,
       "lost": 0,
       "tied": 0,
-      "netPoints": 63.0
+      "netPoints": 47.5
     },
     {
       "owner": {
@@ -676,17 +783,6 @@
       "lost": 0,
       "tied": 0,
       "netPoints": 42.75
-    },
-    {
-      "owner": {
-        "slug": "rue-calloway",
-        "name": "Rue Calloway"
-      },
-      "trades": 1,
-      "won": 1,
-      "lost": 0,
-      "tied": 0,
-      "netPoints": 38.5
     },
     {
       "owner": {
@@ -712,6 +808,17 @@
     },
     {
       "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "trades": 1,
+      "won": 1,
+      "lost": 0,
+      "tied": 0,
+      "netPoints": 6.0
+    },
+    {
+      "owner": {
         "slug": "jory-paxton",
         "name": "Jory Paxton"
       },
@@ -720,6 +827,17 @@
       "lost": 0,
       "tied": 1,
       "netPoints": 0.0
+    },
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "trades": 1,
+      "won": 0,
+      "lost": 1,
+      "tied": 0,
+      "netPoints": -6.0
     },
     {
       "owner": {
@@ -1075,6 +1193,112 @@
           "scoringFormat": "PPR"
         }
       ]
+    }
+  ],
+  "activity": [
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "trades": 1,
+      "pickups": 2
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "trades": 2,
+      "pickups": 1
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "trades": 1,
+      "pickups": 2
+    },
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "trades": 2,
+      "pickups": 1
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "trades": 1,
+      "pickups": 2
+    },
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "trades": 2,
+      "pickups": 0
+    },
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "trades": 1,
+      "pickups": 1
+    },
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "trades": 1,
+      "pickups": 1
+    },
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "trades": 1,
+      "pickups": 1
+    },
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "trades": 2,
+      "pickups": 0
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "trades": 1,
+      "pickups": 1
+    },
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "trades": 1,
+      "pickups": 0
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "trades": 0,
+      "pickups": 1
     }
   ]
 }

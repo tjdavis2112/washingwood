@@ -57,6 +57,7 @@ def test_a_2018_style_trade_takes_its_legs_from_trade_accept_and_counts_playoff_
         "week": 4,
         "scoringFormat": "PPR",
         "margin": 42.0,
+        "fleeced": True,  # the Season's only trade, so one of the 5 largest Margins
         "sides": [
             side("rue", "won", 140.0, [player(lineup_name(s, "odie", 1), "RB", "BUF", 140.0, 14)]),
             side("odie", "lost", 98.0, [player(lineup_name(s, "rue", 1), "RB", "BUF", 98.0, 14)]),

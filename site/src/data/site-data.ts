@@ -415,7 +415,9 @@ export function getRecordBook(): RecordBookDoc {
 
 export type TradedPlayer = { name: string; position: string; nflTeam: string | null; points: number; weeksStarted: number };
 export type TradeSide = { owner: OwnerRef; teamName: string; outcome: "won" | "lost" | "tied"; total: number; players: TradedPlayer[] };
-export type Trade = { year: number; week: number; scoringFormat: string; margin: number; sides: [TradeSide, TradeSide] };
+export type Trade = {
+  year: number; week: number; scoringFormat: string; margin: number; fleeced: boolean; sides: [TradeSide, TradeSide];
+};
 export type Pickup = {
   name: string; position: string; nflTeam: string | null; owner: OwnerRef; teamName: string; year: number; week: number;
   via: "waiver" | "free_agent"; points: number; weeksStarted: number; scoringFormat: string;
@@ -424,6 +426,7 @@ export type TradeRecord = { owner: OwnerRef; trades: number; won: number; lost: 
 export type TransactionsDoc = {
   trades: Trade[]; pickups: Pickup[]; seasonPickups: { year: number; pickups: Pickup[] }[];
   tradeRecords: TradeRecord[]; ownerPickups: { owner: OwnerRef; pickups: Pickup[] }[];
+  activity: { owner: OwnerRef; trades: number; pickups: number }[];
 };
 
 let transactionsDoc: TransactionsDoc | undefined;

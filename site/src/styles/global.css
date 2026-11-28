@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 /* Design tokens (docs/GAMEPLAN.md "Design direction"):
-   red, black and white for the brand; gold/silver/bronze only on trophies and medals. */
+   red, black and white for the brand; gold/silver/bronze only on trophies and medals
+   (and gold on Fleeced trade cards, #66). */
 @theme {
   --color-ink: #0a0a0b;          /* page background */
   --color-panel: #141416;        /* raised surfaces */
@@ -10,7 +11,7 @@
   --color-muted: #a1a1aa;        /* secondary text */
   --color-brand: #d7263d;        /* red: highlights, buttons, active nav */
   --color-brand-deep: #8f1525;
-  --color-gold: #d4af37;         /* trophies only */
+  --color-gold: #d4af37;         /* trophies, and Fleeced trade cards (#66) */
   --color-silver: #c0c4cc;       /* trophies only */
   --color-bronze: #b0743c;       /* trophies only */
   /* Draft board position tints: muted and non-metallic, never gold, silver or bronze */

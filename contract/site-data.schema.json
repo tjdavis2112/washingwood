@@ -1829,7 +1829,7 @@
       "description": "The Transactions section: every executed trade, scored by the starter points each side's received Players gave their new team. Season and Owner pages filter it at site build time. Exported as transactions.json.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["trades", "pickups", "seasonPickups", "tradeRecords", "ownerPickups"],
+      "required": ["trades", "pickups", "seasonPickups", "tradeRecords", "ownerPickups", "activity"],
       "properties": {
         "trades": {
           "description": "Every executed trade (commissioner-vetoed trades are left out), newest Season first, then newest Week, then the first side's Owner name.",
@@ -1897,6 +1897,21 @@
               }
             }
           }
+        },
+        "activity": {
+          "description": "Most active: every Owner's trades and Pickups of all time, most moves (trades + Pickups) first, then name.",
+          "type": "array",
+          "items": {
+            "description": "One Owner's activity.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["owner", "trades", "pickups"],
+            "properties": {
+              "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
+              "trades": { "description": "Executed trades the Owner was part of.", "type": "integer", "minimum": 0 },
+              "pickups": { "description": "Pickups: executed waiver claims and free-agent adds.", "type": "integer", "minimum": 0 }
+            }
+          }
         }
       }
     },
@@ -1923,12 +1938,13 @@
       "description": "One executed trade (GLOSSARY: Trade) and its two sides.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["year", "week", "scoringFormat", "margin", "sides"],
+      "required": ["year", "week", "scoringFormat", "margin", "fleeced", "sides"],
       "properties": {
         "year": { "description": "The Season.", "$ref": "#/$defs/year" },
         "week": { "description": "The effective Week: the first Week the received Players were on their new rosters.", "type": "integer", "minimum": 1 },
         "scoringFormat": { "description": "That Season's Scoring format label, e.g. PPR.", "type": "string", "minLength": 1 },
         "margin": { "description": "Margin (GLOSSARY): the winning side's total minus the losing side's. 0 for a tie.", "type": "number", "minimum": 0 },
+        "fleeced": { "description": "Fleeced (GLOSSARY): one of the 5 largest Margins of all time (ties: earlier Season, then Week, then the winner's Owner name). Never a tie. Marked wherever the trade's card appears.", "type": "boolean" },
         "sides": {
           "description": "Both sides: the winner first; a tie orders them by Owner name.",
           "type": "array",
