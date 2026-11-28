@@ -55,6 +55,7 @@ The schema can't express a few rules, and the exporter has to guarantee them:
 - `matchups.json` championships are newest first and match each Season's bracket final
 - `box-scores/<year>.json` exists for every Season with lineups and holds every played Matchup; each side's starters add up to its score
 - every pair in `rivalryGrid.records` has a Rivalry document (slugs in alphabetical order), and its records match both Owners' `headToHead` rows
+- `record-book.json` `season` lists hold the top 10 Franchise-Seasons, regular season only; points rank per game (`pointsPerGame`, `pointsAgainstPerGame`), win % counts a tie as half a win, and ties go to the earlier Season, then Owner name. `allTime` has one row per Owner, former Owners included, ordered by wins (descending), then name
 - `record-book.json` `lastPlace.seasons` is newest first, one row per Season, matching each Season's `lastPlace`; the tally is ordered by count (descending), then name
 - `draft.json` lists every Season newest first, and each `firstRound` is that Season's round-1 Picks in order
 - `standings` has one entry per Franchise and is ordered by `rank`

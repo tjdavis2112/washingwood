@@ -151,6 +151,8 @@ export function getSeason(year: number): Season {
 }
 
 /** "9-5", or "8-5-1" when there were ties. */
+/** A 0-1 win % as a percentage to one decimal, e.g. 0.9259 -> "92.6%". */
+export const formatPct = (n: number) => `${(n * 100).toFixed(1)}%`;
 export const formatRecord = (r: WinLossTie) => (r.ties ? `${r.wins}-${r.losses}-${r.ties}` : `${r.wins}-${r.losses}`);
 
 export type ShelfEntry = {
@@ -372,10 +374,23 @@ export function getBoxScores(year: number): BoxScore[] {
 
 export type LastPlaceRow = { year: number; owner: OwnerRef; teamName: string; record: WinLossTie; pointsFor: number; scoringFormat: string };
 export type LastPlaceTally = { owner: OwnerRef; count: number; years: number[] };
-export type RecordBookDoc = { lastPlace: { seasons: LastPlaceRow[]; tally: LastPlaceTally[] } };
+export type SeasonRecordRow = {
+  year: number; owner: OwnerRef; teamName: string; record: WinLossTie; games: number; winPct: number;
+  pointsFor: number; pointsPerGame: number; pointsAgainst: number; pointsAgainstPerGame: number; scoringFormat: string;
+};
+export type SeasonRecordKey = "bestWinPct" | "worstWinPct" | "mostPointsFor" | "fewestPointsFor" | "mostPointsAgainst";
+export type AllTimeRow = {
+  owner: OwnerRef; seasons: number; record: WinLossTie; games: number; winPct: number;
+  pointsFor: number; pointsPerGame: number; lastPlaces: number;
+};
+export type RecordBookDoc = {
+  season: Record<SeasonRecordKey, SeasonRecordRow[]>;
+  allTime: AllTimeRow[];
+  lastPlace: { seasons: LastPlaceRow[]; tally: LastPlaceTally[] };
+};
 
 let recordBookDoc: RecordBookDoc | undefined;
-/** record-book.json: the Record Book section (Last place history and tally). */
+/** record-book.json: the Record Book section (Season records, All-time table, Last place history and tally). */
 export function getRecordBook(): RecordBookDoc {
   recordBookDoc ??= load<RecordBookDoc>("record-book.json", "recordBook");
   return recordBookDoc;

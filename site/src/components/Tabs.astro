@@ -1,8 +1,8 @@
 ---
 // Accessible tabs (WAI-ARIA tabs pattern), shared by the Season and Owner pages. An inline script
 // wires them as soon as the HTML is parsed: click or arrow keys switch tabs, and the URL hash
-// (#scoring) is kept in sync so a tab can be linked. Each panel's content is the slot named by
-// its tab id.
+// (#scoring) is kept in sync so a tab can be linked. A hash naming an element inside a panel
+// (#season-most-points-for) opens that panel's tab. Each panel's content is the slot named by its tab id.
 interface Props { label: string; tabs: { id: string; label: string }[] }
 const { label, tabs } = Astro.props;
 const panels = await Promise.all(tabs.map((t) => Astro.slots.render(t.id)));
@@ -54,8 +54,12 @@ const panels = await Promise.all(tabs.map((t) => Astro.slots.render(t.id)));
       e.preventDefault();
       select(tabs[(next + tabs.length) % tabs.length], { focus: true });
     });
-    // Open the tab named in the URL (e.g. #scoring)
-    const linked = tabs.find((t) => `#${t.dataset.tab}` === location.hash);
+    // Open the tab named in the URL (e.g. #scoring), or the tab holding the element it names
+    // (e.g. #season-most-points-for, a record inside the Season tab)
+    const target = location.hash.length > 1 ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+    const linked =
+      tabs.find((t) => `#${t.dataset.tab}` === location.hash) ??
+      (target && tabs.find((t) => document.getElementById(t.getAttribute("aria-controls")).contains(target)));
     if (linked) {
       select(linked, { updateHash: false });
       // On a phone the tab strip scrolls sideways: bring a linked tab past the right edge into view

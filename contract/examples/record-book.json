@@ -1,4 +1,1239 @@
 {
+  "season": {
+    "bestWinPct": [
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "teamName": "Imber Embers",
+        "record": {
+          "wins": 10,
+          "losses": 4,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.7143,
+        "pointsFor": 1738.66,
+        "pointsPerGame": 124.19,
+        "pointsAgainst": 1535.83,
+        "pointsAgainstPerGame": 109.7,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets",
+        "record": {
+          "wins": 10,
+          "losses": 4,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.7143,
+        "pointsFor": 1639.5,
+        "pointsPerGame": 117.11,
+        "pointsAgainst": 1491.2,
+        "pointsAgainstPerGame": 106.51,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "record": {
+          "wins": 8,
+          "losses": 4,
+          "ties": 1
+        },
+        "games": 13,
+        "winPct": 0.6538,
+        "pointsFor": 1582.21,
+        "pointsPerGame": 121.71,
+        "pointsAgainst": 1407.13,
+        "pointsAgainstPerGame": 108.24,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "teamName": "Fenwick Fog",
+        "record": {
+          "wins": 9,
+          "losses": 5,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.6429,
+        "pointsFor": 1626.25,
+        "pointsPerGame": 116.16,
+        "pointsAgainst": 1545.76,
+        "pointsAgainstPerGame": 110.41,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "teamName": "Quist Quakes",
+        "record": {
+          "wins": 9,
+          "losses": 5,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.6429,
+        "pointsFor": 1753.12,
+        "pointsPerGame": 125.22,
+        "pointsAgainst": 1522.21,
+        "pointsAgainstPerGame": 108.73,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "teamName": "Vantor Vipers",
+        "record": {
+          "wins": 8,
+          "losses": 5,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.6154,
+        "pointsFor": 1527.51,
+        "pointsPerGame": 117.5,
+        "pointsAgainst": 1399.01,
+        "pointsAgainstPerGame": 107.62,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "record": {
+          "wins": 8,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.5714,
+        "pointsFor": 1585.77,
+        "pointsPerGame": 113.27,
+        "pointsAgainst": 1648.45,
+        "pointsAgainstPerGame": 117.75,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "teamName": "Vantor Vortex",
+        "record": {
+          "wins": 8,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.5714,
+        "pointsFor": 1543.99,
+        "pointsPerGame": 110.29,
+        "pointsAgainst": 1507.96,
+        "pointsAgainstPerGame": 107.71,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets",
+        "record": {
+          "wins": 7,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.5385,
+        "pointsFor": 1549.47,
+        "pointsPerGame": 119.19,
+        "pointsAgainst": 1515.62,
+        "pointsAgainstPerGame": 116.59,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "wren-solano",
+          "name": "Wren Solano"
+        },
+        "teamName": "Solano Sparks",
+        "record": {
+          "wins": 7,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.5385,
+        "pointsFor": 1438.89,
+        "pointsPerGame": 110.68,
+        "pointsAgainst": 1392.24,
+        "pointsAgainstPerGame": 107.1,
+        "scoringFormat": "PPR"
+      }
+    ],
+    "worstWinPct": [
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "record": {
+          "wins": 3,
+          "losses": 11,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2143,
+        "pointsFor": 1516.03,
+        "pointsPerGame": 108.29,
+        "pointsAgainst": 1761.83,
+        "pointsAgainstPerGame": 125.85,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "teamName": "Ashgrove Aces",
+        "record": {
+          "wins": 4,
+          "losses": 10,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2857,
+        "pointsFor": 1443.06,
+        "pointsPerGame": 103.08,
+        "pointsAgainst": 1694.07,
+        "pointsAgainstPerGame": 121.01,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles",
+        "record": {
+          "wins": 4,
+          "losses": 10,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2857,
+        "pointsFor": 1467.52,
+        "pointsPerGame": 104.82,
+        "pointsAgainst": 1782.86,
+        "pointsAgainstPerGame": 127.35,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "teamName": "Trice Tritons",
+        "record": {
+          "wins": 5,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.3846,
+        "pointsFor": 1508.98,
+        "pointsPerGame": 116.08,
+        "pointsAgainst": 1656.97,
+        "pointsAgainstPerGame": 127.46,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "record": {
+          "wins": 5,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.3846,
+        "pointsFor": 1440.63,
+        "pointsPerGame": 110.82,
+        "pointsAgainst": 1548.08,
+        "pointsAgainstPerGame": 119.08,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "teamName": "Trice Tritons",
+        "record": {
+          "wins": 6,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.4286,
+        "pointsFor": 1670.6,
+        "pointsPerGame": 119.33,
+        "pointsAgainst": 1572.11,
+        "pointsAgainstPerGame": 112.29,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "teamName": "Paxton Pistons",
+        "record": {
+          "wins": 6,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.4286,
+        "pointsFor": 1555.2,
+        "pointsPerGame": 111.09,
+        "pointsAgainst": 1579.2,
+        "pointsAgainstPerGame": 112.8,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "teamName": "Quist Quakes",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1546.69,
+        "pointsPerGame": 118.98,
+        "pointsAgainst": 1465.41,
+        "pointsAgainstPerGame": 112.72,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "teamName": "Brask Bruisers",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1436.72,
+        "pointsPerGame": 110.52,
+        "pointsAgainst": 1541.94,
+        "pointsAgainstPerGame": 118.61,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1507.44,
+        "pointsPerGame": 115.96,
+        "pointsAgainst": 1567.04,
+        "pointsAgainstPerGame": 120.54,
+        "scoringFormat": "PPR"
+      }
+    ],
+    "mostPointsFor": [
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "teamName": "Quist Quakes",
+        "record": {
+          "wins": 9,
+          "losses": 5,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.6429,
+        "pointsFor": 1753.12,
+        "pointsPerGame": 125.22,
+        "pointsAgainst": 1522.21,
+        "pointsAgainstPerGame": 108.73,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "cass-imber",
+          "name": "Cass Imber"
+        },
+        "teamName": "Imber Embers",
+        "record": {
+          "wins": 10,
+          "losses": 4,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.7143,
+        "pointsFor": 1738.66,
+        "pointsPerGame": 124.19,
+        "pointsAgainst": 1535.83,
+        "pointsAgainstPerGame": 109.7,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "record": {
+          "wins": 8,
+          "losses": 4,
+          "ties": 1
+        },
+        "games": 13,
+        "winPct": 0.6538,
+        "pointsFor": 1582.21,
+        "pointsPerGame": 121.71,
+        "pointsAgainst": 1407.13,
+        "pointsAgainstPerGame": 108.24,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "teamName": "Trice Tritons",
+        "record": {
+          "wins": 6,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.4286,
+        "pointsFor": 1670.6,
+        "pointsPerGame": 119.33,
+        "pointsAgainst": 1572.11,
+        "pointsAgainstPerGame": 112.29,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets",
+        "record": {
+          "wins": 7,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.5385,
+        "pointsFor": 1549.47,
+        "pointsPerGame": 119.19,
+        "pointsAgainst": 1515.62,
+        "pointsAgainstPerGame": 116.59,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "marlo-quist",
+          "name": "Marlo Quist"
+        },
+        "teamName": "Quist Quakes",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1546.69,
+        "pointsPerGame": 118.98,
+        "pointsAgainst": 1465.41,
+        "pointsAgainstPerGame": 112.72,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "teamName": "Vantor Vipers",
+        "record": {
+          "wins": 8,
+          "losses": 5,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.6154,
+        "pointsFor": 1527.51,
+        "pointsPerGame": 117.5,
+        "pointsAgainst": 1399.01,
+        "pointsAgainstPerGame": 107.62,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets",
+        "record": {
+          "wins": 10,
+          "losses": 4,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.7143,
+        "pointsFor": 1639.5,
+        "pointsPerGame": 117.11,
+        "pointsAgainst": 1491.2,
+        "pointsAgainstPerGame": 106.51,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "teamName": "Brask Bruisers",
+        "record": {
+          "wins": 7,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.5,
+        "pointsFor": 1637.51,
+        "pointsPerGame": 116.97,
+        "pointsAgainst": 1535.73,
+        "pointsAgainstPerGame": 109.7,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "teamName": "Fenwick Fog",
+        "record": {
+          "wins": 9,
+          "losses": 5,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.6429,
+        "pointsFor": 1626.25,
+        "pointsPerGame": 116.16,
+        "pointsAgainst": 1545.76,
+        "pointsAgainstPerGame": 110.41,
+        "scoringFormat": "PPR + TE premium"
+      }
+    ],
+    "fewestPointsFor": [
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "teamName": "Ashgrove Aces",
+        "record": {
+          "wins": 4,
+          "losses": 10,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2857,
+        "pointsFor": 1443.06,
+        "pointsPerGame": 103.08,
+        "pointsAgainst": 1694.07,
+        "pointsAgainstPerGame": 121.01,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles",
+        "record": {
+          "wins": 4,
+          "losses": 10,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2857,
+        "pointsFor": 1467.52,
+        "pointsPerGame": 104.82,
+        "pointsAgainst": 1782.86,
+        "pointsAgainstPerGame": 127.35,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "record": {
+          "wins": 3,
+          "losses": 11,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2143,
+        "pointsFor": 1516.03,
+        "pointsPerGame": 108.29,
+        "pointsAgainst": 1761.83,
+        "pointsAgainstPerGame": 125.85,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "pell-vantor",
+          "name": "Pell Vantor"
+        },
+        "teamName": "Vantor Vortex",
+        "record": {
+          "wins": 8,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.5714,
+        "pointsFor": 1543.99,
+        "pointsPerGame": 110.29,
+        "pointsAgainst": 1507.96,
+        "pointsAgainstPerGame": 107.71,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "teamName": "Brask Bruisers",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1436.72,
+        "pointsPerGame": 110.52,
+        "pointsAgainst": 1541.94,
+        "pointsAgainstPerGame": 118.61,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "wren-solano",
+          "name": "Wren Solano"
+        },
+        "teamName": "Solano Sparks",
+        "record": {
+          "wins": 7,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.5385,
+        "pointsFor": 1438.89,
+        "pointsPerGame": 110.68,
+        "pointsAgainst": 1392.24,
+        "pointsAgainstPerGame": 107.1,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "record": {
+          "wins": 5,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.3846,
+        "pointsFor": 1440.63,
+        "pointsPerGame": 110.82,
+        "pointsAgainst": 1548.08,
+        "pointsAgainstPerGame": 119.08,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "jory-paxton",
+          "name": "Jory Paxton"
+        },
+        "teamName": "Paxton Pistons",
+        "record": {
+          "wins": 6,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.4286,
+        "pointsFor": 1555.2,
+        "pointsPerGame": 111.09,
+        "pointsAgainst": 1579.2,
+        "pointsAgainstPerGame": 112.8,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "record": {
+          "wins": 8,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.5714,
+        "pointsFor": 1585.77,
+        "pointsPerGame": 113.27,
+        "pointsAgainst": 1648.45,
+        "pointsAgainstPerGame": 117.75,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "teamName": "Fenwick Foxes",
+        "record": {
+          "wins": 6,
+          "losses": 6,
+          "ties": 1
+        },
+        "games": 13,
+        "winPct": 0.5,
+        "pointsFor": 1501.28,
+        "pointsPerGame": 115.48,
+        "pointsAgainst": 1543.88,
+        "pointsAgainstPerGame": 118.76,
+        "scoringFormat": "PPR"
+      }
+    ],
+    "mostPointsAgainst": [
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "abel-trice",
+          "name": "Abel Trice"
+        },
+        "teamName": "Trice Tritons",
+        "record": {
+          "wins": 5,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.3846,
+        "pointsFor": 1508.98,
+        "pointsPerGame": 116.08,
+        "pointsAgainst": 1656.97,
+        "pointsAgainstPerGame": 127.46,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles",
+        "record": {
+          "wins": 4,
+          "losses": 10,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2857,
+        "pointsFor": 1467.52,
+        "pointsPerGame": 104.82,
+        "pointsAgainst": 1782.86,
+        "pointsAgainstPerGame": 127.35,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "quinn-harrow",
+          "name": "Quinn Harrow"
+        },
+        "teamName": "Harrow Hammers",
+        "record": {
+          "wins": 3,
+          "losses": 11,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2143,
+        "pointsFor": 1516.03,
+        "pointsPerGame": 108.29,
+        "pointsAgainst": 1761.83,
+        "pointsAgainstPerGame": 125.85,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "nell-ashgrove",
+          "name": "Nell Ashgrove"
+        },
+        "teamName": "Ashgrove Aces",
+        "record": {
+          "wins": 4,
+          "losses": 10,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.2857,
+        "pointsFor": 1443.06,
+        "pointsPerGame": 103.08,
+        "pointsAgainst": 1694.07,
+        "pointsAgainstPerGame": 121.01,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "tamsin-oake",
+          "name": "Tamsin Oake"
+        },
+        "teamName": "Oake Oracles",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1507.44,
+        "pointsPerGame": 115.96,
+        "pointsAgainst": 1567.04,
+        "pointsAgainstPerGame": 120.54,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "record": {
+          "wins": 5,
+          "losses": 8,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.3846,
+        "pointsFor": 1440.63,
+        "pointsPerGame": 110.82,
+        "pointsAgainst": 1548.08,
+        "pointsAgainstPerGame": 119.08,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "lyle-fenwick",
+          "name": "Lyle Fenwick"
+        },
+        "teamName": "Fenwick Foxes",
+        "record": {
+          "wins": 6,
+          "losses": 6,
+          "ties": 1
+        },
+        "games": 13,
+        "winPct": 0.5,
+        "pointsFor": 1501.28,
+        "pointsPerGame": 115.48,
+        "pointsAgainst": 1543.88,
+        "pointsAgainstPerGame": 118.76,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "odie-brask",
+          "name": "Odie Brask"
+        },
+        "teamName": "Brask Bruisers",
+        "record": {
+          "wins": 6,
+          "losses": 7,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.4615,
+        "pointsFor": 1436.72,
+        "pointsPerGame": 110.52,
+        "pointsAgainst": 1541.94,
+        "pointsAgainstPerGame": 118.61,
+        "scoringFormat": "PPR"
+      },
+      {
+        "year": 2020,
+        "owner": {
+          "slug": "ines-dorrow",
+          "name": "Ines Dorrow"
+        },
+        "teamName": "Dorrow Drakes",
+        "record": {
+          "wins": 8,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 14,
+        "winPct": 0.5714,
+        "pointsFor": 1585.77,
+        "pointsPerGame": 113.27,
+        "pointsAgainst": 1648.45,
+        "pointsAgainstPerGame": 117.75,
+        "scoringFormat": "PPR + TE premium"
+      },
+      {
+        "year": 2018,
+        "owner": {
+          "slug": "rue-calloway",
+          "name": "Rue Calloway"
+        },
+        "teamName": "Calloway Comets",
+        "record": {
+          "wins": 7,
+          "losses": 6,
+          "ties": 0
+        },
+        "games": 13,
+        "winPct": 0.5385,
+        "pointsFor": 1549.47,
+        "pointsPerGame": 119.19,
+        "pointsAgainst": 1515.62,
+        "pointsAgainstPerGame": 116.59,
+        "scoringFormat": "PPR"
+      }
+    ]
+  },
+  "allTime": [
+    {
+      "owner": {
+        "slug": "rue-calloway",
+        "name": "Rue Calloway"
+      },
+      "seasons": 2,
+      "record": {
+        "wins": 17,
+        "losses": 10,
+        "ties": 0
+      },
+      "games": 27,
+      "winPct": 0.6296,
+      "pointsFor": 3188.97,
+      "pointsPerGame": 118.11,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "pell-vantor",
+        "name": "Pell Vantor"
+      },
+      "seasons": 2,
+      "record": {
+        "wins": 16,
+        "losses": 11,
+        "ties": 0
+      },
+      "games": 27,
+      "winPct": 0.5926,
+      "pointsFor": 3071.5,
+      "pointsPerGame": 113.76,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "lyle-fenwick",
+        "name": "Lyle Fenwick"
+      },
+      "seasons": 2,
+      "record": {
+        "wins": 15,
+        "losses": 11,
+        "ties": 1
+      },
+      "games": 27,
+      "winPct": 0.5741,
+      "pointsFor": 3127.53,
+      "pointsPerGame": 115.83,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "marlo-quist",
+        "name": "Marlo Quist"
+      },
+      "seasons": 2,
+      "record": {
+        "wins": 15,
+        "losses": 12,
+        "ties": 0
+      },
+      "games": 27,
+      "winPct": 0.5556,
+      "pointsFor": 3299.81,
+      "pointsPerGame": 122.22,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "ines-dorrow",
+        "name": "Ines Dorrow"
+      },
+      "seasons": 2,
+      "record": {
+        "wins": 13,
+        "losses": 14,
+        "ties": 0
+      },
+      "games": 27,
+      "winPct": 0.4815,
+      "pointsFor": 3026.4,
+      "pointsPerGame": 112.09,
+      "lastPlaces": 1
+    },
+    {
+      "owner": {
+        "slug": "odie-brask",
+        "name": "Odie Brask"
+      },
+      "seasons": 2,
+      "record": {
+        "wins": 13,
+        "losses": 14,
+        "ties": 0
+      },
+      "games": 27,
+      "winPct": 0.4815,
+      "pointsFor": 3074.23,
+      "pointsPerGame": 113.86,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "abel-trice",
+        "name": "Abel Trice"
+      },
+      "seasons": 2,
+      "record": {
+        "wins": 11,
+        "losses": 16,
+        "ties": 0
+      },
+      "games": 27,
+      "winPct": 0.4074,
+      "pointsFor": 3179.58,
+      "pointsPerGame": 117.76,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "quinn-harrow",
+        "name": "Quinn Harrow"
+      },
+      "seasons": 2,
+      "record": {
+        "wins": 11,
+        "losses": 15,
+        "ties": 1
+      },
+      "games": 27,
+      "winPct": 0.4259,
+      "pointsFor": 3098.24,
+      "pointsPerGame": 114.75,
+      "lastPlaces": 1
+    },
+    {
+      "owner": {
+        "slug": "cass-imber",
+        "name": "Cass Imber"
+      },
+      "seasons": 1,
+      "record": {
+        "wins": 10,
+        "losses": 4,
+        "ties": 0
+      },
+      "games": 14,
+      "winPct": 0.7143,
+      "pointsFor": 1738.66,
+      "pointsPerGame": 124.19,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "tamsin-oake",
+        "name": "Tamsin Oake"
+      },
+      "seasons": 2,
+      "record": {
+        "wins": 10,
+        "losses": 17,
+        "ties": 0
+      },
+      "games": 27,
+      "winPct": 0.3704,
+      "pointsFor": 2974.96,
+      "pointsPerGame": 110.18,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "wren-solano",
+        "name": "Wren Solano"
+      },
+      "seasons": 1,
+      "record": {
+        "wins": 7,
+        "losses": 6,
+        "ties": 0
+      },
+      "games": 13,
+      "winPct": 0.5385,
+      "pointsFor": 1438.89,
+      "pointsPerGame": 110.68,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "jory-paxton",
+        "name": "Jory Paxton"
+      },
+      "seasons": 1,
+      "record": {
+        "wins": 6,
+        "losses": 8,
+        "ties": 0
+      },
+      "games": 14,
+      "winPct": 0.4286,
+      "pointsFor": 1555.2,
+      "pointsPerGame": 111.09,
+      "lastPlaces": 0
+    },
+    {
+      "owner": {
+        "slug": "nell-ashgrove",
+        "name": "Nell Ashgrove"
+      },
+      "seasons": 1,
+      "record": {
+        "wins": 4,
+        "losses": 10,
+        "ties": 0
+      },
+      "games": 14,
+      "winPct": 0.2857,
+      "pointsFor": 1443.06,
+      "pointsPerGame": 103.08,
+      "lastPlaces": 0
+    }
+  ],
   "lastPlace": {
     "seasons": [
       {
