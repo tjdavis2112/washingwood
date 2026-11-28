@@ -168,6 +168,9 @@ A **Franchise**'s actual regular-season wins minus its **Expected wins**, to one
 **Acquisition impact**:
 Points a **Player** scored as a starter for the **Franchise** that acquired them during the **Stint**.
 
+**Fleeced**:
+One of the 5 **Trades** with the largest **Margin** of all time, across every **Season**. Ties go to the earlier Season, then **Week**. A tied trade is never Fleeced.
+
 **Pickup**:
 An executed waiver claim or free-agent add: a **Player** joins a **Franchise** from free agency. It goes to the team the claim names, scores the starter points the Player gave that team over the **Stint**, and a re-add after a drop is a new Pickup. Cancelled, failed and pending claims, drops and **Trades** aren't Pickups.
 

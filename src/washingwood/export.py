@@ -575,10 +575,12 @@ def transactions_document(conn: Connection) -> dict:
                 "week": week,
                 "scoringFormat": label,
                 "margin": float(margin),
+                "fleeced": False,
                 "sides": [{k: s[k] for k in ("owner", "teamName", "outcome", "total", "players")} for s in pair],
             }
         )
     trades.sort(key=lambda t: (-t["year"], -t["week"], t["sides"][0]["owner"]["name"]))
+    _mark_fleeced(trades)
     years = [y for (y,) in conn.execute("SELECT year FROM core.seasons ORDER BY year DESC")]
     owners = [o for (o,) in conn.execute("SELECT DISTINCT display_name FROM stats.franchise_owner ORDER BY 1")]
     return {
@@ -589,7 +591,33 @@ def transactions_document(conn: Connection) -> dict:
         "ownerPickups": [
             {"owner": _owner_ref(o), "pickups": _best_pickups(conn, owner=o, limit=OWNER_PICKUPS)} for o in owners
         ],
+        "activity": _activity(conn, trades, owners),
     }
+
+
+FLEECED = 5
+
+
+def _mark_fleeced(trades: list[dict]) -> None:
+    """Fleeced (GLOSSARY): the 5 largest Margins of all time. Ties go to the earlier Season, then Week, then
+    the winner's Owner name. A tied trade (Margin 0) was won by nobody, so it can't be Fleeced."""
+    decided = sorted(
+        (t for t in trades if t["margin"] > 0),
+        key=lambda t: (-t["margin"], t["year"], t["week"], t["sides"][0]["owner"]["name"]),
+    )
+    for t in decided[:FLEECED]:
+        t["fleeced"] = True
+
+
+def _activity(conn: Connection, trades: list[dict], owners: list[str]) -> list[dict]:
+    """Most active: every Owner's trades and Pickups of all time, most moves first, then name."""
+    pickups = dict(conn.execute("SELECT owner, count(*) FROM stats.pickups GROUP BY owner").fetchall())
+    traded: dict[str, int] = {}
+    for t in trades:
+        for side in t["sides"]:
+            traded[side["owner"]["name"]] = traded.get(side["owner"]["name"], 0) + 1
+    rows = [{"owner": _owner_ref(o), "trades": traded.get(o, 0), "pickups": pickups.get(o, 0)} for o in owners]
+    return sorted(rows, key=lambda r: (-(r["trades"] + r["pickups"]), r["owner"]["name"]))
 
 
 OWNER_PICKUPS = 5

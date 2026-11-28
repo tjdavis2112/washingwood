@@ -882,3 +882,23 @@ def test_every_example_owner_has_a_top_five_pickups_entry():
         assert all(p["owner"]["slug"] == e["owner"]["slug"] for p in e["pickups"])
     # The Owner page's no-trades line needs an example Owner without trades
     assert owners - {r["owner"]["slug"] for r in doc["tradeRecords"]}
+
+
+# --- Fleeced and Most active (#66) ---
+
+
+def test_exactly_five_example_trades_are_fleeced_and_none_is_a_tie():
+    trades = load_example("transactions.json")["trades"]
+    fleeced = [t for t in trades if t["fleeced"]]
+    assert len(fleeced) == 5
+    assert all(t["margin"] > 0 for t in fleeced)
+    assert min(t["margin"] for t in fleeced) >= max(t["margin"] for t in trades if not t["fleeced"])
+
+
+def test_most_active_lists_every_owner_and_agrees_with_the_trades():
+    doc = load_example("transactions.json")
+    owners = {o["owner"]["slug"] for o in load_example("owners.json")["owners"]}
+    assert {a["owner"]["slug"] for a in doc["activity"]} == owners
+    assert sum(a["trades"] for a in doc["activity"]) == 2 * len(doc["trades"])
+    keys = [(-(a["trades"] + a["pickups"]), a["owner"]["name"]) for a in doc["activity"]]
+    assert keys == sorted(keys)

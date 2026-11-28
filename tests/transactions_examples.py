@@ -14,7 +14,9 @@ on the bench. The rules applied here are the ones the pipeline follows:
   lineup, and a Stint ends at that Owner's next acquisition of the Player, so a re-add is a new Pickup;
 - Best pickups: top 10 by points, ties by Season, then Week, then Owner name, then Player name; each
   Season also gets its own top 10 (seasonPickups, newest Season first), and each Owner a top 5;
-- trade records: won, lost, tied and net points per Owner who traded, highest net points first.
+- trade records: won, lost, tied and net points per Owner who traded, highest net points first;
+- Fleeced: the 5 largest Margins, ties by Season, then Week, then the winner's name; never a tie;
+- Most active: every Owner's trades and Pickups, most moves first, then name.
 
 test_site_contract.py checks the example still equals derive().
 
@@ -65,6 +67,15 @@ TRADES = [
     (2020, 9, [
         ("jory-paxton", [("Lark Denholm", "TE", "MIA", _log(9, 17, 10.0))]),
         ("abel-trice", [("Bram Okafor", "RB", "TEN", _log(9, 17, 10.0))]),
+    ]),
+    # Margin 9, the same as the Week-1 trade: the earlier Week keeps the 5th Fleeced place
+    (2020, 6, [
+        ("rue-calloway", [("Dace Morrow", "WR", "BUF", _log(6, 17, 8.75))]),
+        ("odie-brask", [("Ely Grant", "RB", "CIN", _log(6, 17, 8.0))]),
+    ]),
+    (2020, 12, [
+        ("tamsin-oake", [("Fitz Arden", "TE", "LAC", _log(12, 17, 6.0))]),
+        ("lyle-fenwick", [("Gil Sawyer", "QB", "NYJ", _log(12, 17, 5.0))]),
     ]),
 ]  # fmt: skip
 
@@ -169,20 +180,35 @@ def derive() -> dict:
             "week": week,
             "scoringFormat": teams[year, sides[0][0]]["scoringFormat"],
             "margin": round(abs(a["total"] - b["total"]), 2),
+            "fleeced": False,
             "sides": [{k: s[k] for k in ("owner", "teamName", "outcome", "total", "players")} for s in pair],
         })  # fmt: skip
     trades.sort(key=lambda t: (-t["year"], -t["week"], t["sides"][0]["owner"]["name"]))
+    # Fleeced: the 5 largest Margins (ties: Season, Week, winner's name); a tie can't be Fleeced
+    decided = sorted((t for t in trades if t["margin"] > 0),
+                     key=lambda t: (-t["margin"], t["year"], t["week"], t["sides"][0]["owner"]["name"]))  # fmt: skip
+    for t in decided[:5]:
+        t["fleeced"] = True
     years = sorted({year for year, _ in teams}, reverse=True)
+    owners = sorted({t["owner"]["slug"]: t["owner"] for t in teams.values()}.values(), key=lambda o: o["name"])
     return {
         "trades": trades,
         "pickups": best_pickups(teams),
         "seasonPickups": [{"year": y, "pickups": best_pickups(teams, y)} for y in years],
         "tradeRecords": trade_records(trades),
-        "ownerPickups": [
-            {"owner": o, "pickups": best_pickups(teams, owner=o["slug"], limit=5)}
-            for o in sorted({t["owner"]["slug"]: t["owner"] for t in teams.values()}.values(), key=lambda o: o["name"])
-        ],
+        "ownerPickups": [{"owner": o, "pickups": best_pickups(teams, owner=o["slug"], limit=5)} for o in owners],
+        "activity": activity(trades, owners),
     }
+
+
+def activity(trades: list[dict], owners: list[dict]) -> list[dict]:
+    """Every Owner's trades and Pickups of all time (every Pickup, not just the top ones), most moves first."""
+    rows = []
+    for o in owners:
+        n_trades = sum(1 for t in trades for side in t["sides"] if side["owner"]["slug"] == o["slug"])
+        n_pickups = sum(1 for _, _, slug, *_ in PICKUPS if slug == o["slug"])
+        rows.append({"owner": o, "trades": n_trades, "pickups": n_pickups})
+    return sorted(rows, key=lambda r: (-(r["trades"] + r["pickups"]), r["owner"]["name"]))
 
 
 if __name__ == "__main__":

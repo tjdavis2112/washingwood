@@ -11,7 +11,7 @@ const { pickups, season } = Astro.props;
 const allTime = season === undefined;
 const VIA = { waiver: "via waivers", free_agent: "free agent" } as const;
 ---
-<section aria-labelledby="best-pickups-heading" data-testid="best-pickups" class="mb-10">
+<section aria-labelledby="best-pickups-heading" data-section="best-pickups" data-testid="best-pickups" class="mb-10">
   <h2 id="best-pickups-heading" class="text-2xl font-black">Best pickups</h2>
   <p class="mt-1 mb-4 text-xs text-muted">
     Waiver claims and free-agent adds, ranked by the points the Player scored as a starter for that team until
