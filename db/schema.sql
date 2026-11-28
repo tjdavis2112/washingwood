@@ -629,23 +629,43 @@ FROM stats.acquisition_impact ai
 WHERE ai.kind = 'trade'
 GROUP BY ai.transaction_id, ai.season_id, ai.to_franchise_id;
 
--- Weekly team scores with league-wide rank: highs, lows, all-play / luck index
+-- Weekly team scores with league-wide rank. A Franchise with no starter points (NULL) ranks last, never first.
 CREATE VIEW stats.team_week_scores AS
 SELECT le.season_id, le.week, le.franchise_id,
        sum(le.points) FILTER (WHERE le.is_starter) AS points,
        sum(le.points) FILTER (WHERE NOT le.is_starter AND le.slot = 'BE') AS bench_points,
        rank() OVER (PARTITION BY le.season_id, le.week
-                    ORDER BY sum(le.points) FILTER (WHERE le.is_starter) DESC) AS week_rank,
+                    ORDER BY sum(le.points) FILTER (WHERE le.is_starter) DESC NULLS LAST) AS week_rank,
        count(*) OVER (PARTITION BY le.season_id, le.week) AS teams_that_week
 FROM core.lineup_entries le
 GROUP BY le.season_id, le.week, le.franchise_id;
 
--- All-play record: how many teams you'd have beaten each week
+-- All-play record (GLOSSARY), regular-season Weeks only. Each Week a Franchise gets 1 for every other
+-- Franchise it outscored and 1/2 for every tie, divided by the number of other Franchises that Week (9 or
+-- 11). A NULL score compares as unknown, so it neither beats nor ties anyone (it can't rank first).
+-- all_play_pct averages those weekly shares over the Season.
 CREATE VIEW stats.all_play AS
+WITH regular_weeks AS (
+    SELECT t.season_id, t.week, t.franchise_id, t.points, t.teams_that_week
+    FROM stats.team_week_scores t
+    WHERE EXISTS (SELECT 1 FROM core.matchups m
+                  WHERE m.season_id = t.season_id AND NOT m.is_playoff
+                    AND t.week BETWEEN m.first_week AND m.last_week)
+), weekly AS (
+    SELECT a.season_id, a.week, a.franchise_id,
+           count(*) FILTER (WHERE a.points > b.points)
+             + count(*) FILTER (WHERE a.points = b.points) / 2.0                      AS wins,
+           a.teams_that_week - 1                                                      AS others
+    FROM regular_weeks a
+    JOIN regular_weeks b ON b.season_id = a.season_id AND b.week = a.week AND b.franchise_id <> a.franchise_id
+    GROUP BY a.season_id, a.week, a.franchise_id, a.teams_that_week
+)
 SELECT season_id, franchise_id,
-       sum(teams_that_week - week_rank) AS all_play_wins,
-       sum(week_rank - 1)               AS all_play_losses
-FROM stats.team_week_scores
+       count(*)                  AS weeks,
+       sum(wins)                 AS all_play_wins,
+       sum(others - wins)        AS all_play_losses,  -- ties counted as half a loss too
+       avg(wins / others)        AS all_play_pct
+FROM weekly
 GROUP BY season_id, franchise_id;
 
 -- Bench points (GLOSSARY) per Franchise-Week: BE-slot points only (IR excluded); a bench Player who
@@ -675,10 +695,14 @@ SELECT st.year, st.franchise_id, st.team_name, st.owner_id, st.owner, s.scoring_
        st.points_for, st.points_against,
        round(st.points_for / (st.wins + st.losses + st.ties), 2)                AS points_per_game,
        round(st.points_against / (st.wins + st.losses + st.ties), 2)            AS points_against_per_game,
-       bp.bench_points                                                          -- NULL: no lineups that Season
+       bp.bench_points,                                                         -- NULL: no lineups that Season
+       -- Luck index (GLOSSARY): actual wins minus Expected wins (all-play win % x games). NULL without lineups
+       round(ap.all_play_pct * (st.wins + st.losses + st.ties), 2)              AS expected_wins,
+       round(st.wins - ap.all_play_pct * (st.wins + st.losses + st.ties), 1)    AS luck
 FROM stats.standings st
 JOIN core.seasons s ON s.year = st.year
-LEFT JOIN stats.season_bench_points bp ON bp.franchise_id = st.franchise_id;
+LEFT JOIN stats.season_bench_points bp ON bp.franchise_id = st.franchise_id
+LEFT JOIN stats.all_play ap ON ap.franchise_id = st.franchise_id;
 
 -- All-time records (Record Book, #51): one row per Owner (primary Owner of each Franchise, through
 -- core.franchise_owners), former Owners included, summed over regular-season games.
@@ -691,6 +715,7 @@ SELECT sr.owner_id, sr.owner,
        sum(sr.points_for)                                                       AS points_for,
        round(sum(sr.points_for) / sum(sr.games), 2)                             AS points_per_game,
        sum(sr.bench_points)                                                     AS bench_points,  -- Seasons with lineups
+       sum(sr.luck)                                                             AS luck,  -- sum of the Seasons' Luck index
        (SELECT count(*) FROM stats.last_place lp WHERE lp.owner_id = sr.owner_id) AS last_places
 FROM stats.season_records sr
 GROUP BY sr.owner_id, sr.owner;

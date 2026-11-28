@@ -1846,14 +1846,16 @@
           "description": "Season records: top-10 lists of Franchise-Seasons, regular season only. Points rank per game so 13-game and 14-game Seasons compare fairly.",
           "type": "object",
           "additionalProperties": false,
-          "required": ["bestWinPct", "worstWinPct", "mostPointsFor", "fewestPointsFor", "mostPointsAgainst", "mostBenchPoints"],
+          "required": ["bestWinPct", "worstWinPct", "mostPointsFor", "fewestPointsFor", "mostPointsAgainst", "mostBenchPoints", "luckiest", "unluckiest"],
           "properties": {
             "bestWinPct": { "description": "Top 10 Franchise-Seasons by win %, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
             "worstWinPct": { "description": "Bottom 10 Franchise-Seasons by win %, lowest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
             "mostPointsFor": { "description": "Top 10 Franchise-Seasons by Points per game, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
             "fewestPointsFor": { "description": "Bottom 10 Franchise-Seasons by Points per game, lowest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
             "mostPointsAgainst": { "description": "Top 10 Franchise-Seasons by points against per game, highest first. Ties go to the earlier Season, then Owner name.", "type": "array", "minItems": 1, "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
-            "mostBenchPoints": { "description": "Top 10 Franchise-Seasons by Bench points over regular-season Weeks, highest first. Only Seasons with lineups. Ties go to the earlier Season, then Owner name.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } }
+            "mostBenchPoints": { "description": "Top 10 Franchise-Seasons by Bench points over regular-season Weeks, highest first. Only Seasons with lineups. Ties go to the earlier Season, then Owner name.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
+            "luckiest": { "description": "Top 10 Franchise-Seasons by Luck index, highest first. Only Seasons with lineups. Ties go to the earlier Season, then Owner name.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } },
+            "unluckiest": { "description": "Bottom 10 Franchise-Seasons by Luck index, lowest first. Only Seasons with lineups. Ties go to the earlier Season, then Owner name.", "type": "array", "maxItems": 10, "items": { "$ref": "#/$defs/seasonRecordRow" } }
           }
         },
         "allTime": {
@@ -1863,7 +1865,7 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["owner", "seasons", "record", "games", "winPct", "pointsFor", "pointsPerGame", "benchPoints", "longestWinStreak", "longestLossStreak", "lastPlaces"],
+            "required": ["owner", "seasons", "record", "games", "winPct", "pointsFor", "pointsPerGame", "benchPoints", "luck", "longestWinStreak", "longestLossStreak", "lastPlaces"],
             "properties": {
               "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
               "seasons": { "description": "Seasons played.", "type": "integer", "minimum": 1 },
@@ -1873,6 +1875,7 @@
               "pointsFor": { "description": "Regular-season points scored across every Season.", "type": "number" },
               "pointsPerGame": { "description": "pointsFor / games, to two decimals.", "type": "number" },
               "benchPoints": { "description": "Bench points over regular-season Weeks, summed over the Seasons with lineups; null if none have them.", "type": ["number", "null"] },
+              "luck": { "description": "All-time Luck index: the sum of the Owner's Seasons' Luck index (Seasons with lineups); null if none have lineups.", "type": ["number", "null"] },
               "longestWinStreak": { "description": "The Owner's longest winning Streak, in games (0 if they never won).", "type": "integer", "minimum": 0 },
               "longestLossStreak": { "description": "The Owner's longest losing Streak, in games (0 if they never lost).", "type": "integer", "minimum": 0 },
               "lastPlaces": { "description": "Seasons finished Last place.", "type": "integer", "minimum": 0 }
@@ -1976,7 +1979,7 @@
       "description": "One Franchise-Season in a Record Book Season record, regular season only. Uses the Season's standings figures.",
       "type": "object",
       "additionalProperties": false,
-      "required": ["year", "owner", "teamName", "record", "games", "winPct", "pointsFor", "pointsPerGame", "pointsAgainst", "pointsAgainstPerGame", "benchPoints", "scoringFormat"],
+      "required": ["year", "owner", "teamName", "record", "games", "winPct", "pointsFor", "pointsPerGame", "pointsAgainst", "pointsAgainstPerGame", "benchPoints", "expectedWins", "luck", "scoringFormat"],
       "properties": {
         "year": { "description": "The Season.", "$ref": "#/$defs/year" },
         "owner": { "description": "The Owner.", "$ref": "#/$defs/ownerRef" },
@@ -1989,6 +1992,8 @@
         "pointsAgainst": { "description": "Regular-season points allowed.", "type": "number" },
         "pointsAgainstPerGame": { "description": "pointsAgainst / games, to two decimals.", "type": "number" },
         "benchPoints": { "description": "Bench points over regular-season Weeks; null if the Season has no lineups.", "type": ["number", "null"] },
+        "expectedWins": { "description": "Expected wins (GLOSSARY): all-play win % x games, to two decimals; null if the Season has no lineups.", "type": ["number", "null"] },
+        "luck": { "description": "Luck index (GLOSSARY): wins - Expected wins (unrounded), to one decimal; null if the Season has no lineups.", "type": ["number", "null"] },
         "scoringFormat": { "description": "The Season's Scoring format label (e.g. PPR, PPR + TE premium).", "type": "string", "minLength": 1 }
       }
     },

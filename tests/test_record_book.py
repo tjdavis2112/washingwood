@@ -124,6 +124,7 @@ def test_all_time_includes_owners_who_left(archive, owners, tmp_path, pg_dsn):
         "pointsFor": 1490.0,
         "pointsPerGame": 114.62,
         "benchPoints": 351.0,  # 13 Weeks x 27.0
+        "luck": -3.8,  # 3 wins, from the fixture's round-robin schedule
         "longestWinStreak": 4,  # from the fixture's round-robin schedule
         "longestLossStreak": 5,
         "lastPlaces": 1,
@@ -259,3 +260,44 @@ def test_a_tie_ends_a_streak_and_only_runs_into_the_latest_season_are_active(arc
             (-r["length"], r["start"]["year"], r["start"]["week"], r["owner"]["name"]) for r in doc["streaks"][kind]
         ]
         assert keys == sorted(keys)
+
+
+# Luck index (#54). Fixture rule: every regular-season Week the home sides all score 120.5 and the away
+# sides 101.25, and the first team in the order (Quinn) is always home. So each Week Quinn outscores
+# every away side and ties every other home side.
+
+
+def test_luck_index_uses_all_play_with_half_ties_and_the_week_s_divisor(archive, owners, tmp_path, pg_dsn):
+    # 2018 (10 teams): Quinn beats 5, ties 4 -> (5 + 4/2) / 9 = 7/9 a Week; 13 games -> 10.11 Expected
+    # wins; 12 actual wins -> Luck 1.9.
+    # 2020 (12 teams): beats 6, ties 5 -> (6 + 5/2) / 11 = 8.5/11; 14 games -> 10.82; 13 wins -> Luck 2.2.
+    # Playoff and consolation Weeks don't count: Quinn's Week-15 bye (110.25) would be 5.5/11 and pull
+    # Expected wins down
+    Season2018Style(2018, [team(k) for k in SEED_ORDER[:10]]).write(archive)
+    season(2020).write(archive)
+
+    doc = record_book(archive, owners, tmp_path, pg_dsn)
+
+    rows = {(r["year"], r["owner"]["slug"]): r for v in doc["season"].values() for r in v}
+    q18, q20 = rows[(2018, "quinn-harrow")], rows[(2020, "quinn-harrow")]
+    assert (q18["record"]["wins"], q18["expectedWins"], q18["luck"]) == (12, 10.11, 1.9)
+    assert (q20["record"]["wins"], q20["expectedWins"], q20["luck"]) == (13, 10.82, 2.2)
+    # All-time sums the Seasons
+    (quinn,) = [r for r in doc["allTime"] if r["owner"] == owner("quinn")]
+    assert quinn["luck"] == 4.1
+    # Luckiest highest first, unluckiest lowest first; ties by Season, then Owner name
+    lucky = [(-r["luck"], r["year"], r["owner"]["name"]) for r in doc["season"]["luckiest"]]
+    unlucky = [(r["luck"], r["year"], r["owner"]["name"]) for r in doc["season"]["unluckiest"]]
+    assert lucky == sorted(lucky) and unlucky == sorted(unlucky)
+
+
+def test_a_tied_weekly_score_counts_half_for_both_teams(archive, owners, tmp_path, pg_dsn):
+    # Week 2's first Matchup (Quinn at home) ends 110.0-110.0. That Week Quinn beats the 5 other away sides,
+    # ties the opponent and loses to the 5 other home sides: 5.5/11. Every other Week 8.5/11.
+    # Expected wins = (13 x 8.5 + 5.5) / 11 = 10.55 (10.5 if the tie counted 0, 10.59 if it counted 1)
+    season(2020, tie_period=2).write(archive)
+
+    doc = record_book(archive, owners, tmp_path, pg_dsn)
+
+    rows = {r["owner"]["slug"]: r for v in doc["season"].values() for r in v}
+    assert rows["quinn-harrow"]["expectedWins"] == 10.55

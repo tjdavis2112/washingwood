@@ -1,0 +1,36 @@
+---
+// The one-line Luck index formula (GLOSSARY: All-play record, Expected wins, Luck index) and a
+// "How it's calculated" expander with a worked example in invented numbers. Shown under every Luck list.
+---
+<div data-testid="luck-explainer" class="mt-4 space-y-3 text-sm text-muted">
+  <p data-testid="luck-formula">
+    Luck = actual wins − expected wins. Expected wins are how often you'd have won playing every team every Week.
+  </p>
+  <details data-testid="luck-details" class="group rounded-2xl border border-line bg-panel/60 p-4">
+    <summary class="cursor-pointer font-semibold text-paper marker:text-brand">How it's calculated</summary>
+    <div class="mt-3 space-y-2">
+      <p>An example, with made-up numbers, in a 12-team League:</p>
+      <ol class="list-decimal space-y-2 pl-5">
+        <li>
+          <span class="font-semibold text-paper">One Week.</span> You score 130. Of the 11 other teams, 8 scored
+          less, 1 scored exactly 130 and 2 scored more. Against everyone you'd go 8 wins, a tie (half a win) and
+          2 losses: (8 + ½) ÷ 11 = <span class="font-semibold text-paper">0.77</span>.
+        </li>
+        <li>
+          <span class="font-semibold text-paper">The Season.</span> Average that over every regular-season Week,
+          say <span class="font-semibold text-paper">0.60</span>. Playoff and consolation Weeks don't count.
+        </li>
+        <li>
+          <span class="font-semibold text-paper">Expected wins.</span> 0.60 × 14 games ={" "}
+          <span class="font-semibold text-paper">8.4</span>.
+        </li>
+        <li>
+          <span class="font-semibold text-paper">Luck.</span> You actually won 10: 10 − 8.4 ={" "}
+          <span class="font-semibold text-paper">+1.6</span>. You won 1.6 more games than your scores deserved.
+          Negative means the schedule cost you wins.
+        </li>
+      </ol>
+      <p>An Owner's all-time Luck is the sum of their Seasons. In a 10-team Season, divide by 9 instead of 11.</p>
+    </div>
+  </details>
+</div>

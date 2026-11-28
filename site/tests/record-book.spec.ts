@@ -78,6 +78,7 @@ test("the Record Book fits the screen", async ({ page }, info) => {
 
 // Season records and the All-time table (#51)
 const book = JSON.parse(fs.readFileSync(path.join(EXAMPLES, "record-book.json"), "utf-8"));
+const luck = (n: number) => (n > 0 ? `+${n.toFixed(1)}` : n < 0 ? `\u2212${Math.abs(n).toFixed(1)}` : "0.0");
 const pct = (n: number) => `${(n * 100).toFixed(1)}%`;
 const RECORDS = [
   { id: "season-best-win-pct", key: "bestWinPct", value: (r: any) => pct(r.winPct) },
@@ -86,6 +87,8 @@ const RECORDS = [
   { id: "season-fewest-points-for", key: "fewestPointsFor", value: (r: any) => pts(r.pointsPerGame), total: (r: any) => pts(r.pointsFor) },
   { id: "season-most-points-against", key: "mostPointsAgainst", value: (r: any) => pts(r.pointsAgainstPerGame), total: (r: any) => pts(r.pointsAgainst) },
   { id: "season-most-bench-points", key: "mostBenchPoints", value: (r: any) => pts(r.benchPoints) },
+  { id: "season-luckiest", key: "luckiest", value: (r: any) => luck(r.luck), total: (r: any) => r.expectedWins.toFixed(2) },
+  { id: "season-unluckiest", key: "unluckiest", value: (r: any) => luck(r.luck), total: (r: any) => r.expectedWins.toFixed(2) },
 ];
 
 for (const rec of RECORDS) {
@@ -131,6 +134,7 @@ const ALL_TIME = [
   { label: "Points for", stat: "points-for", sort: (r: any) => r.pointsFor, show: (r: any) => pts(r.pointsFor) },
   { label: "Points per game", stat: "points-per-game", sort: (r: any) => r.pointsPerGame, show: (r: any) => pts(r.pointsPerGame) },
   { label: "Bench points", stat: "bench-points", sort: (r: any) => r.benchPoints ?? -1, show: (r: any) => (r.benchPoints === null ? "—" : pts(r.benchPoints)) },
+  { label: "Luck", stat: "luck", sort: (r: any) => r.luck ?? -1e9, show: (r: any) => (r.luck === null ? "\u2014" : luck(r.luck)) },
   { label: "Win streak", stat: "win-streak", sort: (r: any) => r.longestWinStreak, show: (r: any) => String(r.longestWinStreak) },
   { label: "Loss streak", stat: "loss-streak", sort: (r: any) => r.longestLossStreak, show: (r: any) => String(r.longestLossStreak) },
   { label: "Last places", stat: "last-places", sort: (r: any) => r.lastPlaces, show: (r: any) => String(r.lastPlaces) },
@@ -150,21 +154,22 @@ test("picking an All-time stat re-sorts the table; a phone shows only rank, Owne
       await expect(row.getByTestId("all-time-rank")).toHaveText(String(i + 1));
       await expect(row.locator(`[data-stat="${s.stat}"]`)).toHaveText(s.show(r));
       await expect(row.locator(`[data-stat="${s.stat}"]`)).toBeVisible();
-      // Rank, Owner and the picked stat; desktop also shows Seasons and the other seven stats
-      await expect(row.locator("td:visible")).toHaveCount(info.project.name === "desktop" ? 11 : 3);
+      // Rank, Owner and the picked stat; desktop also shows Seasons and the other eight stats
+      await expect(row.locator("td:visible")).toHaveCount(info.project.name === "desktop" ? 12 : 3);
     }
   }
 });
 
 // One test per hash: goto() with only the hash changed doesn't reload the page
-for (const hash of ["week-most-bench-points", "season-most-points-for", "all-time", "streaks"]) {
+for (const hash of ["week-most-bench-points", "season-most-points-for", "season-luckiest", "all-time", "streaks"]) {
   test(`#${hash} fits the screen with its chips in view`, async ({ page }, info) => {
     await page.goto(`/record-book/#${hash}`);
     const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
     expect(overflow, `#${hash} is wider than the viewport`).toBeLessThanOrEqual(0);
-    // The chip row isn't hidden under the sticky header when a link opens the page part-way down
+    // The linked chip (or the first stat button) is in view, not under the sticky header, when a link opens
+    // the page part-way down
     if (hash !== "streaks") {
-      const chips = page.locator(hash === "all-time" ? "[data-stat-button]" : "[data-record-chip]:visible").first();
+      const chips = page.locator(hash === "all-time" ? "[data-stat-button]" : `[data-record-chip="${hash}"]`).first();
       await expect(chips).toBeInViewport();
       const header = (await page.locator("header").first().boundingBox())!;
       expect((await chips.boundingBox())!.y).toBeGreaterThanOrEqual(header.y + header.height);
@@ -258,3 +263,26 @@ test("the two Streak tables sit side by side on desktop and stacked on a phone",
     expect(b.x + b.width).toBeLessThanOrEqual(page.viewportSize()!.width);
   }
 });
+
+// Luck index (#54)
+for (const id of ["season-luckiest", "season-unluckiest"]) {
+  test(`#${id} shows the formula line and a worked example that opens`, async ({ page }, info) => {
+    await page.goto(`/record-book/#${id}`);
+    const list = page.locator(`#${id}`);
+    await expect(list.getByTestId("luck-formula")).toHaveText(
+      "Luck = actual wins \u2212 expected wins. Expected wins are how often you'd have won playing every team every Week.",
+    );
+    const details = list.getByTestId("luck-details");
+    await expect(details.getByText("(8 + \u00bd) \u00f7 11")).toBeHidden();
+    await details.getByText("How it's calculated").click();
+    await expect(details).toHaveAttribute("open", "");
+    for (const step of ["(8 + \u00bd) \u00f7 11 = 0.77", "0.60 \u00d7 14 games = 8.4", "10 \u2212 8.4 = +1.6"]) {
+      await expect(details.getByText(step, { exact: false })).toBeVisible();
+    }
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+    expect(overflow).toBeLessThanOrEqual(0);
+    const box = (await details.boundingBox())!;
+    expect(box.x + box.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+    await page.screenshot({ path: path.join(SHOTS, info.project.name, `record-book-${id}-explained.png`), fullPage: true });
+  });
+}

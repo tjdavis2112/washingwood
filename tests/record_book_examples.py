@@ -1,6 +1,6 @@
 """Derive the Record Book example (contract/examples/record-book.json) from the Season and Box score
-examples: Week records, Season records, the All-time table, Streaks, Last place history and the per-Owner
-tally.
+examples: Week records, Season records (Luck index included), the All-time table, Streaks, Last place
+history and the per-Owner tally.
 
 A reference implementation in plain Python, independent of the pipeline's SQL. test_site_contract.py
 uses it to check the example still agrees with the Season examples.
@@ -123,9 +123,34 @@ def week_records(rows: list[dict]) -> dict:
     }
 
 
+def all_play_pct(box: dict | None) -> dict[str, Decimal]:
+    """Owner slug -> all-play win % (GLOSSARY) over the Season's regular-season Weeks, from the Box scores'
+    starter points: each Week, 1 per other Franchise outscored and 1/2 per tie, divided by the number of
+    other Franchises that Week, averaged over the Weeks. Empty without Box scores."""
+    weeks: dict[int, dict[str, Decimal]] = {}
+    for m in (box or {"matchups": []})["matchups"]:
+        if m["kind"] != "regular":
+            continue
+        for side in (m["home"], m.get("away")):
+            if not side:
+                continue
+            for w in side["weeks"]:
+                starters = sum((Decimal(str(e["points"] or 0)) for e in w["starters"]), Decimal(0))
+                weeks.setdefault(w["week"], {})[side["owner"]["slug"]] = starters
+    shares: dict[str, list[Decimal]] = {}
+    for scores in weeks.values():
+        others = len(scores) - 1
+        for slug, pts in scores.items():
+            won = sum((Decimal(1) if pts > o else Decimal("0.5") if pts == o else Decimal(0))
+                      for other, o in scores.items() if other != slug)  # fmt: skip
+            shares.setdefault(slug, []).append(won / others)
+    return {slug: sum(v, Decimal(0)) / len(v) for slug, v in shares.items()}
+
+
 def season_rows(season: dict, box: dict | None = None) -> list[dict]:
     """Every Franchise-Season in a Season, from its standings, with Bench points from its Box scores."""
     bench = season_bench(box)
+    pct = all_play_pct(box)
     rows = []
     for s in season["standings"]:
         r = {"year": season["year"], "owner": s["owner"], "teamName": s["teamName"], "record": s["record"]}
@@ -134,6 +159,10 @@ def season_rows(season: dict, box: dict | None = None) -> list[dict]:
         r["pointsAgainstPerGame"] = _round(Decimal(str(s["pointsAgainst"])) / r["games"], 2)
         slug = s["owner"]["slug"]
         r["benchPoints"] = float(bench[slug]) if slug in bench else None
+        # Luck index: actual wins - Expected wins (all-play win % x games)
+        expected = pct[slug] * r["games"] if slug in pct else None
+        r["expectedWins"] = None if expected is None else _round(expected, 2)
+        r["luck"] = None if expected is None else _round(s["record"]["wins"] - expected, 1)
         r["scoringFormat"] = season["scoringFormat"]["label"]
         rows.append(r)
     return rows
@@ -146,6 +175,8 @@ SEASON_RECORDS = [
     ("fewestPointsFor", "pointsPerGame", False),
     ("mostPointsAgainst", "pointsAgainstPerGame", True),
     ("mostBenchPoints", "benchPoints", True),
+    ("luckiest", "luck", True),
+    ("unluckiest", "luck", False),
 ]
 
 
@@ -167,7 +198,7 @@ def all_time(rows: list[dict], last_places: list[dict]) -> list[dict]:
     for r in rows:
         e = by_owner.setdefault(
             r["owner"]["slug"],
-            {"owner": r["owner"], "seasons": 0, "w": 0, "l": 0, "t": 0, "pf": Decimal(0), "bench": None},
+            {"owner": r["owner"], "seasons": 0, "w": 0, "l": 0, "t": 0, "pf": Decimal(0), "bench": None, "luck": None},
         )
         e["seasons"] += 1
         e["w"] += r["record"]["wins"]
@@ -176,12 +207,15 @@ def all_time(rows: list[dict], last_places: list[dict]) -> list[dict]:
         e["pf"] += Decimal(str(r["pointsFor"]))
         if r["benchPoints"] is not None:
             e["bench"] = (e["bench"] or Decimal(0)) + Decimal(str(r["benchPoints"]))
+        if r["luck"] is not None:
+            e["luck"] = (e["luck"] or Decimal(0)) + Decimal(str(r["luck"]))
     out = []
     for slug, e in by_owner.items():
         record = {"wins": e["w"], "losses": e["l"], "ties": e["t"]}
         row = {"owner": e["owner"], "seasons": e["seasons"], "record": record}
         row |= _rates(record, float(e["pf"]))
         row["benchPoints"] = None if e["bench"] is None else float(e["bench"])
+        row["luck"] = None if e["luck"] is None else float(e["luck"])
         row["lastPlaces"] = sum(1 for lp in last_places if lp["owner"]["slug"] == slug)
         out.append(row)
     return sorted(out, key=lambda r: (-r["record"]["wins"], r["owner"]["name"]))
