@@ -110,7 +110,7 @@ ESPN API ──(archiver, needs cookies)──▶ archive/ (private repo)
 
 Kept from the original plan; build in roughly this order.
 
-- **Owners hub**: first slice done (#12): trophy case, career W-L, playoff appearances, season-by-season, H2H vs every owner. Still to come: roster per season, draft grades, trades, badges (they need lineups, draft and transactions loaded)
+- **Owners hub**: first slice done (#12): trophy case, career W-L, playoff appearances, season-by-season, H2H vs every owner. Roster per season specced in #83 (Season rosters on Season and Owner pages). Still to come: draft grades, trades, badges (they need lineups, draft and transactions loaded)
 - **Matchups**: specced in #36: championship cards, leaderboards (blowouts, closest, highest/lowest, playoff and projection upsets), rivalry grid and pages, box-score pages (loads weekly lineups); no separate bracket history
 - **Record Book**: single week / season / all-time leaderboards, stat picker, team records, streaks, luck index, bench points, last-place history. Always show or filter by Scoring format.
 - **Draft**: done (#24): board per Season (position or Points over expected coloring), draft grades, first-round history, Hits, Steals and Busts, Best drafters (ADR-0008)
